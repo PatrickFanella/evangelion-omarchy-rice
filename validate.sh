@@ -36,6 +36,7 @@ python3 "$root/tests/bar-motion.py" /tmp/evangelion-bar-motion.json >/dev/null &
 python3 "$root/tests/bar-icons.py" >/dev/null && pass "unified upstream and tray icon contracts" || fail "unified upstream and tray icon contracts"
 python3 "$root/tests/bar-refresh.py" >/dev/null && pass "live affinity bar refresh contracts" || fail "live affinity bar refresh contracts"
 python3 "$root/tests/start-page-context.py" >/dev/null && pass "start-page desktop context contracts" || fail "start-page desktop context contracts"
+python3 "$root/tests/start-page-port.py" >/dev/null && pass "configurable start-page port" || fail "configurable start-page port"
 if [[ ${EVANGELION_RELEASE_131_NESTED:-0} != 1 ]]; then
   python3 "$root/tests/release-v1.3.1.py" >/dev/null && pass "v1.3.1 mixed-cache and upgrade lifecycle" || fail "v1.3.1 mixed-cache and upgrade lifecycle"
 fi

@@ -401,8 +401,20 @@ omarchy weather location --set "Tempe"
 omarchy weather location --clear
 ```
 
-The page listens only on `127.0.0.1:8765`; control requests accept allowlisted
-loopback origins.
+The page listens only on loopback, on `127.0.0.1:8765` by default. If another
+service already owns that port, set `start_page_port` (1024–65535) in
+`~/.config/omarchy/evangelion.json`, then restart the service:
+
+```bash
+config=~/.config/omarchy/evangelion.json
+jq '.start_page_port = 8766' "$config" >"$config.tmp" && mv "$config.tmp" "$config"
+systemctl --user restart magi-start-page.service
+magi-start-page port
+```
+
+Preflight, `magi-rice-health`, and `magi-start-page open` read the same value.
+`EVA_START_PAGE_PORT` overrides it for one process. Control requests accept
+only the page's own loopback origin.
 
 Its status rail reports the published EVA affinity mode and identity, palette
 freshness (`current`, `stale`, `unavailable`, or `disabled`), and the active

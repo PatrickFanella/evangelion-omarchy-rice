@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+lib=$(cd -- "$(dirname -- "$(readlink -f -- "$0")")/.." && pwd)/lib; [[ -f $lib/magi_start_page.py ]] || lib=$HOME/.local/lib/evangelion-rice
+port(){ python3 -c 'import sys; sys.path.insert(0, sys.argv[1]); from magi_start_page import port; print(port())' "$lib" 2>/dev/null || echo 8765; }
 case ${1:-open} in
-serve)exec python3 "$HOME/.local/share/evangelion-rice/start-page/server.py";;open)systemctl --user start magi-start-page.service;omarchy launch browser http://127.0.0.1:8765/;;status)systemctl --user --no-pager status magi-start-page.service;;*)echo 'Usage: magi-start-page {open|serve|status}' >&2;exit 2;;esac
+serve)exec python3 "$HOME/.local/share/evangelion-rice/start-page/server.py";;open)systemctl --user start magi-start-page.service;omarchy launch browser "http://127.0.0.1:$(port)/";;port)port;;status)systemctl --user --no-pager status magi-start-page.service;;*)echo 'Usage: magi-start-page {open|serve|status|port}' >&2;exit 2;;esac

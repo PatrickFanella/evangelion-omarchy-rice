@@ -25,6 +25,9 @@ if not (LIB / "magi_resilience.py").is_file():
     LIB = HOME / ".local/lib/evangelion-rice"
 sys.path.insert(0, str(LIB))
 from magi_resilience import cache_state, load_policy, retry_delay
+from magi_start_page import origin, port
+PORT = port()
+ORIGIN = origin(PORT)
 RESILIENCE = load_policy()
 WEATHER_RETRY = {"failures": 0, "next_at": 0}
 
@@ -307,7 +310,7 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         global ACTIVE_PLAYER
-        if self.headers.get("Origin", "http://127.0.0.1:8765") != "http://127.0.0.1:8765":
+        if self.headers.get("Origin", ORIGIN) != ORIGIN:
             self.json_response({"ok": False}, 403)
             return
         actions = {
@@ -345,4 +348,4 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    ThreadingHTTPServer(("127.0.0.1", 8765), Handler).serve_forever()
+    ThreadingHTTPServer(("127.0.0.1", PORT), Handler).serve_forever()

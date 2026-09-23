@@ -158,7 +158,7 @@ required.
 Verify the live semantic projection and restart-free palette path:
 
 ```bash
-curl --fail http://127.0.0.1:8765/api/desktop | jq .
+curl --fail "http://127.0.0.1:$(magi-start-page port)/api/desktop" | jq .
 magi-bar-refresh status | jq .
 ```
 

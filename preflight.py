@@ -11,6 +11,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT / "lib"))
+from magi_start_page import port as start_page_port
 HOME = Path.home()
 SUPPORTED = {"omarchy": ((4, 0, 0), (5, 0, 0)), "hyprland": ((0, 56, 0), (0, 57, 0))}
 
@@ -156,11 +158,12 @@ def build_report(activation):
               f"{usage.free // (1024*1024)} MiB free; {required_bytes // (1024*1024)} MiB safety minimum",
               "Free space in the home filesystem before installation")
 
-    port = port_open(8765)
+    port_number = start_page_port()
+    port = port_open(port_number)
     expected_service = active_service("magi-start-page.service")
     add_check(checks, "start-page-port", "blocker" if port and not expected_service else "pass",
-              "port 8765 is " + ("owned by the existing MAGI service" if port and expected_service else "occupied by another process" if port else "available"),
-              "Stop the process using TCP port 8765 or configure a different port")
+              f"port {port_number} is " + ("owned by the existing MAGI service" if port and expected_service else "occupied by another process" if port else "available"),
+              f"Stop the process using TCP port {port_number} or set start_page_port in ~/.config/omarchy/evangelion.json")
     incompatible_services = [unit for unit in ("waybar.service", "swaync.service") if active_service(unit)]
     add_check(checks, "service-conflicts", "blocker" if incompatible_services else "pass",
               "active competing services: " + ", ".join(incompatible_services) if incompatible_services else "no competing bar or notification services detected",

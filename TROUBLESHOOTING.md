@@ -107,8 +107,8 @@ be run repeatedly. If it reports that shell IPC is unavailable, use
 `omarchy restart shell` once; the next affinity change will return to the
 non-restarting IPC path automatically.
 journalctl --user -u magi-start-page.service --since "10 minutes ago" --no-pager
-curl --fail http://127.0.0.1:8765/api/status | jq .
-curl --fail http://127.0.0.1:8765/api/desktop | jq .
+curl --fail "http://127.0.0.1:$(magi-start-page port)/api/status" | jq .
+curl --fail "http://127.0.0.1:$(magi-start-page port)/api/desktop" | jq .
 ```
 
 The desktop projection should show `affinity.state` as `current` and a
@@ -120,8 +120,10 @@ shows an explicit unavailable label instead of retaining old semantic state.
 All page assets are served with `no-store` headers so a normal refresh cannot
 combine HTML and JavaScript from different installed versions.
 
-Preflight blocks if another process owns port 8765. Identify it before stopping
-anything.
+Preflight blocks if another process owns the start-page port (8765 by
+default). Identify it with `ss -ltnp 'sport = :8765'` before stopping anything,
+or move the start page by setting `start_page_port` in
+`~/.config/omarchy/evangelion.json` (see [CONFIGURATION.md](CONFIGURATION.md#weather-and-start-page)).
 
 ## Wallpaper
 
@@ -139,7 +141,7 @@ Neon Overdrive wallpaper controls are unrelated and absent unless selected.
 ```bash
 omarchy weather location
 omarchy weather location --set "Tempe"
-curl --fail http://127.0.0.1:8765/api/status | jq '.weather'
+curl --fail "http://127.0.0.1:$(magi-start-page port)/api/status" | jq '.weather'
 ```
 
 Offline mode intentionally shows a cached reading or unavailable state.

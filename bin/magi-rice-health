@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Read-only MAGI suite diagnosis with narrowly allowlisted remediation."""
-import argparse, hashlib, json, os, re, shutil, socket, subprocess, tempfile, time
+import argparse, hashlib, json, os, re, shutil, socket, subprocess, sys, tempfile, time
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -13,6 +13,8 @@ SHELL=Path(os.environ.get("EVA_RICE_HEALTH_SHELL",HOME/".config/omarchy/shell.js
 PLUGINS=Path(os.environ.get("EVA_RICE_HEALTH_PLUGINS",HOME/".config/omarchy/plugins"))
 HEALTH_CACHE=Path(os.environ.get("EVA_RICE_HEALTH_CACHE",HOME/".local/state/evangelion-rice/health-updates.json"))
 INSTALLED_OVERRIDE=os.environ.get("EVA_RICE_HEALTH_INSTALLED")
+sys.path.insert(0,str(ROOT/"lib" if (ROOT/"lib/magi_start_page.py").is_file() else HOME/".local/lib/evangelion-rice"))
+from magi_start_page import port as start_page_port
 
 def load(path,default=None):
     try: return json.loads(path.read_text())
@@ -90,14 +92,15 @@ def diagnose():
         f"{len(conflicts)} plugin ownership conflicts" if conflicts else "Plugin ownership clean",{"conflicts":len(conflicts)},
         "Legacy or mismatched plugin namespaces can shadow packaged suite plugins."))
 
-    port=cfg.get("owned_port",{}); bound=False
+    port=dict(cfg.get("owned_port",{})); bound=False
+    port["number"]=start_page_port(HOME/".config/omarchy/evangelion.json") if port.get("service")=="magi-start-page.service" else port.get("number",8765)
     try:
-        with socket.socket() as probe: bound=probe.connect_ex(("127.0.0.1",int(port.get("number",8765))))==0
+        with socket.socket() as probe: bound=probe.connect_ex(("127.0.0.1",int(port["number"])))==0
     except (OSError,ValueError): pass
     owner_active=service_states.get(port.get("service"))=="active"; collision=bound and not owner_active
     rows.append(finding("suite.port","ports","warning" if collision else "info","failed" if collision else "passed",
         "Local suite port may be owned by another process" if collision else "Local suite port state is consistent",
-        {"port":int(port.get("number",8765)),"bound":bound,"expected_service_active":owner_active},
+        {"port":int(port["number"]),"bound":bound,"expected_service_active":owner_active},
         "A bound suite port is only expected while its declared user service is active."))
 
     invalid=[]

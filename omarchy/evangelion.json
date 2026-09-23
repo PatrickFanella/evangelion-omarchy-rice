@@ -4,6 +4,7 @@
   "shell": "auto",
   "shell_integration": true,
   "project_dir": "",
+  "start_page_port": 8765,
   "motion": {
     "mode": "full"
   },
