@@ -8,6 +8,9 @@ import "../evangelion.motion" as Motion
 BarWidget {
   id: root
   moduleName: "evangelion.media"
+  // Bar hosts share one plugin API object across screens and it has no width;
+  // measure the window this widget is actually drawn in.
+  readonly property real hostWidth: root.Window.width || 0
   property string accessibleName: hasMedia ? "Media controls, " + title + (artist ? " by " + artist : "") : "Media controls unavailable"
   Accessible.role: Accessible.Button
   Accessible.name: accessibleName
@@ -21,7 +24,7 @@ BarWidget {
   readonly property string artist: player ? (player.trackArtist || "") : ""
   readonly property string album: player ? (player.trackAlbum || "") : ""
   readonly property string glyph: player && player.isPlaying ? "󰎆" : "󰏤"
-  readonly property bool compactBar: bar && !bar.vertical && bar.width < 1600
+  readonly property bool compactBar: bar && !bar.vertical && root.hostWidth < 1600
   property bool allowRemoteArtwork: false
   property int volumeStep: 5
   property int sourceCursor: 0

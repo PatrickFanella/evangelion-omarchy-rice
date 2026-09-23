@@ -1,5 +1,6 @@
 {
-  "local_zone": "America/Phoenix",
+  "local_zone": "auto",
+  "local_label": "LOCAL",
   "zones": [
     {"label": "UTC", "zone": "UTC"},
     {"label": "NEW YORK", "zone": "America/New_York"},

@@ -8,6 +8,9 @@ import "../evangelion.motion" as Motion
 BarWidget {
   id: root
   moduleName: "evangelion.mission"
+  // Bar hosts share one plugin API object across screens and it has no width;
+  // measure the window this widget is actually drawn in.
+  readonly property real hostWidth: root.Window.width || 0
   property string accessibleName: "Mission timer, " + status.label + ", " + status.display
   Accessible.role: Accessible.Button
   Accessible.name: accessibleName
@@ -50,7 +53,7 @@ BarWidget {
     Text { text: root.glyph; color: root.stateColor; font.family: root.bar.fontFamily; font.pixelSize: Style.font.body }
     Text {
       text: root.active ? (root.status.paused ? "PAUSED // " : (root.status.phase === "work" ? "MISSION // " : "RECOVERY // ")) + root.status.display : root.status.label
-      visible: !root.bar.vertical && root.bar.width >= 1600
+      visible: !root.bar.vertical && root.hostWidth >= 1600
       color: root.stateColor; font.family: root.bar.fontFamily; font.pixelSize: Style.font.caption; font.bold: true
     }
   }

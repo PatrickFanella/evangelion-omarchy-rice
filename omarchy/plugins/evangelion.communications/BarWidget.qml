@@ -8,6 +8,9 @@ import "../evangelion.motion" as Motion
 BarWidget {
   id: root
   moduleName: "evangelion.communications"
+  // Bar hosts share one plugin API object across screens and it has no width;
+  // measure the window this widget is actually drawn in.
+  readonly property real hostWidth: root.Window.width || 0
   property string accessibleName: "Communications, " + String(status.link || "unknown")
   Accessible.role: Accessible.Button
   Accessible.name: accessibleName
@@ -61,7 +64,7 @@ BarWidget {
     anchors.centerIn: parent
     spacing: Style.space(5)
     Text { anchors.verticalCenter: parent.verticalCenter; text: root.glyph; color: root.stateColor; font.family: root.bar.fontFamily; font.pixelSize: Style.font.body }
-    Text { anchors.verticalCenter: parent.verticalCenter; text: root.barLabel; color: root.bar.barForeground; font.family: root.bar.fontFamily; font.pixelSize: Style.font.caption; font.bold: true; visible: !root.bar.vertical && root.bar.width >= 1600 }
+    Text { anchors.verticalCenter: parent.verticalCenter; text: root.barLabel; color: root.bar.barForeground; font.family: root.bar.fontFamily; font.pixelSize: Style.font.caption; font.bold: true; visible: !root.bar.vertical && root.hostWidth >= 1600 }
   }
 
   Motion.StateCue {

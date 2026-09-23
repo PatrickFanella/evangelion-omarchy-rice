@@ -11,6 +11,13 @@ BarWidget {
   id: root
   moduleName: "omarchy.workspaces"
 
+  // Injected by bar hosts that scope workspaces per monitor (for example
+  // patrickfanella.monitor-bar with workspaceWidget = "evangelion.workspaces").
+  // Without them the widget keeps its single-bar 1-5 model.
+  property string screenName: ""
+  readonly property var configuredWorkspaceIds: root.setting("workspaceIds", null)
+  readonly property var displayLabels: root.setting("displayLabels", ({}))
+
   property var workspaceModel: []
   property real displayWidth: 1920
   readonly property bool compactBar: !root.vertical && root.displayWidth < 2000
@@ -49,9 +56,28 @@ BarWidget {
     return null
   }
 
+  function workspaceMonitorName(workspace) {
+    if (!workspace || !workspace.monitor) return ""
+    return typeof workspace.monitor === "string" ? workspace.monitor : String(workspace.monitor.name || "")
+  }
+
+  function displayLabel(id) {
+    var labels = root.displayLabels
+    return labels && labels[String(id)] !== undefined ? String(labels[String(id)]) : ""
+  }
+
   function workspaceIds() {
-    var ids = [1, 2, 3, 4, 5]
+    if (Array.isArray(root.configuredWorkspaceIds)) return root.configuredWorkspaceIds.slice()
     var values = Hyprland.workspaces.values
+    if (root.screenName) {
+      var scoped = []
+      for (var s = 0; s < values.length; s++) {
+        var sid = Number(values[s].id)
+        if (sid > 0 && root.workspaceMonitorName(values[s]) === root.screenName) scoped.push(sid)
+      }
+      return scoped.sort(function(left, right) { return left - right })
+    }
+    var ids = [1, 2, 3, 4, 5]
     for (var i = 0; i < values.length; i++) {
       var id = values[i].id
       if (id > 0 && id <= 10 && ids.indexOf(id) === -1) ids.push(id)
@@ -61,6 +87,8 @@ BarWidget {
   }
 
   function labelFor(id, focused) {
+    var custom = root.displayLabel(id)
+    if (custom) return custom
     if (root.vertical) return id === 10 ? "0" : String(id)
     if (root.minimalBar) return id === 10 ? "0" : String(id)
     var item=root.identity(id)
@@ -70,6 +98,7 @@ BarWidget {
 
   function widthFor(id) {
     if (root.vertical) return root.barSize
+    if (root.displayLabel(id)) return -1
     if (root.minimalBar) return 30
     // WidgetButton measures its actual font and includes horizontal padding.
     // Fixed character-count estimates let long labels paint into adjacent slots.

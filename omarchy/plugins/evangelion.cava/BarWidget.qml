@@ -8,6 +8,9 @@ import "../evangelion.motion" as Motion
 BarWidget {
   id: root
   moduleName: "evangelion.cava"
+  // Bar hosts share one plugin API object across screens and it has no width;
+  // measure the window this widget is actually drawn in.
+  readonly property real hostWidth: root.Window.width || 0
   readonly property var media: bar?.shell?.firstPartyServiceFor("omarchy.media")
   readonly property var player: media ? media.activePlayer : null
   readonly property bool hasMedia: player !== null && (player.trackTitle || player.trackArtist)
@@ -16,7 +19,7 @@ BarWidget {
   property string cavaMode: "playing"
   property string pausedBehavior: "standby"
   property var levels: [3,5,8,12,17,22,16,11,7,4,4,7,11,16,22,17,12,8]
-  readonly property bool compactBar: bar && !bar.vertical && bar.width < 1600
+  readonly property bool compactBar: bar && !bar.vertical && root.hostWidth < 1600
   readonly property bool shouldRun: cavaAvailable && hasMedia && (cavaMode === "always" || playing)
 
   visible: cavaAvailable && cavaMode !== "off" && hasMedia

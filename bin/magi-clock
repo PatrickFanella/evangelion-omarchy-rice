@@ -7,7 +7,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 CONFIG=Path(os.environ.get("XDG_CONFIG_HOME",Path.home()/".config"))/"omarchy/magi-clock.json"
 STATE=Path(os.environ.get("XDG_STATE_HOME",Path.home()/".local/state"))/"evangelion-rice/mission-elapsed.json"
-DEFAULT={"local_zone":"America/Phoenix","zones":[{"label":"UTC","zone":"UTC"},{"label":"NEW YORK","zone":"America/New_York"},{"label":"LONDON","zone":"Europe/London"},{"label":"TOKYO-3","zone":"Asia/Tokyo"}]}
+DEFAULT={"local_zone":"auto","local_label":"LOCAL","zones":[{"label":"UTC","zone":"UTC"},{"label":"NEW YORK","zone":"America/New_York"},{"label":"LONDON","zone":"Europe/London"},{"label":"TOKYO-3","zone":"Asia/Tokyo"}]}
 
 def load(path,default):
     try:
@@ -20,17 +20,21 @@ def elapsed(v): return int(v["elapsed"]+(time.time()-v["started_at"] if v["runni
 def span(seconds):
     days,rem=divmod(max(0,int(seconds)),86400); hours,rem=divmod(rem,3600); mins,secs=divmod(rem,60)
     return (f"{days}D " if days else "")+f"{hours:02d}:{mins:02d}:{secs:02d}"
+def system_zone():
+    try: return str(Path("/etc/localtime").resolve()).split("/zoneinfo/",1)[1]
+    except (OSError,IndexError): return "UTC"
 def snapshot():
     cfg=DEFAULT|load(CONFIG,{})
-    try: local_zone=ZoneInfo(cfg["local_zone"])
-    except ZoneInfoNotFoundError: local_zone=ZoneInfo("America/Phoenix")
+    zone_name=system_zone() if cfg["local_zone"] in ("","auto") else cfg["local_zone"]
+    try: local_zone=ZoneInfo(zone_name)
+    except (ZoneInfoNotFoundError,ValueError): zone_name="UTC"; local_zone=ZoneInfo("UTC")
     now=datetime.now(timezone.utc); local=now.astimezone(local_zone); zones=[]
-    entries=[{"label":"ARIZONA","zone":cfg["local_zone"]}]+cfg.get("zones",[])
+    entries=[{"label":str(cfg.get("local_label") or "LOCAL"),"zone":zone_name,"local":True}]+cfg.get("zones",[])
     for entry in entries:
         try:
             dt=now.astimezone(ZoneInfo(entry["zone"])); delta=(dt.date()-local.date()).days
             boundary="TODAY" if delta==0 else "TOMORROW" if delta==1 else "YESTERDAY" if delta==-1 else f"{delta:+d} DAYS"
-            zones.append({"label":entry["label"],"zone":entry["zone"],"available":True,"time":dt.strftime("%H:%M"),"date":dt.strftime("%a %d %b"),"boundary":boundary})
+            zones.append({"label":entry["label"],"zone":entry["zone"],"local":entry.get("local",False),"available":True,"time":dt.strftime("%H:%M"),"date":dt.strftime("%a %d %b"),"boundary":boundary})
         except (ZoneInfoNotFoundError,KeyError): zones.append({"label":entry.get("label","UNKNOWN"),"zone":entry.get("zone",""),"available":False,"time":"--:--","date":"UNAVAILABLE","boundary":"--"})
     try: uptime=int(float(Path("/proc/uptime").read_text().split()[0]))
     except (OSError,ValueError): uptime=0

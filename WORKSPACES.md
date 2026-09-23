@@ -18,6 +18,16 @@ names, compact tokens, channels, and colors. Names and channels are bounded,
 control characters are rejected, and IDs must be unique integers from 1–10.
 Changes trigger a live bar and OSD refresh.
 
+### Multi-monitor bars
+
+A bar host can scope the widget to one monitor by injecting `screenName`, and
+optionally `workspaceIds` and `displayLabels` settings. With `screenName` alone
+the widget lists that monitor's live workspaces; with `workspaceIds` it lists
+exactly those; a `displayLabels` entry replaces the MAGI label for its ID. The
+[Omarchy Multi-Monitor Bar](https://github.com/PatrickFanella/omarchy-monitor-bar)
+does this when its `workspaceWidget` is set to `evangelion.workspaces`. Without
+these settings the widget keeps its single-bar 1–5 model.
+
 ## Portable import and export
 
 Exports contain no host paths, device IDs, accounts, or private desktop state.

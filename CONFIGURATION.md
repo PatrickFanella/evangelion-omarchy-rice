@@ -424,6 +424,13 @@ remains on its 30-second interval. Workspace data is limited to the numeric ID
 and configured label. Window titles, application names, paths, hostnames, and
 workspace contents are never collected or returned.
 
+## World clock
+
+`~/.config/omarchy/magi-clock.json` lists the zones in the world-clock panel.
+`local_zone` defaults to `auto`, which follows the system timezone
+(`/etc/localtime`); set an IANA name such as `America/Chicago` to override it.
+`local_label` names that first row and defaults to `LOCAL`.
+
 ## Operating and terminal profiles
 
 `~/.config/omarchy/operating-profiles.json` defines `docked` and `mobile`
