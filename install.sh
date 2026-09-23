@@ -254,6 +254,7 @@ else
     EVANGELION_RELEASE_131_NESTED=1 \
     EVANGELION_CROSS_CHANNEL_NESTED=1 \
     EVANGELION_RELEASE_ARTIFACT_NESTED=1 \
+    EVANGELION_LIVE_COMPONENTS="${!selected[*]}" \
     "$root/validate.sh"
 fi
 mkdir -p "$state_root"; printf '%s\n' "$backup_root" >"$state_root/last-install-backup"

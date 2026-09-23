@@ -172,12 +172,18 @@ done <<<"$widgets"
 if [[ ${EVANGELION_SOURCE_ONLY:-0} == 1 ]]; then :
 elif [[ -d ${HOME}/.config/omarchy ]]; then
   hyprctl configerrors 2>/dev/null | grep -q . && fail "live Hyprland config errors" || pass "live Hyprland config clean"
-  for file in "$root"/bin/*; do [[ -f $file ]] || continue; live=$HOME/.local/bin/${file##*/}; [[ -x $live ]] || fail "live binary missing: ${file##*/}"; done
-  live_widgets=$(jq -r '.bar.layout[][]|.id' "$HOME/.config/omarchy/shell.json" 2>/dev/null || true)
-  while IFS= read -r id; do [[ $id != evangelion.* && $id != neon.overdrive ]] || grep -qxF "$id" <<<"$live_widgets" || fail "live widget absent: $id"; done <<<"$widgets"
-  pass "live widget layout inspected"
-  jq -e '.bar.layout.left | map(.id) | index("evangelion.media") as $media | index("evangelion.cava") == ($media + 1)' "$HOME/.config/omarchy/shell.json" >/dev/null \
-    && pass "live Cava/media bar adjacency" || fail "live Cava/media bar adjacency"
+  # The installer names the components it just applied; a standalone run checks all of them.
+  live_component(){ [[ -z ${EVANGELION_LIVE_COMPONENTS:-} || " $EVANGELION_LIVE_COMPONENTS " == *" $1 "* ]]; }
+  if live_component tools; then
+    for file in "$root"/bin/*; do [[ -f $file ]] || continue; live=$HOME/.local/bin/${file##*/}; [[ -x $live ]] || fail "live binary missing: ${file##*/}"; done
+  fi
+  if live_component shell; then
+    live_widgets=$(jq -r '.bar.layout[][]|.id' "$HOME/.config/omarchy/shell.json" 2>/dev/null || true)
+    while IFS= read -r id; do [[ $id != evangelion.* && $id != neon.overdrive ]] || grep -qxF "$id" <<<"$live_widgets" || fail "live widget absent: $id"; done <<<"$widgets"
+    pass "live widget layout inspected"
+    jq -e '.bar.layout.left | map(.id) | index("evangelion.media") as $media | index("evangelion.cava") == ($media + 1)' "$HOME/.config/omarchy/shell.json" >/dev/null \
+      && pass "live Cava/media bar adjacency" || fail "live Cava/media bar adjacency"
+  fi
 else warn "live Omarchy config unavailable; source-only validation"; fi
 
 printf '\nSUMMARY // %d checks · %d failures · %d warnings\n' "$checks" "$failures" "$warnings"
