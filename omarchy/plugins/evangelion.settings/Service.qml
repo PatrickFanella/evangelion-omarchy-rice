@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
+import Quickshell.Hyprland
 import "../evangelion.motion" as Motion
 import "../evangelion.localization" as Localization
 
@@ -13,7 +14,16 @@ Item {
   property int choice: 0
   property var pending: null
   property string notice: ""
-  readonly property var targetScreen: (Quickshell.screens || []).length ? Quickshell.screens[0] : null
+  // Open on the monitor that has focus, then stay there until closed so
+  // focus-follows-mouse cannot move the overlay mid-interaction.
+  property var targetScreen: null
+  function focusedScreen() {
+    var focused = Hyprland.focusedMonitor, screens = Quickshell.screens || []
+    if (focused) for (var i = 0; i < screens.length; i++) if (screens[i].name === focused.name) return screens[i]
+    return screens.length ? screens[0] : null
+  }
+  onOpenedChanged: if (root.opened) root.targetScreen = root.focusedScreen()
+  Component.onCompleted: if (!root.targetScreen) root.targetScreen = root.focusedScreen()
   readonly property var active: settings.length ? settings[Math.max(0, Math.min(selected, settings.length - 1))] : null
   function visualValue(id, fallback) { for (var i=0;i<settings.length;i++) if(settings[i].id==="visual."+id)return settings[i].value||fallback; return fallback }
   readonly property real densityScale: visualValue("density","balanced")==="compact"?.88:(visualValue("density","balanced")==="comfortable"?1.12:1)

@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
+import Quickshell.Hyprland
 import "../evangelion.motion" as Motion
 
 Item {
@@ -9,7 +10,16 @@ Item {
   property bool enabled: false
   property var report: ({samples:0,event_changes:0,components:[],caches:[],privacy:{payload_capture:false}})
   property int renderEvents: 0
-  readonly property var targetScreen: (Quickshell.screens || []).length ? Quickshell.screens[0] : null
+  // Open on the monitor that has focus, then stay there until closed so
+  // focus-follows-mouse cannot move the overlay mid-interaction.
+  property var targetScreen: null
+  function focusedScreen() {
+    var focused = Hyprland.focusedMonitor, screens = Quickshell.screens || []
+    if (focused) for (var i = 0; i < screens.length; i++) if (screens[i].name === focused.name) return screens[i]
+    return screens.length ? screens[0] : null
+  }
+  onEnabledChanged: if (root.enabled) root.targetScreen = root.focusedScreen()
+  Component.onCompleted: if (!root.targetScreen) root.targetScreen = root.focusedScreen()
   Motion.MotionState { id: motion }
 
   function refreshStatus() { if (!statusProbe.running) statusProbe.running=true }

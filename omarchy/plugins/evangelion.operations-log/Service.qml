@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
+import Quickshell.Hyprland
 import qs.Commons
 import "../evangelion.motion" as Motion
 
@@ -16,7 +17,16 @@ Item {
   property string clearToken: ""
   property bool detailed: false
   readonly property var active: entries.length ? entries[Math.max(0,Math.min(selected,entries.length-1))] : null
-  readonly property var targetScreen: (Quickshell.screens||[]).length ? Quickshell.screens[0] : null
+  // Open on the monitor that has focus, then stay there until closed so
+  // focus-follows-mouse cannot move the overlay mid-interaction.
+  property var targetScreen: null
+  function focusedScreen() {
+    var focused = Hyprland.focusedMonitor, screens = Quickshell.screens || []
+    if (focused) for (var i = 0; i < screens.length; i++) if (screens[i].name === focused.name) return screens[i]
+    return screens.length ? screens[0] : null
+  }
+  onOpenedChanged: if (root.opened) root.targetScreen = root.focusedScreen()
+  Component.onCompleted: if (!root.targetScreen) root.targetScreen = root.focusedScreen()
   Motion.MotionState { id: motion }
   function show(){opened=true;selected=0;clearToken="";query.text="";refresh();disclosureProc.command=["magi-disclosure","status","operations-log"];disclosureProc.running=true;query.forceActiveFocus()}
   function hide(){opened=false;clearToken=""}
