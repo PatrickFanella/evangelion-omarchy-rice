@@ -11,6 +11,9 @@ BarWidget {
   property string systemLabel: "SYSTEM"
 
   readonly property var nativeItem: nativeLoader.item
+  // Bar hosts only treat a widget as a summonable panel when it exposes
+  // opened alongside open()/close(); mirror the wrapped panel's state.
+  readonly property bool opened: nativeItem ? nativeItem.opened === true : false
 
   implicitWidth: Math.max(Style.space(28), nativeItem ? nativeItem.implicitWidth : 0)
   implicitHeight: Math.max(barSize, nativeItem ? nativeItem.implicitHeight : 0)

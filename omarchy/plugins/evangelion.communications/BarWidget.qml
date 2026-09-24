@@ -25,8 +25,26 @@ BarWidget {
   function close() { popupOpen = false }
   function refresh() { if (!probe.running) probe.running = true }
   function togglePopup() { popupOpen = !popupOpen; if (popupOpen) refresh() }
-  function openControl(target) {
+  // Each control names the MAGI wrapper first; open whichever the bar layout
+  // actually contains so the button reaches a live panel.
+  function layoutHas(id) {
+    var layout = root.bar && root.bar.shell && root.bar.shell.barConfig ? root.bar.shell.barConfig.layout : null
+    if (!layout) return false
+    var regions = ["left", "center", "right"]
+    for (var r = 0; r < regions.length; r++) {
+      var entries = Array.isArray(layout[regions[r]]) ? layout[regions[r]] : []
+      for (var i = 0; i < entries.length; i++) {
+        var entry = entries[i]
+        if ((typeof entry === "string" ? entry : entry && entry.id) === id) return true
+      }
+    }
+    return false
+  }
+  function openControl(targets) {
     popupOpen = false
+    var list = Array.isArray(targets) ? targets : [targets]
+    var target = list[list.length - 1]
+    for (var i = 0; i < list.length; i++) if (root.layoutHas(list[i])) { target = list[i]; break }
     root.bar.run("omarchy-shell shell toggle " + target)
   }
 
@@ -120,9 +138,9 @@ BarWidget {
         spacing: Style.space(8)
         Repeater {
           model: [
-            { label: "NETWORK", target: "omarchy.network" },
-            { label: "BLUETOOTH", target: "omarchy.bluetooth" },
-            { label: "TAILSCALE", target: "omarchy.tailscale" }
+            { label: "NETWORK", target: ["omarchy.network"] },
+            { label: "BLUETOOTH", target: ["evangelion.bluetooth", "omarchy.bluetooth"] },
+            { label: "TAILSCALE", target: ["evangelion.tailscale", "omarchy.tailscale"] }
           ]
           delegate: BorderSurface {
             required property var modelData
