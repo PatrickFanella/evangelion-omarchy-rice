@@ -430,6 +430,7 @@ workspace contents are never collected or returned.
 `local_zone` defaults to `auto`, which follows the system timezone
 (`/etc/localtime`); set an IANA name such as `America/Chicago` to override it.
 `local_label` names that first row and defaults to `LOCAL`.
+The bar shows UTC unless `bar_zone` is `local`, which shows the local row instead.
 
 ## Operating and terminal profiles
 

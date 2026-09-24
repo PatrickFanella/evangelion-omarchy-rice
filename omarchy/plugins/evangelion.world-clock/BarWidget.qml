@@ -10,7 +10,9 @@ BarWidget {
   // Bar hosts share one plugin API object across screens and it has no width;
   // measure the window this widget is actually drawn in.
   readonly property real hostWidth: root.Window.width || 0
-  property string accessibleName:"World clock, UTC "+status.utc
+  readonly property string barLabel:status.bar?status.bar.label:"UTC"
+  readonly property string barTime:status.bar?status.bar.time:status.utc
+  property string accessibleName:"World clock, "+barLabel+" "+barTime
   Accessible.role:Accessible.Button
   Accessible.name:accessibleName
   Accessible.description:"Open world times, uptime, and mission elapsed controls"
@@ -23,7 +25,7 @@ BarWidget {
   Timer{interval:30000;running:!root.status.met.running&&!root.popupOpen;repeat:true;onTriggered:root.refresh()}
   Timer{id:actionRefresh;interval:300;repeat:false;onTriggered:root.refresh()}
   IpcHandler{target:"magi-clock";function toggle():string{root.togglePopup();return root.popupOpen?"open":"closed"}function open():string{root.popupOpen=true;root.refresh();return"open"}function close():string{root.close();return"closed"}function refresh():string{root.refresh();return"ok"}}
-  Row{id:row;anchors.centerIn:parent;spacing:Style.space(5);Text{text:"󰥔";color:root.status.met.running?Color.accent:root.bar.barForeground;font.family:root.bar.fontFamily;font.pixelSize:Style.font.body}Text{text:"UTC // "+root.status.utc;visible:!root.bar.vertical&&root.hostWidth>=1600;color:root.bar.barForeground;font.family:root.bar.fontFamily;font.pixelSize:Style.font.caption;font.bold:true}}
+  Row{id:row;anchors.centerIn:parent;spacing:Style.space(5);Text{text:"󰥔";color:root.status.met.running?Color.accent:root.bar.barForeground;font.family:root.bar.fontFamily;font.pixelSize:Style.font.body}Text{text:root.barLabel+" // "+root.barTime;visible:!root.bar.vertical&&root.hostWidth>=1600;color:root.bar.barForeground;font.family:root.bar.fontFamily;font.pixelSize:Style.font.caption;font.bold:true}}
   MouseArea{anchors.fill:parent;acceptedButtons:Qt.LeftButton|Qt.MiddleButton;cursorShape:Qt.PointingHandCursor;onClicked:function(mouse){if(mouse.button===Qt.MiddleButton)root.action("toggle");else root.togglePopup()}}
   Motion.MotionPopupCard{anchorItem:root;bar:root.bar;owner:root;open:root.popupOpen;contentWidth:fittedContentWidth(Style.space(390));contentHeight:fittedContentHeight(panel.implicitHeight)
     Column{id:panel;anchors.fill:parent;spacing:Style.space(8)

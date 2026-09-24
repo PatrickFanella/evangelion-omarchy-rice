@@ -1,6 +1,7 @@
 {
   "local_zone": "auto",
   "local_label": "LOCAL",
+  "bar_zone": "utc",
   "zones": [
     {"label": "UTC", "zone": "UTC"},
     {"label": "NEW YORK", "zone": "America/New_York"},

@@ -7,7 +7,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 CONFIG=Path(os.environ.get("XDG_CONFIG_HOME",Path.home()/".config"))/"omarchy/magi-clock.json"
 STATE=Path(os.environ.get("XDG_STATE_HOME",Path.home()/".local/state"))/"evangelion-rice/mission-elapsed.json"
-DEFAULT={"local_zone":"auto","local_label":"LOCAL","zones":[{"label":"UTC","zone":"UTC"},{"label":"NEW YORK","zone":"America/New_York"},{"label":"LONDON","zone":"Europe/London"},{"label":"TOKYO-3","zone":"Asia/Tokyo"}]}
+DEFAULT={"local_zone":"auto","local_label":"LOCAL","bar_zone":"utc","zones":[{"label":"UTC","zone":"UTC"},{"label":"NEW YORK","zone":"America/New_York"},{"label":"LONDON","zone":"Europe/London"},{"label":"TOKYO-3","zone":"Asia/Tokyo"}]}
 
 def load(path,default):
     try:
@@ -39,7 +39,9 @@ def snapshot():
     try: uptime=int(float(Path("/proc/uptime").read_text().split()[0]))
     except (OSError,ValueError): uptime=0
     met=met_state(); value=elapsed(met)
-    return {"utc":now.strftime("%H:%M"),"zones":zones,"uptime":uptime,"uptime_display":span(uptime),"met":{**met,"elapsed":value,"display":span(value)},"config":cfg}
+    # bar_zone "local" shows the first (local) row on the bar; anything else keeps UTC.
+    bar={"label":zones[0]["label"],"time":zones[0]["time"]} if cfg.get("bar_zone")=="local" and zones and zones[0]["available"] else {"label":"UTC","time":now.strftime("%H:%M")}
+    return {"utc":now.strftime("%H:%M"),"bar":bar,"zones":zones,"uptime":uptime,"uptime_display":span(uptime),"met":{**met,"elapsed":value,"display":span(value)},"config":cfg}
 
 def main():
     p=argparse.ArgumentParser(); sub=p.add_subparsers(dest="command"); s=sub.add_parser("status"); s.add_argument("--json",action="store_true")
