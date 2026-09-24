@@ -33,7 +33,7 @@ checks={
  "cava_optional":'active: root.shouldRun' in widgets['cava'] and 'running: root.shouldRun' in widgets['cava'],
  "affinity_has_no_width":'cueWidth: 2' in widgets['workspace'] and 'cueColor: Color.accent' in widgets['workspace'],
  "no_layout_animation":all(not re.search(r'Behavior on (?:implicitWidth|implicitHeight|text)',s) for s in widgets.values()),
- "bounded_labels":'ElideRight' in widgets['media'] and 'root.bar.width >= 1600' in widgets['mission'] and 'root.bar.width >= 1600' in widgets['communications'],
+ "bounded_labels":'ElideRight' in widgets['media'] and 'root.hostWidth >= 1600' in widgets['mission'] and 'root.hostWidth >= 1600' in widgets['communications'] and 'readonly property real hostWidth: root.Window.width' in widgets['mission'],
  "qml_group_syntax_guard":all('};color:' not in s and '};spacing:' not in s for s in [cue,*widgets.values()]),
 }
 failed=[k for k,v in checks.items() if not v]
