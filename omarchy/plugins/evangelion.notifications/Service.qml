@@ -989,10 +989,10 @@ Item {
 
       ColumnLayout {
         id: popupColumn
-        anchors.left: parent.left
+        anchors.right: parent.right
         anchors.top: parent.top
         anchors.topMargin: popupWindow.popupPlacement.margins.top
-        anchors.leftMargin: popupWindow.popupPlacement.margins.left
+        anchors.rightMargin: popupWindow.popupPlacement.margins.right
         spacing: Style.space(8)
 
         Repeater {
@@ -1050,7 +1050,7 @@ Item {
 
             NotificationCard {
               id: card
-              anchors.left: parent.left
+              anchors.right: parent.right
               app: cardSlot.app
               appIcon: cardSlot.appIcon
               summary: cardSlot.summary
