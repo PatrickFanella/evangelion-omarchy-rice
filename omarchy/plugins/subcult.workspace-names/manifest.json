@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.workspace-names",
+  "name": "SUBCULT Workspace Identity Editor",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "Keyboard-accessible workspace naming with live compact-label previews.",
+  "kinds": ["service"],
+  "keepLoaded": true,
+  "entryPoints": {"service": "Service.qml"}
+}

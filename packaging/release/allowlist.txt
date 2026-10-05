@@ -19,9 +19,9 @@ LOCALIZATION.md
 MACHINE_PROFILES.md
 OFFLINE_RESILIENCE.md
 ONBOARDING.md
-MAGI_RUNTIME.md
+SUBCULT_RUNTIME.md
 MEDIA_CONTROLS.md
-MAGI_EXTENSION_CONTRACT.md
+SUBCULT_EXTENSION_CONTRACT.md
 MAINTAINING.md
 PERFORMANCE.md
 PROGRESSIVE_DISCLOSURE.md
@@ -50,8 +50,8 @@ check-dependencies.sh
 dependencies.tsv
 distribution.json
 install.sh
-magi-runtime-contract.json
-magi-extension-contract.json
+subcult-runtime-contract.json
+subcult-extension-contract.json
 plugin-audit.json
 preflight.py
 rollback.sh
@@ -73,5 +73,5 @@ scripts/build-release
 schemas/
 compatibility/
 tools/accept-compatibility-report
-packaging/arch/evangelion-rice
+packaging/arch/subcult-rice
 packaging/release/allowlist.txt

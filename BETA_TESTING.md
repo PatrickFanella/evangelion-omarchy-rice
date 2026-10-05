@@ -20,18 +20,18 @@ Clone the exact current release, then collect a local evidence bundle:
 
 ```bash
 git clone --branch v1.4.1 --depth 1 \
-  https://github.com/so1omon563/evangelion-omarchy-rice.git
-cd evangelion-omarchy-rice
-./beta-report.sh prepare ~/evangelion-beta --preset default
-./beta-report.sh install ~/evangelion-beta --preset default
-omarchy theme set evangelion
-./beta-report.sh validate ~/evangelion-beta
-./beta-report.sh rollback ~/evangelion-beta
-./beta-report.sh review ~/evangelion-beta
+  https://github.com/PatrickFanella/subcult-omarchy-rice.git
+cd subcult-omarchy-rice
+./beta-report.sh prepare ~/subcult-beta --preset default
+./beta-report.sh install ~/subcult-beta --preset default
+omarchy theme set subcult
+./beta-report.sh validate ~/subcult-beta
+./beta-report.sh rollback ~/subcult-beta
+./beta-report.sh review ~/subcult-beta
 # Edit review.json: use a broad hardware class, add feedback, and set all
 # three confirmations true only after inspecting every field.
-./beta-report.sh finalize ~/evangelion-beta
-./beta-report.sh open-issue ~/evangelion-beta
+./beta-report.sh finalize ~/subcult-beta
+./beta-report.sh open-issue ~/subcult-beta
 ```
 
 `prepare` is read-only. `install` performs the explicitly selected installer
@@ -49,7 +49,7 @@ anything automatically. The `*.log` files remain local diagnostic material.
 
 ## Report the result
 
-[Open a beta report](https://github.com/so1omon563/evangelion-omarchy-rice/issues/new?template=beta-report.yml)
+[Open a beta report](https://github.com/PatrickFanella/subcult-omarchy-rice/issues/new?template=beta-report.yml)
 and attach or paste `report.json`. Describe hardware as a broad class (for
 example, “AMD desktop with discrete GPU”); provide display resolution and
 scale, component selection, install/validation/rollback outcomes, any blocker

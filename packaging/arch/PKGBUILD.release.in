@@ -1,11 +1,11 @@
 # Maintainer template. Generate a concrete PKGBUILD with scripts/build-arch-package.
-pkgname=evangelion-omarchy-rice
+pkgname=subcult-omarchy-rice
 pkgver=@PKGVER@
 _upstream_version=@VERSION@
 pkgrel=1
-pkgdesc='Unofficial Evangelion-inspired complete desktop suite for Omarchy'
+pkgdesc='Unofficial SUBCULT-inspired complete desktop suite for Omarchy'
 arch=('any')
-url='https://github.com/so1omon563/evangelion-omarchy-rice'
+url='https://github.com/PatrickFanella/subcult-omarchy-rice'
 license=('MIT' 'CCPL:by-nc')
 depends=('bash' 'coreutils' 'hyprland' 'jq' 'lua' 'omarchy' 'python' 'systemd')
 optdepends=(
@@ -25,12 +25,12 @@ optdepends=(
   'wl-clipboard: clipboard actions'
   'xdg-utils: browser and capture opening'
 )
-source=("https://github.com/so1omon563/evangelion-omarchy-rice/releases/download/v${_upstream_version}/evangelion-omarchy-rice-${_upstream_version}.tar.gz")
+source=("https://github.com/PatrickFanella/subcult-omarchy-rice/releases/download/v${_upstream_version}/subcult-omarchy-rice-${_upstream_version}.tar.gz")
 sha256sums=('@SHA256@')
 
 package() {
-  local source_root="$srcdir/evangelion-omarchy-rice-${_upstream_version}"
-  install -d "$pkgdir/usr/share/evangelion-rice" "$pkgdir/usr/bin"
-  cp -a "$source_root/." "$pkgdir/usr/share/evangelion-rice/"
-  install -Dm755 "$source_root/packaging/arch/evangelion-rice" "$pkgdir/usr/bin/evangelion-rice"
+  local source_root="$srcdir/subcult-omarchy-rice-${_upstream_version}"
+  install -d "$pkgdir/usr/share/subcult-rice" "$pkgdir/usr/bin"
+  cp -a "$source_root/." "$pkgdir/usr/share/subcult-rice/"
+  install -Dm755 "$source_root/packaging/arch/subcult-rice" "$pkgdir/usr/bin/subcult-rice"
 }

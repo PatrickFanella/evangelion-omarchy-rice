@@ -1,24 +1,24 @@
 # Named configuration snapshots
 
-`magi-snapshot` stores private, named copies of suite-owned configuration
+`subcult-snapshot` stores private, named copies of suite-owned configuration
 independently of installer rollback. The ownership boundary is the exact,
 versioned `omarchy/snapshot-manifest.json`; there are no globs and callers
 cannot supply paths. Layouts, profiles, affinity authority, and settings can be
 captured or restored together or selectively.
 
 ```bash
-magi-snapshot create before-dock --note "Before dock layout tuning"
-magi-snapshot list
-magi-snapshot show before-dock
-magi-snapshot diff before-dock --components layouts,profiles
+subcult-snapshot create before-dock --note "Before dock layout tuning"
+subcult-snapshot list
+subcult-snapshot show before-dock
+subcult-snapshot diff before-dock --components layouts,profiles
 ```
 
 `diff` is read-only and returns a `plan_id`. Restore requires the same
 component selection and exact plan identifier:
 
 ```bash
-magi-snapshot restore before-dock --components layouts,profiles --confirm PLAN_ID
-magi-snapshot rollback TRANSACTION_ID
+subcult-snapshot restore before-dock --components layouts,profiles --confirm PLAN_ID
+subcult-snapshot rollback TRANSACTION_ID
 ```
 
 Before mutation, restore validates every snapshot payload checksum and size,

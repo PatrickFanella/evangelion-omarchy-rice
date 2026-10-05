@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render and compare privacy-safe canonical MAGI surface fixtures."""
+"""Render and compare privacy-safe canonical SUBCULT surface fixtures."""
 import argparse
 import hashlib
 import html
@@ -15,17 +15,17 @@ VISUAL = ROOT / "visual-regression"
 MATRIX = json.loads((VISUAL / "matrix.json").read_text())
 BASELINES = VISUAL / "baselines"
 MANIFEST = VISUAL / "baselines.json"
-OUTPUT = Path(os.environ.get("EVANGELION_VISUAL_RESULTS", ROOT / "test-results/visual-regression"))
+OUTPUT = Path(os.environ.get("SUBCULT_VISUAL_RESULTS", ROOT / "test-results/visual-regression"))
 IMAGE = shutil.which("magick") or shutil.which("convert")
 
 PALETTES = {
-    "neutral": ("#9cf23a", "#8f4bc8", "#0b0810", "#e8e1ef", "NERV / MAGI"),
-    "unit-00-prototype": ("#f6c744", "#3ba7d8", "#0b0905", "#f2e9d2", "EVA-00 PROTOTYPE"),
-    "unit-00-refit": ("#55d9ff", "#f2f6ff", "#050b12", "#e8f1ff", "EVA-00 REFIT"),
-    "unit-01": ("#9cf23a", "#8f4bc8", "#0b0810", "#e8e1ef", "EVA-01 TEST TYPE"),
-    "unit-02": ("#ff5a36", "#f6a52f", "#0d0504", "#f5e5df", "EVA-02 PRODUCTION"),
+    "neutral": ("#00ff88", "#8b5cf6", "#0b0812", "#f0ece4", "SUBCULT / PRESS"),
+    "acid": ("#00ff88", "#f0ece4", "#050d09", "#eaf5ee", "ACID BLOCK"),
+    "paper": ("#f0ece4", "#8b5cf6", "#0e0c09", "#f0ece4", "PAPER STOCK"),
+    "violet": ("#b69cff", "#00ff88", "#0e0819", "#f0ece4", "VIOLET FIELD"),
+    "ink": ("#a78bfa", "#f0ece4", "#060409", "#e9e6f0", "INK RUN"),
 }
-STATE = {"nominal": ("NOMINAL", "#9cf23a"), "warning": ("CAUTION", "#f6c744"), "critical": ("CONDITION RED", "#ff4055")}
+STATE = {"nominal": ("NOMINAL", "#00ff88"), "warning": ("CAUTION", "#f6c744"), "critical": ("CONDITION RED", "#ff4055")}
 
 
 def svg(case):
@@ -53,11 +53,11 @@ def svg(case):
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
 <style>.label{{font:700 14px 'DejaVu Sans Mono';letter-spacing:3px}}.heading{{font:700 15px 'DejaVu Sans Mono';letter-spacing:3px}}.value{{font:700 25px 'DejaVu Sans Mono'}}.caption{{font:11px 'DejaVu Sans Mono';letter-spacing:1px}}</style>
 <rect width="100%" height="100%" fill="{background}"/><rect x="0" y="0" width="100%" height="46" fill="#050507"/>
-<text x="20" y="29" class="label" fill="{accent}">NERV // CANONICAL VISUAL FIXTURE</text>
+<text x="20" y="29" class="label" fill="{accent}">SUBCULT // CANONICAL VISUAL FIXTURE</text>
 <text x="{width//2-25}" y="29" class="caption" fill="{text}">12:34:56</text>
 <text x="{width-310}" y="29" class="caption" fill="{secondary}">{esc(case['id'])}</text>
 <text x="24" y="92" class="heading" fill="{accent}">{esc(label)}</text>
-<text x="24" y="132" class="value" fill="{text}">MAGI INTERFACE // {esc(variant.upper())}</text>
+<text x="24" y="132" class="value" fill="{text}">SUBCULT INTERFACE // {esc(variant.upper())}</text>
 <text x="{width-280}" y="132" class="caption" fill="{state_color}">{esc(status)} // SCALE {case.get('scale', 1.0)}</text>
 {''.join(panels)}
 <rect x="0" y="{height-32}" width="100%" height="32" fill="#050507"/><text x="18" y="{height-12}" class="caption" fill="{accent}">DEMO DATA // NO LIVE DESKTOP INPUT</text>

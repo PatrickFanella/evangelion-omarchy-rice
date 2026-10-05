@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only compatibility preflight for Evangelion Omarchy Rice."""
+"""Read-only compatibility preflight for SUBCULT Omarchy Rice."""
 
 import argparse
 import json
@@ -157,9 +157,11 @@ def build_report(activation):
               "Free space in the home filesystem before installation")
 
     port = port_open(8765)
-    expected_service = active_service("magi-start-page.service")
+    # The Evangelion Rice start page holds the same port until the upgrade
+    # retires it, so either suite service counts as the expected owner.
+    expected_service = active_service("subcult-start-page.service") or active_service("magi-start-page.service")
     add_check(checks, "start-page-port", "blocker" if port and not expected_service else "pass",
-              "port 8765 is " + ("owned by the existing MAGI service" if port and expected_service else "occupied by another process" if port else "available"),
+              "port 8765 is " + ("owned by the existing SUBCULT service" if port and expected_service else "occupied by another process" if port else "available"),
               "Stop the process using TCP port 8765 or configure a different port")
     incompatible_services = [unit for unit in ("waybar.service", "swaync.service") if active_service(unit)]
     add_check(checks, "service-conflicts", "blocker" if incompatible_services else "pass",
@@ -203,7 +205,7 @@ def build_report(activation):
 
 
 def human(report):
-    print("MAGI COMPATIBILITY PREFLIGHT // READ-ONLY")
+    print("SUBCULT COMPATIBILITY PREFLIGHT // READ-ONLY")
     print(f"Omarchy {report['detected_versions']['omarchy']} // Hyprland {report['detected_versions']['hyprland']}")
     for item in report["checks"]:
         marker = {"pass": "PASS", "optional": "WARN", "blocker": "FAIL"}[item["status"]]

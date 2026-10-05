@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import json, os, subprocess, tempfile
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1]; COMMAND=ROOT/"bin/magi-performance-budget"
+ROOT=Path(__file__).resolve().parents[1]; COMMAND=ROOT/"bin/subcult-performance-budget"
 budgets=json.loads((ROOT/"omarchy/performance-budgets.json").read_text()); inventory=json.loads((ROOT/"omarchy/performance-inventory.json").read_text())
 evidence=json.loads((ROOT/"evidence/performance-v1.5.json").read_text())
 assert budgets["schema_version"]==inventory["schema_version"]==1
@@ -11,7 +11,7 @@ assert evidence["ticket"]=="SO1-409" and evidence["before"]["measurement_availab
 assert evidence["after"]["idle_cpu_percent"]<budgets["budgets"]["idle_cpu_percent"]
 assert evidence["after"]["idle_rss_mib"]<budgets["budgets"]["idle_rss_mib"]
 with tempfile.TemporaryDirectory() as directory:
-    base=Path(directory); report=base/"report.json"; env={**os.environ,"EVA_BUDGET_REPORT":str(report)}
+    base=Path(directory); report=base/"report.json"; env={**os.environ,"SUBCULT_BUDGET_REPORT":str(report)}
     def run(*args,check=True): return subprocess.run([str(COMMAND),*args],env=env,text=True,capture_output=True,check=check)
     assert json.loads(run("static").stdout)["status"]=="passed"
     good=base/"good.json"; good.write_text(json.dumps({"startup_ready_ms":1200,"idle_cpu_percent":.4,"idle_rss_mib":180,"command_p95_ms":40,"minimum_background_poll_ms":5000,"maximum_concurrent_probes":1,"cache_age_seconds":{"context":10,"health":10,"mission":10,"motion":10}}))
@@ -22,7 +22,7 @@ with tempfile.TemporaryDirectory() as directory:
     partial=json.loads(run("check").stdout); assert partial["status"]=="partial" and len(partial["unavailable"])==10
     serialized=report.read_text().lower()
     for prohibited in ("pid","hostname","username","ssid","window_title","command_line","stdout","stderr"): assert prohibited not in serialized
-performance=(ROOT/"bin/magi-performance").read_text(); overlay=(ROOT/"omarchy/plugins/evangelion.performance/Service.qml").read_text(); docs=(ROOT/"PERFORMANCE.md").read_text()
+performance=(ROOT/"bin/subcult-performance").read_text(); overlay=(ROOT/"omarchy/plugins/subcult.performance/Service.qml").read_text(); docs=(ROOT/"PERFORMANCE.md").read_text()
 assert "BUDGET_REPORT" in performance and '"budgets":budget' in performance and "BUDGET GATE" in overlay
 for phrase in ("disabled by default","one probe per cycle","event-driven","partial","code review"): assert phrase in docs
 print("PASS  startup idle polling cache overlap privacy and safety-exception budgets")

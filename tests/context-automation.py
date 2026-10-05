@@ -11,7 +11,7 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-COMMAND = ROOT / "bin/magi-context-automation"
+COMMAND = ROOT / "bin/subcult-context-automation"
 
 
 def write(path, value):
@@ -42,11 +42,11 @@ def main():
     source = COMMAND.read_text()
     assert "ALLOWED_RULES" in source and "ALLOWED_TARGETS" in source
     assert "manual-profile-selection" in source and "COOLDOWN_SECONDS = 300" in source
-    profile_source = (ROOT / "bin/magi-operating-profile").read_text()
+    profile_source = (ROOT / "bin/subcult-operating-profile").read_text()
     for contract in ("capture_transaction", "restore_transaction", "failed_subsystem", "rolled_back"):
         assert contract in profile_source
 
-    loader = importlib.machinery.SourceFileLoader("magi_context_controller", str(ROOT / "bin/magi-context"))
+    loader = importlib.machinery.SourceFileLoader("subcult_context_controller", str(ROOT / "bin/subcult-context"))
     spec = importlib.util.spec_from_loader(loader.name, loader)
     controller = importlib.util.module_from_spec(spec)
     loader.exec_module(controller)
@@ -73,13 +73,13 @@ def main():
         fake = home / "bin"
         fake.mkdir()
         log = home / "profile.log"
-        program = fake / "magi-operating-profile"
+        program = fake / "subcult-operating-profile"
         program.write_text("#!/bin/sh\nprintf '%s\\n' \"$*\" >> \"$PROFILE_LOG\"\n"
                            "[ \"${PROFILE_FAIL:-0}\" = 1 ] && { echo '{\"failed_subsystem\":\"audio\"}'; exit 1; }\n"
                            "echo '{\"status\":\"applied\"}'\n")
         program.chmod(program.stat().st_mode | stat.S_IXUSR)
-        context = home / ".local/state/evangelion-rice/context/state.json"
-        mode = home / ".local/state/evangelion-rice/operating-profile/mode"
+        context = home / ".local/state/subcult-rice/context/state.json"
+        mode = home / ".local/state/subcult-rice/operating-profile/mode"
         write(mode, "auto\n")
 
         # Global opt-in is mandatory; recommendations can exist without execution.
@@ -109,7 +109,7 @@ def main():
         assert held["reason"] == "manual-hold" and "manual-profile-selection" in held["holds"]
 
         write(mode, "auto\n")
-        automation = home / ".local/state/evangelion-rice/context/automation.json"
+        automation = home / ".local/state/subcult-rice/context/automation.json"
         runtime = json.loads(automation.read_text()); runtime["last_applied_at"] = 0
         write(automation, runtime)
         failed = run(home, fake, "apply", "--json", PROFILE_LOG=str(log), PROFILE_FAIL="1")

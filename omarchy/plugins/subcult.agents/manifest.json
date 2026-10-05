@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.agents",
+  "name": "SUBCULT Agents",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "SUBCULT chrome around Omarchy's native agents widget.",
+  "kinds": ["bar-widget"],
+  "entryPoints": { "barWidget": "BarWidget.qml" },
+  "barWidget": { "displayName": "SUBCULT Agents", "category": "System", "allowMultiple": false, "defaultSection": "right" }
+}

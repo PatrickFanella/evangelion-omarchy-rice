@@ -4,8 +4,8 @@ import json, os, subprocess, tempfile
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
-MEDIA=ROOT/"omarchy/plugins/evangelion.media/BarWidget.qml"
-CAVA=ROOT/"omarchy/plugins/evangelion.cava/BarWidget.qml"
+MEDIA=ROOT/"omarchy/plugins/subcult.media/BarWidget.qml"
+CAVA=ROOT/"omarchy/plugins/subcult.cava/BarWidget.qml"
 
 config=json.loads((ROOT/"omarchy/media.json").read_text())
 assert config["schema_version"]==1
@@ -37,7 +37,7 @@ printf 'shell %s\n' "$*" >> "$MEDIA_LOG"
 [ "$3" = status ] && printf '{"hasPlayer":true,"playing":true,"title":"Test Track","artist":"Test Artist"}\n'
 ''');shell.chmod(0o755)
     env={**os.environ,"PATH":str(bindir)+":"+os.environ["PATH"],"MEDIA_LOG":str(log)}
-    def run(*args): return subprocess.run([str(ROOT/"bin/magi-media"),*args],env=env,text=True,capture_output=True,check=True)
+    def run(*args): return subprocess.run([str(ROOT/"bin/subcult-media"),*args],env=env,text=True,capture_output=True,check=True)
     assert "Test Track" in run("status").stdout
     assert json.loads(run("status","--json").stdout)["title"]=="Test Track"
     run("play-pause");run("source-next");run("volume-down")

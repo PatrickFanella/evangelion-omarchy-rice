@@ -21,9 +21,9 @@ o.window({ class = "com\\.mitchellh\\.ghostty", title = "^plex-tui$" }, {
   size = { "(monitor_w-100)", "(monitor_h-100)" },
 })
 
--- MAGI presentation mode: establish safe floating defaults. The launcher then
+-- SUBCULT presentation mode: establish safe floating defaults. The launcher then
 -- refines size and placement from the active wallpaper's composition profile.
-o.window("^org\\.omarchy\\.magi\\.fastfetch$", {
+o.window("^org\\.omarchy\\.subcult\\.fastfetch$", {
   float = true,
   workspace = "5 silent",
   size = { "(monitor_w*9/20)", 440 },
@@ -31,7 +31,7 @@ o.window("^org\\.omarchy\\.magi\\.fastfetch$", {
   opacity = "0.94 0.90",
 })
 
-o.window("^org\\.omarchy\\.magi\\.btop$", {
+o.window("^org\\.omarchy\\.subcult\\.btop$", {
   float = true,
   workspace = "5 silent",
   size = { "(monitor_w*9/20)", 550 },

@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.tailscale",
+  "name": "SUBCULT Tailscale",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "SUBCULT chrome around Omarchy's native Tailscale widget.",
+  "kinds": ["bar-widget"],
+  "entryPoints": { "barWidget": "BarWidget.qml" },
+  "barWidget": { "displayName": "SUBCULT Tailscale", "category": "Network", "allowMultiple": false, "defaultSection": "right" }
+}

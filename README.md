@@ -1,92 +1,69 @@
-# Evangelion Omarchy Rice
+# SUBCULT Omarchy Rice
 
-Monitor and dock layouts can be saved, previewed, restored, and safely undone;
-see [Monitor topology profiles](TOPOLOGIES.md).
-Those preferences can be moved between unlike machines using
-[privacy-sanitized machine profiles](MACHINE_PROFILES.md).
-[Optional surfaces remain intentional offline](OFFLINE_RESILIENCE.md), with
-bounded retries, cache-age labels, and privacy-safe unavailable states.
-[MAGI sound cues are opt-in and category controlled](SOUND.md), with quiet
-hours, volume ceilings, scene overrides, visual equivalents, and a kill switch.
-The [global MAGI command palette](COMMAND_PALETTE.md) provides deterministic
-fuzzy search across safe actions, settings, workspaces, diagnostics, and help.
-The [private MAGI operations log](OPERATIONS_LOG.md) adds bounded, searchable
-notification and system history with explicit clear/export and safe actions.
-[Progressive telemetry disclosure](PROGRESSIVE_DISCLOSURE.md) keeps context,
-health, history, and start-page surfaces calm while preserving on-demand detail.
-The [community compatibility workflow](BETA_TESTING.md) produces a reviewed,
-privacy-safe v2 report and a non-gating, maintainer-curated evidence matrix.
+[![SUBCULT Integrity Check](https://github.com/PatrickFanella/subcult-omarchy-rice/actions/workflows/validate.yml/badge.svg)](https://github.com/PatrickFanella/subcult-omarchy-rice/actions/workflows/validate.yml)
 
-[![MAGI Integrity Check](https://github.com/so1omon563/evangelion-omarchy-rice/actions/workflows/validate.yml/badge.svg)](https://github.com/so1omon563/evangelion-omarchy-rice/actions/workflows/validate.yml)
+A complete Omarchy desktop in the SUBCULT poster-press identity: ink canvases,
+paper text, violet fields, and acid-green registration blocks. It ships seven
+wallpapers built from the SUBCULT marks, five affinity palettes, shell plugins,
+menus and overlays, terminal profiles, safety telemetry, sounds, and operator
+tools.
 
-> **v1.5.1:** Fixes crowded workspace labels and presentation placement on
-> Hyprland 0.56.2. See [release notes](RELEASE_NOTES.md#v151--workspace-and-presentation-fixes).
->
-> **v1.5.0:** Adaptive Operations keeps the v1.4 presentation and authority
-> baseline while adding private operations history, a global command palette,
-> inherited theme treatments, manual activity modes, offline resilience,
-> categorized opt-in sound, portable machine profiles, progressive telemetry
-> disclosure, and privacy-reviewed community compatibility evidence. New
-> automation remains disabled by default and every mutable workflow is bounded,
-> explicit, reversible, or both.
+> **v2.0.0:** The suite formerly published as Evangelion Omarchy Rice is now
+> SUBCULT. Commands are `subcult-*`, plugins are `subcult.*`, and the theme is
+> `subcult`. Installing over Evangelion Rice 1.5 retires the old suite into the
+> rollback snapshot and keeps your settings. See
+> [UPGRADING.md](UPGRADING.md#upgrade-from-evangelion-rice-15-to-subcult-20).
 
-> **v1.4.0:** the distribution release adds a standalone gallery-ready
-> theme, reproducible complete-suite archives, explicit Arch user activation,
-> cross-channel conflict/rollback tests, and clear selection and maintainer
-> workflows. MAGI plugins remain coordinated suite-internal components. The
-> v1.3 desktop baseline—including affinity-aware icons, restart-free palette
-> refresh, semantic start-page state, explainable local context, and bounded
-> opt-in automation—remains intact. It is validated by source
-> CI, an isolated clean-user lifecycle, transactional install/rollback tests,
-> privacy/interruption regressions, the responsive display matrix, and the reference T480. Community compatibility reports are
-> welcome through [BETA_TESTING.md](BETA_TESTING.md), but are not a release gate.
+![The seven SUBCULT wallpapers](media/wallpaper-gallery.png)
 
-> **v1.3.1:** remains the stable upgrade baseline for affinity-aware native
-> icons, restart-free palette refresh, semantic start-page state, and cache-safe
-> Zen/Chromium behavior; v1.4 preserves and revalidates those contracts.
+Desktop, lock screen, and start-page captures for 2.0 have not been taken yet.
+The 1.x screenshots showed the retired Evangelion interface and were removed.
 
-An unofficial *Neon Genesis Evangelion* desktop environment for Omarchy:
-seven wallpapers, EVA affinity palettes, MAGI shell plugins, responsive menus
-and overlays, terminal profiles, safety telemetry, sounds, and operator tools.
-The [MAGI control center](SETTINGS.md) provides one keyboard-first surface for
-the suite's affinity, motion, profile, widget, weather, media, privacy, sound,
-display, and bounded visual settings, with preview and one-step undo. See
-[Safe visual customization](VISUAL_CUSTOMIZATION.md) for its accessibility and
-fallback contract.
-[Workspace identities](WORKSPACES.md) are user-editable, remain full-length in
+## What it does
+
+The [SUBCULT control center](SETTINGS.md) is one keyboard-first surface for
+affinity, motion, profile, widget, weather, media, privacy, sound, display, and
+bounded visual settings, with preview and one-step undo.
+[Safe visual customization](VISUAL_CUSTOMIZATION.md) sets out its accessibility
+and fallback rules.
+
+Wallpaper selects an affinity palette automatically: Press, Acid Block, Paper
+Stock, Violet Field, or Ink Run. [Theme variants](THEME_VARIANTS.md) layer
+Standard, OLED, Daylight, or High Contrast treatment over every affinity with
+preview and one-step revert. [Affinity scenes](SCENES.md) coordinate wallpaper,
+palette, terminal identity, and opt-in ambient, motion, or sound behavior as one
+reversible plan.
+
+[Workspace identities](WORKSPACES.md) are user-editable, stay full-length in
 the OSD, and collapse into collision-safe labels against the live bar width.
-[MAGI affinity scenes](SCENES.md) coordinate wallpaper, palette, terminal
-identity, and opt-in ambient, motion, or sound behavior as one reversible plan.
-[Theme variants](THEME_VARIANTS.md) layer Standard, OLED, Daylight, or High
-Contrast treatment over every NERV/EVA affinity with preview and one-step revert.
 [Coordinated activity modes](ACTIVITY_MODES.md) provide manual, per-action
 opt-in Work, Focus, Gaming, Presentation, Travel, and Quiet transactions.
-[MAGI media controls](MEDIA_CONTROLS.md) coordinate multiple MPRIS sources,
-privacy-safe artwork, player detail, and Cava without destabilizing bar geometry.
+[Media controls](MEDIA_CONTROLS.md) coordinate multiple MPRIS sources,
+privacy-safe artwork, player detail, and Cava without moving bar geometry.
+
+Monitor and dock layouts can be saved, previewed, restored, and undone with
+[monitor topology profiles](TOPOLOGIES.md), and moved between machines as
+[privacy-sanitized machine profiles](MACHINE_PROFILES.md).
+[Optional surfaces stay usable offline](OFFLINE_RESILIENCE.md) with bounded
+retries, cache-age labels, and privacy-safe unavailable states.
+[Sound cues are opt-in and category controlled](SOUND.md), with quiet hours,
+volume ceilings, scene overrides, visual equivalents, and a kill switch.
+
+The [command palette](COMMAND_PALETTE.md) gives deterministic fuzzy search
+across safe actions, settings, workspaces, diagnostics, and help. The
+[private operations log](OPERATIONS_LOG.md) keeps bounded, searchable
+notification and system history with explicit clear and export.
+[Progressive telemetry disclosure](PROGRESSIVE_DISCLOSURE.md) keeps context,
+health, history, and start-page surfaces quiet until you ask for detail.
 [Accessibility standards](ACCESSIBILITY.md) define contrast, scaling, keyboard,
 assistive semantics, motion, timeout, flashing, and documented platform limits.
+The [community compatibility workflow](BETA_TESTING.md) produces a reviewed,
+privacy-safe report and a maintainer-curated evidence matrix.
 
-![Evangelion Omarchy desktop](media/desktop-hero.png)
+![Synthetic comparison of SUBCULT recommendation, automation, stale, and disabled context states](media/context-states.png)
 
-| MAGI start page | Session controls |
-|---|---|
-| ![MAGI start page](media/start-page.png) | ![NERV session controls](media/session-menu.png) |
-
-| Lock screen | Terminal profiles |
-|---|---|
-| ![MAGI lock screen](media/lock-screen.png) | ![MAGI terminal profiles](media/profile-switching.gif) |
-
-| Full motion | Reduced motion |
-|---|---|
-| ![Full MAGI interface motion](media/motion-full.gif) | ![Reduced MAGI interface motion](media/motion-reduced.gif) |
-
-![Seven included wallpapers](media/wallpaper-gallery.png)
-
-![Synthetic comparison of MAGI recommendation, automation, stale, and disabled context states](media/context-states.png)
-
-> This is an unofficial fan project, unaffiliated with the rights holders.
-> Software is MIT-licensed; artwork has separate terms. Read
-> [ASSETS_LICENSE.md](ASSETS_LICENSE.md) before redistributing assets.
+Software is MIT-licensed. The SUBCULT marks and fonts have separate terms; read
+[ASSETS_LICENSE.md](ASSETS_LICENSE.md) before redistributing assets.
 
 ## Supported environment
 
@@ -101,12 +78,13 @@ assistive semantics, motion, timeout, flashing, and documented platform limits.
 | Shell integration | Bash, Zsh, or Fish; optional | Bash |
 | Browser | Current XDG/Omarchy default | Zen and Chromium-compatible launchers |
 
-x86_64 is the supported release architecture. Other Linux architectures are
-not intentionally blocked by source validation, but remain unverified. The
-original T480 is a reference machine—not a hardware requirement. Battery-less,
+The hardware references come from the 1.5 line, which 2.0 renames and recolors
+without changing behavior. x86_64 is the supported release architecture. Other
+Linux architectures are not blocked by source validation but remain unverified.
+The T480 is a reference machine, not a hardware requirement. Battery-less,
 multi-battery, Intel, AMD, generic thermal, missing-sensor, and optional-tool
-fallbacks are implemented. See [RESPONSIVE.md](RESPONSIVE.md) for the exact
-display matrix and [TESTING.md](TESTING.md) for what CI proves.
+fallbacks are implemented. See [RESPONSIVE.md](RESPONSIVE.md) for the display
+matrix and [TESTING.md](TESTING.md) for what CI proves.
 
 Support covers the version ranges above and reproducible repository behavior.
 Third-party themes, arbitrary shell forks, and hardware-specific vendor tools
@@ -118,44 +96,43 @@ bug report.
 Choose the channel before installing. For only the palette and wallpapers:
 
 ```bash
-omarchy theme install https://github.com/so1omon563/omarchy-evangelion-theme.git
+omarchy theme install https://github.com/PatrickFanella/omarchy-subcult-theme.git
 ```
 
-For the complete MAGI desktop, download the archive and matching checksum from
-the [latest GitHub release](https://github.com/so1omon563/evangelion-omarchy-rice/releases/latest),
+For the complete SUBCULT desktop, download the archive and matching checksum from
+the [latest GitHub release](https://github.com/PatrickFanella/subcult-omarchy-rice/releases/latest),
 verify them, extract, and run from an active Omarchy Hyprland session:
 
 ```bash
-sha256sum --check evangelion-omarchy-rice-1.5.1.tar.gz.sha256
-tar -xzf evangelion-omarchy-rice-1.5.1.tar.gz
-cd evangelion-omarchy-rice-1.5.1
+sha256sum --check subcult-omarchy-rice-2.0.0.tar.gz.sha256
+tar -xzf subcult-omarchy-rice-2.0.0.tar.gz
+cd subcult-omarchy-rice-2.0.0
 ./scripts/build-release verify-root .
 ./preflight.py
 ./install.sh --dry-run --preset default
 ./install.sh --apply --preset default
-omarchy theme set evangelion
+omarchy theme set subcult
 ./validate.sh
 ```
 
-Contributors and testers may instead follow the moving Git checkout:
+Contributors and testers can follow the Git checkout instead:
 
 ```bash
-git clone git@github.com:so1omon563/evangelion-omarchy-rice.git
-cd evangelion-omarchy-rice
+git clone git@github.com:PatrickFanella/subcult-omarchy-rice.git
+cd subcult-omarchy-rice
 ./preflight.py
 ./install.sh --dry-run --preset default
 ./install.sh --apply --preset default
-omarchy theme set evangelion
+omarchy theme set subcult
 ./validate.sh
 ```
 
 Use the HTTPS clone URL if SSH is not configured. Arch users can use the
 checksum-pinned `PKGBUILD` attached to the release and the explicit activation
-workflow in [ARCH_PACKAGING.md](ARCH_PACKAGING.md); AUR publication is deferred.
-Always review the dry-run;
-the default preset replaces complete Omarchy shell and Hyprland configuration
-files after confirmation. The preflight is read-only and stops unsafe installs
-before the first backup or write.
+workflow in [ARCH_PACKAGING.md](ARCH_PACKAGING.md). AUR publication is deferred.
+Always review the dry run. The default preset replaces complete Omarchy shell
+and Hyprland configuration files after confirmation. The preflight is read-only
+and stops unsafe installs before the first backup or write.
 
 Presets:
 
@@ -165,124 +142,118 @@ Presets:
 
 Select individual components with `--components`, override shell detection with
 `--shell bash|zsh|fish`, or use `--no-shell-integration`. See
-[INSTALL.md](INSTALL.md) for prerequisites, package commands, component/path
-effects, transaction behavior, and first-run verification.
-Use [DISTRIBUTION_GUIDE.md](DISTRIBUTION_GUIDE.md) to choose between “just the
-look,” a complete release, a development checkout, and managed Arch packaging.
-See [DISTRIBUTION.md](DISTRIBUTION.md) for their normative ownership contract.
+[INSTALL.md](INSTALL.md) for prerequisites, package commands, component and
+path effects, transaction behavior, and first-run verification. Use
+[DISTRIBUTION_GUIDE.md](DISTRIBUTION_GUIDE.md) to choose between just the look,
+a complete release, a development checkout, and managed Arch packaging.
+[DISTRIBUTION.md](DISTRIBUTION.md) is the ownership contract for those channels.
+
+The theme installs the Oswald, Space Grotesk, and JetBrains Mono brand fonts to
+`~/.local/share/fonts/subcult`.
 
 ## Configuration
 
-Personal settings live in `~/.config/omarchy/evangelion.json`, which the
-installer creates once and preserves on upgrades. Terminal, editor, shell,
-project path, deployment, presentation, browser selection, weather, operating
-profiles, global motion level, local MAGI context controls, thermal thresholds,
-and optional integrations are documented in
-[CONFIGURATION.md](CONFIGURATION.md). The complete context inputs, privacy
-boundary, precedence, reasons, recommendations, automation controls,
-accessibility behavior, and performance contract are in [CONTEXT.md](CONTEXT.md).
+Personal settings live in `~/.config/omarchy/subcult.json`, which the installer
+creates once and preserves on upgrades. Terminal, editor, shell, project path,
+deployment, presentation, browser selection, weather, operating profiles,
+global motion level, local context controls, thermal thresholds, and optional
+integrations are documented in [CONFIGURATION.md](CONFIGURATION.md). Context
+inputs, the privacy boundary, precedence, reasons, recommendations, automation
+controls, accessibility behavior, and performance limits are in
+[CONTEXT.md](CONTEXT.md).
 
-Distribution boundaries, the complete plugin audit, and the deliberately small
-optional-integration contract are documented in [DISTRIBUTION.md](DISTRIBUTION.md),
-[PLUGIN_AUDIT.md](PLUGIN_AUDIT.md), and [MAGI_RUNTIME.md](MAGI_RUNTIME.md).
+Distribution boundaries, the plugin audit, and the small optional-integration
+contract are in [DISTRIBUTION.md](DISTRIBUTION.md),
+[PLUGIN_AUDIT.md](PLUGIN_AUDIT.md), and [SUBCULT_RUNTIME.md](SUBCULT_RUNTIME.md).
 Exact-tag suite archives, checksums, provenance, and offline installation are
-covered in [RELEASE_ARTIFACTS.md](RELEASE_ARTIFACTS.md).
-Arch package ownership and explicit per-user activation are covered in
-[ARCH_PACKAGING.md](ARCH_PACKAGING.md).
-Supported channel transitions, conflicts, and CI evidence are covered in
-[CROSS_CHANNEL.md](CROSS_CHANNEL.md).
-The synchronized release, theme-gallery, packaging, and privacy review workflow
-for contributors is in [MAINTAINING.md](MAINTAINING.md).
+in [RELEASE_ARTIFACTS.md](RELEASE_ARTIFACTS.md). Arch package ownership and
+per-user activation are in [ARCH_PACKAGING.md](ARCH_PACKAGING.md). Channel
+transitions, conflicts, and CI evidence are in [CROSS_CHANNEL.md](CROSS_CHANNEL.md).
+The release, theme-gallery, packaging, and privacy review workflow for
+contributors is in [MAINTAINING.md](MAINTAINING.md).
 
 The browser always follows `omarchy launch browser`; no browser executable is
-hard-coded. Cava is an independent `evangelion.cava` bar plugin and hides when
+hard-coded. Cava is an independent `subcult.cava` bar plugin and hides when
 Cava is unavailable. Neon Overdrive is a separately selected compatibility
-component and is never installed by a preset.
+component for that third-party theme and is never installed by a preset.
 
-For controls and keybindings, see [HOTKEYS.md](HOTKEYS.md).
-For deterministic screenshots, onboarding, and private bug reproduction, see
-[DEMO.md](DEMO.md).
-The v1.5 string-catalog, pseudo-locale, RTL, formatting, and contributor
-contracts are documented in [LOCALIZATION.md](LOCALIZATION.md).
-Enforced shell startup, idle, polling, overlap, and cache ceilings are in
-[PERFORMANCE.md](PERFORMANCE.md).
-Suite integrity diagnosis and narrowly allowlisted reversible remediation are
-documented in [RICE_HEALTH.md](RICE_HEALTH.md).
-Private named configuration snapshots, selective diff/restore, retention, and
-transaction rollback are documented in [SNAPSHOTS.md](SNAPSHOTS.md).
-The density, typography, panel, and compositor token model is documented in
-[VISUAL_CUSTOMIZATION.md](VISUAL_CUSTOMIZATION.md).
-Atomic affinity-scene authority, audio interlock, and rollback are documented
-in [SCENES.md](SCENES.md).
-Multi-player arbitration, artwork privacy, keyboard control, and Cava behavior
-are documented in [MEDIA_CONTROLS.md](MEDIA_CONTROLS.md).
-The inclusive-interaction standard and automated audit matrix are documented in
-[ACCESSIBILITY.md](ACCESSIBILITY.md).
+More references:
+
+- Controls and keybindings: [HOTKEYS.md](HOTKEYS.md)
+- Deterministic screenshots, onboarding, and private bug reproduction: [DEMO.md](DEMO.md)
+- String catalog, pseudo-locale, RTL, and formatting: [LOCALIZATION.md](LOCALIZATION.md)
+- Startup, idle, polling, overlap, and cache ceilings: [PERFORMANCE.md](PERFORMANCE.md)
+- Suite integrity diagnosis and reversible remediation: [RICE_HEALTH.md](RICE_HEALTH.md)
+- Named configuration snapshots and selective restore: [SNAPSHOTS.md](SNAPSHOTS.md)
 
 ## Upgrade, rollback, and removal
 
-For Stable, Preview, and Development suite updates with immutable evidence,
-exact change preview, validation, and one-command undo, use the
-[guided suite updater](SUITE_UPDATES.md). This is separate from operating-system
-updates wrapped by `magi-update`.
+For Stable, Preview, and Development suite updates with change preview,
+validation, and one-command undo, use the [guided suite updater](SUITE_UPDATES.md).
+It is separate from operating-system updates wrapped by `subcult-update`.
 
 New installations and privacy-sanitized preference transfer are covered by the
 [first-run onboarding guide](ONBOARDING.md).
 
-If custom shell or Hyprland configuration cannot load, `magi-recovery enter`
-activates a stock-only static layout after taking an exact local snapshot.
-Use `Super + Alt + R` when the compositor is responsive, or run it from a TTY;
-`magi-recovery exit` restores the prior configuration. See
-[HOTKEYS.md](HOTKEYS.md#static-recovery-mode) for the complete recovery path.
+If custom shell or Hyprland configuration cannot load, `subcult-recovery enter`
+activates a stock-only static layout after taking an exact local snapshot. Use
+`Super + Alt + R` when the compositor responds, or run it from a TTY.
+`subcult-recovery exit` restores the prior configuration. See
+[HOTKEYS.md](HOTKEYS.md#static-recovery-mode) for the full recovery path.
 
-For v1.5 configuration changes, run `magi-migrate preview` before applying an
-upgrade. The assistant names every preserved setting and replacement and
-requires `keep` or `replace` for each conflict. Interrupted applies are held for
-explicit `magi-migrate recover`; see [UPGRADING.md](UPGRADING.md#guided-migration-into-v15).
+Run `subcult-migrate preview` before applying a configuration upgrade. It names
+every preserved setting and replacement and requires `keep` or `replace` for
+each conflict. Interrupted applies wait for an explicit `subcult-migrate recover`.
 
 Every changed target is recorded in a transaction snapshot under
-`~/.local/state/evangelion-rice/install-backups/`. Failed activation or
-validation automatically rolls back the active transaction.
+`~/.local/state/subcult-rice/install-backups/`. Failed activation or validation
+rolls back the active transaction automatically.
 
 ```bash
 ./rollback.sh
 ./rollback.sh /path/to/snapshot
 ```
 
-Users upgrading from v1.2 keep their selected motion mode and personal
-configuration; context automation and every individual rule remain off until
-explicitly enabled. Users upgrading from the original v1.0-era installation receive an automatic,
-rollback-safe migration from `so1omon.*` to `evangelion.*` plugin IDs. Read
-[UPGRADING.md](UPGRADING.md) before upgrading or removing a multi-transaction
-installation; a rollback reverses one transaction, not the entire history.
+Installing 2.0 over Evangelion Rice 1.5 moves the old `evangelion.*` plugins,
+`magi-*` and `eva-*` commands, services, hooks, and shell snippets into that
+snapshot, so one rollback restores the previous desktop exactly. Users of the
+original v1.0-era installation also get a rollback-safe migration from
+`so1omon.*` to `subcult.*` plugin IDs. Read [UPGRADING.md](UPGRADING.md) before
+upgrading or removing a multi-transaction installation. A rollback reverses one
+transaction, not the whole history.
 
 ## Troubleshooting and validation
 
 Start with `./preflight.py --json` and `./validate.sh`.
-[TROUBLESHOOTING.md](TROUBLESHOOTING.md) covers shell/plugin loading, services,
-wallpapers, weather, media, Cava, sensors, and hotkey conflicts. Contributor
-checks are:
+[TROUBLESHOOTING.md](TROUBLESHOOTING.md) covers shell and plugin loading,
+services, wallpapers, weather, media, Cava, sensors, and hotkey conflicts.
+Contributor checks are:
 
 ```bash
 ./tests/installer.sh
+./tests/legacy-upgrade.sh
 ./tests/clean-user.sh
 ./tests/responsive-layouts.py
 ./tests/motion-regression.py
 ./tests/motion-observe.py # optional live observation
 ./tests/context-regression.py
-./tests/magi-extension-contract.py # internal widget state boundary
+./tests/subcult-extension-contract.py # internal widget state boundary
 ./tests/visual-regression.py --self-test # canonical privacy-safe frames and CI diffs
 ./tests/performance-overlay.py # opt-in aggregate developer telemetry
-./tests/context-observe.py # optional live T480 observation; restores state
+./tests/context-observe.py # optional live observation; restores state
 ```
 
-CI retains machine-readable clean-user and responsive-layout artifacts. See
-[AUDIT.md](AUDIT.md) for release verification and [theme/ARTWORK.md](theme/ARTWORK.md)
-for wallpaper provenance.
+CI keeps machine-readable clean-user and responsive-layout artifacts. See
+[AUDIT.md](AUDIT.md) for release verification and
+[theme/ARTWORK.md](theme/ARTWORK.md) for wallpaper provenance. Release history
+is in [RELEASE_NOTES.md](RELEASE_NOTES.md).
 
-Release history and migration highlights are in [RELEASE_NOTES.md](RELEASE_NOTES.md).
+## Credits and license
 
-## License
+SUBCULT Omarchy Rice is a fork of
+[so1omon563/evangelion-omarchy-rice](https://github.com/so1omon563/evangelion-omarchy-rice).
+Its shell, plugins, tooling, and tests come from that project; 2.0 replaces the
+branding, palettes, and artwork.
 
-Software and configuration source are MIT-licensed. Image assets are excluded
-from that grant; see [ASSETS_LICENSE.md](ASSETS_LICENSE.md).
+Software and configuration source are MIT-licensed. Brand assets and fonts are
+excluded from that grant; see [ASSETS_LICENSE.md](ASSETS_LICENSE.md).

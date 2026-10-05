@@ -1,6 +1,6 @@
 # Responsive layout support
 
-Evangelion Rice computes layout in logical pixels after output scaling. The
+SUBCULT Rice computes layout in logical pixels after output scaling. The
 automated matrix covers 1366×768 and 1920×1080 at 1×, 2560×1440 logical at
 1.25×, 4K at 2×, ultrawide at 1.5×, a vertical output, and a small secondary
 display with a non-zero monitor origin.

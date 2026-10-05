@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.bluetooth",
+  "name": "SUBCULT Bluetooth",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "SUBCULT chrome around Omarchy's native Bluetooth widget.",
+  "kinds": ["bar-widget"],
+  "entryPoints": { "barWidget": "BarWidget.qml" },
+  "barWidget": { "displayName": "SUBCULT Bluetooth", "category": "Network", "allowMultiple": false, "defaultSection": "right" }
+}

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+theme=${1:-}
+if [[ $theme != "subcult" ]]; then
+  exit 0
+fi
+
+profile=$(subcult-terminal-profile status)
+SUBCULT_TERMINAL_PROFILE_QUIET=1 subcult-terminal-profile "$profile" --no-reload

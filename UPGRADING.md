@@ -1,5 +1,66 @@
 # Upgrade, rollback, and removal
 
+## Upgrade from Evangelion Rice 1.5 to SUBCULT 2.0
+
+2.0 renames the suite. Every command, plugin, state directory, theme, and
+service moves to the SUBCULT name, and the palettes and wallpapers are new.
+Install it the same way as any release, from an active Omarchy Hyprland session:
+
+```bash
+sha256sum --check subcult-omarchy-rice-2.0.0.tar.gz.sha256
+tar -xzf subcult-omarchy-rice-2.0.0.tar.gz
+cd subcult-omarchy-rice-2.0.0
+./scripts/build-release verify-root .
+./install.sh --dry-run --preset default
+./install.sh --apply --preset default
+omarchy theme set subcult
+```
+
+The dry run lists each old path as `RETIRE` and each shell startup file that
+still sources the Evangelion snippet as `UNHOOK`. When both the `tools` and
+`shell` components are selected, as in the `default` and `full` presets, the
+installer:
+
+- stops and disables `magi-affinity.path`, `magi-affinity.service`,
+  `magi-start-page.service`, and `magi-topology.service`;
+- moves the `evangelion.*` plugins, `magi-*` and `eva-*` commands, their
+  systemd units and Omarchy hooks, `~/.local/lib/evangelion-rice`,
+  `~/.local/share/evangelion-rice`, the Evangelion shell snippets, and the
+  Neovim profile plugin into the transaction snapshot;
+- removes the `# Evangelion Rice` source lines from `~/.bashrc`, `~/.zshrc`,
+  or `~/.config/fish/config.fish`, keeping a copy of the original file;
+- creates `~/.config/omarchy/subcult.json` from your existing
+  `~/.config/omarchy/evangelion.json`;
+- replaces `workspaces.json` and `scenes.json` only if they are byte-identical
+  to the 1.5 defaults, which name retired wallpapers and workspaces. Edited
+  copies are preserved. Update any `unit-*` affinity or `*-eva-*` wallpaper
+  references in them by hand.
+
+Other preserved preferences, such as sound, media, topologies, and visual
+settings, carry over unchanged. Runtime state in
+`~/.local/state/evangelion-rice` is not imported and stays where it is. The
+affinity mode, terminal profile, and operations log start fresh under
+`~/.local/state/subcult-rice`.
+
+Affinity IDs changed: `unit-00-prototype` is now `acid`, `unit-00-refit` is
+`paper`, `unit-01` is `violet`, and `unit-02` is `ink`. `neutral` keeps its ID
+and is labeled Press. The `eva-01` and `magi` terminal profiles are now
+`violet` and `subcult`.
+
+`subcult-migrate preview` covers the remaining complete-file replacements
+(`shell.json` and the three Hyprland files) with the same keep-or-replace
+choices as earlier releases.
+
+To return to Evangelion Rice, roll back the 2.0 install transaction. It moves
+every retired path back and restores the edited shell startup files:
+
+```bash
+./rollback.sh
+```
+
+Then switch the theme back with `omarchy theme set evangelion` if that theme
+directory is still present.
+
 ## Upgrade from v1.5.0 to v1.5.1
 
 Download the v1.5.1 archive and checksum from GitHub Releases, then verify and
@@ -16,7 +77,7 @@ cd evangelion-omarchy-rice-1.5.1
 
 This patch needs no configuration-schema migration. It preserves workspace
 names and user preferences. Reload the shell with `omarchy restart shell` if
-the updated labels are not visible, then check `magi-presentation` twice to
+the updated labels are not visible, then check `subcult-presentation` twice to
 launch and dismiss the layout. Restore the printed installer snapshot with
 `./rollback.sh <snapshot>` if needed.
 
@@ -28,16 +89,16 @@ preserved preferences, every complete-file replacement, ownership, conflicts,
 and the exact decisions still required:
 
 ```bash
-magi-migrate preview
-magi-migrate preview --json
-magi-migrate status --json
+subcult-migrate preview
+subcult-migrate preview --json
+subcult-migrate status --json
 ```
 
 Apply refuses to start until every reported conflict has an explicit `keep` or
 `replace` choice. Conflict IDs come directly from the preview; for example:
 
 ```bash
-magi-migrate apply \
+subcult-migrate apply \
   --resolve shell=replace \
   --resolve hyprland=replace \
   --resolve bindings=keep \
@@ -46,14 +107,14 @@ magi-migrate apply \
 
 `keep` leaves that exact user file untouched. `replace` first captures its
 bytes and permissions. The resulting snapshot path is printed and may be
-restored explicitly with `magi-migrate rollback <snapshot>`. No choice implies
+restored explicitly with `subcult-migrate rollback <snapshot>`. No choice implies
 permission, and there is no “reset everything” fallback.
 
 If power loss or process termination interrupts an apply, the active journal
-blocks additional migrations. Inspect `magi-migrate status --json`, then run
-`magi-migrate recover`. Recovery validates every required backup before
+blocks additional migrations. Inspect `subcult-migrate status --json`, then run
+`subcult-migrate recover`. Recovery validates every required backup before
 restoring anything and returns all touched files to their pre-apply state.
-Static desktop recovery remains separately available through `magi-recovery`.
+Static desktop recovery remains separately available through `subcult-recovery`.
 
 ## Upgrade from v1.4.1 to v1.5
 
@@ -65,10 +126,10 @@ sha256sum --check evangelion-omarchy-rice-1.5.0.tar.gz.sha256
 tar -xzf evangelion-omarchy-rice-1.5.0.tar.gz
 cd evangelion-omarchy-rice-1.5.0
 ./scripts/build-release verify-root .
-magi-migrate preview
+subcult-migrate preview
 ./install.sh --dry-run --preset default
 ./install.sh --apply --preset default
-snapshot=$(cat ~/.local/state/evangelion-rice/last-install-backup)
+snapshot=$(cat ~/.local/state/subcult-rice/last-install-backup)
 ./validate.sh
 ```
 
@@ -79,15 +140,15 @@ visual, scene, and core user configuration. History remains local state and is
 not overwritten. New sound categories, coordinated activity actions, and
 context automation remain disabled until explicitly opted in.
 
-Confirm compact defaults with `magi-disclosure status`, inspect the new private
-archive with `magi-operations-log status`, and preview—not apply—an activity
-mode with `magi-activity-mode preview focus`. To return to the exact pre-v1.5
+Confirm compact defaults with `subcult-disclosure status`, inspect the new private
+archive with `subcult-operations-log status`, and preview—not apply—an activity
+mode with `subcult-activity-mode preview focus`. To return to the exact pre-v1.5
 filesystem state:
 
 ```bash
 ./rollback.sh "$snapshot"
 omarchy restart shell
-systemctl --user restart magi-start-page.service
+systemctl --user restart subcult-start-page.service
 hyprctl reload
 hyprctl configerrors
 ```
@@ -101,7 +162,7 @@ configuration.
 v1.4 preserves the v1.3.1 desktop behavior while adding distribution metadata,
 cross-channel safeguards, and public release packaging. Do not install the
 standalone theme over an existing suite—or the suite over a Git-installed
-standalone theme—because both own the `evangelion` theme path.
+standalone theme—because both own the `subcult` theme path.
 
 Download the new archive and matching checksum from the GitHub release, verify
 them, and preview the same preset or components used previously:
@@ -114,11 +175,11 @@ cd evangelion-omarchy-rice-1.4.1
 ./preflight.py
 ./install.sh --dry-run --preset default
 ./install.sh --apply --preset default
-snapshot=$(cat ~/.local/state/evangelion-rice/last-install-backup)
+snapshot=$(cat ~/.local/state/subcult-rice/last-install-backup)
 ./validate.sh
 ```
 
-Replace `default` with the prior selection. Personal `evangelion.json`, motion,
+Replace `default` with the prior selection. Personal `subcult.json`, motion,
 context, affinity, and profile choices remain preserved. To return to the exact
 pre-v1.4 filesystem state:
 
@@ -132,7 +193,7 @@ hyprctl configerrors
 Git-checkout users may use `git pull --ff-only` instead of downloading an
 archive, after confirming `git status --short` is clean. Arch users must first
 deactivate a source/archive activation, install the package, and then explicitly
-run `evangelion-rice setup`; see `ARCH_PACKAGING.md` and `CROSS_CHANNEL.md`.
+run `subcult-rice setup`; see `ARCH_PACKAGING.md` and `CROSS_CHANNEL.md`.
 
 ## Upgrade from v1.3.0 to v1.3.1
 
@@ -145,12 +206,12 @@ git pull --ff-only
 ./preflight.py
 ./install.sh --dry-run --preset default
 ./install.sh --apply --preset default
-snapshot=$(cat ~/.local/state/evangelion-rice/last-install-backup)
+snapshot=$(cat ~/.local/state/subcult-rice/last-install-backup)
 ./validate.sh
 ```
 
 Replace `default` with the previously installed preset or explicit component
-selection. Personal `evangelion.json`, motion, context automation, and affinity
+selection. Personal `subcult.json`, motion, context automation, and affinity
 mode choices remain preserved. A normal browser refresh fetches versioned,
 no-store start-page assets; clearing Zen or Chromium profile data is not
 required.
@@ -159,7 +220,7 @@ Verify the live semantic projection and restart-free palette path:
 
 ```bash
 curl --fail http://127.0.0.1:8765/api/desktop | jq .
-magi-bar-refresh status | jq .
+subcult-bar-refresh status | jq .
 ```
 
 To restore the exact pre-v1.3.1 files from this transaction:
@@ -167,7 +228,7 @@ To restore the exact pre-v1.3.1 files from this transaction:
 ```bash
 ./rollback.sh "$snapshot"
 omarchy restart shell
-systemctl --user restart magi-start-page.service
+systemctl --user restart subcult-start-page.service
 ```
 
 The restart after rollback is necessary because an older on-disk start-page or
@@ -185,28 +246,28 @@ git pull --ff-only
 ./preflight.py
 ./install.sh --dry-run --preset default
 ./install.sh --apply --preset default
-omarchy theme set evangelion
+omarchy theme set subcult
 ./validate.sh
 ```
 
 Record the exact snapshot printed by `install.sh` before doing anything else:
 
 ```bash
-snapshot=$(cat ~/.local/state/evangelion-rice/last-install-backup)
+snapshot=$(cat ~/.local/state/subcult-rice/last-install-backup)
 test -f "$snapshot/manifest.tsv"
 ```
 
-The transaction preserves `~/.config/omarchy/evangelion.json` and adds missing
+The transaction preserves `~/.config/omarchy/subcult.json` and adds missing
 v1.3 context/ambient defaults in memory without silently opting into automation.
 The context controller ignores unknown persisted schemas until an explicit
 refresh publishes clean schema v1. Verify the new layer without enabling
 automation:
 
 ```bash
-magi-context status --json
-magi-context refresh --json
-magi-context explain
-magi-context-automation preview
+subcult-context status --json
+subcult-context refresh --json
+subcult-context explain
+subcult-context-automation preview
 ```
 
 To return to the exact pre-v1.3 filesystem state, use the recorded snapshot:
@@ -235,14 +296,14 @@ git pull --ff-only
 ./preflight.py
 ./install.sh --dry-run --preset default
 ./install.sh --apply --preset default
-omarchy theme set evangelion
+omarchy theme set subcult
 ./validate.sh
 ```
 
 Replace `default` with `minimal`, `full`, or your prior explicit component
-selection. The transaction preserves `~/.config/omarchy/evangelion.json` and
+selection. The transaction preserves `~/.config/omarchy/subcult.json` and
 the selected `motion.mode`; it adds the coordinated motion token profile and
-dynamic shell services. Verify the resolved setting with `magi-motion show`.
+dynamic shell services. Verify the resolved setting with `subcult-motion show`.
 
 To return to the exact pre-upgrade state, run `./rollback.sh` with the snapshot
 printed by the apply transaction, then run `omarchy restart shell` and
@@ -263,12 +324,12 @@ git pull --ff-only
 
 Apply the preset previously used, or explicit components. The shell component
 moves old `so1omon.*` plugin directories into the rollback snapshot and installs
-public `evangelion.*` IDs. It updates layouts, manifests, QML modules, and
-services together while preserving `~/.config/omarchy/evangelion.json`.
+public `subcult.*` IDs. It updates layouts, manifests, QML modules, and
+services together while preserving `~/.config/omarchy/subcult.json`.
 
 ```bash
 ./install.sh --apply --preset default
-omarchy theme set evangelion
+omarchy theme set subcult
 ./validate.sh
 ```
 
@@ -280,14 +341,14 @@ Failed transactions roll back automatically. To reverse a successful latest
 transaction:
 
 ```bash
-cat ~/.local/state/evangelion-rice/last-install-backup
+cat ~/.local/state/subcult-rice/last-install-backup
 ./rollback.sh
 ```
 
 For an older transaction, inspect its manifest first:
 
 ```bash
-snapshot=~/.local/state/evangelion-rice/install-backups/<snapshot-name>
+snapshot=~/.local/state/subcult-rice/install-backups/<snapshot-name>
 less "$snapshot/manifest.tsv"
 ./rollback.sh "$snapshot"
 ```
@@ -300,12 +361,12 @@ apply transactions, each snapshot represents only its delta:
 
 1. Save personal edits made after installation.
 2. List snapshots newest first with
-   `ls -1dt ~/.local/state/evangelion-rice/install-backups/*`.
+   `ls -1dt ~/.local/state/subcult-rice/install-backups/*`.
 3. Inspect each `manifest.tsv`.
 4. Roll back applicable snapshots newest to oldest until the initial install
    is reversed.
-5. Verify repository source with `EVANGELION_SOURCE_ONLY=1 ./validate.sh`.
-6. Reapply the prior non-Evangelion theme and restart the shell if needed.
+5. Verify repository source with `SUBCULT_SOURCE_ONLY=1 ./validate.sh`.
+6. Reapply the prior non-SUBCULT theme and restart the shell if needed.
 
 Do not recursively delete `~/.config/omarchy`, `~/.config/hypr`, or the backup
 tree. They can contain unrelated data and the only copies of replaced files.

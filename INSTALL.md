@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Evangelion Rice customizes an existing Omarchy installation; it does not install
+SUBCULT Rice customizes an existing Omarchy installation; it does not install
 Arch Linux, Omarchy, Hyprland, or a graphical session. Activation must run as
 the desktop user inside a supported Wayland/Hyprland session.
 
@@ -44,7 +44,7 @@ Preflight reads versions, session state, dependencies, writable targets, free
 space, conflicting services, port 8765, hotkeys, displays, applications,
 batteries, sensors, audio, and networking. It performs no writes.
 
-If `~/.config/omarchy/themes/evangelion` is a Git-installed standalone theme,
+If `~/.config/omarchy/themes/subcult` is a Git-installed standalone theme,
 the suite installer exits read-only with `CHANNEL CONFLICT`. Switch to another
 theme and remove that clone before retrying; the installer never merges suite
 files into another channel's Git tree.
@@ -61,12 +61,12 @@ files into another channel's Git tree.
 
 | Component | Target | Update policy |
 |---|---|---|
-| `theme` | `~/.config/omarchy/themes/evangelion/` | Individual files created/replaced |
-| `tools` | Named MAGI/EVA commands in `~/.local/bin/` | Created/replaced |
-| `shell` | Omarchy plugins, menu, hooks, JSON config | Complete configs replaced; `evangelion.json` preserved |
+| `theme` | `~/.config/omarchy/themes/subcult/` | Individual files created/replaced |
+| `tools` | Named `subcult-*` commands in `~/.local/bin/` | Created/replaced |
+| `shell` | Omarchy plugins, menu, hooks, JSON config | Complete configs replaced; `subcult.json` preserved |
 | `hypr` | `~/.config/hypr/{bindings,hyprland,looknfeel}.lua` | Complete files replaced |
-| `start-page` | `~/.local/share/evangelion-rice/start-page/` | Created/replaced |
-| `services` | `~/.config/systemd/user/magi-*` | Named units replaced and enabled |
+| `start-page` | `~/.local/share/subcult-rice/start-page/` | Created/replaced |
+| `services` | `~/.config/systemd/user/subcult-*` | Named units replaced and enabled |
 | `extras` | Fastfetch and Neovim user config | Named files replaced |
 | `shell-integration` | Shell startup file plus Omarchy scripts | One source stanza appended; scripts replaced |
 | `neon-overdrive` | Optional compatibility plugin | Requires detected external integration |
@@ -83,7 +83,7 @@ a unique snapshot and recorded in `manifest.tsv`; new targets are recorded for
 removal. Copy, activation, or validation errors automatically invoke rollback.
 
 ```text
-~/.local/state/evangelion-rice/install-backups/<timestamp>-<pid>/
+~/.local/state/subcult-rice/install-backups/<timestamp>-<pid>/
 ├── manifest.tsv
 ├── files/
 └── legacy-plugins/
@@ -95,14 +95,14 @@ the dry-run from the same checkout.
 ## First-run verification
 
 ```bash
-omarchy theme set evangelion
+omarchy theme set subcult
 omarchy restart shell
 ./validate.sh
-eva-capabilities | jq .
-systemctl --user --no-pager status magi-affinity.path magi-start-page.service
-magi-start-page open
+subcult-capabilities | jq .
+systemctl --user --no-pager status subcult-affinity.path subcult-start-page.service
+subcult-start-page open
 ```
 
-Cycle the wallpaper with `omarchy theme bg next` and open the MAGI menu with
+Cycle the wallpaper with `omarchy theme bg next` and open the SUBCULT menu with
 `Super + M`. Missing optional widgets should
 collapse rather than leave errors or empty blocks.

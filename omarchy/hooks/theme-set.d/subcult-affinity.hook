@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+[[ ${1:-} == subcult ]] || exit 0
+subcult-affinity apply

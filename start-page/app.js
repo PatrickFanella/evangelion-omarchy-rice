@@ -4,23 +4,23 @@ let currentData = null;
 let densityIndex = 1;
 
 const demoData = {
-  theme: {accent: '#9cf23a', selection: '#6c2b8f', background: '#15111c', dark_background: '#09070d', foreground: '#f2edf5', dark_foreground: '#8f8498', orange: '#f6a52f', cyan: '#4bd7d0', bright_red: '#ff304f'},
+  theme: {accent: '#00ff88', selection: '#6c2b8f', background: '#15111c', dark_background: '#09070d', foreground: '#f2edf5', dark_foreground: '#8f8498', orange: '#f6a52f', cyan: '#4bd7d0', bright_red: '#ff304f'},
   thermal: {available: true, temperature_c: 57, tier: 'nominal'},
   battery: 88,
-  network: {online: true, interface: 'magi-link'},
-  media: {available: true, status: 'Playing', artist: 'NERV SYMPHONIC CHANNEL', title: 'DECISIVE BATTLE', length: 238, position: 76, player: 'demo', volume: 72, players: ['demo']},
-  weather: {available: true, message: 'TOKYO-3 · Temp 24°C · Wind E 12km/h', stale: false},
-  workspace: {available: true, id: 1, label: 'MAGI-01 · MELCHIOR'},
-  affinity: {mode: 'manual', active: 'unit-01', label: 'UNIT-01', state: 'current'},
+  network: {online: true, interface: 'subcult-link'},
+  media: {available: true, status: 'Playing', artist: 'SUBCULT SYMPHONIC CHANNEL', title: 'DECISIVE BATTLE', length: 238, position: 76, player: 'demo', volume: 72, players: ['demo']},
+  weather: {available: true, message: 'LOCAL · Temp 24°C · Wind E 12km/h', stale: false},
+  workspace: {available: true, id: 1, label: 'SUBCULT-01 · PRESS'},
+  affinity: {mode: 'manual', active: 'violet', label: 'VIOLET', state: 'current'},
   profile: 'engineering',
   context: {schema_version: 1, active: true, status: 'mobile', freshness: 'fresh', reason_code: 'mobile-operations', label: 'Mobile operations', facts: {display_mode: 'mobile'}},
   ambient: {schema_version: 1, active: true, band: 'evening', mission: 'work', focus: false, quiet: false, copy: 'MISSION IN PROGRESS', scene_offset: 2},
   disclosure: {mode: 'compact', bounded: true},
   uptime: 273720,
   events: [
-    {time: '19:01:28', type: 'SYSTEM', message: 'MAGI DASHBOARD LINK ESTABLISHED'},
-    {time: '19:01:24', type: 'AFFINITY', message: 'UNIT-01 COLOR LINK'},
-    {time: '19:01:19', type: 'WORKSPACE', message: 'CHANNEL MELCHIOR ACTIVE'},
+    {time: '19:01:28', type: 'SYSTEM', message: 'SUBCULT DASHBOARD LINK ESTABLISHED'},
+    {time: '19:01:24', type: 'AFFINITY', message: 'VIOLET COLOR LINK'},
+    {time: '19:01:19', type: 'WORKSPACE', message: 'CHANNEL PRESS ACTIVE'},
   ],
 };
 
@@ -71,16 +71,16 @@ function health(data) {
   return [batteryOkay, thermalOkay, data.network.online];
 }
 
-function paintMagi(data) {
+function paintSubcult(data) {
   const votes = health(data);
   const count = votes.filter(Boolean).length;
   const state = count === 3 ? 'nominal' : count === 2 ? 'warning' : 'critical';
-  $('magi-card').className = `hero magi-card ${state}`;
-  $('magi-chip').textContent = count === 3 ? 'UNANIMOUS' : `${count}/3 ACCEPT`;
-  $('magi-verdict').textContent = count === 3 ? 'ALL SYSTEMS NOMINAL' : count === 2 ? 'CONDITIONAL OPERATION' : 'SYSTEM INTERVENTION';
-  $('magi-percent').textContent = `${Math.round(count / 3 * 100).toString().padStart(3, '0')}%`;
-  [$('magi-1'), $('magi-2'), $('magi-3')].forEach((node, index) => node.textContent = votes[index] ? 'ACCEPT' : 'REJECT');
-  document.querySelectorAll('.magi > div').forEach((node, index) => node.classList.toggle('reject', !votes[index]));
+  $('subcult-card').className = `hero subcult-card ${state}`;
+  $('subcult-chip').textContent = count === 3 ? 'UNANIMOUS' : `${count}/3 ACCEPT`;
+  $('subcult-verdict').textContent = count === 3 ? 'ALL SYSTEMS NOMINAL' : count === 2 ? 'CONDITIONAL OPERATION' : 'SYSTEM INTERVENTION';
+  $('subcult-percent').textContent = `${Math.round(count / 3 * 100).toString().padStart(3, '0')}%`;
+  [$('subcult-1'), $('subcult-2'), $('subcult-3')].forEach((node, index) => node.textContent = votes[index] ? 'ACCEPT' : 'REJECT');
+  document.querySelectorAll('.subcult > div').forEach((node, index) => node.classList.toggle('reject', !votes[index]));
 }
 
 function paintTelemetry(data) {
@@ -146,7 +146,7 @@ function paintAmbient(ambient) {
   document.body.dataset.ambient = active ? String(ambient.band || 'baseline') : 'baseline';
   document.body.classList.toggle('ambient-focus', active && ambient.focus === true);
   document.body.classList.toggle('ambient-quiet', active && ambient.quiet === true);
-  $('ambient-copy').textContent = active ? String(ambient.copy || 'NERV // CENTRAL COMMAND').toUpperCase() : 'NERV // CENTRAL COMMAND';
+  $('ambient-copy').textContent = active ? String(ambient.copy || 'SUBCULT // CENTRAL COMMAND').toUpperCase() : 'SUBCULT // CENTRAL COMMAND';
 }
 
 function paintEvents(events) {
@@ -165,7 +165,7 @@ async function sync() {
     currentData = data;
     const map = {background: 'bg', dark_background: 'dark', foreground: 'fg', dark_foreground: 'muted', bright_red: 'red'};
     Object.entries(data.theme).forEach(([key, value]) => document.documentElement.style.setProperty(`--${map[key] || key}`, value));
-    paintMagi(data); paintTelemetry(data); paintMedia(data.media); paintWeather(data.weather); paintRail(data); paintContext(data.context); paintAmbient(data.ambient); paintEvents(data.events); paintAlert(data);
+    paintSubcult(data); paintTelemetry(data); paintMedia(data.media); paintWeather(data.weather); paintRail(data); paintContext(data.context); paintAmbient(data.ambient); paintEvents(data.events); paintAlert(data);
     $('sync').textContent = data.affinity?.state === 'current' ? 'SYNCHRONIZED' : `PALETTE ${(data.affinity?.state || 'unavailable').toUpperCase()}`;
   } catch (error) {
     $('sync').textContent = 'LOCAL DATA UNAVAILABLE';
@@ -208,7 +208,7 @@ function cycleDensity() {
   densityIndex = (densityIndex + 1) % modes.length;
   document.body.dataset.density = modes[densityIndex];
   $('density-toggle').textContent = `DENSITY // ${modes[densityIndex].slice(0, 3).toUpperCase()}`;
-  localStorage.setItem('nerv-density', modes[densityIndex]);
+  localStorage.setItem('subcult-density', modes[densityIndex]);
 }
 
 const paletteCommands = [
@@ -260,10 +260,10 @@ document.addEventListener('pointermove', event => {
   document.documentElement.style.setProperty('--pointer-y', `${event.clientY / innerHeight * 100}%`);
 });
 
-const savedDensity = localStorage.getItem('nerv-density');
+const savedDensity = localStorage.getItem('subcult-density');
 if (['compact', 'standard', 'command'].includes(savedDensity)) { densityIndex = ['compact', 'standard', 'command'].indexOf(savedDensity); document.body.dataset.density = savedDensity; $('density-toggle').textContent = `DENSITY // ${savedDensity.slice(0, 3).toUpperCase()}`; }
 clock(); sync(); setInterval(clock, 1000); setInterval(syncDesktop, 2000); setInterval(sync, 30000);
 setTimeout(() => $('boot-copy').textContent = 'CONNECTING TELEMETRY BUS', 450);
-setTimeout(() => $('boot-copy').textContent = 'MAGI CONSENSUS CONFIRMED', 950);
+setTimeout(() => $('boot-copy').textContent = 'SUBCULT CONSENSUS CONFIRMED', 950);
 setTimeout(() => $('boot-sequence').classList.add('complete'), 1450);
 setTimeout(() => $('boot-sequence').remove(), 2200);

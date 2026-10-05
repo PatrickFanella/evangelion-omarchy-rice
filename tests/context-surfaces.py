@@ -9,24 +9,24 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-COMMAND = ROOT / "bin/magi-context"
+COMMAND = ROOT / "bin/subcult-context"
 SURFACES = {
-    "mode OSD": ROOT / "omarchy/plugins/evangelion.mode-transition/Service.qml",
-    "notifications": ROOT / "omarchy/plugins/evangelion.notifications/Service.qml",
+    "mode OSD": ROOT / "omarchy/plugins/subcult.mode-transition/Service.qml",
+    "notifications": ROOT / "omarchy/plugins/subcult.notifications/Service.qml",
     "start page": ROOT / "start-page/server.py",
-    "screensaver": ROOT / "bin/magi-screensaver",
+    "screensaver": ROOT / "bin/subcult-screensaver",
 }
 
 
 def main():
     for name, path in SURFACES.items():
         source = path.read_text()
-        assert 'magi-context", "surface", "--json", "--compact"' in source or \
-               '"magi-context","surface","--json","--compact"' in source, f"{name} bypasses shared projection"
-        projection_area = source[source.find("magi-context") - 800:source.find("magi-context") + 300]
+        assert 'subcult-context", "surface", "--json", "--compact"' in source or \
+               '"subcult-context","surface","--json","--compact"' in source, f"{name} bypasses shared projection"
+        projection_area = source[source.find("subcult-context") - 800:source.find("subcult-context") + 300]
         assert "nmcli" not in projection_area and "/sys/class/power_supply" not in projection_area, f"{name} context adapter duplicates detection"
 
-    card = (ROOT / "omarchy/plugins/evangelion.notifications/components/NotificationCard.qml").read_text()
+    card = (ROOT / "omarchy/plugins/subcult.notifications/components/NotificationCard.qml").read_text()
     assert "contextSurface.active" in card and "urgency === 0" in card
     osd = SURFACES["mode OSD"].read_text()
     assert "width:Math.min(440,parent.width-32); height:104" in osd

@@ -14,9 +14,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "test-results/context-observation.json"
-COMMAND = shutil.which("magi-context")
+COMMAND = shutil.which("subcult-context")
 STATE_HOME = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state"))
-CONTEXT_DIR = STATE_HOME / "evangelion-rice/context"
+CONTEXT_DIR = STATE_HOME / "subcult-rice/context"
 TRACKED = (CONTEXT_DIR / "state.json", CONTEXT_DIR / "requests.json",
            CONTEXT_DIR / "controller.lock")
 
@@ -61,7 +61,7 @@ def percentile(values, fraction):
 
 def main():
     if not COMMAND:
-        raise SystemExit("magi-context is not installed")
+        raise SystemExit("subcult-context is not installed")
     saved = {path: snapshot(path) for path in TRACKED}
     before_cpu = resource.getrusage(resource.RUSAGE_CHILDREN)
     timings = []
@@ -77,7 +77,7 @@ def main():
 
         idle_before = snapshot(CONTEXT_DIR / "state.json")
         for _ in range(60):
-            probe = subprocess.run(["pgrep", "-x", "magi-context"], capture_output=True)
+            probe = subprocess.run(["pgrep", "-x", "subcult-context"], capture_output=True)
             idle_process_observations += probe.returncode == 0
             time.sleep(0.05)
         idle_after = snapshot(CONTEXT_DIR / "state.json")

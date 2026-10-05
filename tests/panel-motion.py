@@ -15,11 +15,11 @@ def read(plugin, relative="BarWidget.qml"):
 
 
 def main():
-    popup = read("evangelion.motion", "MotionPopupCard.qml")
+    popup = read("subcult.motion", "MotionPopupCard.qml")
     participants = ("media", "privacy", "communications", "health", "mission", "world-clock", "context")
     for name in participants:
-        source = read(f"evangelion.{name}")
-        assert 'import "../evangelion.motion" as Motion' in source, name
+        source = read(f"subcult.{name}")
+        assert 'import "../subcult.motion" as Motion' in source, name
         assert "Motion.MotionPopupCard" in source, name
         assert "PopupCard" not in source.replace("Motion.MotionPopupCard", ""), name
 
@@ -31,14 +31,14 @@ def main():
     assert "scale:" not in popup and "Behavior on x" not in popup and "Behavior on y" not in popup
     assert "if (open) bar.requestPopout" in popup and "bar.releasePopout" in popup
 
-    clipboard = read("evangelion.clipboard", "Clipboard.qml")
+    clipboard = read("subcult.clipboard", "Clipboard.qml")
     assert "root.panelReady = false\n    root.opened = false" in clipboard
     assert "root.panelReady = true\n      keyCatcher.forceActiveFocus()" in clipboard
     assert "opacity: motion.off || root.panelReady ? 1 : 0" in clipboard
     assert "if (root.clearConfirmOpen)" in clipboard and "clearConfirm.handleKey(event)" in clipboard
     assert "onConfirmed: root.confirmClearHistory()" in clipboard
 
-    power = read("evangelion.power", "Panel.qml")
+    power = read("subcult.power", "Panel.qml")
     assert "running: motion.full && root.opened && root.rotatingPhrases" in power
     assert "running: motion.full && root.charging" in power
     assert "Behavior on width { enabled: motion.full" in power

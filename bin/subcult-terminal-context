@@ -1,0 +1,245 @@
+#!/usr/bin/env python3
+"""Detect and apply isolated, launch-time SUBCULT terminal profiles."""
+
+import argparse
+import json
+import os
+import shlex
+import subprocess
+import sys
+from pathlib import Path
+
+CONFIG = Path.home() / ".config/omarchy/subcult-terminal-context.json"
+STATE = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state")) / "subcult-rice/context-profiles"
+PROFILES = {
+    "violet": {"tag": "VIOLET", "background": "150D24", "foreground": "F0ECE4", "muted": "6A5A8C", "selection": "4C2F99", "accent": "B69CFF"},
+    "subcult": {"tag": "SUBCULT", "background": "100B19", "foreground": "F0ECE4", "muted": "5E5570", "selection": "3B2470", "accent": "00FF88"},
+    "engineering": {"tag": "ENG", "background": "160D07", "foreground": "F1E4D6", "muted": "806752", "selection": "633417", "accent": "F28C28"},
+    "acid": {"tag": "ACID", "background": "08130E", "foreground": "EAF5EE", "muted": "4E6B5E", "selection": "0F4A33", "accent": "00FF88"},
+    "paper": {"tag": "PAPER", "background": "15120E", "foreground": "F0ECE4", "muted": "7A7064", "selection": "4A4033", "accent": "F0ECE4"},
+    "ink": {"tag": "INK", "background": "0A0712", "foreground": "E9E6F0", "muted": "55506A", "selection": "2E2448", "accent": "A78BFA"},
+}
+ALIASES = {"purple": "violet", "press": "subcult", "green": "subcult", "orange": "engineering", "lime": "acid", "cream": "paper", "black": "ink"}
+
+
+def config():
+    try:
+        value = json.loads(CONFIG.read_text())
+        return value if isinstance(value, dict) else {}
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def normalize(profile):
+    profile = ALIASES.get(profile, profile)
+    if profile not in PROFILES:
+        raise ValueError(f"unknown profile: {profile}")
+    return profile
+
+
+def within(path, root):
+    try:
+        path.relative_to(root)
+        return True
+    except ValueError:
+        return False
+
+
+def detect(directory):
+    override = os.environ.get("SUBCULT_TERMINAL_PROFILE_OVERRIDE", "")
+    if override:
+        try:
+            return normalize(override), "manual environment override"
+        except ValueError:
+            pass
+    path = Path(directory).expanduser().resolve()
+    rules = config()
+    candidates = []
+    for rule in rules.get("path_rules", []):
+        try:
+            root = Path(os.path.expandvars(os.path.expanduser(rule["path"]))).resolve()
+            profile = normalize(rule["profile"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if within(path, root):
+            candidates.append((len(root.parts), profile, f"path {root}"))
+    if candidates:
+        _, profile, reason = max(candidates)
+        return profile, reason
+    for parent in (path, *path.parents):
+        for rule in rules.get("marker_rules", []):
+            try:
+                profile = normalize(rule["profile"])
+                markers = [str(marker) for marker in rule["markers"]]
+            except (KeyError, TypeError, ValueError):
+                continue
+            for marker in markers:
+                if (parent / marker).exists():
+                    return profile, f"marker {marker} at {parent}"
+    return "", "no matching rule"
+
+
+def global_profile():
+    try:
+        value = subprocess.run(["subcult-terminal-profile", "status"], text=True, capture_output=True, timeout=2).stdout.strip()
+        return normalize(value)
+    except (OSError, subprocess.SubprocessError, ValueError):
+        return "violet"
+
+
+def starship(profile):
+    palette = PROFILES[profile]
+    directory = STATE / profile
+    directory.mkdir(parents=True, exist_ok=True)
+    path = directory / "starship.toml"
+    content = f'''add_newline = true
+command_timeout = 200
+format = "[{palette['tag']} //](bold #{palette['accent']}) [$directory$git_branch$git_status](#{palette['foreground']})$character"
+
+[character]
+error_symbol = "[✗](bold #FF4055)"
+success_symbol = "[❯](bold #{palette['accent']})"
+
+[directory]
+truncation_length = 2
+truncation_symbol = "…/"
+style = "bold #{palette['accent']}"
+repo_root_style = "bold #{palette['accent']}"
+repo_root_format = "[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) "
+
+[git_branch]
+format = "[$branch]($style) "
+style = "italic #{palette['accent']}"
+
+[git_status]
+format = '[$all_status]($style)'
+style = "#{palette['accent']}"
+ahead = "⇡${{count}} "
+diverged = "⇕⇡${{ahead_count}}⇣${{behind_count}} "
+behind = "⇣${{count}} "
+conflicted = " "
+up_to_date = " "
+untracked = "? "
+modified = " "
+stashed = ""
+staged = ""
+renamed = ""
+deleted = ""
+'''
+    if not path.exists() or path.read_text() != content:
+        path.write_text(content)
+    return path
+
+
+def shell_environment(profile, manual=True):
+    palette = PROFILES[profile]
+    prompt = starship(profile)
+    sequences = (
+        f"\\033]10;#{palette['foreground']}\\007"
+        f"\\033]11;#{palette['background']}\\007"
+        f"\\033]12;#{palette['accent']}\\007"
+        f"\\033]17;#{palette['selection']}\\007"
+        f"\\033]19;#FFFFFF\\007"
+    )
+    lines = [
+        f"export STARSHIP_CONFIG={shlex.quote(str(prompt))}",
+        f"export SUBCULT_TERMINAL_CONTEXT_PROFILE={shlex.quote(profile)}",
+    ]
+    if manual:
+        lines.append(f"export SUBCULT_TERMINAL_PROFILE_OVERRIDE={shlex.quote(profile)}")
+    else:
+        lines.append("unset SUBCULT_TERMINAL_PROFILE_OVERRIDE")
+    lines.append(f"printf {shlex.quote(sequences)}")
+    return "\n".join(lines)
+
+
+def bashrc(profile):
+    directory = STATE / profile
+    directory.mkdir(parents=True, exist_ok=True)
+    path = directory / "bashrc"
+    content = f'''[[ -r $HOME/.bashrc ]] && source "$HOME/.bashrc"
+eval "$(subcult-terminal-context env {shlex.quote(profile)} --directory "$PWD")"
+'''
+    if not path.exists() or path.read_text() != content:
+        path.write_text(content)
+    return path
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Context-aware SUBCULT terminal profiles")
+    sub = parser.add_subparsers(dest="command", required=True)
+    detect_parser = sub.add_parser("detect")
+    detect_parser.add_argument("directory", nargs="?", default=os.getcwd())
+    detect_parser.add_argument("--json", action="store_true")
+    env_parser = sub.add_parser("env")
+    env_parser.add_argument("profile", nargs="?", default="auto")
+    env_parser.add_argument("--directory", default=os.getcwd())
+    launch_parser = sub.add_parser("launch")
+    launch_parser.add_argument("directory", nargs="?", default="")
+    launch_parser.add_argument("--profile", default="auto")
+    launch_parser.add_argument("--dry-run", action="store_true")
+    sub.add_parser("status")
+    sub.add_parser("list")
+    args = parser.parse_args()
+
+    if args.command == "list":
+        print("\n".join(PROFILES))
+        return 0
+    if args.command == "status":
+        print(os.environ.get("SUBCULT_TERMINAL_CONTEXT_PROFILE", global_profile()))
+        return 0
+    if args.command == "detect":
+        profile, reason = detect(args.directory)
+        if args.json:
+            print(json.dumps({"directory": str(Path(args.directory).expanduser().resolve()), "profile": profile or None, "reason": reason}, separators=(",", ":")))
+        elif profile:
+            print(profile)
+        return 0
+    if args.command == "env":
+        manual = args.profile not in {"auto", "default"}
+        if args.profile == "auto":
+            profile, _ = detect(args.directory)
+            profile = profile or global_profile()
+        elif args.profile == "default":
+            profile = global_profile()
+        else:
+            try:
+                profile = normalize(args.profile)
+            except ValueError as error:
+                print(error, file=sys.stderr)
+                return 2
+        print(shell_environment(profile, manual))
+        return 0
+    directory = Path(args.directory).expanduser().resolve() if args.directory else Path(subprocess.run(["omarchy-cmd-terminal-cwd"], text=True, capture_output=True).stdout.strip() or Path.home()).resolve()
+    if args.profile == "auto":
+        profile, _ = detect(directory)
+    else:
+        try:
+            profile = normalize(args.profile)
+        except ValueError as error:
+            print(error, file=sys.stderr)
+            return 2
+    if not profile:
+        if args.dry_run:
+            print(json.dumps({"directory": str(directory), "profile": None, "action": "packaged default"}, separators=(",", ":")))
+            return 0
+        os.execv("/usr/share/omarchy/bin/omarchy-launch-terminal", ["omarchy-launch-terminal"])
+    try:
+        login_shell = subprocess.run(["subcult-user-config", "shell"], text=True, capture_output=True, timeout=2, check=True).stdout.strip()
+    except (OSError, subprocess.SubprocessError):
+        print("No configured login shell is available; edit ~/.config/omarchy/subcult.json", file=sys.stderr)
+        return 1
+    if args.dry_run:
+        print(json.dumps({"directory": str(directory), "profile": profile, "shell": login_shell, "action": "isolated context launch"}, separators=(",", ":")))
+        return 0
+    subprocess.run(["omarchy-shell", "-q", "mode-transition", "show", "terminal-context", "entering", f"{profile} · isolated launch"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    environment = os.environ.copy()
+    environment["STARSHIP_CONFIG"] = str(starship(profile))
+    environment["SUBCULT_TERMINAL_CONTEXT_PROFILE"] = profile
+    environment["SUBCULT_TERMINAL_PROFILE_OVERRIDE"] = profile
+    os.chdir(directory)
+    os.execve("/usr/share/omarchy/bin/omarchy-launch-terminal", ["omarchy-launch-terminal", "--", login_shell, "-l"], environment)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

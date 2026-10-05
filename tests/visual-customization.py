@@ -3,10 +3,10 @@
 import json, os, stat, subprocess, tempfile
 from pathlib import Path
 
-ROOT=Path(__file__).resolve().parents[1]; BIN=ROOT/"bin/magi-visual"
+ROOT=Path(__file__).resolve().parents[1]; BIN=ROOT/"bin/subcult-visual"
 with tempfile.TemporaryDirectory() as raw:
  home=Path(raw)/"home"; config=home/".config/omarchy/visual.json"
- env={**os.environ,"EVA_VISUAL_HOME":str(home),"EVA_VISUAL_DEFAULT":str(ROOT/"omarchy/visual.json"),"EVA_VISUAL_SKIP_ACTIVATE":"1"}
+ env={**os.environ,"SUBCULT_VISUAL_HOME":str(home),"SUBCULT_VISUAL_DEFAULT":str(ROOT/"omarchy/visual.json"),"SUBCULT_VISUAL_SKIP_ACTIVATE":"1"}
  def run(*args,ok=True):
   value=subprocess.run([str(BIN),*args],env=env,text=True,capture_output=True)
   if ok:assert value.returncode==0,value.stderr
@@ -23,11 +23,11 @@ with tempfile.TemporaryDirectory() as raw:
 
 schema=json.loads((ROOT/"omarchy/settings-schema.json").read_text())
 visual=[row for row in schema["settings"] if row["id"].startswith("visual.")]
-assert len(visual)==9 and all(row["snapshot"]=="settings" and row["command"]=="magi-visual" for row in visual)
+assert len(visual)==9 and all(row["snapshot"]=="settings" and row["command"]=="subcult-visual" for row in visual)
 hypr=(ROOT/"hypr/looknfeel.lua").read_text()
 for phrase in ("visual_config", "gap_profiles", "border_profiles", "blur_profiles", "opacity_profiles", "animation_profiles", "profile.blur and visual_blur[1]"):
  assert phrase in hypr
-qml=(ROOT/"omarchy/plugins/evangelion.settings/Service.qml").read_text()
+qml=(ROOT/"omarchy/plugins/subcult.settings/Service.qml").read_text()
 for phrase in ("densityScale","fontScale","panelAlpha","accentAlpha","rowHeight","Flickable","clip:true","revealSelection"):
  assert phrase in qml
 manifest=json.loads((ROOT/"omarchy/snapshot-manifest.json").read_text())

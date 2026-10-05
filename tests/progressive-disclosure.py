@@ -2,9 +2,9 @@
 """Bounded persistence, calm defaults, safety visibility, input, and layout contracts."""
 import json,os,stat,subprocess,tempfile
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1];CLI=ROOT/"bin/magi-disclosure";DEFAULT=ROOT/"omarchy/disclosure.json"
+ROOT=Path(__file__).resolve().parents[1];CLI=ROOT/"bin/subcult-disclosure";DEFAULT=ROOT/"omarchy/disclosure.json"
 with tempfile.TemporaryDirectory() as raw:
- config=Path(raw)/"disclosure.json";env={**os.environ,"EVA_DISCLOSURE_CONFIG":str(config)}
+ config=Path(raw)/"disclosure.json";env={**os.environ,"SUBCULT_DISCLOSURE_CONFIG":str(config)}
  def run(*args,ok=True):
   value=subprocess.run([str(CLI),*args],env=env,text=True,capture_output=True)
   if ok:assert value.returncode==0,value.stderr
@@ -17,9 +17,9 @@ with tempfile.TemporaryDirectory() as raw:
  reset=value("reset");assert set(reset["surfaces"].values())=={"compact"}
  config.write_text('{"schema_version":1,"surfaces":{"context":"hidden"}}');assert run("status",ok=False).returncode!=0
 
-context=(ROOT/"omarchy/plugins/evangelion.context/BarWidget.qml").read_text();health=(ROOT/"omarchy/plugins/evangelion.health/BarWidget.qml").read_text();ops=(ROOT/"omarchy/plugins/evangelion.operations-log/Service.qml").read_text();html=(ROOT/"start-page/index.html").read_text();js=(ROOT/"start-page/app.js").read_text();css=(ROOT/"start-page/style.css").read_text();server=(ROOT/"start-page/server.py").read_text()
+context=(ROOT/"omarchy/plugins/subcult.context/BarWidget.qml").read_text();health=(ROOT/"omarchy/plugins/subcult.health/BarWidget.qml").read_text();ops=(ROOT/"omarchy/plugins/subcult.operations-log/Service.qml").read_text();html=(ROOT/"start-page/index.html").read_text();js=(ROOT/"start-page/app.js").read_text();css=(ROOT/"start-page/style.css").read_text();server=(ROOT/"start-page/server.py").read_text()
 for source,surface in ((context,"context"),(health,"health"),(ops,"operations-log")):
- assert "magi-disclosure" in source and surface in source
+ assert "subcult-disclosure" in source and surface in source
  assert "height:Style.space(44)" in source if surface!="operations-log" else "Layout.preferredHeight:44" in source
 assert 'row.tier==="warning"||row.tier==="critical"' in health
 assert "root.statusTitle()" in context and "derived_state?.summary" in context and "root.safeRecommendations()" in context

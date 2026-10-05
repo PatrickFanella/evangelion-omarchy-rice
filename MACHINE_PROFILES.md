@@ -4,13 +4,13 @@ Portable machine profiles transfer operating and display-layout preferences
 without transferring machine identity or private state.
 
 ```bash
-magi-machine-profile export ~/evangelion-machine.json
-magi-machine-profile import ~/evangelion-machine.json
-magi-machine-profile import ~/evangelion-machine.json --confirm PLAN_ID
-magi-machine-profile rollback TRANSACTION_ID
+subcult-machine-profile export ~/subcult-machine.json
+subcult-machine-profile import ~/subcult-machine.json
+subcult-machine-profile import ~/subcult-machine.json --confirm PLAN_ID
+subcult-machine-profile rollback TRANSACTION_ID
 ```
 
-Exported bundles use the versioned `evangelion-machine-profile` schema. The
+Exported bundles use the versioned `subcult-machine-profile` schema. The
 export report accounts for removed connector/device identifiers, display
 descriptions, hardware fingerprints, window addresses, paths, accounts,
 weather location, and private runtime state. Files are written atomically with

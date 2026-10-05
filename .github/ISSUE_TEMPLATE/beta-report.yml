@@ -30,7 +30,7 @@ body:
     id: schema
     attributes:
       label: Report schema
-      options: ["2 — evangelion-community-compatibility"]
+      options: ["2 — subcult-community-compatibility"]
     validations:
       required: true
   - type: input

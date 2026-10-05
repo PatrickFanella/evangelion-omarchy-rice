@@ -1,9 +1,9 @@
-# Global MAGI command palette
+# Global SUBCULT command palette
 
 Press `Super + Ctrl + Alt + M` anywhere in the desktop to open the global
 keyboard-first palette. Type freely, use Up/Down to select, Enter to launch,
 and Escape to close. The chord is deliberately separate from Omarchy's stock
-bindings and from `Super + M`, which continues to open the hierarchical MAGI
+bindings and from `Super + M`, which continues to open the hierarchical SUBCULT
 menu.
 
 Results come from the versioned `commands.json` metadata registry plus every
@@ -26,9 +26,9 @@ search results, and execution uses argument arrays rather than a shell.
 The backend can also be inspected without opening the overlay:
 
 ```bash
-magi-command-palette registry
-magi-command-palette search "sys helth" --json
-magi-command-palette prepare system.reboot
+subcult-command-palette registry
+subcult-command-palette search "sys helth" --json
+subcult-command-palette prepare system.reboot
 ```
 
 Direct execution of a confirmation-required action is rejected unless it uses

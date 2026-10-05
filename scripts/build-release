@@ -73,11 +73,11 @@ def add_bytes(tar, name, data, mode, timestamp):
 def build(ref, output):
     commit, timestamp, version = tag_details(ref)
     files = source_files(ref)
-    prefix = f"evangelion-omarchy-rice-{version}"
+    prefix = f"subcult-omarchy-rice-{version}"
     payload = [(path, blob(ref, path), git_mode(ref, path)) for path in files]
     provenance = {
         "schema_version": 1,
-        "project": "evangelion-omarchy-rice",
+        "project": "subcult-omarchy-rice",
         "version": version,
         "tag": ref,
         "commit": commit,
@@ -150,7 +150,7 @@ def verify(archive):
     fields = checksum_file.read_text().strip().split()
     if len(fields) != 2 or fields[1] != archive.name or fields[0] != digest(archive.read_bytes()):
         raise SystemExit("archive checksum mismatch")
-    with tempfile.TemporaryDirectory(prefix="evangelion-release-verify-") as raw:
+    with tempfile.TemporaryDirectory(prefix="subcult-release-verify-") as raw:
         target = Path(raw)
         with tarfile.open(archive, "r:gz") as tar:
             members = safe_members(tar)

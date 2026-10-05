@@ -41,12 +41,12 @@ def main():
                    "ThinkPad T480", "Support covers", "1280×720", "320×480"):
         assert phrase in readme, f"support statement missing: {phrase}"
     for key in ("terminal", "editor", "browser", "project_dir", "shell", "weather",
-                "operating-profiles.json", "motion.mode", "magi-motion", "magi-context", "context", "Cava", "Neon"):
+                "operating-profiles.json", "motion.mode", "subcult-motion", "subcult-context", "context", "Cava", "Neon"):
         assert key.lower() in config.lower(), f"configuration topic missing: {key}"
     for topic in ("Shell", "plugins", "Services", "Wallpaper", "Weather", "Media",
                   "Cava", "temperature", "Hotkey"):
         assert topic.lower() in trouble.lower(), f"troubleshooting topic missing: {topic}"
-    for phrase in ("so1omon.*", "evangelion.*", "rollback", "uninstall", "newest to oldest"):
+    for phrase in ("so1omon.*", "subcult.*", "rollback", "uninstall", "newest to oldest"):
         assert phrase.lower() in upgrade.lower(), f"upgrade/recovery topic missing: {phrase}"
     for stale in ("responsive-layout work remains", "Bash integration currently provided"):
         assert stale not in readme, f"stale public claim remains: {stale}"
@@ -65,7 +65,7 @@ def main():
     distribution_guide = text("DISTRIBUTION_GUIDE.md")
     maintaining = text("MAINTAINING.md")
     release_notes = text("RELEASE_NOTES.md")
-    for phrase in ("Just the look", "Complete MAGI desktop", "Managed Arch package",
+    for phrase in ("Just the look", "Complete SUBCULT desktop", "Managed Arch package",
                    "suite-internal", "not a published runtime", "Switching channels",
                    "prerequisites", "rollback", "removal", "Support covers"):
         assert phrase.lower() in distribution_guide.lower(), f"distribution guidance missing: {phrase}"

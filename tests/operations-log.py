@@ -4,11 +4,11 @@ import json,os,stat,subprocess,tempfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-ROOT=Path(__file__).resolve().parents[1];CLI=ROOT/"bin/magi-operations-log"
+ROOT=Path(__file__).resolve().parents[1];CLI=ROOT/"bin/subcult-operations-log"
 with tempfile.TemporaryDirectory() as raw:
  base=Path(raw);home=base/"home";home.mkdir();state=base/"state";config=base/"operations.json";exported=base/"export.json"
  config.write_text((ROOT/"omarchy/operations-log.json").read_text())
- env={**os.environ,"HOME":str(home),"EVA_OPERATIONS_STATE":str(state),"EVA_OPERATIONS_CONFIG":str(config)}
+ env={**os.environ,"HOME":str(home),"SUBCULT_OPERATIONS_STATE":str(state),"SUBCULT_OPERATIONS_CONFIG":str(config)}
  def run(*args,ok=True):
   value=subprocess.run([str(CLI),*args],env=env,text=True,capture_output=True)
   if ok:assert value.returncode==0,value.stderr
@@ -33,9 +33,9 @@ with tempfile.TemporaryDirectory() as raw:
  unavailable=value("record","system","Open health","--action","health.open");stub=base/"empty-bin";stub.mkdir();(stub/"python3").symlink_to("/usr/bin/python3");offline={**env,"PATH":str(stub)}
  invoked=subprocess.run([str(CLI),"invoke",unavailable["id"]],env=offline,text=True,capture_output=True);assert invoked.returncode==0 and json.loads(invoked.stdout)["status"]=="unavailable"
 
-panel=(ROOT/"omarchy/plugins/evangelion.operations-log/Service.qml").read_text();bindings=(ROOT/"hypr/bindings.lua").read_text();notifications=(ROOT/"omarchy/plugins/evangelion.notifications/Service.qml").read_text();start=(ROOT/"start-page/server.py").read_text()
+panel=(ROOT/"omarchy/plugins/subcult.operations-log/Service.qml").read_text();bindings=(ROOT/"hypr/bindings.lua").read_text();notifications=(ROOT/"omarchy/plugins/subcult.notifications/Service.qml").read_text();start=(ROOT/"start-page/server.py").read_text()
 for contract in ("WlrKeyboardFocus.Exclusive","Accessible.name","Qt.Key_Up","Qt.Key_Down","Qt.Key_Return","Qt.Key_C","Qt.Key_E","Qt.Key_Escape","clear-plan","invoke"):assert contract in panel
-assert '"SUPER + CTRL + ALT + O"' in bindings and "magi-operations-log" in bindings
-assert "magi-operations-log" in notifications and "record_operation" in start and "except OSError" in start
-shell=json.loads((ROOT/"omarchy/shell.json").read_text());assert any(item["id"]=="evangelion.operations-log" for item in shell["plugins"])
+assert '"SUPER + CTRL + ALT + O"' in bindings and "subcult-operations-log" in bindings
+assert "subcult-operations-log" in notifications and "record_operation" in start and "except OSError" in start
+shell=json.loads((ROOT/"omarchy/shell.json").read_text());assert any(item["id"]=="subcult.operations-log" for item in shell["plugins"])
 print("PASS  bounded privacy-sanitized concurrent operations log with keyboard clear export actions and offline behavior")

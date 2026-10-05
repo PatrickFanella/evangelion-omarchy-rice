@@ -13,7 +13,7 @@ OUTPUT = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "test-results/respon
 
 def geometry(monitor):
     result = subprocess.run(
-        [str(ROOT / "bin/magi-presentation"), "--print-geometry", json.dumps(monitor), "left", "43", "38"],
+        [str(ROOT / "bin/subcult-presentation"), "--print-geometry", json.dumps(monitor), "left", "43", "38"],
         text=True, capture_output=True, check=True,
     )
     return json.loads(result.stdout)
@@ -40,14 +40,14 @@ def check_profile(profile):
 
 
 def source_checks():
-    workspaces = (ROOT / "omarchy/plugins/evangelion.workspaces/Workspaces.qml").read_text()
-    lock = (ROOT / "omarchy/plugins/evangelion.lock/LockView.qml").read_text()
-    notifications = (ROOT / "omarchy/plugins/evangelion.notifications/components/NotificationCard.qml").read_text()
+    workspaces = (ROOT / "omarchy/plugins/subcult.workspaces/Workspaces.qml").read_text()
+    lock = (ROOT / "omarchy/plugins/subcult.lock/LockView.qml").read_text()
+    notifications = (ROOT / "omarchy/plugins/subcult.notifications/components/NotificationCard.qml").read_text()
     assert "minimalBar" in workspaces and "compactBar" in workspaces
     assert "parent.width - 32" in lock and "parent.height - 48" in lock
     assert "Screen.width - Style.space(24)" in notifications
-    for plugin in ("workspace-osd", "device-osd", "power-sequence", "magi-idle", "angel-intrusion", "update-operation"):
-        source = (ROOT / f"omarchy/plugins/evangelion.{plugin}/Service.qml").read_text()
+    for plugin in ("workspace-osd", "device-osd", "power-sequence", "idle", "intrusion", "update-operation"):
+        source = (ROOT / f"omarchy/plugins/subcult.{plugin}/Service.qml").read_text()
         assert "focusedMonitor" in source and "screen: root.targetScreen" in source.replace("screen:root", "screen: root")
 
 

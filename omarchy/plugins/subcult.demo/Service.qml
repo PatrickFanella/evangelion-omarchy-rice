@@ -1,0 +1,102 @@
+import QtQuick
+import Quickshell
+import Quickshell.Io
+import Quickshell.Wayland
+import "../subcult.motion" as Motion
+import "../subcult.localization" as Localization
+
+Item {
+  id:root
+  property var model:({active:false,scenario:"neutral-nominal",accent:"#f6d447",status:"nominal",media:({}),privacy:({})})
+  readonly property bool active:model.active===true
+  readonly property var targetScreen:(Quickshell.screens||[]).length?Quickshell.screens[0]:null
+  Motion.MotionState { id:motion }
+  Localization.I18n { id:i18n }
+  function refresh(){ if(!probe.running) probe.running=true }
+  function accept(value){ try { model=JSON.parse(String(value)) } catch(error){} }
+  function command(action){ runner.command=["subcult-demo",action]; runner.running=true }
+  FileView { path:Quickshell.env("HOME")+"/.local/state/subcult-rice/demo/state.json"; watchChanges:true; printErrors:false; onFileChanged:root.refresh() }
+  Process { id:probe; running:true; command:["subcult-demo","status","--json"]; stdout:StdioCollector { onStreamFinished:root.accept(text) } }
+  Process { id:runner; onExited:root.refresh() }
+  IpcHandler { target:"subcult-demo"
+    function open():string { root.command("enter"); return "queued" }
+    function next():string { root.command("next"); return "queued" }
+    function previous():string { root.command("previous"); return "queued" }
+    function close():string { root.command("exit"); return "queued" }
+    function refresh():string { root.refresh(); return "ok" }
+  }
+  PanelWindow {
+    screen:root.targetScreen; visible:root.active; color:"transparent"
+    anchors { top:true; left:true; right:true; bottom:true }
+    WlrLayershell.namespace:"subcult-demo"; WlrLayershell.layer:WlrLayer.Overlay; WlrLayershell.keyboardFocus:WlrKeyboardFocus.None
+    Rectangle {
+      anchors.fill:parent; anchors.margins:42; color:"#f0080710"; border.width:2; border.color:root.model.accent; radius:4
+      opacity:root.active?1:0
+      Behavior on opacity { enabled:!motion.off; NumberAnimation { duration:motion.full?180:80 } }
+      Rectangle {
+        anchors {
+          top: parent.top
+          left: parent.left
+          right: parent.right
+        }
+        height: 54
+        color: root.model.accent
+        Text { anchors.centerIn:parent; width:parent.width-32; horizontalAlignment:Text.AlignHCenter; elide:Text.ElideRight; text:i18n.tr("demo.banner").toUpperCase(); color:"#09070d"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:16; font.bold:true; font.letterSpacing:1 }
+      }
+      Column {
+        anchors {
+          left: parent.left
+          right: parent.right
+          top: parent.top
+          bottom: parent.bottom
+          margins: 28
+          topMargin: 82
+        }
+        spacing: 18
+        LayoutMirroring.enabled:i18n.rtl
+        LayoutMirroring.childrenInherit:true
+        Row { width:parent.width
+          Column { width:parent.width*.67; spacing:5
+            Text { width:parent.width; elide:Text.ElideRight; text:i18n.tr("demo.title").toUpperCase(); color:root.model.accent; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:22; font.bold:true }
+            Text { text:String(root.model.scenario).toUpperCase()+"  ·  "+String(root.model.affinity).toUpperCase(); color:"#f0ece4"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:13; font.bold:true }
+          }
+          Text { width:parent.width*.33; horizontalAlignment:Text.AlignRight; text:String(root.model.status).toUpperCase(); color:root.model.accent; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:24; font.bold:true }
+        }
+        Grid { width:parent.width; columns:3; spacing:12
+          Repeater { model:[
+            [i18n.tr("demo.workspace"),String(root.model.workspace_id).padStart(2,"0")+" // "+root.model.workspace],
+            [i18n.tr("demo.profile"),String(root.model.profile).toUpperCase()],
+            [i18n.tr("demo.context"),i18n.tr(String(root.model.summary_key)).toUpperCase()],
+            [i18n.tr("demo.power"),String(root.model.battery_percent)+"%"],
+            [i18n.tr("demo.thermal"),String(root.model.temperature_c)+"°C"],
+            [i18n.tr("demo.uplink"),i18n.tr(root.model.online?"demo.uplink_online":"demo.uplink_offline").toUpperCase()]
+          ]; delegate:Rectangle { required property var modelData; width:(parent.width-24)/3; height:94; color:"#b30d0b12"; border.width:1; border.color:root.model.accent
+            Column { anchors.fill:parent; anchors.margins:14; spacing:9
+              Text { text:modelData[0]; color:root.model.accent; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:10; font.bold:true; font.letterSpacing:1 }
+              Text { width:parent.width; text:modelData[1]; elide:Text.ElideRight; color:"#f0ece4"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:14; font.bold:true }
+            }
+          } }
+        }
+        Rectangle { width:parent.width; height:112; color:"#b30d0b12"; border.width:1; border.color:"#7c5ce0"
+          Row { anchors.fill:parent; anchors.margins:16; spacing:20
+            Column { width:parent.width*.58; spacing:8
+              Text { width:parent.width; elide:Text.ElideRight; text:i18n.tr("demo.audio",{state:String(root.model.media?.state||"standby")}).toUpperCase(); color:root.model.accent; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11; font.bold:true }
+              Text { text:i18n.tr(String(root.model.media?.title_key||"common.none")).toUpperCase(); color:"#f0ece4"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:18; font.bold:true }
+              Text { text:i18n.tr(String(root.model.media?.artist_key||"common.none")).toUpperCase(); color:"#a69fb3"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 }
+            }
+            Text { width:parent.width*.38; horizontalAlignment:Text.AlignRight; text:String(root.model.media?.position||"00:00")+" / "+String(root.model.media?.duration||"00:00"); color:"#62d8ff"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:14; font.bold:true }
+          }
+        }
+        Column { width:parent.width; spacing:7
+          Text { text:i18n.tr("demo.operations").toUpperCase(); color:root.model.accent; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11; font.bold:true }
+          Repeater { model:root.model.operation_log||[]; delegate:Text { required property var modelData; width:parent.width; elide:Text.ElideRight; text:"--:--:--   DEMO   "+i18n.tr(String(modelData.key),modelData.args||({})).toUpperCase(); color:"#a69fb3"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 } }
+        }
+        Item { width:1; height:1 }
+        Row { width:parent.width
+          Text { width:parent.width*.7; elide:Text.ElideRight; text:i18n.tr("demo.footer",{current:String((root.model.scenario_index||0)+1).padStart(2,"0"),total:String(root.model.scenario_count||0).padStart(2,"0")}).toUpperCase(); color:"#a69fb3"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 }
+          Text { width:parent.width*.3; horizontalAlignment:Text.AlignRight; elide:Text.ElideLeft; text:i18n.tr("demo.capture_safe").toUpperCase(); color:root.model.accent; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11; font.bold:true }
+        }
+      }
+    }
+  }
+}

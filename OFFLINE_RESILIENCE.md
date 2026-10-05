@@ -16,8 +16,8 @@ The resilience policy is installed with the `shell` component and preserved on
 upgrade. Inspect the complete contract without contacting any provider:
 
 ```bash
-magi-resilience
-magi-resilience --json
+subcult-resilience
+subcult-resilience --json
 ```
 
 The status command reads timestamps only. It does not persist SSIDs, routes,

@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.dropbox",
+  "name": "SUBCULT Dropbox",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "SUBCULT chrome around Omarchy's native Dropbox widget.",
+  "kinds": ["bar-widget"],
+  "entryPoints": { "barWidget": "BarWidget.qml" },
+  "barWidget": { "displayName": "SUBCULT Dropbox", "category": "Files", "allowMultiple": false, "defaultSection": "right" }
+}

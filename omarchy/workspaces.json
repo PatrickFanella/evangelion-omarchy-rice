@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "workspaces": [
-    {"id": 1, "name": "MAGI-01 · MELCHIOR", "short": "MEL", "channel": "MAGI-01 · LOGIC CHANNEL", "accent": "#9CF23A"},
-    {"id": 2, "name": "MAGI-02 · BALTHASAR", "short": "BAL", "channel": "MAGI-02 · HUMAN FACTOR", "accent": "#F6B73C"},
-    {"id": 3, "name": "MAGI-03 · CASPER", "short": "CAS", "channel": "MAGI-03 · STRATEGIC LINK", "accent": "#B76CFF"},
-    {"id": 4, "name": "ENTRY PLUG · DEVELOPMENT", "short": "ENT", "channel": "EVA INTERFACE · BUILD CHANNEL", "accent": "#FF4055"},
-    {"id": 5, "name": "TERMINAL · COMMAND", "short": "TRM", "channel": "NERV OPERATIONS · CONTROL CHANNEL", "accent": "#42C8FF"}
+    {"id": 1, "name": "SUBCULT-01 · PRESS", "short": "PRS", "channel": "SUBCULT-01 · PRINT CHANNEL", "accent": "#00FF88"},
+    {"id": 2, "name": "SUBCULT-02 · ARCHIVE", "short": "ARC", "channel": "SUBCULT-02 · STACKS CHANNEL", "accent": "#F0ECE4"},
+    {"id": 3, "name": "SUBCULT-03 · DOOR", "short": "DOR", "channel": "SUBCULT-03 · DOOR LIST", "accent": "#A78BFA"},
+    {"id": 4, "name": "WORKBENCH · DEVELOPMENT", "short": "WRK", "channel": "WORKBENCH · BUILD CHANNEL", "accent": "#8B5CF6"},
+    {"id": 5, "name": "TERMINAL · COMMAND", "short": "TRM", "channel": "SUBCULT OPERATIONS · CONTROL CHANNEL", "accent": "#5CFFAE"}
   ]
 }

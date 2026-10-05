@@ -4,19 +4,19 @@ import json, sys
 from pathlib import Path
 root = Path(__file__).resolve().parents[1]
 out = Path(sys.argv[1]) if len(sys.argv) > 1 else root / "test-results/lifecycle-motion.json"
-idle = (root / "omarchy/plugins/evangelion.magi-idle/Service.qml").read_text()
-boot = (root / "bin/magi-boot-sequence").read_text()
+idle = (root / "omarchy/plugins/subcult.idle/Service.qml").read_text()
+boot = (root / "bin/subcult-boot-sequence").read_text()
 launch = (root / "bin/omarchy-launch-screensaver").read_text()
-saver = (root / "bin/magi-screensaver").read_text()
-lock = (root / "omarchy/plugins/evangelion.lock/Service.qml").read_text()
+saver = (root / "bin/subcult-screensaver").read_text()
+lock = (root / "omarchy/plugins/subcult.lock/Service.qml").read_text()
 checks = {
-  "idle_uses_global_motion": 'evangelion.motion' in idle and 'motionMode: motion.mode' in idle,
+  "idle_uses_global_motion": 'subcult.motion' in idle and 'motionMode: motion.mode' in idle,
   "idle_input_exit_immediate": 'else root.close()' in idle,
   "idle_monitor_is_addressable": 'id: idleMonitor' in idle,
-  "screensaver_retires_idle": launch.index('magi-idle hide') < launch.index('focused='),
+  "screensaver_retires_idle": launch.index('subcult-idle hide') < launch.index('focused='),
   "lock_blocks_screensaver": 'lock isLocked' in launch,
   "boot_yields_each_step": boot.count('lifecycle_available || exit 0') >= 2,
-  "boot_does_not_replay": 'magi-boot-sequence-$session' in boot and 'set -C' in boot,
+  "boot_does_not_replay": 'subcult-boot-sequence-$session' in boot and 'set -C' in boot,
   "global_modes_cover_boot": all(x in boot for x in ('mode == reduced', 'mode == off')),
   "global_modes_cover_saver": 'mode = motion_mode()' in saver and 'mode == "full"' in saver,
   "any_input_exits_saver": '?1003h' in saver and 'select.select' in saver and 'break' in saver,

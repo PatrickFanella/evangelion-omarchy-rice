@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.operations-log",
+  "name": "SUBCULT Operations Log",
+  "version": "1.0.0",
+  "description": "Searchable privacy-bounded notification and SUBCULT event history.",
+  "author": "SUBCULT Rice",
+  "license": "MIT",
+  "kinds": ["service"],
+  "keepLoaded": true,
+  "entryPoints": {"service": "Service.qml"}
+}

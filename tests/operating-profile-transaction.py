@@ -9,7 +9,7 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-COMMAND = ROOT / "bin/magi-operating-profile"
+COMMAND = ROOT / "bin/subcult-operating-profile"
 
 
 def main():
@@ -17,7 +17,7 @@ def main():
         home = Path(temporary)
         bindir = home / "bin"; bindir.mkdir()
         config = home / ".config/omarchy"; config.mkdir(parents=True)
-        state = home / ".local/state/evangelion-rice/operating-profile"; state.mkdir(parents=True)
+        state = home / ".local/state/subcult-rice/operating-profile"; state.mkdir(parents=True)
         (config / "shell.toml").write_text("[bar]\nsize-horizontal = 26\nsize-vertical = 26\n")
         (config / "operating-profiles.json").write_text(json.dumps({
             "docked": {"power_profile": "performance", "bar_size": 30, "audio_target": "external",

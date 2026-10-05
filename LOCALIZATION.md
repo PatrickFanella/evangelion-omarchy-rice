@@ -13,18 +13,18 @@ falls back to the key in the English catalog; incomplete future catalogs must
 fall back to `en-US`, never an empty string.
 
 ```bash
-magi-i18n status --json
-magi-i18n get context.recommended count=2
-magi-i18n set qps-ploc   # expanded accented copy
-magi-i18n set ar-XB      # mirrored RTL stress mode
-magi-i18n reset          # production en-US
-magi-i18n validate
+subcult-i18n status --json
+subcult-i18n get context.recommended count=2
+subcult-i18n set qps-ploc   # expanded accented copy
+subcult-i18n set ar-XB      # mirrored RTL stress mode
+subcult-i18n reset          # production en-US
+subcult-i18n validate
 ```
 
 Pseudo-locales persist only their locale identifier in a mode-0600 state file.
-They do not collect machine or identity data. `NERV`, `MAGI`, `EVA`, `Tokyo-3`,
-and `A.T. Field` are protected franchise terms and remain unchanged unless the
-project explicitly adopts localized official terminology later.
+They do not collect machine or identity data. `SUBCULT`, `SUBCULT.TV`, and
+`Closed Door` are protected brand terms and remain unchanged unless the project
+explicitly adopts localized official terminology later.
 
 ## Layout rules
 
@@ -50,9 +50,9 @@ message formatter is adopted; never append an English `s` in interface logic.
 1. Copy the English catalog without changing keys or `schema_version`.
 2. Set the BCP-47 locale and `direction`; preserve every named placeholder.
 3. Keep protected terminology unchanged unless documented otherwise.
-4. Run `magi-i18n validate` and `python3 tests/localization.py`.
+4. Run `subcult-i18n validate` and `python3 tests/localization.py`.
 5. Exercise both migrated surfaces at narrow and wide sizes, then include a
-   screenshot with no private data (the MAGI demonstration mode is ideal).
+   screenshot with no private data (the SUBCULT demonstration mode is ideal).
 6. Document translator and reviewer names in the pull request, not the catalog.
 
 Catalog additions and layout changes belong in the same commit so English,

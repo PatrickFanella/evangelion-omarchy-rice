@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.settings",
+  "name": "SUBCULT Control Center",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "Keyboard-first, schema-backed control center with preview, apply, and undo.",
+  "kinds": ["service"],
+  "keepLoaded": true,
+  "entryPoints": {"service": "Service.qml"}
+}

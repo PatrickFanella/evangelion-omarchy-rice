@@ -1,10 +1,10 @@
 {
   "files": {
-    "neutral-full-desktop-nominal.png": "750f64f32e352f546aeaa4c59d6072ab87f1d78545e61a1e0061c362bfe25cae",
-    "unit00-reduced-laptop-warning.png": "d0c595bee060165ce18efb255b05a321cf79209f6d7bd383ae428388abf4e825",
-    "unit00refit-off-hidpi-critical.png": "c946a83724b83029ee14b7237cb2f7c1ef9c7e0aed1e1d33f1745d1e87839213",
-    "unit01-full-wide-nominal.png": "2465988d40384a8f1c5c3576bb1222188f9fd4f31449f1db4129d827f8a658e3",
-    "unit02-reduced-projector-warning.png": "75bbbb60b34cf55e9b4e9a95a69de944585b9a4076f74ddb5f2cd75f65e6417d"
+    "acid-reduced-laptop-warning.png": "ac60dad4c2b26a9b89c2f718c284d16a9e74c484cc7bb995958ec2fc4e169c2a",
+    "ink-reduced-projector-warning.png": "41acadb3d80832d4cc6f107013705c6197c85d4ab2910d744b547d0b3bbb6f07",
+    "neutral-full-desktop-nominal.png": "0a39979afd3039a5612747d59ef146f555161ff2c4fa9425d197aee9694ef0ac",
+    "paper-off-hidpi-critical.png": "1c6ed72dd4d5411b0ef644914e0c6ba2fc5c77510d2783956f7efc6acd3b04de",
+    "violet-full-wide-nominal.png": "f9c10b740c26c133681836d1ebc6274faf886e575d508f3bacaaa0915b8b20c9"
   },
   "renderer_version": 4,
   "schema_version": 1

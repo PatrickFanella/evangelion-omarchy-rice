@@ -1,18 +1,18 @@
 # Choose and maintain an installation channel
 
-Evangelion Rice has three supported ownership channels. Pick one before
+SUBCULT Rice has three supported ownership channels. Pick one before
 installing; combining channels does not unlock additional features.
 
 | Goal | Channel | What it installs | Best for |
 |---|---|---|---|
-| Just the look | Omarchy theme gallery/Git theme | Palette, app theme fragments, and seven wallpapers | Users who want native Omarchy theming without MAGI |
-| Complete MAGI desktop | Tagged release archive | Theme, tools, shell, Hyprland integration, start page, and selected services | Most users who want the whole experience |
+| Just the look | Omarchy theme gallery/Git theme | Palette, app theme fragments, and seven wallpapers | Users who want native Omarchy theming without SUBCULT |
+| Complete SUBCULT desktop | Tagged release archive | Theme, tools, shell, Hyprland integration, start page, and selected services | Most users who want the whole experience |
 | Follow development | Git checkout | The same suite payload, from a mutable source checkout | Contributors and testers |
-| Managed system package | Arch package | Immutable source under `/usr/share/evangelion-rice`; user activation remains explicit | Arch users who want pacman ownership |
+| Managed system package | Arch package | Immutable source under `/usr/share/subcult-rice`; user activation remains explicit | Arch users who want pacman ownership |
 
-MAGI plugins are suite-internal components in v1.4. They are not standalone
+SUBCULT plugins are suite-internal components in v1.4. They are not standalone
 marketplace products and must not be copied or advertised as independently
-installable plugins. `MAGI_RUNTIME.md` defines a future architectural boundary,
+installable plugins. `SUBCULT_RUNTIME.md` defines a future architectural boundary,
 not a published runtime package or supported fourth channel.
 
 ## Common prerequisites, capabilities, limitations, and support
@@ -21,7 +21,7 @@ All channels require an existing Omarchy installation. The complete suite
 supports Omarchy `>=4.0.0,<5.0.0`, Hyprland `>=0.56.0,<0.57.0`, and x86_64.
 Suite activation runs as the desktop user in an active Wayland/Hyprland session.
 Run `./preflight.py --json` for capabilities and blockers; optional hardware,
-MAGI context, Cava, media, weather, and sensor integrations degrade or hide when
+SUBCULT context, Cava, media, weather, and sensor integrations degrade or hide when
 unavailable. See `INSTALL.md` for packages and `README.md` for the tested matrix.
 
 Support covers the published channel workflows and version ranges. Local edits,
@@ -33,17 +33,17 @@ steps—never private desktop state.
 ## Just the look: theme channel
 
 ```bash
-omarchy theme install https://github.com/so1omon563/omarchy-evangelion-theme.git
-omarchy theme set evangelion
+omarchy theme install https://github.com/PatrickFanella/omarchy-subcult-theme.git
+omarchy theme set subcult
 omarchy theme bg next
 ```
 
 Use Omarchy's normal theme update flow to update the Git clone. To remove it,
-select another theme first, then remove only the Evangelion theme clone. This
-channel cannot provide MAGI widgets, workspace identities, commands, motion,
+select another theme first, then remove only the SUBCULT theme clone. This
+channel cannot provide SUBCULT widgets, workspace identities, commands, motion,
 start page, services, or affinity automation.
 
-The theme and suite both own `~/.config/omarchy/themes/evangelion`. The suite
+The theme and suite both own `~/.config/omarchy/themes/subcult`. The suite
 installer refuses to merge into a Git-owned theme clone. Switch away and remove
 the standalone clone before moving to the suite.
 
@@ -52,14 +52,14 @@ the standalone clone before moving to the suite.
 Download the archive and matching `.sha256` from the GitHub release, then:
 
 ```bash
-sha256sum --check evangelion-omarchy-rice-1.5.1.tar.gz.sha256
-tar -xzf evangelion-omarchy-rice-1.5.1.tar.gz
-cd evangelion-omarchy-rice-1.5.1
+sha256sum --check subcult-omarchy-rice-2.0.0.tar.gz.sha256
+tar -xzf subcult-omarchy-rice-2.0.0.tar.gz
+cd subcult-omarchy-rice-2.0.0
 ./scripts/build-release verify-root .
 ./preflight.py
 ./install.sh --dry-run --preset default
 ./install.sh --apply --preset default
-omarchy theme set evangelion
+omarchy theme set subcult
 ./validate.sh
 ```
 
@@ -77,8 +77,8 @@ For removal, roll transactions back newest to oldest as described in
 ## Development checkout
 
 ```bash
-git clone git@github.com:so1omon563/evangelion-omarchy-rice.git
-cd evangelion-omarchy-rice
+git clone git@github.com:PatrickFanella/subcult-omarchy-rice.git
+cd subcult-omarchy-rice
 git status --short
 ./preflight.py
 ./install.sh --dry-run --preset default
@@ -96,14 +96,14 @@ After installing the package with pacman or an AUR helper, activate it explicitl
 as the desktop user:
 
 ```bash
-evangelion-rice preflight
-evangelion-rice plan --preset default
-evangelion-rice apply --preset default
-evangelion-rice status
+subcult-rice preflight
+subcult-rice plan --preset default
+subcult-rice apply --preset default
+subcult-rice status
 ```
 
 Pacman owns only immutable system files; it never mutates a home directory.
-Use `evangelion-rice rollback`, then remove the package through pacman when
+Use `subcult-rice rollback`, then remove the package through pacman when
 leaving this channel. Full setup, upgrade, deactivation, and removal commands
 are in `ARCH_PACKAGING.md`.
 

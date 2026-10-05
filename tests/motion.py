@@ -8,12 +8,12 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-COMMAND = ROOT / "bin/magi-motion"
+COMMAND = ROOT / "bin/subcult-motion"
 
 
 def run(home, *args, check=True):
     env = {**os.environ, "HOME": str(home), "XDG_CONFIG_HOME": str(home / ".config"),
-           "XDG_STATE_HOME": str(home / ".local/state"), "EVANGELION_SKIP_RUNTIME": "1"}
+           "XDG_STATE_HOME": str(home / ".local/state"), "SUBCULT_SKIP_RUNTIME": "1"}
     return subprocess.run([str(COMMAND), *args], env=env, text=True,
                           capture_output=True, check=check)
 
@@ -28,13 +28,13 @@ def main():
         assert default["tokens"]["durations_ms"]["standard"] == 180
         repository_tokens = json.loads((ROOT / "omarchy/motion.json").read_text())
         assert json.loads(run(home, "tokens").stdout) == repository_tokens
-        capture = (ROOT / "bin/magi-capture").read_text()
-        presentation = (ROOT / "bin/magi-presentation").read_text()
-        assert "magi-motion hold screenshot" in capture and "magi-motion release screenshot" in capture
-        assert "magi-motion hold recording" in capture and "magi-motion release recording" in capture
-        assert "magi-motion hold presentation" in presentation and "magi-motion release presentation" in presentation
+        capture = (ROOT / "bin/subcult-capture").read_text()
+        presentation = (ROOT / "bin/subcult-presentation").read_text()
+        assert "subcult-motion hold screenshot" in capture and "subcult-motion release screenshot" in capture
+        assert "subcult-motion hold recording" in capture and "subcult-motion release recording" in capture
+        assert "subcult-motion hold presentation" in presentation and "subcult-motion release presentation" in presentation
 
-        config = home / ".config/omarchy/evangelion.json"
+        config = home / ".config/omarchy/subcult.json"
         config.parent.mkdir(parents=True)
         config.write_text('{"project_dir":"/srv/operator/project","custom":{"keep":true}}\n')
         assert run(home, "set", "reduced").stdout.strip() == "reduced"
@@ -43,7 +43,7 @@ def main():
         assert saved["project_dir"] == "/srv/operator/project" and saved["custom"]["keep"] is True
         assert run(home, "status").stdout.strip() == "reduced"
 
-        state_path = home / ".local/state/evangelion-rice/motion/state.json"
+        state_path = home / ".local/state/subcult-rice/motion/state.json"
         state = json.loads(state_path.read_text())
         assert state["mode"] == "reduced" and state["generation"] == 1
         assert state["profile"]["allow_scale"] is False

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.communications",
+  "name": "SUBCULT Communications",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "Unified network, Bluetooth, VPN, and Tailscale telemetry.",
+  "kinds": ["bar-widget"],
+  "entryPoints": { "barWidget": "BarWidget.qml" },
+  "barWidget": {
+    "displayName": "SUBCULT Communications",
+    "description": "Compact communication-link status and controls",
+    "category": "Network",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

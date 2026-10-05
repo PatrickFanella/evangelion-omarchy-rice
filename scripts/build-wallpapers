@@ -1,0 +1,156 @@
+#!/usr/bin/env python3
+"""Render the SUBCULT poster-press wallpaper set from the brand kit.
+
+Usage: scripts/build-wallpapers [output-dir]
+
+Requires rsvg-convert. Text uses the bundled Oswald and JetBrains Mono
+fonts through a private fontconfig file, so nothing is installed.
+"""
+import os
+import re
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+BRAND = ROOT / "theme/brand"
+OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "theme/backgrounds"
+W, H = 2560, 1440
+
+PURPLE, INK, ACID, PAPER = "#8b5cf6", "#100b19", "#00ff88", "#f0ece4"
+TILT = -3.5806795
+
+
+def mark(name, x, y, size, opacity=1.0):
+    """Inline a 256-unit brand mark as a nested SVG."""
+    source = (BRAND / f"{name}.svg").read_text()
+    body = re.sub(r"^.*?<svg[^>]*>", "", source, count=1, flags=re.S)
+    body = re.sub(r"</svg>\s*$", "", body)
+    body = re.sub(r"<title>.*?</title>", "", body, flags=re.S)
+    view = re.search(r'viewBox="([^"]+)"', source).group(1)
+    return (f'<svg x="{x}" y="{y}" width="{size}" height="{size}" viewBox="{view}" '
+            f'opacity="{opacity}">{body}</svg>')
+
+
+def label(text, x, y, fill, size=28, anchor="start"):
+    return (f'<text x="{x}" y="{y}" fill="{fill}" font-family="JetBrains Mono" '
+            f'font-size="{size}" letter-spacing="3" text-anchor="{anchor}">{text}</text>')
+
+
+def headline(text, x, y, fill, size, anchor="end"):
+    return (f'<text x="{x}" y="{y}" fill="{fill}" font-family="Oswald" font-weight="700" '
+            f'font-size="{size}" text-anchor="{anchor}">{text}</text>')
+
+
+def block(cx, cy, size, fill, stroke=None):
+    paint = f'fill="{fill}"' if not stroke else f'fill="none" stroke="{stroke}" stroke-width="6"'
+    return (f'<rect x="{cx - size / 2}" y="{cy - size / 2}" width="{size}" height="{size}" {paint} '
+            f'transform="rotate({TILT} {cx} {cy})"/>')
+
+
+def registration(cx, cy, reach, stroke):
+    return (f'<g stroke="{stroke}" stroke-width="3" transform="rotate({TILT} {cx} {cy})">'
+            f'<line x1="{cx - reach}" y1="{cy}" x2="{cx + reach}" y2="{cy}"/>'
+            f'<line x1="{cx}" y1="{cy - reach}" x2="{cx}" y2="{cy + reach}"/></g>')
+
+
+def halftone(fill, x0, x1, step=36):
+    dots = []
+    for row, y in enumerate(range(step // 2, H, step)):
+        for x in range(x0 + (step // 2 if row % 2 else 0), x1, step):
+            r = max(0.0, 11 * (x - x0) / (x1 - x0))
+            if r > 0.6:
+                dots.append(f'<circle cx="{x}" cy="{y}" r="{r:.1f}"/>')
+    return f'<g fill="{fill}">{"".join(dots)}</g>'
+
+
+def stripes(fill, y, height, width=90):
+    bars = "".join(
+        f'<polygon points="{x},{y + height} {x + width},{y + height} {x + 2 * width},{y} {x + width},{y}"/>'
+        for x in range(-2 * width, W + width, 2 * width)
+    )
+    return f'<g fill="{fill}">{bars}</g>'
+
+
+FOOTER = "SUBCULT.TV / INDEPENDENT SOFTWARE"
+
+WALLPAPERS = {
+    "1-subcult-press": [
+        f'<rect width="{W}" height="{H}" fill="{INK}"/>',
+        f'<rect width="28" height="{H}" fill="{PURPLE}"/>',
+        mark("mark-dark", 1500, 290, 860),
+        label(FOOTER, 112, H - 96, PAPER),
+        label("01 / PRESS", W - 112, H - 96, ACID, anchor="end"),
+    ],
+    "2-subcult-violet": [
+        f'<rect width="{W}" height="{H}" fill="{PURPLE}"/>',
+        f'<rect width="28" height="{H}" fill="{ACID}"/>',
+        block(2180, 300, 220, ACID),
+        registration(2180, 300, 190, INK),
+        headline("SUBCULT", W - 120, H - 150, INK, 520),
+        label(FOOTER, 112, H - 96, INK),
+        label("02 / VIOLET", W - 120, 112, INK, anchor="end"),
+    ],
+    "3-subcult-archive": [
+        f'<rect width="{W}" height="{H}" fill="{INK}"/>',
+        halftone(PURPLE, 900, W),
+        mark("mark-dark", 1640, 420, 600),
+        label(FOOTER, 112, H - 96, PAPER),
+        label("03 / ARCHIVE", 112, 112, PAPER),
+    ],
+    "4-subcult-signal": [
+        f'<rect width="{W}" height="{H}" fill="{INK}"/>',
+        stripes(ACID, 0, 64),
+        stripes(ACID, H - 64, 64),
+        headline("SIGNAL", W - 120, 860, ACID, 560),
+        label("04 / SIGNAL DRILL", W - 120, 1000, PAPER, 36, anchor="end"),
+        label(FOOTER, 112, H - 120, PAPER),
+    ],
+    "5-subcult-acid": [
+        f'<rect width="{W}" height="{H}" fill="{INK}"/>',
+        block(1900, 700, 1100, ACID),
+        mark("mark-primary", 1520, 330, 760),
+        label(FOOTER, 112, H - 96, PAPER),
+        label("05 / ACID", 112, 112, ACID),
+    ],
+    "6-subcult-paper": [
+        f'<rect width="{W}" height="{H}" fill="{PAPER}"/>',
+        f'<rect width="28" height="{H}" fill="{PURPLE}"/>',
+        block(1950, 720, 860, PURPLE),
+        mark("mark-primary", 1590, 360, 720),
+        label(FOOTER, 112, H - 96, INK),
+        label("06 / PAPER", W - 112, H - 96, INK, anchor="end"),
+    ],
+    "7-subcult-ink": [
+        f'<rect width="{W}" height="{H}" fill="#0a0712"/>',
+        block(1930, 720, 760, None, PURPLE),
+        mark("mark-mono-dark", 1590, 380, 680, 0.92),
+        label(FOOTER, 112, H - 96, "#8e85a3"),
+        label("07 / INK", W - 112, H - 96, PURPLE, anchor="end"),
+    ],
+}
+
+
+def main():
+    OUT.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory() as work:
+        conf = Path(work) / "fonts.conf"
+        conf.write_text(
+            '<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "fonts.dtd"><fontconfig>'
+            f'<dir>{BRAND / "fonts"}</dir><cachedir>{work}/cache</cachedir></fontconfig>'
+        )
+        env = {**os.environ, "FONTCONFIG_FILE": str(conf)}
+        for name, layers in WALLPAPERS.items():
+            svg = Path(work) / f"{name}.svg"
+            svg.write_text(
+                f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
+                f'viewBox="0 0 {W} {H}">{"".join(layers)}</svg>'
+            )
+            target = OUT / f"{name}.png"
+            subprocess.run(["rsvg-convert", "-o", str(target), str(svg)], check=True, env=env)
+            print(target)
+
+
+if __name__ == "__main__":
+    main()

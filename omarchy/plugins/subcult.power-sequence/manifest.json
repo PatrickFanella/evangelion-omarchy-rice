@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.power-sequence",
+  "name": "SUBCULT Mains Power Sequence",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "Debounced AC and internal-power transition telemetry.",
+  "kinds": ["service"],
+  "keepLoaded": true,
+  "entryPoints": { "service": "Service.qml" }
+}

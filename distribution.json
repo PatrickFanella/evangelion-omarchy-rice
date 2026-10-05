@@ -22,7 +22,7 @@
     },
     "arch": {
       "channel": "aur-or-arch-source-package",
-      "payload": ["/usr/share/evangelion-rice/**", "/usr/bin/evangelion-rice-*"],
+      "payload": ["/usr/share/subcult-rice/**", "/usr/bin/subcult-rice-*"],
       "owns_user_config": false,
       "activation": "separate-explicit-per-user-command",
       "rollback": "pacman-system-version-plus-user-transaction",
@@ -31,7 +31,7 @@
     }
   },
   "owners": {
-    "package_manager": ["/usr/share/evangelion-rice/**", "/usr/bin/evangelion-rice-*"],
+    "package_manager": ["/usr/share/subcult-rice/**", "/usr/bin/subcult-rice-*"],
     "suite_transaction": ["manifest.tsv exact targets"],
     "user": ["preserved preferences", "unrelated paths", "unselected tier content"]
   },
@@ -43,7 +43,7 @@
   },
   "channel_conflicts": {
     "theme-to-suite": {
-      "path": "~/.config/omarchy/themes/evangelion",
+      "path": "~/.config/omarchy/themes/subcult",
       "policy": "refuse-git-owned-tree-until-user-switches-and-removes-theme"
     },
     "git-suite-to-release-suite": {
@@ -54,11 +54,11 @@
     }
   },
   "optional_runtime": {
-    "contract": "magi.optional-runtime",
+    "contract": "subcult.optional-runtime",
     "version": "1.0.0",
     "decision": "intentionally-avoided-as-separate-package",
-    "specification": "MAGI_RUNTIME.md",
-    "machine_contract": "magi-runtime-contract.json",
+    "specification": "SUBCULT_RUNTIME.md",
+    "machine_contract": "subcult-runtime-contract.json",
     "plugin_local_fallbacks_required": true,
     "hidden_installation": false
   },
@@ -72,7 +72,7 @@
   },
   "licenses": {
     "software_and_configuration": "MIT",
-    "generated_wallpapers": "CC-BY-NC-4.0-subject-to-third-party-rights",
-    "third_party_marks": "not-granted"
+    "brand_wallpapers_and_marks": "SUBCULT-brand-terms-see-ASSETS_LICENSE",
+    "bundled_fonts": "OFL-1.1"
   }
 }
