@@ -10,8 +10,8 @@ apply that exact plan. `U` restores the captured pre-scene state. Press `T` to
 return to Auto authority, where wallpaper affinity changes synchronize the
 matching scene. Manual scene selection remains held until Auto is selected.
 
-Shipped scenes cover SUBCULT Command, Acid Block, Paper Stock, VIOLET,
-INK, and SUBCULT Operations. Their definitions live in the preserved,
+Shipped scenes cover SUBCULT Command, Acid Block, Paper Stock, Violet Field,
+Ink Run, and SUBCULT Operations. Their definitions live in the preserved,
 user-owned `~/.config/omarchy/scenes.json`. Wallpaper values must be plain
 filenames and every affinity, terminal, sound, ambient, and motion value is
 validated against a fixed allowlist.

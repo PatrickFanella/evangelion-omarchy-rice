@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]; COMMAND=ROOT/"bin/subcult-i18n"
 catalog=json.loads((ROOT/"omarchy/i18n/en-US.json").read_text()); strings=catalog["strings"]
 assert catalog["schema_version"]==1 and catalog["locale"]=="en-US" and catalog["direction"]=="ltr"
 assert len(strings)>=50 and len(strings)==len(set(strings)) and all(strings.values())
-assert catalog["protected_terms"]==["SUBCULT","SUBCULT","SUBCULT","SUBCULT","Closed Door"]
+assert catalog["protected_terms"]==["SUBCULT","SUBCULT.TV","Closed Door"]
 
 with tempfile.TemporaryDirectory() as directory:
     env={**os.environ,"HOME":directory,"XDG_STATE_HOME":str(Path(directory)/"state")}

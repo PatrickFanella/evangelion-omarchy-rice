@@ -136,14 +136,13 @@ Full/Reduced/Off paths without waiting for real idle or powering off a display.
 freshness states, SUBCULT workspace labels, unavailable fallbacks, two-second
 bounded refresh contract, and privacy field exclusions.
 
-`release-v1.3.1.py` executes both mixed browser-bundle directions, requires
-versioned/no-store assets, and performs an exact v1.3.0 install followed by a
-v1.3.1 upgrade, upgrade rollback, repeated upgrade, and complete removal in an
-isolated home.
-
-`release-v1.4.py` pins the exact RC tag and green candidate commit, final
-distribution decisions, documentation selection/maintenance contracts, and all
-privacy-reviewed public media hashes. `cross-channel.py` exercises standalone
+`legacy-upgrade.sh` seeds an isolated home with an Evangelion Rice 1.5 install
+(plugins, commands, a service unit, user configuration, an unedited default,
+an edited preference, and a shell startup hook), applies the default preset,
+and checks that every legacy path is retired, `evangelion.json` becomes
+`subcult.json`, the unedited default is replaced, the edited file is kept, and
+the startup hook is removed. A single rollback must then restore the original
+home byte for byte. `cross-channel.py` exercises standalone
 theme conflict refusal, suite install, forced partial failure, exact rollback,
 internal-plugin policy, and browser/motion/privacy/responsive compatibility;
 CI retains its machine-readable JSON evidence.

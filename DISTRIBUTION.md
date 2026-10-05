@@ -90,12 +90,13 @@ external hardware verification is not represented as a release failure.
 
 ## Artwork, licensing, and catalogs
 
-Software and configuration are MIT-licensed. The wallpapers are separately
-licensed under CC BY-NC 4.0 only to the extent described in
-[`ASSETS_LICENSE.md`](ASSETS_LICENSE.md), and SUBCULT names, designs, and
-marks remain third-party property. Every artifact containing wallpapers must
-include `ASSETS_LICENSE.md`, `theme/ARTWORK.md`, and the audited hashes. It must
-be labeled unofficial and non-commercial and must not imply endorsement.
+Software and configuration are MIT-licensed. The MIT license does not cover
+the SUBCULT name, marks, wallpapers, or bundled fonts. The marks and the
+wallpapers rendered from them belong to SUBCULT and follow the brand terms in
+[`ASSETS_LICENSE.md`](ASSETS_LICENSE.md); the fonts follow the SIL Open Font
+License. Every artifact containing wallpapers must include `ASSETS_LICENSE.md`,
+`theme/ARTWORK.md`, and the audited hashes. It must not alter the marks or
+suggest that another project is a SUBCULT product.
 
 Channels that require commercial-use-compatible assets or a trademark grant
 cannot accept the artwork-bearing theme or suite as currently constituted. A

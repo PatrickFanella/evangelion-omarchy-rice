@@ -38,7 +38,7 @@ with tempfile.TemporaryDirectory(prefix="subcult-channels-") as raw:
     before = {str(p.relative_to(home)): p.read_bytes() for p in home.rglob("*") if p.is_file()}
     env = os.environ | {"HOME": str(home), "XDG_STATE_HOME": str(state),
                         "SUBCULT_SKIP_ACTIVATE": "1", "SUBCULT_SOURCE_ONLY": "1",
-                        "SUBCULT_RELEASE_131_NESTED": "1", "SUBCULT_RELEASE_ARTIFACT_NESTED": "1",
+                        "SUBCULT_RELEASE_ARTIFACT_NESTED": "1",
                         "SUBCULT_CROSS_CHANNEL_NESTED": "1"}
     conflict = run(ROOT / "install.sh", "--dry-run", "--preset", "minimal", env=env, check=False)
     assert conflict.returncode == 3 and "CHANNEL CONFLICT" in conflict.stderr
@@ -69,7 +69,7 @@ checks = {
     "theme_suite_conflict_read_only": True,
     "suite_transaction_rollback": True,
     "partial_failure_rollback": True,
-    "v13_upgrade_contract": "exact v1.3.0 install" in (ROOT / "tests/release-v1.3.1.py").read_text(),
+    "legacy_upgrade_contract": "rollback restores the Evangelion install exactly" in (ROOT / "tests/legacy-upgrade.sh").read_text(),
     "omarchy_capability_preflight": "SUPPORTED" in preflight and '"capabilities"' in preflight,
     "optional_subcult_fallback": runtime["capabilities"]["motion"]["fallback"]["mode"] == "reduced",
     "xdg_default_browser": "xdg-settings get default-web-browser" in browser and "env -u BROWSER" in browser,

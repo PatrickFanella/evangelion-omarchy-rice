@@ -23,8 +23,8 @@ subcult-demo capture
 subcult-demo exit
 ```
 
-The scenario catalog covers neutral, SUBCULT-00 prototype/refit, VIOLET, and
-INK affinities plus nominal, mobile, docked, media-active, offline, manual,
+The scenario catalog covers the Press (neutral), Acid Block, Paper Stock,
+Violet Field, and Ink Run affinities plus nominal, mobile, docked, media-active, offline, manual,
 constrained, and critical states. Constrained and critical each include both
 thermal and battery examples.
 

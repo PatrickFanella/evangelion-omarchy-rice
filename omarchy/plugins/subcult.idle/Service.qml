@@ -129,7 +129,7 @@ Item {
       radius: 4
       color: "#e6080710"
       border.width: 2
-      border.color: "#9cf23a"
+      border.color: "#00ff88"
       opacity: root.opened ? 1 : 0
       transform: Translate { x: root.opened || !motion.full ? 0 : -12 }
 
@@ -141,7 +141,7 @@ Item {
       Rectangle {
         width: 7
         anchors { top: parent.top; bottom: parent.bottom; left: parent.left }
-        color: "#7b2cbf"
+        color: "#7c3aed"
       }
 
       Column {
@@ -156,18 +156,18 @@ Item {
 
         Text {
           text: "SUBCULT SYSTEM"
-          color: "#9cf23a"
+          color: "#00ff88"
           font.family: "JetBrainsMono Nerd Font"
           font.pixelSize: 27
           font.bold: true
           font.letterSpacing: 2
         }
 
-        Rectangle { width: parent.width; height: 2; color: "#7b2cbf" }
+        Rectangle { width: parent.width; height: 2; color: "#7c3aed" }
 
         Text {
           text: Qt.formatDateTime(clock.date, "yyyy.MM.dd  HH:mm")
-          color: "#eee8ff"
+          color: "#f0ece4"
           font.family: "JetBrainsMono Nerd Font"
           font.pixelSize: 20
           font.bold: true
@@ -175,7 +175,7 @@ Item {
 
         Text {
           text: "PRESS  ·  ONLINE\nARCHIVE ·  ONLINE\nDOOR    ·  ONLINE"
-          color: "#9cf23a"
+          color: "#00ff88"
           font.family: "JetBrainsMono Nerd Font"
           font.pixelSize: 16
           font.letterSpacing: 1
@@ -192,12 +192,12 @@ Item {
             height: 11
             radius: 6
             anchors.verticalCenter: parent.verticalCenter
-            color: UPower.onBattery ? "#ff6b35" : "#9cf23a"
+            color: UPower.onBattery ? "#ff6b35" : "#00ff88"
           }
 
           Text {
             text: root.powerState + (root.batteryPercent >= 0 ? "  ·  " + root.batteryPercent + "%" : "")
-            color: "#eee8ff"
+            color: "#f0ece4"
             font.family: "JetBrainsMono Nerd Font"
             font.pixelSize: 14
             font.bold: true

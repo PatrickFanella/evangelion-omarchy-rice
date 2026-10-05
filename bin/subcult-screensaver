@@ -108,7 +108,7 @@ def hud(width, height, scene_index, scene_age, scene_seconds, phase, motion, con
     filled = int(progress * 18)
     bar = "━" * filled + "─" * (18 - filled)
     output = [
-        place(2, 3, PURPLE, "╭─ SUBCULT // SUBCULT VISUAL STANDBY", width),
+        place(2, 3, PURPLE, "╭─ SUBCULT // VISUAL STANDBY", width),
         place(2, max(3, width - len(scene_label) - 2), GREEN, scene_label, width),
         place(3, 3, DIM, "│ SECURE DISPLAY CHANNEL", width),
         place(height - 2, 3, DIM, "╰─ " + bar, width),
@@ -178,7 +178,7 @@ def sync_scene(width, height, phase, motion):
         (PURPLE, "VIOLET FIELD  //  SESSION CONNECTED"),
         (WHITE, f"SYNCHRONIZATION  {sync:04.1f}%"),
         (GREEN, "[" + "█" * fill + "░" * (20 - fill) + "]"),
-        (DIM, "A10 NERVE LINK        STABLE"),
+        (DIM, "SIGNAL PATH           STABLE"),
         (DIM, "INK DENSITY          NOMINAL"),
     ]
     return frame("SYNCHRONIZATION TELEMETRY", "OPERATOR SIGNAL VERIFIED", body, PURPLE, width, height, phase, motion)
@@ -187,22 +187,23 @@ def sync_scene(width, height, phase, motion):
 def warning_scene(width, height, phase, motion):
     accent = RED if not motion or phase % 2 == 0 else ORANGE
     body = [
-        (accent, "        N  E  R  V"),
-        (WHITE, "GEHIRN ARTIFICIAL EVOLUTION LABORATORY"),
-        (DIM, "RESTRICTED AREA  //  LEVEL EEE"),
-        (ORANGE, "SECURITY PROTOCOLS ACTIVE"),
+        (accent, "     S  U  B  C  U  L  T"),
+        (WHITE, "SUBCULT.TV  //  INDEPENDENT SOFTWARE"),
+        (DIM, "RESTRICTED AREA  //  STAFF ONLY"),
+        (ORANGE, "DOOR LIST ACTIVE"),
     ]
     return frame("SUBCULT COMMAND AUTHORITY", "UNAUTHORIZED ACCESS PROHIBITED", body, accent, width, height, phase, motion)
 
 
-def unit_scene(width, height, phase, motion):
-    eye = "◉" if not motion or phase % 3 else "●"
+def mark_scene(width, height, phase, motion):
+    cursor = "▀▀▀▀▀▀" if not motion or phase % 3 else "      "
     body = [
-        (PURPLE, "              ╱╲"),
-        (PURPLE, f"          ╱╲╱ {eye}╲╱╲"),
-        (GREEN, "        ╱╱  ╲██╱  ╲╲"),
-        (PURPLE, "       ╱╱  ╱████╲  ╲╲"),
-        (GREEN, "          ╱╱  ╲╲"),
+        (WHITE, " ██████   ██████"),
+        (WHITE, " ██       ██"),
+        (WHITE, " ██████   ██"),
+        (GREEN, "     ██   ██"),
+        (GREEN, " ██████   ██████"),
+        (PURPLE, f"          {cursor}"),
         (DIM, ""),
         (ORANGE, "VIOLET  //  PLATES LOCKED"),
     ]
@@ -217,7 +218,7 @@ def main():
     ambient = ambient_surface()
     reduced = mode != "full" or bool(config.get("reduced_motion", False)) or "--static" in sys.argv
     scene_seconds = max(8, int(config.get("scene_seconds", 12)))
-    scenes = [subcult_scene, sync_scene, warning_scene, unit_scene]
+    scenes = [subcult_scene, sync_scene, warning_scene, mark_scene]
     original = termios.tcgetattr(sys.stdin.fileno())
     signal.signal(signal.SIGTERM, stop)
     signal.signal(signal.SIGINT, stop)

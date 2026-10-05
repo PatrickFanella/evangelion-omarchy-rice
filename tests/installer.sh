@@ -5,7 +5,7 @@ test_root=$(mktemp -d)
 trap 'rm -rf -- "$test_root"' EXIT
 pass(){ printf 'PASS  %s\n' "$1"; }
 fail(){ printf 'FAIL  %s\n' "$1" >&2; exit 1; }
-run_install(){ HOME=$test_root/home XDG_STATE_HOME=$test_root/state SUBCULT_SKIP_ACTIVATE=1 SUBCULT_RELEASE_131_NESTED=1 SUBCULT_RELEASE_ARTIFACT_NESTED=1 SUBCULT_CROSS_CHANNEL_NESTED=1 "$root/install.sh" "$@"; }
+run_install(){ HOME=$test_root/home XDG_STATE_HOME=$test_root/state SUBCULT_SKIP_ACTIVATE=1 SUBCULT_RELEASE_ARTIFACT_NESTED=1 SUBCULT_CROSS_CHANNEL_NESTED=1 "$root/install.sh" "$@"; }
 run_rollback(){ HOME=$test_root/home XDG_STATE_HOME=$test_root/state SUBCULT_SKIP_ACTIVATE=1 "$root/rollback.sh" "$@"; }
 
 mkdir -p "$test_root/home" "$test_root/stubs"
@@ -25,7 +25,7 @@ pass "dry-run is target-read-only"
 run_install --apply --preset minimal --yes >/dev/null
 [[ -f $test_root/home/.config/omarchy/themes/subcult/colors.toml && -x $test_root/home/.local/bin/subcult-affinity ]] || fail "minimal install incomplete"
 [[ -x $test_root/home/.local/bin/subcult-recovery && -f $test_root/home/.local/share/subcult-rice/recovery/shell.json ]] || fail "minimal install omitted recovery path"
-[[ -x $test_root/home/.local/bin/subcult-migrate && -f $test_root/home/.local/share/subcult-rice/migrations/1.4.1-to-1.5.0.json ]] || fail "minimal install omitted migration assistant"
+[[ -x $test_root/home/.local/bin/subcult-migrate && -f $test_root/home/.local/share/subcult-rice/migrations/1.5.1-to-2.0.0.json ]] || fail "minimal install omitted migration assistant"
 [[ ! -e $test_root/home/.config/hypr/hyprland.lua ]] || fail "minimal install leaked components"
 pass "fresh minimal install"
 
@@ -102,7 +102,7 @@ run_rollback "$fish_snapshot" >/dev/null
 pass "Bash, Zsh, and Fish integration"
 
 printf 'original\n' >"$test_root/home/.bashrc"
-if HOME=$test_root/home XDG_STATE_HOME=$test_root/state SUBCULT_SKIP_ACTIVATE=1 SUBCULT_RELEASE_131_NESTED=1 SUBCULT_RELEASE_ARTIFACT_NESTED=1 SUBCULT_CROSS_CHANNEL_NESTED=1 SUBCULT_FORCE_INSTALL_FAILURE=1 "$root/install.sh" --apply --components shell-integration --yes >/dev/null 2>&1; then
+if HOME=$test_root/home XDG_STATE_HOME=$test_root/state SUBCULT_SKIP_ACTIVATE=1 SUBCULT_RELEASE_ARTIFACT_NESTED=1 SUBCULT_CROSS_CHANNEL_NESTED=1 SUBCULT_FORCE_INSTALL_FAILURE=1 "$root/install.sh" --apply --components shell-integration --yes >/dev/null 2>&1; then
   fail "forced failure unexpectedly succeeded"
 fi
 grep -qx original "$test_root/home/.bashrc" || fail "automatic rollback did not restore bashrc"

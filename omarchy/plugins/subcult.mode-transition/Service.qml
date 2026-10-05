@@ -12,7 +12,7 @@ Item {
   property string modeName: "SUBCULT"
   property string phase: "ACTIVE"
   property string detail: "OPERATING PARAMETERS SYNCHRONIZED"
-  property color accent: "#9cf23a"
+  property color accent: "#00ff88"
   property int eventCount: 0
   property var contextSurface: ({active:false,status:"baseline"})
   Motion.MotionState { id: motion }
@@ -23,8 +23,8 @@ Item {
   }
 
   function copy(name) {
-    var values={"presentation":["SUBCULT PRESENTATION","VISUAL TELEMETRY CHANNEL","#62d8ff"],"deployment":["SUBCULT DEPLOYMENT","MISSION WORKSPACE","#f6a52f"],"closed-door":["CLOSED DOOR","COMMUNICATION BARRIER","#ffd166"],"intrusion":["ANGEL INTRUSION","CONDITION ONE SIMULATION","#ff4055"],"docked":["DOCK LINK","EXTERNAL OPERATIONS PROFILE","#62d8ff"],"mobile":["MOBILE OPERATIONS","INTERNAL SYSTEM PROFILE","#9cf23a"],"terminal-context":["TERMINAL CONTEXT","ISOLATED PROFILE","#b76cff"]}
-    return values[name]||[String(name||"SUBCULT").toUpperCase(),"OPERATING MODE","#9cf23a"]
+    var values={"presentation":["SUBCULT PRESENTATION","VISUAL TELEMETRY CHANNEL","#62d8ff"],"deployment":["SUBCULT DEPLOYMENT","MISSION WORKSPACE","#f6a52f"],"closed-door":["CLOSED DOOR","COMMUNICATION BARRIER","#ffd166"],"intrusion":["INTRUSION DRILL","CONDITION ONE SIMULATION","#ff4055"],"docked":["DOCK LINK","EXTERNAL OPERATIONS PROFILE","#62d8ff"],"mobile":["MOBILE OPERATIONS","INTERNAL SYSTEM PROFILE","#00ff88"],"terminal-context":["TERMINAL CONTEXT","ISOLATED PROFILE","#a78bfa"]}
+    return values[name]||[String(name||"SUBCULT").toUpperCase(),"OPERATING MODE","#00ff88"]
   }
   function show(name,nextPhase,nextDetail) {
     var words=copy(name)
@@ -34,7 +34,7 @@ Item {
   }
   function contextAccent(fallback) {
     if (!contextSurface.active) return fallback
-    var colors={critical:"#ff4055",constrained:"#f6d447",offline:"#f6d447",docked:"#62d8ff",mobile:"#9cf23a","media-active":"#b76cff"}
+    var colors={critical:"#ff4055",constrained:"#f6d447",offline:"#f6d447",docked:"#62d8ff",mobile:"#00ff88","media-active":"#a78bfa"}
     return colors[contextSurface.status]||fallback
   }
   function refreshContext() { if (!contextProbe.running) contextProbe.running=true }
@@ -76,8 +76,8 @@ Item {
         }
         spacing: 7
         Text{width:parent.width;text:root.modeName+" // "+root.phase;color:root.accent;elide:Text.ElideRight;font.family:"JetBrainsMono Nerd Font";font.pixelSize:18;font.bold:true;font.letterSpacing:1}
-        Rectangle{width:parent.width;height:1;color:"#7450a6"}
-        Text{width:parent.width;text:root.detail;color:"#eee8ff";elide:Text.ElideRight;font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true;font.letterSpacing:.6}
+        Rectangle{width:parent.width;height:1;color:"#7c5ce0"}
+        Text{width:parent.width;text:root.detail;color:"#f0ece4";elide:Text.ElideRight;font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true;font.letterSpacing:.6}
       }
     }
   }

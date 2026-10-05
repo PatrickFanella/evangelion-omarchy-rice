@@ -7,11 +7,11 @@ out=Path(sys.argv[1]) if len(sys.argv)>1 else root/"test-results/affinity-motion
 script=(root/"bin/subcult-affinity").read_text()
 cases={"5-subcult-acid.png":"acid","6-subcult-paper.png":"paper","2-subcult-violet.png":"violet","7-subcult-ink.png":"ink","custom.png":"neutral"}
 palettes={
-  "neutral":("#A995B8","#0B0810"),
-  "acid":("#D8B84E","#0B0905"),
-  "paper":("#79BFE3","#050B12"),
-  "violet":("#B79ACB","#0B0810"),
-  "ink":("#D77A64","#0D0504"),
+  "neutral":("#B9A8E6","#0B0812"),
+  "acid":("#7FE8B5","#050D09"),
+  "paper":("#D9D1C2","#0E0C09"),
+  "violet":("#C4B5FD","#0E0819"),
+  "ink":("#A9A3BC","#060409"),
 }
 
 def luminance(value):

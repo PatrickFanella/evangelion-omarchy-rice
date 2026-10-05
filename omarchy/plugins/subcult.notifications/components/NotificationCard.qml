@@ -51,10 +51,10 @@ BorderSurface {
 
   readonly property color dimColor: Qt.darker(Color.notifications.text, 1.35)
   readonly property color bodyColor: Qt.darker(Color.notifications.text, 1.10)
-  readonly property color severityColor: urgency === 2 ? "#FF4055" : (urgency === 1 ? "#F6B73C" : "#9CF23A")
+  readonly property color severityColor: urgency === 2 ? "#FF4055" : (urgency === 1 ? "#F6B73C" : "#00FF88")
   readonly property string severityLabel: urgency === 2 ? "CRITICAL ALERT" : (urgency === 1 ? "SYSTEM WARNING" : "SUBCULT INFORMATION")
   readonly property string severityGlyph: urgency === 2 ? "▲" : (urgency === 1 ? "◆" : "●")
-  readonly property color contextColor: ({critical:"#FF4055",constrained:"#F6D447",offline:"#F6D447",docked:"#62D8FF",mobile:"#9CF23A","media-active":"#B76CFF"})[String(contextSurface.status||"")] || severityColor
+  readonly property color contextColor: ({critical:"#FF4055",constrained:"#F6D447",offline:"#F6D447",docked:"#62D8FF",mobile:"#00FF88","media-active":"#A78BFA"})[String(contextSurface.status||"")] || severityColor
   readonly property color accentColor: urgency === 0 && contextSurface.active ? contextColor : severityColor
   readonly property var cardBorderSpec: Border.flat(accentColor, Math.max(1, Style.space(2)))
 

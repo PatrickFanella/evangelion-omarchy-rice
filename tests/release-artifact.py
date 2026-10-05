@@ -55,7 +55,7 @@ with tempfile.TemporaryDirectory(prefix="subcult-artifact-test-") as raw:
     env = os.environ | {
         "HOME": str(home), "XDG_STATE_HOME": str(state),
         "SUBCULT_SKIP_ACTIVATE": "1", "SUBCULT_SOURCE_ONLY": "1",
-        "SUBCULT_RELEASE_131_NESTED": "1", "SUBCULT_RELEASE_ARTIFACT_NESTED": "1",
+        "SUBCULT_RELEASE_ARTIFACT_NESTED": "1",
     }
     run(str(suite / "preflight.py"), "--source-only", cwd=suite, env=env)
     run(str(suite / "scripts/build-release"), "verify-root", str(suite), cwd=suite, env=env)

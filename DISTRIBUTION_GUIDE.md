@@ -52,9 +52,9 @@ the standalone clone before moving to the suite.
 Download the archive and matching `.sha256` from the GitHub release, then:
 
 ```bash
-sha256sum --check subcult-omarchy-rice-1.5.1.tar.gz.sha256
-tar -xzf subcult-omarchy-rice-1.5.1.tar.gz
-cd subcult-omarchy-rice-1.5.1
+sha256sum --check subcult-omarchy-rice-2.0.0.tar.gz.sha256
+tar -xzf subcult-omarchy-rice-2.0.0.tar.gz
+cd subcult-omarchy-rice-2.0.0
 ./scripts/build-release verify-root .
 ./preflight.py
 ./install.sh --dry-run --preset default

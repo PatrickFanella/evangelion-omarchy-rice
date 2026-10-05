@@ -1,4 +1,4 @@
-# Workspace Identities
+# Workspace identities
 
 Open **SUBCULT Control Center** and press `W`, or choose **Workspace Identities**
 from the SUBCULT menu. The editor changes the full identity, compact token, and
@@ -25,7 +25,7 @@ Import is preview-first and captures a named settings snapshot before applying:
 
 ```bash
 subcult-workspaces status --json --width 1366
-subcult-workspaces set 4 "WORKBENCH · DEVELOPMENT" --short ENT \
+subcult-workspaces set 4 "WORKBENCH · DEVELOPMENT" --short WRK \
   --channel "WORKBENCH · BUILD CHANNEL"
 subcult-workspaces export ./my-workspaces.json
 subcult-workspaces import ./my-workspaces.json

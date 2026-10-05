@@ -22,9 +22,9 @@ subcult-i18n validate
 ```
 
 Pseudo-locales persist only their locale identifier in a mode-0600 state file.
-They do not collect machine or identity data. `SUBCULT`, `SUBCULT`, `SUBCULT`, `SUBCULT`,
-and `Closed Door` are protected franchise terms and remain unchanged unless the
-project explicitly adopts localized official terminology later.
+They do not collect machine or identity data. `SUBCULT`, `SUBCULT.TV`, and
+`Closed Door` are protected brand terms and remain unchanged unless the project
+explicitly adopts localized official terminology later.
 
 ## Layout rules
 

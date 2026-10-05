@@ -46,7 +46,7 @@ def source_checks():
     assert "minimalBar" in workspaces and "compactBar" in workspaces
     assert "parent.width - 32" in lock and "parent.height - 48" in lock
     assert "Screen.width - Style.space(24)" in notifications
-    for plugin in ("workspace-osd", "device-osd", "power-sequence", "subcult-idle", "intrusion", "update-operation"):
+    for plugin in ("workspace-osd", "device-osd", "power-sequence", "idle", "intrusion", "update-operation"):
         source = (ROOT / f"omarchy/plugins/subcult.{plugin}/Service.qml").read_text()
         assert "focusedMonitor" in source and "screen: root.targetScreen" in source.replace("screen:root", "screen: root")
 

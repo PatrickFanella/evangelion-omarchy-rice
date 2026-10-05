@@ -47,12 +47,12 @@ for contract in (
 for forbidden_chrome in ("Rectangle {", "HoverHandler", "border.color", "stateColor"):
     assert forbidden_chrome not in frame, forbidden_chrome
 
-assert 'text             = "#B79ACB"' in bar_theme
+assert 'text             = "#B9A8E6"' in bar_theme
 affinity = (root / "bin/subcult-affinity").read_text()
 assert 'text = "#$bar_icon"' in affinity
 variant_registry = json.loads((root / "omarchy/theme-variants.json").read_text())
 assert {row["bar_icon"] for row in variant_registry["affinities"].values()} == {
-    "A995B8", "D8B84E", "79BFE3", "B79ACB", "D77A64"
+    "B9A8E6", "7FE8B5", "D9D1C2", "C4B5FD", "A9A3BC"
 }
 assert '"bar_icon"' in affinity and "subcult-theme-variant" in affinity
 
@@ -61,7 +61,7 @@ for forbidden in ("/home/", "so1omon", "Screen.name"):
 
 assert "full-color" in docs
 assert "Symbolic icons" in docs
-assert "#B79ACB" in docs
+assert "#B9A8E6" in docs
 assert "no per-widget frames" in docs
 assert "Acid Block" in docs and "Ink" in docs
 assert "fallback" in docs.lower()

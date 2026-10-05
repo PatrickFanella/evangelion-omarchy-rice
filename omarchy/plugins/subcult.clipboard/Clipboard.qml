@@ -27,8 +27,8 @@ Item {
   // style the clipboard. Selected-row colors composed in the
   // singleton so consumers drop them straight into Rectangle bindings.
   property color background: "#f2080710"
-  property color foreground: "#eee8ff"
-  property color border: "#9cf23a"
+  property color foreground: "#f0ece4"
+  property color border: "#00ff88"
   property var borderSpec: Border.surfaceSpec("menu", "border", border, Math.max(1, Style.space(2)))
   property color scrim: Color.menu.scrim
   property color selectedBackground: "#d1271740"
@@ -496,7 +496,7 @@ Item {
               spacing: Style.space(10)
               Text {
                 text: "SUBCULT // CLASSIFIED DATA ARCHIVE"
-                color: "#9cf23a"
+                color: "#00ff88"
                 font.family: root.fontFamily
                 font.pixelSize: Style.font.heading
                 font.bold: true
@@ -576,7 +576,7 @@ Item {
                       height: Style.space(24)
                       anchors.verticalCenter: parent.verticalCenter
                       radius: 2
-                      color: parent.parent.hasCursor ? "#9cf23a" : "#352452"
+                      color: parent.parent.hasCursor ? "#00ff88" : "#352452"
                       border.width: 1
                       border.color: parent.parent.hasCursor ? "#b8ff5a" : "#7654a8"
 
@@ -694,7 +694,7 @@ Item {
                 Text {
                   width: parent.width
                   text: "SENSITIVE RECORD\nPREVIEW CONCEALED"
-                  color: "#eee8ff"
+                  color: "#f0ece4"
                   font.family: root.fontFamily
                   font.pixelSize: Style.font.title
                   font.bold: true
@@ -704,7 +704,7 @@ Item {
                 Text {
                   width: parent.width
                   text: "CTRL+H TO REVEAL"
-                  color: "#9cf23a"
+                  color: "#00ff88"
                   font.family: root.fontFamily
                   font.pixelSize: Style.font.caption
                   horizontalAlignment: Text.AlignHCenter

@@ -4,7 +4,7 @@ Item {
   id: root
   property bool active: false
   property bool critical: false
-  property color cueColor: "#9cf23a"
+  property color cueColor: "#00ff88"
   property int cueWidth: 3
 
   MotionState { id: motion }

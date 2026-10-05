@@ -1,10 +1,10 @@
 local profiles = {
-  ["violet"] = { accent = "#B76CFF", selection = "#4B286D", muted = "#665577" },
-  subcult = { accent = "#9CF23A", selection = "#244D2E", muted = "#58705D" },
+  ["violet"] = { accent = "#B69CFF", selection = "#4C2F99", muted = "#6A5A8C" },
+  subcult = { accent = "#00FF88", selection = "#3B2470", muted = "#5E5570" },
   engineering = { accent = "#F28C28", selection = "#633417", muted = "#806752" },
-  ["acid"] = { accent = "#F6C744", selection = "#5B4215", muted = "#756843" },
-  ["paper"] = { accent = "#55D9FF", selection = "#173D68", muted = "#526B83" },
-  ["ink"] = { accent = "#FF5A36", selection = "#61251C", muted = "#7D5148" },
+  ["acid"] = { accent = "#00FF88", selection = "#0F4A33", muted = "#4E6B5E" },
+  ["paper"] = { accent = "#F0ECE4", selection = "#4A4033", muted = "#7A7064" },
+  ["ink"] = { accent = "#A78BFA", selection = "#2E2448", muted = "#55506A" },
 }
 
 local function profile_path()

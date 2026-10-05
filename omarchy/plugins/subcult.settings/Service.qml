@@ -116,7 +116,7 @@ Item {
             width: parent.width; height: 54
             Column { width: parent.width * .72; spacing: 4
               Text { text: i18n.tr("settings.title").toUpperCase(); color: "#f6d447"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 22; font.bold: true; font.letterSpacing: 2 }
-              Text { text: i18n.tr("settings.subtitle").toUpperCase(); color: "#a89eb0"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 10; font.letterSpacing: 1 }
+              Text { text: i18n.tr("settings.subtitle").toUpperCase(); color: "#a69fb3"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 10; font.letterSpacing: 1 }
             }
             Text { width: parent.width * .28; horizontalAlignment: Text.AlignRight; text: "SUBCULT // 01"; color: "#62d8ff"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 13; font.bold: true }
           }
@@ -134,10 +134,10 @@ Item {
                   width: parent.width; height: root.rowHeight; color: index === root.selected ? "#3af6d447" : "#8a100d16"
                   border.width: index === root.selected ? 1 : 0; border.color: "#f6d447"
                   Row { anchors.fill: parent; anchors.margins: 10; spacing: 10
-                    Text { width: 26; text: String(index + 1).padStart(2, "0"); color: index === root.selected ? "#f6d447" : "#8f8299"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 10 }
+                    Text { width: 26; text: String(index + 1).padStart(2, "0"); color: index === root.selected ? "#f6d447" : "#9a92a8"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 10 }
                     Column { width: parent.width - 150; spacing: 2
                       Text { width: parent.width; elide: Text.ElideRight; text: String(modelData.label).toUpperCase(); color: index === root.selected ? "#fff6dc" : "#c4bacb"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 12*root.fontScale; font.bold: true }
-                      Text { text: String(modelData.category).toUpperCase(); color: "#8E809A"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 8; font.letterSpacing: 1 }
+                      Text { text: String(modelData.category).toUpperCase(); color: "#9A92A8"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 8; font.letterSpacing: 1 }
                     }
                     Text { width: 94; horizontalAlignment: Text.AlignRight; elide: Text.ElideLeft; text: modelData.read_only ? "LOCKED" : String(modelData.value || "—").toUpperCase(); color: modelData.capability.status === "available" ? "#62d8ff" : "#f05a68"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 10; font.bold: true }
                   }
@@ -146,27 +146,27 @@ Item {
               }}
             }
             Rectangle {
-              width: parent.width * .47 - 18; height: parent.height; color: "#b308070d"; border.width: 1; border.color: "#7450a6"
+              width: parent.width * .47 - 18; height: parent.height; color: "#b308070d"; border.width: 1; border.color: "#7c5ce0"
               Column { anchors.fill: parent; anchors.margins: 22; spacing: 14
                 Text { text: root.active ? String(root.active.category).toUpperCase() + " // CONTROL" : ""; color: "#f6d447"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 10; font.bold: true; font.letterSpacing: 1 }
                 Text { width: parent.width; wrapMode: Text.WordWrap; text: root.active ? String(root.active.label).toUpperCase() : ""; color: "#fff6dc"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 20; font.bold: true }
                 Rectangle { width: parent.width; height: 70; color: "#70181320"; border.width: 1; border.color: "#6e5720"
                   Column { anchors.fill: parent; anchors.margins: 12; spacing: 6
-                    Text { text: i18n.tr("settings.target").toUpperCase(); color: "#8f8299"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 9 }
+                    Text { text: i18n.tr("settings.target").toUpperCase(); color: "#9a92a8"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 9 }
                     Text { width: parent.width; elide: Text.ElideRight; text: root.active ? (root.active.read_only ? "ALWAYS-ON // SAFETY LOCK" : String(root.active.values[root.choice]).toUpperCase()) : "—"; color: "#62d8ff"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 14; font.bold: true }
                   }
                 }
-                Text { width: parent.width; wrapMode: Text.WordWrap; text: root.active && root.active.capability.status !== "available" ? root.active.capability.reason : (root.active && root.active.read_only ? root.active.reason : i18n.tr("settings.preview_hint")); color: root.active && (root.active.read_only || root.active.capability.status !== "available") ? "#f05a68" : "#a89eb0"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 10 }
-                Rectangle { width: parent.width; height: 1; color: "#46354f" }
+                Text { width: parent.width; wrapMode: Text.WordWrap; text: root.active && root.active.capability.status !== "available" ? root.active.capability.reason : (root.active && root.active.read_only ? root.active.reason : i18n.tr("settings.preview_hint")); color: root.active && (root.active.read_only || root.active.capability.status !== "available") ? "#f05a68" : "#a69fb3"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 10 }
+                Rectangle { width: parent.width; height: 1; color: "#3a3150" }
                 Text { text: i18n.tr("settings.preview").toUpperCase(); color: "#f6d447"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 10; font.bold: true }
-                Text { width: parent.width; wrapMode: Text.WordWrap; text: root.pending ? String(root.pending.before).toUpperCase() + "  →  " + String(root.pending.after).toUpperCase() : i18n.tr("settings.no_preview"); color: root.pending ? "#fff6dc" : "#8f8299"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 13; font.bold: root.pending !== null }
-                Text { width: parent.width; wrapMode: Text.WordWrap; text: root.pending ? root.pending.effects.join("\n") : ""; color: "#a89eb0"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 9 }
+                Text { width: parent.width; wrapMode: Text.WordWrap; text: root.pending ? String(root.pending.before).toUpperCase() + "  →  " + String(root.pending.after).toUpperCase() : i18n.tr("settings.no_preview"); color: root.pending ? "#fff6dc" : "#9a92a8"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 13; font.bold: root.pending !== null }
+                Text { width: parent.width; wrapMode: Text.WordWrap; text: root.pending ? root.pending.effects.join("\n") : ""; color: "#a69fb3"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 9 }
                 Item { width: 1; height: 1 }
                 Text { width: parent.width; wrapMode: Text.WordWrap; text: root.notice; color: "#62d8ff"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 10; font.bold: true }
               }
             }
           }
-          Text { width: parent.width; horizontalAlignment: Text.AlignHCenter; text: i18n.tr("settings.keys").toUpperCase()+"  ·  W "+i18n.tr("settings.workspaces").toUpperCase()+"  ·  C "+i18n.tr("settings.scenes").toUpperCase(); color: "#8f8299"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 9; font.letterSpacing: .5 }
+          Text { width: parent.width; horizontalAlignment: Text.AlignHCenter; text: i18n.tr("settings.keys").toUpperCase()+"  ·  W "+i18n.tr("settings.workspaces").toUpperCase()+"  ·  C "+i18n.tr("settings.scenes").toUpperCase(); color: "#9a92a8"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 9; font.letterSpacing: .5 }
         }
       }
     }

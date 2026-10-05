@@ -148,7 +148,7 @@ Item {
       radius: 3
       color: "#ed080710"
       border.width: 2
-      border.color: "#9cf23a"
+      border.color: "#00ff88"
       opacity: root.opened ? 1 : 0
 
       Behavior on opacity {
@@ -159,7 +159,7 @@ Item {
       Rectangle {
         width: 8
         anchors { top: parent.top; bottom: parent.bottom; left: parent.left }
-        color: "#7b2cbf"
+        color: "#7c3aed"
       }
 
       Rectangle {
@@ -181,7 +181,7 @@ Item {
         Text {
           width: parent.width
           text: root.heading
-          color: "#9cf23a"
+          color: "#00ff88"
           elide: Text.ElideRight
           font.family: "JetBrainsMono Nerd Font"
           font.pixelSize: 20
@@ -189,7 +189,7 @@ Item {
           font.letterSpacing: 1.2
         }
 
-        Rectangle { width: parent.width; height: 1; color: "#7450a6" }
+        Rectangle { width: parent.width; height: 1; color: "#7c5ce0" }
 
         Row {
           spacing: 10
@@ -200,7 +200,7 @@ Item {
           }
           Text {
             text: root.channel
-            color: "#eee8ff"
+            color: "#f0ece4"
             font.family: "JetBrainsMono Nerd Font"
             font.pixelSize: 12
             font.bold: true

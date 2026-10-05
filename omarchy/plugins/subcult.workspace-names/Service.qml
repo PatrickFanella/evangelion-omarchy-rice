@@ -50,39 +50,39 @@ Item {
           Row{width:parent.width;height:50
             Column{width:parent.width*.75;spacing:4
               Text{text:i18n.tr("workspaces.title").toUpperCase();color:"#62d8ff";font.family:"JetBrainsMono Nerd Font";font.pixelSize:21;font.bold:true;font.letterSpacing:2}
-              Text{text:i18n.tr("workspaces.subtitle").toUpperCase();color:"#a89eb0";font.family:"JetBrainsMono Nerd Font";font.pixelSize:9;font.letterSpacing:1}
+              Text{text:i18n.tr("workspaces.subtitle").toUpperCase();color:"#a69fb3";font.family:"JetBrainsMono Nerd Font";font.pixelSize:9;font.letterSpacing:1}
             }
             Text{width:parent.width*.25;horizontalAlignment:Text.AlignRight;text:"IDENTITY // "+String(root.current?root.current.id:0).padStart(2,"0");color:"#f6d447";font.family:"JetBrainsMono Nerd Font";font.pixelSize:12;font.bold:true}
           }
-          Rectangle{width:parent.width;height:1;color:"#46354f"}
+          Rectangle{width:parent.width;height:1;color:"#3a3150"}
           Row{width:parent.width;height:parent.height-135;spacing:18
             Column{width:210;spacing:6
               Repeater{model:root.workspaces;delegate:Rectangle{required property var modelData;required property int index;width:parent.width;height:54;color:index===root.selected?"#3262d8ff":"#8a100d16";border.width:index===root.selected?1:0;border.color:"#62d8ff"
                 Column{anchors.fill:parent;anchors.margins:9;spacing:3
                   Text{text:String(modelData.id).padStart(2,"0")+" // "+String(modelData.resolved_short);color:index===root.selected?"#fff6dc":"#b8adbf";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true}
-                  Text{width:parent.width;elide:Text.ElideRight;text:String(modelData.name);color:"#8E809A";font.family:"JetBrainsMono Nerd Font";font.pixelSize:8}
+                  Text{width:parent.width;elide:Text.ElideRight;text:String(modelData.name);color:"#9A92A8";font.family:"JetBrainsMono Nerd Font";font.pixelSize:8}
                 }
                 MouseArea{anchors.fill:parent;onClicked:{root.selected=index;root.loadFields();keyCatcher.forceActiveFocus()}}
               }}
             }
-            Rectangle{width:parent.width-228;height:parent.height;color:"#b308070d";border.width:1;border.color:"#7450a6"
+            Rectangle{width:parent.width-228;height:parent.height;color:"#b308070d";border.width:1;border.color:"#7c5ce0"
               Column{anchors.fill:parent;anchors.margins:22;spacing:12
                 Text{text:i18n.tr("workspaces.full_name").toUpperCase();color:"#f6d447";font.family:"JetBrainsMono Nerd Font";font.pixelSize:9;font.bold:true}
-                Rectangle{width:parent.width;height:48;color:"#70181320";border.width:nameInput.activeFocus?2:1;border.color:nameInput.activeFocus?"#62d8ff":"#46354f"
-                  TextInput{id:nameInput;anchors.fill:parent;anchors.margins:12;color:"#fff6dc";selectionColor:"#7450a6";font.family:"JetBrainsMono Nerd Font";font.pixelSize:13;maximumLength:48;activeFocusOnTab:true;Accessible.role:Accessible.EditableText;Accessible.name:i18n.tr("workspaces.full_name");Accessible.description:"Full workspace name, maximum 48 characters";verticalAlignment:TextInput.AlignVCenter}}
+                Rectangle{width:parent.width;height:48;color:"#70181320";border.width:nameInput.activeFocus?2:1;border.color:nameInput.activeFocus?"#62d8ff":"#3a3150"
+                  TextInput{id:nameInput;anchors.fill:parent;anchors.margins:12;color:"#fff6dc";selectionColor:"#7c5ce0";font.family:"JetBrainsMono Nerd Font";font.pixelSize:13;maximumLength:48;activeFocusOnTab:true;Accessible.role:Accessible.EditableText;Accessible.name:i18n.tr("workspaces.full_name");Accessible.description:"Full workspace name, maximum 48 characters";verticalAlignment:TextInput.AlignVCenter}}
                 Text{text:i18n.tr("workspaces.short").toUpperCase();color:"#f6d447";font.family:"JetBrainsMono Nerd Font";font.pixelSize:9;font.bold:true}
-                Rectangle{width:parent.width;height:48;color:"#70181320";border.width:shortInput.activeFocus?2:1;border.color:shortInput.activeFocus?"#62d8ff":"#46354f"
-                  TextInput{id:shortInput;anchors.fill:parent;anchors.margins:12;color:"#62d8ff";selectionColor:"#7450a6";font.capitalization:Font.AllUppercase;font.family:"JetBrainsMono Nerd Font";font.pixelSize:13;maximumLength:8;activeFocusOnTab:true;Accessible.role:Accessible.EditableText;Accessible.name:i18n.tr("workspaces.short");Accessible.description:"Compact workspace label, maximum 8 characters";verticalAlignment:TextInput.AlignVCenter}}
+                Rectangle{width:parent.width;height:48;color:"#70181320";border.width:shortInput.activeFocus?2:1;border.color:shortInput.activeFocus?"#62d8ff":"#3a3150"
+                  TextInput{id:shortInput;anchors.fill:parent;anchors.margins:12;color:"#62d8ff";selectionColor:"#7c5ce0";font.capitalization:Font.AllUppercase;font.family:"JetBrainsMono Nerd Font";font.pixelSize:13;maximumLength:8;activeFocusOnTab:true;Accessible.role:Accessible.EditableText;Accessible.name:i18n.tr("workspaces.short");Accessible.description:"Compact workspace label, maximum 8 characters";verticalAlignment:TextInput.AlignVCenter}}
                 Text{text:i18n.tr("workspaces.channel").toUpperCase();color:"#f6d447";font.family:"JetBrainsMono Nerd Font";font.pixelSize:9;font.bold:true}
-                Rectangle{width:parent.width;height:48;color:"#70181320";border.width:channelInput.activeFocus?2:1;border.color:channelInput.activeFocus?"#62d8ff":"#46354f"
-                  TextInput{id:channelInput;anchors.fill:parent;anchors.margins:12;color:"#fff6dc";selectionColor:"#7450a6";font.family:"JetBrainsMono Nerd Font";font.pixelSize:12;maximumLength:64;activeFocusOnTab:true;Accessible.role:Accessible.EditableText;Accessible.name:i18n.tr("workspaces.channel");Accessible.description:"Workspace channel description, maximum 64 characters";verticalAlignment:TextInput.AlignVCenter}}
+                Rectangle{width:parent.width;height:48;color:"#70181320";border.width:channelInput.activeFocus?2:1;border.color:channelInput.activeFocus?"#62d8ff":"#3a3150"
+                  TextInput{id:channelInput;anchors.fill:parent;anchors.margins:12;color:"#fff6dc";selectionColor:"#7c5ce0";font.family:"JetBrainsMono Nerd Font";font.pixelSize:12;maximumLength:64;activeFocusOnTab:true;Accessible.role:Accessible.EditableText;Accessible.name:i18n.tr("workspaces.channel");Accessible.description:"Workspace channel description, maximum 64 characters";verticalAlignment:TextInput.AlignVCenter}}
                 Rectangle{width:parent.width;height:74;color:"#50100d16";border.width:1;border.color:"#6e5720"
                   Column{anchors.fill:parent;anchors.margins:11;spacing:7
-                    Text{text:i18n.tr("workspaces.preview").toUpperCase();color:"#8f8299";font.family:"JetBrainsMono Nerd Font";font.pixelSize:8}
+                    Text{text:i18n.tr("workspaces.preview").toUpperCase();color:"#9a92a8";font.family:"JetBrainsMono Nerd Font";font.pixelSize:8}
                     Row{spacing:18
                       Text{text:"2560  "+(root.current?(String(root.current.id).padStart(2,"0")+"·"+nameInput.text.split("·").pop().trim().slice(0,12)):"—");color:"#f6d447";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true}
                       Text{text:"1366  "+(root.current?(String(root.current.id).padStart(2,"0")+"·"+shortInput.text.toUpperCase()):"—");color:"#62d8ff";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true}
-                      Text{text:"<1200  "+(root.current?String(root.current.id):"—");color:"#a89eb0";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true}
+                      Text{text:"<1200  "+(root.current?String(root.current.id):"—");color:"#a69fb3";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true}
                     }
                   }
                 }
@@ -90,7 +90,7 @@ Item {
               }
             }
           }
-          Text{width:parent.width;horizontalAlignment:Text.AlignHCenter;text:i18n.tr("workspaces.keys").toUpperCase();color:"#8f8299";font.family:"JetBrainsMono Nerd Font";font.pixelSize:9}
+          Text{width:parent.width;horizontalAlignment:Text.AlignHCenter;text:i18n.tr("workspaces.keys").toUpperCase();color:"#9a92a8";font.family:"JetBrainsMono Nerd Font";font.pixelSize:9}
         }
       }
     }

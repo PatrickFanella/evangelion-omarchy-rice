@@ -87,9 +87,9 @@ Item {
         anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; leftMargin: 32; rightMargin: 24 }
         spacing: 9
         Text {width:parent.width;text:root.heading;color:root.accent;elide:Text.ElideRight;font.family:"JetBrainsMono Nerd Font";font.pixelSize:20;font.bold:true;font.letterSpacing:1.0}
-        Rectangle {width:parent.width;height:1;color:"#7450a6"}
-        Text {width:parent.width;text:root.detail;color:"#eee8ff";elide:Text.ElideRight;font.family:"JetBrainsMono Nerd Font";font.pixelSize:12;font.bold:true;font.letterSpacing:0.7}
-        Text {visible:root.actionHint!=="";text:root.actionHint;color:"#9cf23a";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true}
+        Rectangle {width:parent.width;height:1;color:"#7c5ce0"}
+        Text {width:parent.width;text:root.detail;color:"#f0ece4";elide:Text.ElideRight;font.family:"JetBrainsMono Nerd Font";font.pixelSize:12;font.bold:true;font.letterSpacing:0.7}
+        Text {visible:root.actionHint!=="";text:root.actionHint;color:"#00ff88";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true}
       }
     }
   }

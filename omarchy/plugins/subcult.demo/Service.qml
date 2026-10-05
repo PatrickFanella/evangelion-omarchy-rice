@@ -58,7 +58,7 @@ Item {
         Row { width:parent.width
           Column { width:parent.width*.67; spacing:5
             Text { width:parent.width; elide:Text.ElideRight; text:i18n.tr("demo.title").toUpperCase(); color:root.model.accent; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:22; font.bold:true }
-            Text { text:String(root.model.scenario).toUpperCase()+"  ·  "+String(root.model.affinity).toUpperCase(); color:"#eee8ff"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:13; font.bold:true }
+            Text { text:String(root.model.scenario).toUpperCase()+"  ·  "+String(root.model.affinity).toUpperCase(); color:"#f0ece4"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:13; font.bold:true }
           }
           Text { width:parent.width*.33; horizontalAlignment:Text.AlignRight; text:String(root.model.status).toUpperCase(); color:root.model.accent; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:24; font.bold:true }
         }
@@ -73,27 +73,27 @@ Item {
           ]; delegate:Rectangle { required property var modelData; width:(parent.width-24)/3; height:94; color:"#b30d0b12"; border.width:1; border.color:root.model.accent
             Column { anchors.fill:parent; anchors.margins:14; spacing:9
               Text { text:modelData[0]; color:root.model.accent; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:10; font.bold:true; font.letterSpacing:1 }
-              Text { width:parent.width; text:modelData[1]; elide:Text.ElideRight; color:"#eee8ff"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:14; font.bold:true }
+              Text { width:parent.width; text:modelData[1]; elide:Text.ElideRight; color:"#f0ece4"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:14; font.bold:true }
             }
           } }
         }
-        Rectangle { width:parent.width; height:112; color:"#b30d0b12"; border.width:1; border.color:"#7450a6"
+        Rectangle { width:parent.width; height:112; color:"#b30d0b12"; border.width:1; border.color:"#7c5ce0"
           Row { anchors.fill:parent; anchors.margins:16; spacing:20
             Column { width:parent.width*.58; spacing:8
               Text { width:parent.width; elide:Text.ElideRight; text:i18n.tr("demo.audio",{state:String(root.model.media?.state||"standby")}).toUpperCase(); color:root.model.accent; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11; font.bold:true }
-              Text { text:i18n.tr(String(root.model.media?.title_key||"common.none")).toUpperCase(); color:"#eee8ff"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:18; font.bold:true }
-              Text { text:i18n.tr(String(root.model.media?.artist_key||"common.none")).toUpperCase(); color:"#aaa2b5"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 }
+              Text { text:i18n.tr(String(root.model.media?.title_key||"common.none")).toUpperCase(); color:"#f0ece4"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:18; font.bold:true }
+              Text { text:i18n.tr(String(root.model.media?.artist_key||"common.none")).toUpperCase(); color:"#a69fb3"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 }
             }
             Text { width:parent.width*.38; horizontalAlignment:Text.AlignRight; text:String(root.model.media?.position||"00:00")+" / "+String(root.model.media?.duration||"00:00"); color:"#62d8ff"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:14; font.bold:true }
           }
         }
         Column { width:parent.width; spacing:7
           Text { text:i18n.tr("demo.operations").toUpperCase(); color:root.model.accent; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11; font.bold:true }
-          Repeater { model:root.model.operation_log||[]; delegate:Text { required property var modelData; width:parent.width; elide:Text.ElideRight; text:"--:--:--   DEMO   "+i18n.tr(String(modelData.key),modelData.args||({})).toUpperCase(); color:"#aaa2b5"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 } }
+          Repeater { model:root.model.operation_log||[]; delegate:Text { required property var modelData; width:parent.width; elide:Text.ElideRight; text:"--:--:--   DEMO   "+i18n.tr(String(modelData.key),modelData.args||({})).toUpperCase(); color:"#a69fb3"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 } }
         }
         Item { width:1; height:1 }
         Row { width:parent.width
-          Text { width:parent.width*.7; elide:Text.ElideRight; text:i18n.tr("demo.footer",{current:String((root.model.scenario_index||0)+1).padStart(2,"0"),total:String(root.model.scenario_count||0).padStart(2,"0")}).toUpperCase(); color:"#aaa2b5"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 }
+          Text { width:parent.width*.7; elide:Text.ElideRight; text:i18n.tr("demo.footer",{current:String((root.model.scenario_index||0)+1).padStart(2,"0"),total:String(root.model.scenario_count||0).padStart(2,"0")}).toUpperCase(); color:"#a69fb3"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 }
           Text { width:parent.width*.3; horizontalAlignment:Text.AlignRight; elide:Text.ElideLeft; text:i18n.tr("demo.capture_safe").toUpperCase(); color:root.model.accent; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11; font.bold:true }
         }
       }

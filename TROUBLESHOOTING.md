@@ -26,7 +26,10 @@ find ~/.config/omarchy/plugins -mindepth 1 -maxdepth 1 -type d -name 'subcult.*'
 
 Never edit `/usr/share/omarchy`. Validate `shell.json` with
 `jq . ~/.config/omarchy/shell.json`. Old `so1omon.*` directories indicate an
-incomplete v1.0 migration; rerun the current shell component.
+incomplete v1.0 migration; rerun the current shell component. Leftover
+`evangelion.*` directories mean the upgrade from Evangelion Rice 1.5.x did not
+finish. `install.sh` moves them into its rollback snapshot; see
+[UPGRADING.md](UPGRADING.md).
 
 ## Motion modes and dynamic cues
 
@@ -100,16 +103,16 @@ systemctl --user --no-pager --full status subcult-affinity.path subcult-start-pa
 subcult-affinity palette
 subcult-bar-refresh status
 subcult-bar-refresh
+journalctl --user -u subcult-start-page.service --since "10 minutes ago" --no-pager
+curl --fail http://127.0.0.1:8765/api/status | jq .
+curl --fail http://127.0.0.1:8765/api/desktop | jq .
+```
 
 The affinity transaction is already committed when a bar refresh warning is
 shown. `subcult-bar-refresh` safely retries Omarchy's in-process theme IPC and can
 be run repeatedly. If it reports that shell IPC is unavailable, use
 `omarchy restart shell` once; the next affinity change will return to the
 non-restarting IPC path automatically.
-journalctl --user -u subcult-start-page.service --since "10 minutes ago" --no-pager
-curl --fail http://127.0.0.1:8765/api/status | jq .
-curl --fail http://127.0.0.1:8765/api/desktop | jq .
-```
 
 The desktop projection should show `affinity.state` as `current` and a
 workspace with `available: true`. `stale` means the last bar palette refresh

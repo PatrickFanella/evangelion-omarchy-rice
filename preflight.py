@@ -157,7 +157,9 @@ def build_report(activation):
               "Free space in the home filesystem before installation")
 
     port = port_open(8765)
-    expected_service = active_service("subcult-start-page.service")
+    # The Evangelion Rice start page holds the same port until the upgrade
+    # retires it, so either suite service counts as the expected owner.
+    expected_service = active_service("subcult-start-page.service") or active_service("magi-start-page.service")
     add_check(checks, "start-page-port", "blocker" if port and not expected_service else "pass",
               "port 8765 is " + ("owned by the existing SUBCULT service" if port and expected_service else "occupied by another process" if port else "available"),
               "Stop the process using TCP port 8765 or configure a different port")

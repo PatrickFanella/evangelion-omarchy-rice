@@ -1,5 +1,37 @@
 # Release notes
 
+## v2.0.0 — SUBCULT
+
+Evangelion Omarchy Rice becomes SUBCULT Omarchy Rice. Behavior is unchanged;
+the identity is new.
+
+- Commands are `subcult-*`, plugins are `subcult.*`, the theme is `subcult`,
+  and state lives under `subcult-rice`. Environment variables use the
+  `SUBCULT_` prefix.
+- Five affinity palettes from the SUBCULT brand pack replace the EVA units:
+  Press (`neutral`), Acid Block (`acid`), Paper Stock (`paper`), Violet Field
+  (`violet`), and Ink Run (`ink`). Every palette and theme variant passes the
+  existing contrast gates.
+- Seven poster-press wallpapers are rendered from the SUBCULT marks by
+  `scripts/build-wallpapers`. They replace the generated Evangelion artwork.
+- The theme ships the SUBCULT marks and the Oswald, Space Grotesk, and
+  JetBrains Mono fonts, and installs the fonts for the start page and
+  wallpapers.
+- Story terms are retired. Focus mode is Closed Door, the alert demonstration
+  is the intrusion drill, power transitions say mains power, and the three
+  status nodes are Press, Archive, and Door.
+- Installing over Evangelion Rice 1.5 retires the old suite into the rollback
+  snapshot, imports `evangelion.json`, and swaps unedited 1.5 defaults. See
+  [UPGRADING.md](UPGRADING.md#upgrade-from-evangelion-rice-15-to-subcult-20).
+  `tests/legacy-upgrade.sh` checks the upgrade and an exact rollback.
+- The v1.3 to v1.5 release-evidence tests are retired with the Evangelion
+  branding. Their records stay in `release/` and below.
+- The preflight accepts the Evangelion start page as the owner of port 8765,
+  so upgrades no longer stop at that check.
+- Evangelion desktop screenshots are removed. New captures are pending.
+
+Release history below is kept as published, including the old names.
+
 ## v1.5.1 — Workspace and presentation fixes
 
 Workspace buttons now measure their labels and retain padding in a grid that

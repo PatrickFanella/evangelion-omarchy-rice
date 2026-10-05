@@ -49,7 +49,7 @@ and precedence are in [VISUAL_CUSTOMIZATION.md](VISUAL_CUSTOMIZATION.md).
 
 Theme treatment is an independent inherited dimension. Select Standard, OLED,
 Daylight, or High Contrast in Control Center, or use `subcult-theme-variant
-preview`, `revert`, and `apply`. Wallpaper-driven SUBCULT/SUBCULT affinity remains
+preview`, `revert`, and `apply`. Wallpaper-driven affinity remains
 authoritative. See [THEME_VARIANTS.md](THEME_VARIANTS.md).
 
 Scene definitions live in the preserved `~/.config/omarchy/scenes.json`.
@@ -249,8 +249,9 @@ with `subcult-context refresh`.
 
 ### Ambient operations
 
-`subcult-ambient` projects local clock bands plus explicit SUBCULT Mission and A.T.
-Field state into restrained start-page copy and screensaver scene selection.
+`subcult-ambient` projects local clock bands plus explicit mission timer and
+Closed Door focus state into restrained start-page copy and screensaver scene
+selection.
 It does not infer activity, intent, or location, and it never overrides SUBCULT
 affinity, safety state, accessibility/motion settings, or manual profiles.
 
@@ -334,7 +335,7 @@ background service so all outputs reveal the same ready frame without a black
 or stretched intermediate. Affinity updates are serialized and debounced:
 rapid cycling settles on the final symlink, then shell colors, borders, and the
 profile for newly opened terminals commit transactionally. Auto mode announces
-the resulting SUBCULT unit only when it changes; manual mode stays authoritative.
+the resulting affinity only when it changes; manual mode stays authoritative.
 Full and Reduced retain Omarchy's supported compositor-safe reveal, while Off
 snaps the selected frame immediately. Unknown artwork resolves to neutral, and
 the original wallpaper commands, hashes, and licensing metadata are unchanged.
@@ -345,10 +346,10 @@ and isolated terminal context report entering, active, exited, or aborted state
 without covering the desktop or taking focus. Full adds a small edge acquisition
 cue, Reduced uses only a short fade, and Off changes immediately. Deployment
 and Presentation roll back partial launches; existing sessions are focused
-instead of duplicated. Closed Door and Intrusion drill restore captured state, Intrusion drill stays
-manual with `subcult-intrusion exit` always authoritative, dock changes rescue
-windows from removed outputs, and presentation still follows wallpaper-safe
-placement.
+instead of duplicated. Closed Door and the intrusion drill restore captured
+state. The intrusion drill stays manual, with `subcult-intrusion exit` always
+authoritative. Dock changes rescue windows from removed outputs, and
+presentation still follows wallpaper-safe placement.
 
 The SUBCULT bar uses a shared three-pixel state cue for workspace selection,
 playing media, mission activity, privacy capture, system health, Cava
@@ -450,7 +451,8 @@ one explicit undo snapshot. `subcult-context automation disable` is the global
 kill switch and does not remove recommendations.
 
 Terminal rules live in `~/.config/omarchy/subcult-terminal-context.json` and may
-select `violet`, `subcult`, or `engineering` by path or marker file without
+select `violet`, `subcult`, `engineering`, `acid`, `paper`, or `ink` by path or
+marker file without
 changing existing terminals. See [HOTKEYS.md](HOTKEYS.md).
 
 ## Bar icon treatment
@@ -458,14 +460,14 @@ changing existing terminals. See [HOTKEYS.md](HOTKEYS.md).
 Agents, Bluetooth, Dropbox, and Tailscale use thin adapters around their native
 Omarchy widgets. Their original click actions, menus, tooltips, and state logic
 remain authoritative. The adapters add no visible chrome: the shared
-violet-grey bar foreground integrates their glyphs with symbolic tray icons,
+lavender bar foreground integrates their glyphs with symbolic tray icons,
 while native state colors remain authoritative. The StatusNotifier tray remains native so symbolic icons follow the bar
 foreground while full-color vendor icons retain their identity. See
 [BAR_ICONS.md](BAR_ICONS.md) for the inventory, implementation paths, and the
 per-widget stock fallback procedure.
 
 The resting foreground is a dedicated affinity token rather than the general
-panel text color. Auto and manual Unit-00/01/02 selections therefore recolor
+panel text color. Auto and manual affinity selections therefore recolor
 native and symbolic glyphs while leaving green, amber, red, disabled, and
 full-color vendor states authoritative. Inspect the resolved palette with
 `subcult-affinity palette` or `subcult-affinity palette ink`.

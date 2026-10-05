@@ -2,7 +2,7 @@
   "schema_version": 1,
   "locale": "en-US",
   "direction": "ltr",
-  "protected_terms": ["SUBCULT", "SUBCULT", "SUBCULT", "SUBCULT", "Closed Door"],
+  "protected_terms": ["SUBCULT", "SUBCULT.TV", "Closed Door"],
   "strings": {
     "common.none": "None",
     "common.unavailable": "Unavailable",

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "suite_version": "1.5.1",
+  "suite_version": "2.0.0",
   "required_services": ["subcult-start-page.service", "subcult-affinity.path"],
   "owned_port": {"number": 8765, "service": "subcult-start-page.service"},
   "stale_seconds": {"health_cache": 1800},

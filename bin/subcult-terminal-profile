@@ -29,20 +29,20 @@ case "$profile" in
   violet|purple)
     profile="violet"
     prompt_tag="VIOLET"
-    background="120D18"
-    foreground="E8E1EF"
-    muted="665577"
-    selection="4B286D"
-    accent="B76CFF"
+    background="150D24"
+    foreground="F0ECE4"
+    muted="6A5A8C"
+    selection="4C2F99"
+    accent="B69CFF"
     ;;
-  subcult|green)
+  subcult|press|green)
     profile="subcult"
     prompt_tag="SUBCULT"
-    background="07110B"
-    foreground="DCE8D8"
-    muted="58705D"
-    selection="244D2E"
-    accent="9CF23A"
+    background="100B19"
+    foreground="F0ECE4"
+    muted="5E5570"
+    selection="3B2470"
+    accent="00FF88"
     ;;
   engineering|orange)
     profile="engineering"
@@ -53,32 +53,32 @@ case "$profile" in
     selection="633417"
     accent="F28C28"
     ;;
-  acid|prototype|yellow)
+  acid|lime)
     profile="acid"
     prompt_tag="ACID"
-    background="120F08"
-    foreground="F2E9D2"
-    muted="756843"
-    selection="5B4215"
-    accent="F6C744"
+    background="08130E"
+    foreground="EAF5EE"
+    muted="4E6B5E"
+    selection="0F4A33"
+    accent="00FF88"
     ;;
-  paper|refit|blue)
+  paper|cream)
     profile="paper"
     prompt_tag="PAPER"
-    background="08121E"
-    foreground="E8F1FF"
-    muted="526B83"
-    selection="173D68"
-    accent="55D9FF"
+    background="15120E"
+    foreground="F0ECE4"
+    muted="7A7064"
+    selection="4A4033"
+    accent="F0ECE4"
     ;;
-  ink|red)
+  ink|black)
     profile="ink"
     prompt_tag="INK"
-    background="160907"
-    foreground="F5E5DF"
-    muted="7D5148"
-    selection="61251C"
-    accent="FF5A36"
+    background="0A0712"
+    foreground="E9E6F0"
+    muted="55506A"
+    selection="2E2448"
+    accent="A78BFA"
     ;;
   *)
     printf 'Usage: subcult-terminal-profile {violet|subcult|engineering|acid|paper|ink|status|list} [--no-reload]\n' >&2
@@ -110,18 +110,18 @@ printf '%s\n' \
   "" \
   "palette = 0=#$background" \
   "palette = 1=#D52032" \
-  "palette = 2=#75C936" \
+  "palette = 2=#00D474" \
   "palette = 3=#F6D447" \
   "palette = 4=#5577CC" \
-  "palette = 5=#A855D4" \
+  "palette = 5=#A78BFA" \
   "palette = 6=#4FD6C8" \
   "palette = 7=#$foreground" \
   "palette = 8=#$muted" \
   "palette = 9=#FF4055" \
-  "palette = 10=#A8FF3E" \
+  "palette = 10=#5CFFAE" \
   "palette = 11=#FFE36A" \
   "palette = 12=#7799FF" \
-  "palette = 13=#D477FF" \
+  "palette = 13=#C4B5FD" \
   "palette = 14=#75F2E4" \
   "palette = 15=#FFFFFF" > "$tmp_dir/ghostty.conf"
 
@@ -157,20 +157,20 @@ printf '%s\n' \
   "[colors.normal]" \
   "black = \"#$background\"" \
   "red = \"#D52032\"" \
-  "green = \"#75C936\"" \
+  "green = \"#00D474\"" \
   "yellow = \"#F6D447\"" \
   "blue = \"#5577CC\"" \
-  "magenta = \"#A855D4\"" \
+  "magenta = \"#A78BFA\"" \
   "cyan = \"#4FD6C8\"" \
   "white = \"#$foreground\"" \
   "" \
   "[colors.bright]" \
   "black = \"#$muted\"" \
   "red = \"#FF4055\"" \
-  "green = \"#A8FF3E\"" \
+  "green = \"#5CFFAE\"" \
   "yellow = \"#FFE36A\"" \
   "blue = \"#7799FF\"" \
-  "magenta = \"#D477FF\"" \
+  "magenta = \"#C4B5FD\"" \
   "cyan = \"#75F2E4\"" \
   "white = \"#FFFFFF\"" > "$tmp_dir/alacritty.toml"
 
@@ -189,18 +189,18 @@ printf '%s\n' \
   "" \
   "color0 #$background" \
   "color1 #D52032" \
-  "color2 #75C936" \
+  "color2 #00D474" \
   "color3 #F6D447" \
   "color4 #5577CC" \
-  "color5 #A855D4" \
+  "color5 #A78BFA" \
   "color6 #4FD6C8" \
   "color7 #$foreground" \
   "color8 #$muted" \
   "color9 #FF4055" \
-  "color10 #A8FF3E" \
+  "color10 #5CFFAE" \
   "color11 #FFE36A" \
   "color12 #7799FF" \
-  "color13 #D477FF" \
+  "color13 #C4B5FD" \
   "color14 #75F2E4" \
   "color15 #FFFFFF" > "$tmp_dir/kitty.conf"
 
@@ -215,19 +215,19 @@ printf '%s\n' \
   "" \
   "regular0=$background" \
   "regular1=D52032" \
-  "regular2=75C936" \
+  "regular2=00D474" \
   "regular3=F6D447" \
   "regular4=5577CC" \
-  "regular5=A855D4" \
+  "regular5=A78BFA" \
   "regular6=4FD6C8" \
   "regular7=$foreground" \
   "" \
   "bright0=$muted" \
   "bright1=FF4055" \
-  "bright2=A8FF3E" \
+  "bright2=5CFFAE" \
   "bright3=FFE36A" \
   "bright4=7799FF" \
-  "bright5=D477FF" \
+  "bright5=C4B5FD" \
   "bright6=75F2E4" \
   "bright7=FFFFFF" > "$tmp_dir/foot.ini"
 

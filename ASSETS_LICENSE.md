@@ -1,29 +1,36 @@
-# Artwork and trademark notice
+# Artwork, brand, and font notice
 
-The MIT license applies to the software and configuration source, not to image
-assets under `theme/backgrounds/` or third-party names and marks.
+The MIT license applies to the software and configuration source. It does not
+cover the SUBCULT brand assets or the bundled fonts.
 
-This is an unofficial, non-commercial fan project. *Neon Genesis SUBCULT*,
-SUBCULT, SUBCULT units, related names, designs, and marks belong to their respective
-rights holders. This project is not affiliated with or endorsed by those
-rights holders.
+## SUBCULT marks and wallpapers
 
-All seven wallpapers were generated specifically for this project using
-OpenAI's image-generation tool. Their provenance and audited hashes are recorded
-in `theme/ARTWORK.md`; no downloaded stock artwork or extracted animation frames
-are included.
+The SUBCULT name, the SC_ marks, the lockups, and the fisheye circle logo in
+`theme/brand/` belong to SUBCULT (subcult.tv). They are included so the theme
+can display them. Use them to run, test, and redistribute this project
+unchanged. Do not stretch, skew, recolor, redraw, or add effects to them, and do
+not use them to suggest that another project is a SUBCULT product.
 
-The `media/context-states.svg` documentation graphic and its PNG export are
-project-authored text and geometric composition, contain no generated or
-third-party artwork, and are covered by the repository's MIT license.
+The seven wallpapers in `theme/backgrounds/` are rendered from those marks by
+`scripts/build-wallpapers`, using the brand palette and fonts. They contain no
+photographs, generated imagery, or third-party artwork. Their provenance and
+hashes are recorded in `theme/ARTWORK.md`. The same brand terms apply to them.
 
-To the extent the repository owner holds copyright or other licensable rights
-in the generated wallpaper files, those rights are licensed under
-[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Attribution may
-be given as “SUBCULT Omarchy Rice contributors.”
+## Fonts
 
-That license does not grant rights to SUBCULT characters, designs, names,
-logos, or trademarks. Those remain the property of their respective rights
-holders. The generated nature of an image does not remove those third-party
-considerations, and the wallpapers should not be presented as official artwork
-or used commercially.
+`theme/brand/fonts/` contains Oswald, Space Grotesk, and JetBrains Mono, each
+under the SIL Open Font License 1.1. The license texts are alongside them in
+`oswald-OFL.txt`, `spacegrotesk-OFL.txt`, and `jetbrainsmono-OFL.txt`.
+
+## Documentation graphics
+
+`media/context-states.svg` and its PNG export are project-authored text and
+geometric composition, and are covered by the repository's MIT license.
+`media/wallpaper-gallery.png` is a contact sheet of the wallpapers and follows
+their terms.
+
+## Earlier releases
+
+Releases up to 1.5.1 were published as Evangelion Omarchy Rice, an unofficial
+fan project with generated wallpapers under CC BY-NC 4.0. That artwork and
+naming were removed in 2.0 and are not part of this tree.

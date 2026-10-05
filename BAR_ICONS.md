@@ -14,7 +14,7 @@ live status behavior without copying vendor code into this repository.
 | Tailscale | `subcult.tailscale` | `omarchy.tailscale` | Tinted recognizable vendor mark |
 | StatusNotifier tray | `omarchy.tray` | Omarchy tray | Symbolic icons inherit bar foreground; full-color vendor artwork is preserved |
 
-The resting bar foreground is SUBCULT violet-grey `#B79ACB`, shared by native
+The resting bar foreground is SUBCULT lavender `#B9A8E6`, shared by native
 widget glyphs and symbolic StatusNotifier icons. There are no per-widget frames
 or decorative halos. Native widgets remain responsible for active, disabled,
 warning, and urgent colors, while green, amber, and red stay reserved for real
@@ -26,11 +26,11 @@ rules:
 
 | Affinity | Resting bar/icon token |
 | --- | --- |
-| SUBCULT/SUBCULT Neutral | lavender `#A995B8` |
-| Acid Block | armor gold `#D8B84E` |
-| Paper Stock | ice blue `#79BFE3` |
-| Violet | SUBCULT violet `#B79ACB` |
-| Ink | restrained coral `#D77A64` |
+| SUBCULT / PRESS (neutral) | lavender `#B9A8E6` |
+| Acid Block | soft acid green `#7FE8B5` |
+| Paper Stock | warm paper `#D9D1C2` |
+| Violet Field | pale violet `#C4B5FD` |
+| Ink Run | muted lavender-grey `#A9A3BC` |
 
 Each token has at least 4.5:1 contrast against its generated bar background.
 `subcult-affinity palette [PROFILE]` reports the resolved colors as JSON. Auto and

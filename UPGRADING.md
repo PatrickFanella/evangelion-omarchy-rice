@@ -1,14 +1,75 @@
 # Upgrade, rollback, and removal
 
+## Upgrade from Evangelion Rice 1.5 to SUBCULT 2.0
+
+2.0 renames the suite. Every command, plugin, state directory, theme, and
+service moves to the SUBCULT name, and the palettes and wallpapers are new.
+Install it the same way as any release, from an active Omarchy Hyprland session:
+
+```bash
+sha256sum --check subcult-omarchy-rice-2.0.0.tar.gz.sha256
+tar -xzf subcult-omarchy-rice-2.0.0.tar.gz
+cd subcult-omarchy-rice-2.0.0
+./scripts/build-release verify-root .
+./install.sh --dry-run --preset default
+./install.sh --apply --preset default
+omarchy theme set subcult
+```
+
+The dry run lists each old path as `RETIRE` and each shell startup file that
+still sources the Evangelion snippet as `UNHOOK`. When both the `tools` and
+`shell` components are selected, as in the `default` and `full` presets, the
+installer:
+
+- stops and disables `magi-affinity.path`, `magi-affinity.service`,
+  `magi-start-page.service`, and `magi-topology.service`;
+- moves the `evangelion.*` plugins, `magi-*` and `eva-*` commands, their
+  systemd units and Omarchy hooks, `~/.local/lib/evangelion-rice`,
+  `~/.local/share/evangelion-rice`, the Evangelion shell snippets, and the
+  Neovim profile plugin into the transaction snapshot;
+- removes the `# Evangelion Rice` source lines from `~/.bashrc`, `~/.zshrc`,
+  or `~/.config/fish/config.fish`, keeping a copy of the original file;
+- creates `~/.config/omarchy/subcult.json` from your existing
+  `~/.config/omarchy/evangelion.json`;
+- replaces `workspaces.json` and `scenes.json` only if they are byte-identical
+  to the 1.5 defaults, which name retired wallpapers and workspaces. Edited
+  copies are preserved. Update any `unit-*` affinity or `*-eva-*` wallpaper
+  references in them by hand.
+
+Other preserved preferences, such as sound, media, topologies, and visual
+settings, carry over unchanged. Runtime state in
+`~/.local/state/evangelion-rice` is not imported and stays where it is. The
+affinity mode, terminal profile, and operations log start fresh under
+`~/.local/state/subcult-rice`.
+
+Affinity IDs changed: `unit-00-prototype` is now `acid`, `unit-00-refit` is
+`paper`, `unit-01` is `violet`, and `unit-02` is `ink`. `neutral` keeps its ID
+and is labeled Press. The `eva-01` and `magi` terminal profiles are now
+`violet` and `subcult`.
+
+`subcult-migrate preview` covers the remaining complete-file replacements
+(`shell.json` and the three Hyprland files) with the same keep-or-replace
+choices as earlier releases.
+
+To return to Evangelion Rice, roll back the 2.0 install transaction. It moves
+every retired path back and restores the edited shell startup files:
+
+```bash
+./rollback.sh
+```
+
+Then switch the theme back with `omarchy theme set evangelion` if that theme
+directory is still present.
+
 ## Upgrade from v1.5.0 to v1.5.1
 
 Download the v1.5.1 archive and checksum from GitHub Releases, then verify and
 install using the same preset or component selection as before:
 
 ```bash
-sha256sum --check subcult-omarchy-rice-1.5.1.tar.gz.sha256
-tar -xzf subcult-omarchy-rice-1.5.1.tar.gz
-cd subcult-omarchy-rice-1.5.1
+sha256sum --check evangelion-omarchy-rice-1.5.1.tar.gz.sha256
+tar -xzf evangelion-omarchy-rice-1.5.1.tar.gz
+cd evangelion-omarchy-rice-1.5.1
 ./scripts/build-release verify-root .
 ./install.sh --dry-run --preset default
 ./install.sh --apply --preset default
@@ -61,9 +122,9 @@ Download and verify the v1.5.0 archive, then preview both the configuration
 migration and the same installer selection used for v1.4.1:
 
 ```bash
-sha256sum --check subcult-omarchy-rice-1.5.0.tar.gz.sha256
-tar -xzf subcult-omarchy-rice-1.5.0.tar.gz
-cd subcult-omarchy-rice-1.5.0
+sha256sum --check evangelion-omarchy-rice-1.5.0.tar.gz.sha256
+tar -xzf evangelion-omarchy-rice-1.5.0.tar.gz
+cd evangelion-omarchy-rice-1.5.0
 ./scripts/build-release verify-root .
 subcult-migrate preview
 ./install.sh --dry-run --preset default
@@ -107,9 +168,9 @@ Download the new archive and matching checksum from the GitHub release, verify
 them, and preview the same preset or components used previously:
 
 ```bash
-sha256sum --check subcult-omarchy-rice-1.4.1.tar.gz.sha256
-tar -xzf subcult-omarchy-rice-1.4.1.tar.gz
-cd subcult-omarchy-rice-1.4.1
+sha256sum --check evangelion-omarchy-rice-1.4.1.tar.gz.sha256
+tar -xzf evangelion-omarchy-rice-1.4.1.tar.gz
+cd evangelion-omarchy-rice-1.4.1
 ./scripts/build-release verify-root .
 ./preflight.py
 ./install.sh --dry-run --preset default

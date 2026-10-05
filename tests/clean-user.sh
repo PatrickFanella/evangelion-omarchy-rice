@@ -51,7 +51,7 @@ for command in omarchy omarchy-menu omarchy-shell hyprctl systemctl voxtype xdg-
 run_env=(env HOME="$test_root/home" XDG_CONFIG_HOME="$test_root/home/.config" XDG_STATE_HOME="$test_root/state"
   PATH="$test_root/stubs:$PATH" XDG_SESSION_TYPE=wayland XDG_CURRENT_DESKTOP=Hyprland
   HYPRLAND_INSTANCE_SIGNATURE=clean-user-test SUBCULT_TEST_EVENT_LOG="$event_log")
-run_env+=(SUBCULT_RELEASE_131_NESTED=1 SUBCULT_RELEASE_ARTIFACT_NESTED=1 SUBCULT_CROSS_CHANNEL_NESTED=1)
+run_env+=( SUBCULT_RELEASE_ARTIFACT_NESTED=1 SUBCULT_CROSS_CHANNEL_NESTED=1)
 run_install(){ "${run_env[@]}" "$root/install.sh" "$@"; }
 run_rollback(){ "${run_env[@]}" "$root/rollback.sh" "$@"; }
 
@@ -83,7 +83,7 @@ expect "performance overlay service installed" test -f "$test_root/home/.config/
 expect "static recovery installed" test -x "$test_root/home/.local/bin/subcult-recovery"
 expect "static recovery assets installed" test -f "$test_root/home/.local/share/subcult-rice/recovery/shell.json"
 expect "migration assistant installed" test -x "$test_root/home/.local/bin/subcult-migrate"
-expect "versioned migration plan installed" test -f "$test_root/home/.local/share/subcult-rice/migrations/1.4.1-to-1.5.0.json"
+expect "versioned migration plan installed" test -f "$test_root/home/.local/share/subcult-rice/migrations/1.5.1-to-2.0.0.json"
 expect "hotkeys installed" test -f "$test_root/home/.config/hypr/bindings.lua"
 expect "theme installed" test -f "$test_root/home/.config/omarchy/themes/subcult/colors.toml"
 expect "start page installed" test -f "$test_root/home/.local/share/subcult-rice/start-page/index.html"
@@ -93,7 +93,7 @@ expect "Hyprland activated after login" grep -q $'hyprctl\treload' "$event_log"
 expect "services activated after login" grep -q 'enable --now subcult-affinity.path subcult-start-page.service' "$event_log"
 "${run_env[@]}" omarchy theme set subcult
 expect "theme selection after login" grep -q $'omarchy\ttheme set subcult' "$event_log"
-"${run_env[@]}" SUBCULT_RELEASE_131_NESTED=1 "$root/validate.sh" >/dev/null || fail "post-activation validation"
+"${run_env[@]}" "$root/validate.sh" >/dev/null || fail "post-activation validation"
 pass "post-activation validation"
 
 before=$(find "$test_root/home" -type f -exec sha256sum {} + | sort)
@@ -117,7 +117,7 @@ expect "uninstall-equivalent rollback removes shell" test ! -e "$test_root/home/
 expect "uninstall-equivalent rollback removes theme" test ! -e "$test_root/home/.config/omarchy/themes/subcult/colors.toml"
 expect "uninstall-equivalent rollback removes tools" test ! -e "$test_root/home/.local/bin/subcult-affinity"
 expect "uninstall-equivalent rollback removes recovery assets" test ! -e "$test_root/home/.local/share/subcult-rice/recovery/shell.json"
-expect "uninstall-equivalent rollback removes migration plans" test ! -e "$test_root/home/.local/share/subcult-rice/migrations/1.4.1-to-1.5.0.json"
+expect "uninstall-equivalent rollback removes migration plans" test ! -e "$test_root/home/.local/share/subcult-rice/migrations/1.5.1-to-2.0.0.json"
 expect "uninstall-equivalent rollback removes context library" test ! -e "$test_root/home/.local/lib/subcult-rice/subcult_context_collectors.py"
 expect "uninstall-equivalent rollback removes context policy" test ! -e "$test_root/home/.local/lib/subcult-rice/subcult_context_policy.py"
 expect "uninstall-equivalent rollback removes context inspector" test ! -e "$test_root/home/.config/omarchy/plugins/subcult.context/BarWidget.qml"

@@ -8,7 +8,7 @@ modified v1.5 surface.
 ## Standards
 
 - Normal text targets WCAG 2.x AA contrast of at least 4.5:1; large text and
-  meaningful non-text indicators target at least 3:1. Muted purple below that
+  meaningful non-text indicators target at least 3:1. Muted violet below that
   threshold is reserved for borders and decoration, never required content.
 - Interactive controls target at least 32 logical pixels. Compact bar widgets
   may be 28 pixels wide because the full bar thickness supplies a 38-pixel

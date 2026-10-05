@@ -38,7 +38,7 @@ plugin or runtime artifact from this workflow.
 7. Run the complete local gate and retain machine-readable results:
 
    ```bash
-   SUBCULT_SOURCE_ONLY=1 SUBCULT_RELEASE_131_NESTED=1 ./validate.sh
+   SUBCULT_SOURCE_ONLY=1 ./validate.sh
    ./tests/cross-channel.py
    ```
 
@@ -51,11 +51,11 @@ After CI is green, create and verify the signed/annotated exact tag, then build
 twice and compare checksums:
 
 ```bash
-git tag --verify v1.5.1
-./scripts/build-release build --tag v1.5.1 --output build/one
-./scripts/build-release build --tag v1.5.1 --output build/two
+git tag --verify v2.0.0
+./scripts/build-release build --tag v2.0.0 --output build/one
+./scripts/build-release build --tag v2.0.0 --output build/two
 cmp build/one/*.tar.gz build/two/*.tar.gz
-./scripts/build-release verify build/one/subcult-omarchy-rice-1.5.1.tar.gz
+./scripts/build-release verify build/one/subcult-omarchy-rice-2.0.0.tar.gz
 ```
 
 Inspect the archive manifest and provenance, publish the archive and checksum
@@ -71,9 +71,10 @@ active desktop user's home or session.
 ## Theme gallery review
 
 The official gallery lists the independently installable theme, not the full
-suite. Follow `packaging/gallery/SUBMISSION.md`: validate the public theme URL,
-use the reviewed 1200×675 WebP, preserve alphabetical placement, show the exact
-site diff, and obtain owner approval before opening or updating the external PR.
+suite. The Evangelion-era gallery package was removed in 2.0, and SUBCULT has
+not been submitted. A new submission needs a public theme URL, a reviewed
+1200×675 WebP of the SUBCULT desktop, alphabetical placement, the exact site
+diff, and owner approval before any external PR is opened.
 
 The complete suite stays on GitHub Releases (and optionally Arch/AUR) because
 it owns executable commands, shell plugins, Hyprland configuration, services,

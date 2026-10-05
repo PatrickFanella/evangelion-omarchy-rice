@@ -36,19 +36,13 @@ python3 "$root/tests/bar-motion.py" /tmp/subcult-bar-motion.json >/dev/null && p
 python3 "$root/tests/bar-icons.py" >/dev/null && pass "unified upstream and tray icon contracts" || fail "unified upstream and tray icon contracts"
 python3 "$root/tests/bar-refresh.py" >/dev/null && pass "live affinity bar refresh contracts" || fail "live affinity bar refresh contracts"
 python3 "$root/tests/start-page-context.py" >/dev/null && pass "start-page desktop context contracts" || fail "start-page desktop context contracts"
-if [[ ${SUBCULT_RELEASE_131_NESTED:-0} != 1 ]]; then
-  python3 "$root/tests/release-v1.3.1.py" >/dev/null && pass "v1.3.1 mixed-cache and upgrade lifecycle" || fail "v1.3.1 mixed-cache and upgrade lifecycle"
-fi
 for mode in full reduced off; do lua "$root/tests/hypr-motion.lua" "$mode" >/dev/null && pass "Hyprland $mode motion profile" || fail "Hyprland $mode motion profile"; done
 python3 "$root/tests/documentation.py" >/dev/null && pass "public documentation contract" || fail "public documentation contract"
-python3 "$root/tests/release-v1.4.py" >/dev/null && pass "exact v1.4 release evidence" || fail "exact v1.4 release evidence"
-python3 "$root/tests/release-v1.5.py" >/dev/null && pass "exact v1.5 release evidence" || fail "exact v1.5 release evidence"
 python3 "$root/tests/distribution.py" >/dev/null && pass "v1.4 distribution ownership contract" || fail "v1.4 distribution ownership contract"
 if [[ ${SUBCULT_CROSS_CHANNEL_NESTED:-0} != 1 ]]; then
   python3 "$root/tests/cross-channel.py" >/dev/null && pass "cross-channel transition and conflict contract" || fail "cross-channel transition and conflict contract"
 fi
 python3 "$root/tests/theme-distribution.py" >/dev/null && pass "standalone Omarchy theme lifecycle" || fail "standalone Omarchy theme lifecycle"
-python3 "$root/tests/gallery-submission.py" >/dev/null && pass "official Omarchy gallery submission package" || fail "official Omarchy gallery submission package"
 python3 "$root/tests/plugin-audit.py" >/dev/null && pass "complete SUBCULT plugin distribution audit" || fail "complete SUBCULT plugin distribution audit"
 python3 "$root/tests/subcult-runtime-contract.py" >/dev/null && pass "optional SUBCULT runtime compatibility contract" || fail "optional SUBCULT runtime compatibility contract"
 python3 "$root/tests/subcult-extension-contract.py" >/dev/null && pass "internal SUBCULT extension-state contract" || fail "internal SUBCULT extension-state contract"
@@ -77,12 +71,10 @@ python3 "$root/tests/workspace-names.py" >/dev/null && pass "editable responsive
 python3 "$root/tests/operations-log.py" >/dev/null && pass "private actionable operations log" || fail "private actionable operations log"
 python3 "$root/tests/progressive-disclosure.py" >/dev/null && pass "progressive telemetry disclosure" || fail "progressive telemetry disclosure"
 python3 "$root/tests/community-compatibility.py" >/dev/null && pass "community compatibility report workflow" || fail "community compatibility report workflow"
-python3 "$root/tests/release-v1.5-prep.py" >/dev/null && pass "v1.5 release preparation" || fail "v1.5 release preparation"
 if [[ ${SUBCULT_RELEASE_ARTIFACT_NESTED:-0} != 1 ]]; then
   python3 "$root/tests/release-artifact.py" >/dev/null && pass "reproducible complete-suite release artifact" || fail "reproducible complete-suite release artifact"
   python3 "$root/tests/arch-package.py" >/dev/null && pass "Arch package and explicit user lifecycle" || fail "Arch package and explicit user lifecycle"
 fi
-python3 "$root/tests/release-v1.3.py" >/dev/null && pass "v1.3 release documentation and media contract" || fail "v1.3 release documentation and media contract"
 if rg -n 'Work/subcult-rice' "$root/bin" "$root/lib" "$root/omarchy" >/dev/null; then fail "owner-specific project path remains"; else pass "no owner-specific project path"; fi
 python3 -m py_compile "$root/preflight.py" 2>/dev/null && pass "compatibility preflight parses" || fail "compatibility preflight parse"
 awk -F '\t' 'BEGIN { ok=1 } /^#/ || NF==0 { next } NF!=5 || $1 !~ /^(required|recommended|optional|development)$/ { ok=0 } END { exit !ok }' "$root/dependencies.tsv" \

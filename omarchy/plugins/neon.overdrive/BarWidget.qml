@@ -53,7 +53,7 @@ Item {
       var ctx = getContext("2d")
       ctx.clearRect(0, 0, width, height)
       if (!root.cavaEnabled) {
-        ctx.fillStyle = "#9CF23A"
+        ctx.fillStyle = "#00FF88"
         ctx.fillRect(0, height - 2, width, 2)
         return
       }
@@ -65,12 +65,12 @@ Item {
         var h = Math.max(2, (root.levels[i] / 100) * height)
         var x = i * (bw + gap)
         var g = ctx.createLinearGradient(0, height, 0, height - h)
-        g.addColorStop(0, "#4B286D")
-        g.addColorStop(0.48, "#8F4BC8")
-        g.addColorStop(0.76, "#9CF23A")
+        g.addColorStop(0, "#3B2470")
+        g.addColorStop(0.48, "#8B5CF6")
+        g.addColorStop(0.76, "#00FF88")
         g.addColorStop(1, "#F28C28")
         ctx.fillStyle = g
-        ctx.shadowColor = i % 3 === 0 ? "#9CF23A" : "#8F4BC8"
+        ctx.shadowColor = i % 3 === 0 ? "#00FF88" : "#8B5CF6"
         ctx.shadowBlur = 4
         ctx.fillRect(x, height - h, bw, h)
       }

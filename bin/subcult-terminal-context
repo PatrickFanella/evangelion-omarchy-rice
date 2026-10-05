@@ -12,14 +12,14 @@ from pathlib import Path
 CONFIG = Path.home() / ".config/omarchy/subcult-terminal-context.json"
 STATE = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state")) / "subcult-rice/context-profiles"
 PROFILES = {
-    "violet": {"tag": "VIOLET", "background": "120D18", "foreground": "E8E1EF", "muted": "665577", "selection": "4B286D", "accent": "B76CFF"},
-    "subcult": {"tag": "SUBCULT", "background": "07110B", "foreground": "DCE8D8", "muted": "58705D", "selection": "244D2E", "accent": "9CF23A"},
+    "violet": {"tag": "VIOLET", "background": "150D24", "foreground": "F0ECE4", "muted": "6A5A8C", "selection": "4C2F99", "accent": "B69CFF"},
+    "subcult": {"tag": "SUBCULT", "background": "100B19", "foreground": "F0ECE4", "muted": "5E5570", "selection": "3B2470", "accent": "00FF88"},
     "engineering": {"tag": "ENG", "background": "160D07", "foreground": "F1E4D6", "muted": "806752", "selection": "633417", "accent": "F28C28"},
-    "acid": {"tag": "ACID", "background": "120F08", "foreground": "F2E9D2", "muted": "756843", "selection": "5B4215", "accent": "F6C744"},
-    "paper": {"tag": "PAPER", "background": "08121E", "foreground": "E8F1FF", "muted": "526B83", "selection": "173D68", "accent": "55D9FF"},
-    "ink": {"tag": "INK", "background": "160907", "foreground": "F5E5DF", "muted": "7D5148", "selection": "61251C", "accent": "FF5A36"},
+    "acid": {"tag": "ACID", "background": "08130E", "foreground": "EAF5EE", "muted": "4E6B5E", "selection": "0F4A33", "accent": "00FF88"},
+    "paper": {"tag": "PAPER", "background": "15120E", "foreground": "F0ECE4", "muted": "7A7064", "selection": "4A4033", "accent": "F0ECE4"},
+    "ink": {"tag": "INK", "background": "0A0712", "foreground": "E9E6F0", "muted": "55506A", "selection": "2E2448", "accent": "A78BFA"},
 }
-ALIASES = {"purple": "violet", "green": "subcult", "orange": "engineering", "prototype": "acid", "refit": "paper", "blue": "paper", "red": "ink"}
+ALIASES = {"purple": "violet", "press": "subcult", "green": "subcult", "orange": "engineering", "lime": "acid", "cream": "paper", "black": "ink"}
 
 
 def config():

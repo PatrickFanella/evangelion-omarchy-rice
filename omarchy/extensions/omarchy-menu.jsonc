@@ -82,7 +82,7 @@
   "subcult.affinity": {
     "icon": "󰏘",
     "label": "Field Affinity",
-    "title": "SUBCULT // UNIT AFFINITY",
+    "title": "SUBCULT // FIELD AFFINITY",
     "description": "Automatic wallpaper colors or a persistent manual override"
   },
   "subcult.affinity.auto": {
@@ -92,7 +92,7 @@
     "checked": "[[ $(subcult-affinity status | sed -n 's/^mode=//p') == auto ]]"
   },
   "subcult.affinity.neutral": {
-    "label": "SUBCULT / SUBCULT Neutral",
+    "label": "Press",
     "action": "subcult-affinity set neutral"
   },
   "subcult.affinity.acid": {
@@ -596,7 +596,7 @@
   },
   "subcult.terminal.subcult": {
     "icon": "󰔟",
-    "label": "SUBCULT Green",
+    "label": "SUBCULT Press",
     "action": "subcult-terminal-profile subcult",
     "checked": "[[ $(subcult-terminal-profile status) == subcult ]]",
     "description": "System diagnostics profile"

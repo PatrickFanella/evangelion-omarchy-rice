@@ -1,32 +1,35 @@
 # Wallpaper artwork and provenance
 
-All seven wallpapers are original prompt-generated outputs created specifically
-for this project with OpenAI's image-generation tool on 2026-08-30. None is a
-downloaded stock image, extracted animation frame, or third-party wallpaper.
+The seven wallpapers are flat poster-press compositions rendered by
+`scripts/build-wallpapers` from the SUBCULT brand kit in `theme/brand/`. They
+use only the approved SUBCULT marks, the brand palette (violet `#8b5cf6`, ink
+`#100b19`, acid `#00ff88`, paper `#f0ece4`), and the bundled Oswald and
+JetBrains Mono fonts. No photographs, generated imagery, or third-party artwork
+are included.
 
-| File | Pixels | SHA-256 | Art direction |
+| File | Pixels | SHA-256 | Composition |
 |---|---:|---|---|
-| `backgrounds/1-subcult-press.png` | 1672×941 | `5afcddc65e92b6ecb47d55b10c238c257dc0466a7d8635966ebe150c276f3226` | Red SUBCULT command insignia, dark tactical framing |
-| `backgrounds/2-subcult-violet.png` | 1672×941 | `b41acd3ecdf222ec947e938a0ca14c3181f30483893ed94b02009238204a8a3b` | Purple/green Violet launch-bay portrait |
-| `backgrounds/3-subcult-archive.png` | 1672×941 | `1d5acdb5c090437f82263a10c6b380f8c92be6477a219f515c175b8d6a3f9e8a` | Three SUBCULT-like supercomputer monoliths above SUBCULT |
-| `backgrounds/4-subcult-signal.png` | 1672×941 | `5aa96a0dbe447684a8a33cbc871d324d0d5058c20f13d5a5155062ef666e3e1a` | Abstract Intrusion drill alert over a night skyline |
-| `backgrounds/5-subcult-acid.png` | 1920×1080 | `afaebaef7c5d3e88d57b00fce6acc6fd22e23fb09ca9d7f87bb3bef49e8906a6` | Yellow/orange prototype armor and restrained blue optics |
-| `backgrounds/6-subcult-paper.png` | 1920×1080 | `0a34fe2c11c6cd6cdf3cabf2065f3f47ccb1abb4d585a23081efe498c9a9b961` | Blue/white refit armor and clinical launch-bay light |
-| `backgrounds/7-subcult-ink.png` | 1920×1080 | `f0c4a9e25f8943b37261dbeb861bb5ac950722b1a42dffa4e606065c2b223661` | Red/orange production armor and warning accents |
+| `backgrounds/1-subcult-press.png` | 2560×1440 | `b028e2441a06a38e518bde0a5c059dc85a6863aed326e8c384347c59e3c10f14` | White SC_ mark with outlined acid block on ink, violet edge bar |
+| `backgrounds/2-subcult-violet.png` | 2560×1440 | `8ccb811cdc91a3596d9130c644127687fca9b093e5d1e1d85737978527466345` | SUBCULT wordmark in ink on a violet field, acid registration block |
+| `backgrounds/3-subcult-archive.png` | 2560×1440 | `c396cd823f63dd36638663039296c235d0de9a88fdd80e4d3212f8c833e1e37e` | Violet halftone ramp behind the white SC_ mark on ink |
+| `backgrounds/4-subcult-signal.png` | 2560×1440 | `fbf4ff372771d79f2f31cd4eb723d30fce61b7834d07c22579b5a8ac5a79f486` | Acid SIGNAL headline between hazard stripes; used by the intrusion drill |
+| `backgrounds/5-subcult-acid.png` | 2560×1440 | `08f8bb5b2c1ca24930e4b835b64c12c924e412b0df6adb776744dc362eb5e500` | Ink SC_ mark on a tilted acid block over ink |
+| `backgrounds/6-subcult-paper.png` | 2560×1440 | `f444b4465bf7251626c024846b63d22729f945a26a151866e10722b4a66e7e9d` | Ink SC_ mark on a tilted violet block over paper |
+| `backgrounds/7-subcult-ink.png` | 2560×1440 | `ad32d43492b00488fbf6b940edc8c2d3bbed9445625b8a6f25d5b12b4316e37c` | White SC_ mark inside a violet outline block on near-black |
 
-## Generation record
+## Rebuilding
 
-- Creator/operator: repository owner, assisted by Codex
-- Tool: OpenAI image generation
-- Purpose: original 16:9 desktop wallpaper set for this Omarchy theme
-- Shared direction: dark command-center atmosphere, right-weighted subjects,
-  usable negative space, and coordinated SUBCULT palettes
-- Third-party source images: none distributed in or copied into this set
+```bash
+scripts/build-wallpapers
+(cd theme && sha256sum backgrounds/*.png > backgrounds.sha256)
+```
 
-Files 5–7 used file 2 only as an in-session style and composition reference.
-They were generated as new images, not edits of file 2. Prompts prohibited copied
-animation frames, watermarks, and signatures.
+The script renders through `rsvg-convert` with a private fontconfig file that
+points at `theme/brand/fonts/`, so it installs nothing. Marks are inlined from
+the outlined SVGs without redrawing, stretching, or added effects, as the brand
+guide requires. Rendered bytes can differ between librsvg and FreeType builds;
+review the images and update the hashes together.
 
-The hashes above identify the audited release assets and are duplicated in
-`backgrounds.sha256` for automated validation. From this directory, run
-`sha256sum --check backgrounds.sha256` to detect later replacements.
+The hashes above are duplicated in `backgrounds.sha256` for automated
+validation. From this directory, run `sha256sum --check backgrounds.sha256` to
+detect later replacements.

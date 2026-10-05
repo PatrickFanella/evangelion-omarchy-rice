@@ -1,8 +1,8 @@
 # SUBCULT for Omarchy
 
-An unofficial, non-commercial SUBCULT-inspired theme for Omarchy. It uses a
-dark SUBCULT command-center palette with VIOLET purple, acid green, SUBCULT red,
-and safety orange, plus seven coordinated wallpapers.
+The SUBCULT poster-press theme for Omarchy. Ink canvases carry paper text,
+with violet and acid green kept for marks, borders, and focus. It includes
+seven wallpapers rendered from the SUBCULT marks.
 
 ## Install
 
@@ -53,7 +53,7 @@ owned by this package.
 
 ## Licensing
 
-Software/configuration is MIT-licensed. Wallpaper terms and provenance are in
-`ASSETS_LICENSE.md` and `ARTWORK.md`. SUBCULT names, designs, and marks
-remain the property of their respective rights holders; no endorsement or
-commercial-use permission is implied.
+Software/configuration is MIT-licensed. The SUBCULT name, marks, and the
+wallpapers rendered from them belong to SUBCULT (subcult.tv) and are not covered
+by the MIT license. Their terms are in `ASSETS_LICENSE.md`, and wallpaper
+provenance is in `ARTWORK.md`.

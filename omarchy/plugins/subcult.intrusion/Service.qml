@@ -127,11 +127,11 @@ Item {
 
         Text { text: "INTRUSION DRILL // SIGNAL"; color: "#ff153d"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 26; font.bold: true; font.letterSpacing: 1.8 }
         Rectangle { width: parent.width; height: 2; color: "#f6a52f" }
-        Text { text: "SUBCULT BACK ROOM  ·  SECURITY CONDITION ONE"; color: "#eee8ff"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 13; font.bold: true }
+        Text { text: "SUBCULT BACK ROOM  ·  SECURITY CONDITION ONE"; color: "#f0ece4"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 13; font.bold: true }
         Text { text: "UNIDENTIFIED SIGNAL DETECTED\nMAGI CONSENSUS: INTRUSION SIMULATION ACTIVE"; color: "#ff8a66"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 15; font.bold: true; lineHeight: 1.25 }
         Item { width: 1; height: 4 }
         Text { text: "MANUAL DEMONSTRATION  //  NO AUTOMATIC TRIGGER"; color: "#a794c7"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 11; font.letterSpacing: 0.7 }
-        Text { text: "SAFE EXIT  ›  subcult-intrusion exit"; color: "#9cf23a"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 13; font.bold: true }
+        Text { text: "SAFE EXIT  ›  subcult-intrusion exit"; color: "#00ff88"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 13; font.bold: true }
       }
     }
   }

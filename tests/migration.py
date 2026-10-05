@@ -38,7 +38,7 @@ with tempfile.TemporaryDirectory() as directory:
     state_before = sorted(str(path.relative_to(base)) for path in base.rglob("*"))
 
     preview = json.loads(run(env, "preview", "--json").stdout)
-    assert preview["source_version"] == "1.4.1" and preview["target_version"] == "1.5.0"
+    assert preview["source_version"] == "1.5.1" and preview["target_version"] == "2.0.0"
     assert all(item["status"] == "conflict" and item["replacement_required"] for item in preview["operations"])
     assert len(preview["required_actions"]) == 4 and preview["read_only"] is True
     assert sorted(str(path.relative_to(base)) for path in base.rglob("*")) == state_before
@@ -56,7 +56,7 @@ with tempfile.TemporaryDirectory() as directory:
     snapshot = Path(applied["snapshot"])
     assert (config / "omarchy/shell.json").read_text() == fixtures["omarchy/shell.json"]
     assert (config / "hypr/hyprland.lua").read_bytes() == (ROOT / "hypr/hyprland.lua").read_bytes()
-    assert (state / "subcult-rice/migrations/installed-version").read_text().strip() == "1.5.0"
+    assert (state / "subcult-rice/migrations/installed-version").read_text().strip() == "2.0.0"
     journal = json.loads((snapshot / "journal.json").read_text())
     assert journal["state"] == "completed"
     assert {item["id"]: item["action"] for item in journal["operations"]}["shell"] == "keep"

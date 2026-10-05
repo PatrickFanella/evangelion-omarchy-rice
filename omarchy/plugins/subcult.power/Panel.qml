@@ -107,7 +107,7 @@ Panel {
     : root.reservePower
       ? "#F6B73C"
       : root.displayCharging
-        ? "#9CF23A"
+        ? "#00FF88"
         : (root.bar ? root.bar.foreground : Color.foreground)
 
   readonly property color batteryFillColor: {

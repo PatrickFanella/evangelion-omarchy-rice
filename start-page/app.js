@@ -4,7 +4,7 @@ let currentData = null;
 let densityIndex = 1;
 
 const demoData = {
-  theme: {accent: '#9cf23a', selection: '#6c2b8f', background: '#15111c', dark_background: '#09070d', foreground: '#f2edf5', dark_foreground: '#8f8498', orange: '#f6a52f', cyan: '#4bd7d0', bright_red: '#ff304f'},
+  theme: {accent: '#00ff88', selection: '#6c2b8f', background: '#15111c', dark_background: '#09070d', foreground: '#f2edf5', dark_foreground: '#8f8498', orange: '#f6a52f', cyan: '#4bd7d0', bright_red: '#ff304f'},
   thermal: {available: true, temperature_c: 57, tier: 'nominal'},
   battery: 88,
   network: {online: true, interface: 'subcult-link'},

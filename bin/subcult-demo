@@ -44,7 +44,7 @@ def snapshot(name):
     try: index = [row[0] for row in SCENARIOS].index(name)
     except ValueError: raise SystemExit(f"Unknown demo scenario: {name}")
     name, affinity, status, workspace, battery, temperature, online, media = SCENARIOS[index]
-    colors = {"neutral":"#f6d447", "acid":"#62d8ff", "paper":"#f6d447", "violet":"#9cf23a", "ink":"#ff4055"}
+    colors = {"neutral":"#f6d447", "acid":"#62d8ff", "paper":"#f6d447", "violet":"#00ff88", "ink":"#ff4055"}
     return {"schema_version":1, "demo":True, "scenario":name, "scenario_index":index,
             "scenario_count":len(SCENARIOS), "affinity":affinity, "accent":colors[affinity],
             "status":status, "summary_key":"summary."+status, "workspace":workspace,

@@ -1,4 +1,4 @@
-# SUBCULT Rice Release Audit
+# SUBCULT Rice release audit
 
 Audit ticket: SO1-337
 

@@ -21,7 +21,7 @@ Item {
   property string heading: "MAINS POWER CONNECTED"
   property string detail: "EXTERNAL SUPPLY // SYNCHRONIZED"
   property string metric: ""
-  property color accent: "#9cf23a"
+  property color accent: "#00ff88"
   readonly property int flapCooldownMs: 10000
   readonly property var targetScreen: {
     var focused = Hyprland.focusedMonitor
@@ -62,7 +62,7 @@ Item {
     heading = onBattery ? "INTERNAL POWER" : "MAINS POWER CONNECTED"
     detail = onBattery ? "BATTERY RESERVE // ACTIVE" : "EXTERNAL SUPPLY // SYNCHRONIZED"
     metric = metricFor(onBattery)
-    accent = onBattery ? "#f6a52f" : "#9cf23a"
+    accent = onBattery ? "#f6a52f" : "#00ff88"
   }
 
   function show(onBattery, genuine) {
@@ -179,15 +179,15 @@ Item {
         anchors { top: parent.top; right: parent.right }
         anchors.topMargin: 14
         anchors.rightMargin: 16
-        color: "#7b2cbf"
+        color: "#7c3aed"
       }
 
       Column {
         anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; leftMargin: 32; rightMargin: 24 }
         spacing: 9
         Text { width: parent.width; text: root.heading; color: root.accent; elide: Text.ElideRight; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 20; font.bold: true; font.letterSpacing: 1.1 }
-        Rectangle { width: parent.width; height: 1; color: "#7450a6" }
-        Text { width: parent.width; text: root.detail; color: "#eee8ff"; elide: Text.ElideRight; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 12; font.bold: true; font.letterSpacing: 0.7 }
+        Rectangle { width: parent.width; height: 1; color: "#7c5ce0" }
+        Text { width: parent.width; text: root.detail; color: "#f0ece4"; elide: Text.ElideRight; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 12; font.bold: true; font.letterSpacing: 0.7 }
         Text { visible: root.metric !== ""; text: root.metric; color: "#a794c7"; font.family: "JetBrainsMono Nerd Font"; font.pixelSize: 12; font.bold: true }
       }
     }

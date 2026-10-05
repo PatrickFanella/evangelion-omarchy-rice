@@ -73,8 +73,7 @@ with tempfile.TemporaryDirectory(prefix="subcult-arch-test-") as raw:
     home.mkdir(); state.mkdir()
     env = os.environ | {"HOME": str(home), "XDG_STATE_HOME": str(state),
                         "SUBCULT_RICE_ROOT": str(share), "SUBCULT_SKIP_ACTIVATE": "1",
-                        "SUBCULT_SOURCE_ONLY": "1", "SUBCULT_RELEASE_ARTIFACT_NESTED": "1",
-                        "SUBCULT_RELEASE_131_NESTED": "1"}
+                        "SUBCULT_SOURCE_ONLY": "1", "SUBCULT_RELEASE_ARTIFACT_NESTED": "1"}
     before = sorted(str(path.relative_to(home)) for path in home.rglob("*"))
     status = json.loads(run(launcher, "status", "--json", env=env).stdout)
     assert status["package_version"] == "0.0.0-ci.2" and status["activated"] is False

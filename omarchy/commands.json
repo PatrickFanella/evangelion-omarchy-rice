@@ -3,7 +3,7 @@
   "commands": [
     {"id":"interface.menu","label":"Open SUBCULT command interface","category":"Interface","description":"Open the hierarchical SUBCULT menu","aliases":["menu","launcher"],"danger":"safe","action":["omarchy-menu","toggle","subcult"]},
     {"id":"interface.settings","label":"Open SUBCULT control center","category":"Interface","description":"Configure reversible suite settings","aliases":["preferences","configuration"],"danger":"safe","action":["omarchy-shell","subcult-settings","open"]},
-    {"id":"interface.scenes","label":"Open affinity scenes","category":"Interface","description":"Preview coordinated scene changes","aliases":["wallpaper","eva"],"danger":"safe","action":["omarchy-shell","scene-editor","open"]},
+    {"id":"interface.scenes","label":"Open affinity scenes","category":"Interface","description":"Preview coordinated scene changes","aliases":["wallpaper","field"],"danger":"safe","action":["omarchy-shell","scene-editor","open"]},
     {"id":"interface.workspaces","label":"Edit workspace identities","category":"Interface","description":"Rename responsive workspace labels","aliases":["names","channels"],"danger":"safe","action":["omarchy-shell","workspace-names","open"]},
     {"id":"telemetry.context","label":"Inspect SUBCULT context","category":"Telemetry","description":"Explain local context evidence","aliases":["mobile","constrained","docked"],"danger":"safe","action":["omarchy-shell","subcult-context-inspector","open"]},
     {"id":"telemetry.health","label":"Open system health","category":"Telemetry","description":"Inspect battery thermal storage and updates","aliases":["diagnostic","battery","temperature"],"danger":"safe","action":["omarchy-shell","subcult-health","open"]},

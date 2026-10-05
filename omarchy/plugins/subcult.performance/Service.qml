@@ -37,7 +37,7 @@ Item {
     color:"transparent"; exclusionMode:ExclusionMode.Ignore; mask:Region {}
     WlrLayershell.namespace:"subcult-performance"; WlrLayershell.layer:WlrLayer.Overlay; WlrLayershell.keyboardFocus:WlrKeyboardFocus.None
     Rectangle {
-      anchors.fill:parent; color:"#f2080710"; border.width:2; border.color:"#9cf23a"; radius:3
+      anchors.fill:parent; color:"#f2080710"; border.width:2; border.color:"#00ff88"; radius:3
       opacity:root.enabled?1:0
       Behavior on opacity { enabled:!motion.off; NumberAnimation { duration:motion.full?180:80; easing.type:Easing.OutCubic } }
       Rectangle {
@@ -45,7 +45,7 @@ Item {
         anchors.left:parent.left
         anchors.top:parent.top
         anchors.bottom:parent.bottom
-        color:"#7b2cbf"
+        color:"#7c3aed"
       }
       Column {
         id:rows
@@ -54,33 +54,33 @@ Item {
         anchors.top:parent.top
         anchors.margins:22
         spacing:9
-        Text { text:"SUBCULT // DEVELOPER TELEMETRY"; color:"#9cf23a"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:15; font.bold:true; font.letterSpacing:1 }
+        Text { text:"SUBCULT // DEVELOPER TELEMETRY"; color:"#00ff88"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:15; font.bold:true; font.letterSpacing:1 }
         Text { text:"AGGREGATE ONLY  ·  PAYLOAD CAPTURE OFF"; color:"#f6a52f"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:10; font.bold:true }
-        Rectangle { width:parent.width; height:1; color:"#7450a6" }
+        Rectangle { width:parent.width; height:1; color:"#7c5ce0" }
         Row { spacing:18
-          Text { text:"SAMPLES // "+String(root.report.samples||0); color:"#eee8ff"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:12; font.bold:true }
+          Text { text:"SAMPLES // "+String(root.report.samples||0); color:"#f0ece4"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:12; font.bold:true }
           Text { text:"EVENT Δ // "+String(root.report.event_changes||0); color:"#55d9ff"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:12; font.bold:true }
           Text { text:"MOTION // "+motion.mode.toUpperCase(); color:"#f6a52f"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:12; font.bold:true }
         }
-        Text { text:"EXPENSIVE COMPONENTS"; color:"#9cf23a"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11; font.bold:true }
+        Text { text:"EXPENSIVE COMPONENTS"; color:"#00ff88"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11; font.bold:true }
         Repeater { model:Math.min(6,(root.report.components||[]).length); delegate:Row {
           required property int index; width:rows.width
           property var item:root.component(index)
-          Text { width:145; text:String(parent.item.component).toUpperCase(); elide:Text.ElideRight; color:"#eee8ff"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 }
+          Text { width:145; text:String(parent.item.component).toUpperCase(); elide:Text.ElideRight; color:"#f0ece4"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 }
           Text { width:110; text:"AVG "+Number(parent.item.average_ms||0).toFixed(2)+" MS"; color:"#55d9ff"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 }
-          Text { width:90; text:Number(parent.item.refresh_hz||0).toFixed(3)+" HZ"; color:"#9cf23a"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 }
+          Text { width:90; text:Number(parent.item.refresh_hz||0).toFixed(3)+" HZ"; color:"#00ff88"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11 }
           Text { width:75; text:String(parent.item.availability||"unknown").toUpperCase(); elide:Text.ElideRight; color:Number(parent.item.maximum_ms||0)>250?"#ff4055":"#f6a52f"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:10 }
         } }
-        Text { text:"CACHE FRESHNESS"; color:"#9cf23a"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11; font.bold:true }
+        Text { text:"CACHE FRESHNESS"; color:"#00ff88"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11; font.bold:true }
         Repeater { model:root.report.caches||[]; delegate:Row {
           required property var modelData; width:rows.width
-          Text { width:165; text:String(modelData.component).toUpperCase(); color:"#eee8ff"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:10 }
+          Text { width:165; text:String(modelData.component).toUpperCase(); color:"#f0ece4"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:10 }
           Text { text:modelData.age_seconds===null?"UNAVAILABLE":String(modelData.age_seconds)+" S OLD"; color:modelData.age_seconds!==null&&modelData.age_seconds>300?"#f6a52f":"#55d9ff"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:10; font.bold:true }
         } }
-        Text { text:"BUDGET GATE // "+String(root.report.budgets?.status||"unavailable").toUpperCase()+"  ·  VIOLATIONS "+String((root.report.budgets?.failures||[]).length); color:root.report.budgets?.status==="failed"?"#ff4055":root.report.budgets?.status==="passed"?"#9cf23a":"#f6a52f"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11; font.bold:true }
-        Rectangle { width:parent.width; height:1; color:"#7450a6" }
-        Text { text:"POLL // "+String(root.report.sample_interval_ms||2000)+" MS  ·  ONE PROBE/CYCLE  ·  RENDER EVENTS // "+root.renderEvents; color:"#aaa2b5"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:10 }
-        Text { text:"SUPER + CTRL + ALT + F TO DISENGAGE"; color:"#9cf23a"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:10; font.bold:true }
+        Text { text:"BUDGET GATE // "+String(root.report.budgets?.status||"unavailable").toUpperCase()+"  ·  VIOLATIONS "+String((root.report.budgets?.failures||[]).length); color:root.report.budgets?.status==="failed"?"#ff4055":root.report.budgets?.status==="passed"?"#00ff88":"#f6a52f"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:11; font.bold:true }
+        Rectangle { width:parent.width; height:1; color:"#7c5ce0" }
+        Text { text:"POLL // "+String(root.report.sample_interval_ms||2000)+" MS  ·  ONE PROBE/CYCLE  ·  RENDER EVENTS // "+root.renderEvents; color:"#a69fb3"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:10 }
+        Text { text:"SUPER + CTRL + ALT + F TO DISENGAGE"; color:"#00ff88"; font.family:"JetBrainsMono Nerd Font"; font.pixelSize:10; font.bold:true }
       }
     }
   }

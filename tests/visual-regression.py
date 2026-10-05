@@ -19,13 +19,13 @@ OUTPUT = Path(os.environ.get("SUBCULT_VISUAL_RESULTS", ROOT / "test-results/visu
 IMAGE = shutil.which("magick") or shutil.which("convert")
 
 PALETTES = {
-    "neutral": ("#9cf23a", "#8f4bc8", "#0b0810", "#e8e1ef", "SUBCULT / SUBCULT"),
-    "acid": ("#f6c744", "#3ba7d8", "#0b0905", "#f2e9d2", "ACID BLOCK"),
-    "paper": ("#55d9ff", "#f2f6ff", "#050b12", "#e8f1ff", "PAPER STOCK"),
-    "violet": ("#9cf23a", "#8f4bc8", "#0b0810", "#e8e1ef", "VIOLET FIELD"),
-    "ink": ("#ff5a36", "#f6a52f", "#0d0504", "#f5e5df", "INK RUN"),
+    "neutral": ("#00ff88", "#8b5cf6", "#0b0812", "#f0ece4", "SUBCULT / PRESS"),
+    "acid": ("#00ff88", "#f0ece4", "#050d09", "#eaf5ee", "ACID BLOCK"),
+    "paper": ("#f0ece4", "#8b5cf6", "#0e0c09", "#f0ece4", "PAPER STOCK"),
+    "violet": ("#b69cff", "#00ff88", "#0e0819", "#f0ece4", "VIOLET FIELD"),
+    "ink": ("#a78bfa", "#f0ece4", "#060409", "#e9e6f0", "INK RUN"),
 }
-STATE = {"nominal": ("NOMINAL", "#9cf23a"), "warning": ("CAUTION", "#f6c744"), "critical": ("CONDITION RED", "#ff4055")}
+STATE = {"nominal": ("NOMINAL", "#00ff88"), "warning": ("CAUTION", "#f6c744"), "critical": ("CONDITION RED", "#ff4055")}
 
 
 def svg(case):

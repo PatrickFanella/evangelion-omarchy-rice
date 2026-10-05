@@ -1,4 +1,4 @@
-# SUBCULT Omarchy Control Reference
+# SUBCULT Omarchy control reference
 
 `Super` refers to the Windows key. Press `Super + K` at any time to open
 Omarchy's complete live keybinding reference.
@@ -122,16 +122,16 @@ subcult-capture recording --stop-recording
 Successful saves show the exact output destination. Cancelled region selection
 remains silent and produces no misleading completion confirmation.
 
-The SUBCULT wallpaper set includes SUBCULT Command, SUBCULT Violet, SUBCULT
-SUBCULT, Signal, Acid Block, Paper Stock, and SUBCULT
-Ink. The presentation layout automatically selects a left-side safe width
-for each composition.
+The SUBCULT wallpaper set includes Press, Violet, Archive, Signal, Acid,
+Paper, and Ink. The presentation layout automatically selects a left-side safe
+width for each composition.
 
-Wallpaper changes also select an Field Affinity automatically: Unit-00
-Prototype uses yellow/orange, Paper Stock uses blue/cyan, Violet uses
-purple/green, and Ink uses red/orange. Other wallpapers use the neutral
-SUBCULT/SUBCULT palette. Use `SUBCULT Command Interface → Field Affinity` for a
-persistent manual override or to return to automatic mode.
+Wallpaper changes also select an affinity automatically. The Acid wallpaper
+selects Acid Block (acid green on green-black), Paper selects Paper Stock
+(cream on warm ink), Violet selects Violet Field (lavender with acid green), and
+Ink selects Ink Run (violet on near-black). Press, Archive, and Signal use the
+neutral SUBCULT / PRESS palette. Use `SUBCULT Command Interface → Field Affinity`
+for a persistent manual override or to return to automatic mode.
 
 ### Closed Door focus mode
 
@@ -292,7 +292,7 @@ closes. The widget disappears entirely when no source has track metadata. See
 
 | Shortcut | Action |
 |---|---|
-| `Super + 1` … `Super + 5` | Switch to MEL, BAL, CAS, ENTRY, or TERMINAL |
+| `Super + 1` … `Super + 5` | Switch to PRESS, ARCHIVE, DOOR, WORKBENCH, or TERMINAL |
 | `Super + Tab` | Next workspace |
 | `Super + Shift + Tab` | Previous workspace |
 | `Super + Ctrl + Tab` | Return to the former workspace |
@@ -316,9 +316,12 @@ first. Move to **EXECUTE** deliberately before activating a destructive action.
 Use `SUBCULT Command Interface → Terminal Profile`, or run:
 
 ```bash
-subcult-terminal-profile violet       # Purple; desktop default
-subcult-terminal-profile subcult         # Green; diagnostics
+subcult-terminal-profile violet       # Violet; desktop default
+subcult-terminal-profile subcult      # Acid green press; diagnostics
 subcult-terminal-profile engineering  # Orange; maintenance
+subcult-terminal-profile acid         # Acid Block
+subcult-terminal-profile paper        # Paper Stock
+subcult-terminal-profile ink          # Ink Run
 subcult-terminal-profile status       # Print the current profile
 subcult-terminal-profile list         # List available profiles
 ```
@@ -390,8 +393,9 @@ omarchy-shell subcult-idle hide    # Hide it
 omarchy-shell subcult-idle state   # Print its timers and current state
 ```
 
-The SUBCULT screensaver rotates through SUBCULT diagnostics, synchronization
-telemetry, SUBCULT security typography, and a restrained Violet standby display.
+The SUBCULT screensaver rotates through PRESS, ARCHIVE, and DOOR node
+diagnostics, synchronization telemetry, command-authority security typography,
+and a restrained Violet Field standby display.
 Peripheral telemetry, scene progress, a slow scan sweep, and short feed-routing
 transitions provide motion without turning the display into a distraction.
 Keyboard input, clicks, scrolling, or pointer movement dismiss it immediately.
@@ -664,7 +668,7 @@ subcult-intrusion preview         # Show only the warning display
 
 Activation captures the current wallpaper, terminal profile, affinity mode,
 notification/DND setting, and both border gradients before making changes. The
-Intrusion drill wallpaper, Ink critical profile, restrained static red borders, and
+Signal wallpaper, Ink terminal profile, restrained static red borders, and
 warning display are then applied. Recovery restores the captured values and is
 safe to retry after an interrupted transition.
 
@@ -684,7 +688,7 @@ switching, and retires within 780 ms (480 ms with reduced motion enabled).
 Toggle it from `SUBCULT Command Interface → Workspace Channel OSD`, or run:
 
 ```bash
-subcult-workspace-osd preview 4  # Preview ENTRY PLUG // DEVELOPMENT
+subcult-workspace-osd preview 4  # Preview WORKBENCH · BUILD CHANNEL
 subcult-workspace-osd disable    # Disable every workspace transition overlay
 subcult-workspace-osd enable     # Re-enable automatic overlays
 subcult-workspace-osd status     # Print enabled or disabled
@@ -719,7 +723,7 @@ omarchy menu keybindings --print  # Print the complete current binding list
 omarchy-menu summon subcult          # Open the SUBCULT interface
 omarchy-menu summon system        # Open SUBCULT Session Control
 subcult-presentation                 # Toggle the presentation layout
-subcult-affinity status              # Report automatic/manual mode and active unit
+subcult-affinity status              # Report automatic/manual mode and active affinity
 subcult-affinity palette             # Report the active bar/icon palette as JSON
 subcult-affinity set ink         # Hold a manual affinity across wallpapers
 subcult-affinity auto                # Resume wallpaper-driven affinity
@@ -759,8 +763,8 @@ omarchy weather location --set "Tempe"    # Set it by name
 omarchy weather location --clear          # Return to IP auto-detection
 ```
 
-The command-console instruments are live rather than decorative. SUBCULT reaches
-consensus from battery, thermal, and network health; System Telemetry shows the
+The command-console instruments are live rather than decorative. The SUBCULT
+consensus panel combines battery, thermal, and network health; System Telemetry shows the
 active network interface and proportional battery/temperature meters; Audio
 Channel reads player identity, state, track duration, and position through
 MPRIS/playerctl. Warning, rejection, paused, cached, and offline states each
@@ -768,8 +772,9 @@ shift their panel signaling automatically.
 
 The header rail reports the active SUBCULT affinity, named workspace, operating
 profile, uptime, and network state. The Operations Log records state changes
-observed while the local dashboard service is running. Unit-00, Violet, and
-Ink affinity changes alter the ambient background signal automatically;
+observed while the local dashboard service is running. Acid Block, Paper
+Stock, Violet Field, and Ink Run affinity changes alter the ambient background
+signal automatically;
 real battery, thermal, or network failures activate the emergency treatment.
 
 Dashboard-local controls:

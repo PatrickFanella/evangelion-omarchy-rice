@@ -124,7 +124,7 @@ def inventory(root, archive, limit, recent_days):
 
 
 def choose(lines, prompt, header=""):
-    result = subprocess.run(["fzf", "--ansi", "--no-multi", "--reverse", "--height=100%", f"--prompt={prompt} ", f"--header={header}", "--border=sharp", "--color=bg+:#21152b,fg+:#f2edf5,hl:#9cf23a,hl+:#9cf23a,prompt:#f28c28,pointer:#ff4055,border:#4fd6c8"], input="\n".join(lines), text=True, capture_output=True)
+    result = subprocess.run(["fzf", "--ansi", "--no-multi", "--reverse", "--height=100%", f"--prompt={prompt} ", f"--header={header}", "--border=sharp", "--color=bg+:#21152b,fg+:#f2edf5,hl:#00ff88,hl+:#00ff88,prompt:#f28c28,pointer:#ff4055,border:#4fd6c8"], input="\n".join(lines), text=True, capture_output=True)
     return result.stdout.rstrip("\n") if result.returncode == 0 else ""
 
 

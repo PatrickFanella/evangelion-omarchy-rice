@@ -161,7 +161,7 @@ Item {
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.bottom: inputField.top
       anchors.bottomMargin: root.compactLayout ? 42 : 54
-      text: "SUBCULT // SUBCULT SYSTEM"
+      text: "SUBCULT // SYSTEM"
       color: Color.lock.textError
       font.family: Style.font.family
       font.pixelSize: Math.round(Style.font.heading * 0.82)

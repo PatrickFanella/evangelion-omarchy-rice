@@ -1,7 +1,7 @@
 # Theme variants
 
 SUBCULT Rice keeps identity and presentation separate. Wallpaper affinity
-selects SUBCULT, Acid Block, Paper Stock, VIOLET, or INK chroma; a theme
+selects Press, Acid Block, Paper Stock, Violet Field, or Ink Run chroma; a theme
 variant resolves that shared palette as Standard Press, OLED Blackout,
 Paper Daylight, or High Contrast. This inheritance model provides every
 affinity/variant combination without copied themes or changed wallpaper rules.
@@ -29,5 +29,5 @@ the complete 5 × 4 matrix, seven wallpaper mappings, panels, accents, bar icons
 transaction semantics, and terminal coordination.
 
 Wallpaper Auto affinity remains authoritative. Changing treatment never changes
-the wallpaper or active SUBCULT unit, and changing wallpaper retains the treatment.
+the wallpaper or active affinity, and changing wallpaper retains the treatment.
 `subcult-affinity palette` reports both dimensions as JSON.

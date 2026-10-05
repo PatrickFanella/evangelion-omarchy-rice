@@ -11,8 +11,8 @@ with tempfile.TemporaryDirectory() as raw:
   tmp=Path(raw); home=tmp/"home"; state=tmp/"state"; runtime=tmp/"run"; stubs=tmp/"bin"
   theme=state/"omarchy/current/theme"
   for directory in (home,state,runtime,stubs,theme): directory.mkdir(parents=True,exist_ok=True)
-  colors='accent = "#9CF23A"\nforeground = "#E8E1EF"\n'
-  shell='[bar]\ntext = "#B79ACB"\n'
+  colors='accent = "#00FF88"\nforeground = "#F0ECE4"\n'
+  shell='[bar]\ntext = "#B9A8E6"\n'
   (theme/"colors.toml").write_text(colors); (theme/"shell.toml").write_text(shell)
   log=tmp/"ipc.json"
   stub=stubs/"omarchy-shell"

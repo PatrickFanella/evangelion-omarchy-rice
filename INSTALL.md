@@ -62,7 +62,7 @@ files into another channel's Git tree.
 | Component | Target | Update policy |
 |---|---|---|
 | `theme` | `~/.config/omarchy/themes/subcult/` | Individual files created/replaced |
-| `tools` | Named SUBCULT/SUBCULT commands in `~/.local/bin/` | Created/replaced |
+| `tools` | Named `subcult-*` commands in `~/.local/bin/` | Created/replaced |
 | `shell` | Omarchy plugins, menu, hooks, JSON config | Complete configs replaced; `subcult.json` preserved |
 | `hypr` | `~/.config/hypr/{bindings,hyprland,looknfeel}.lua` | Complete files replaced |
 | `start-page` | `~/.local/share/subcult-rice/start-page/` | Created/replaced |
