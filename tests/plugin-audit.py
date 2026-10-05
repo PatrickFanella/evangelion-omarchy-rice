@@ -17,7 +17,7 @@ assert audit["baseline"] == "v1.5-development"
 assert audit["standalone_support_claimed"] is False
 assert len(rows) == len(by_id) == len(directories) == 39
 assert set(by_id) == directories
-assert audit["recommended_candidates"] == ["evangelion.cava", "evangelion.media"]
+assert audit["recommended_candidates"] == ["subcult.cava", "subcult.media"]
 allowed = {"standalone", "optionally-integrated", "suite-only", "compatibility-only"}
 assert all(row["classification"] in allowed for row in rows)
 assert not any(row["classification"] == "standalone" for row in rows)
@@ -38,4 +38,4 @@ assert [plugin_id for _, plugin_id in ranked[:2]] == audit["recommended_candidat
 for phrase in ("Dependency findings", "First marketplace candidates", "local-only empty", "no independently versioned protocol"):
     assert phrase in guide
 
-print("PASS  complete MAGI plugin dependency and viability audit")
+print("PASS  complete SUBCULT plugin dependency and viability audit")

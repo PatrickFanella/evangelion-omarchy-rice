@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.operating-profile",
+  "name": "SUBCULT Operating Profile",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "Event-driven docked and mobile profile synchronization.",
+  "kinds": ["service"],
+  "keepLoaded": true,
+  "entryPoints": { "service": "Service.qml" }
+}

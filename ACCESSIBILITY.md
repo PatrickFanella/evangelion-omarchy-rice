@@ -1,6 +1,6 @@
 # Accessibility and inclusive interaction
 
-Evangelion Rice targets keyboard-complete operation, readable contrast, bounded
+SUBCULT Rice targets keyboard-complete operation, readable contrast, bounded
 motion, resilient scaling, and useful assistive names without changing
 Omarchy's security or session model. These requirements apply to every new or
 modified v1.5 surface.
@@ -31,11 +31,11 @@ modified v1.5 surface.
 
 The Control Center, workspace editor, affinity scene editor, context inspector,
 media panel, clipboard, power panel, lock screen, menus, and destructive
-confirmations are keyboard operable. Shared MAGI popups accept Escape even
+confirmations are keyboard operable. Shared SUBCULT popups accept Escape even
 when their individual widget has no custom key map. Every command exposed by a
 pointer-only convenience control also has a documented CLI or global shortcut.
 
-Interactive MAGI bar widgets publish Qt Accessibility button names and
+Interactive SUBCULT bar widgets publish Qt Accessibility button names and
 descriptions. Shared popups publish a dialog role; the three full-screen editors
 announce their current selection; the lock password field publishes an editable
 text role without exposing its value. Actual spoken output depends on Qt,
@@ -47,9 +47,9 @@ automated matrix runs through `python3 tests/accessibility.py` and `./validate.s
 ## Documented platform exceptions
 
 - Quickshell/Wayland does not currently guarantee a complete AT-SPI tree for
-  every Canvas, layer-shell surface, or upstream Omarchy control. MAGI adds
+  every Canvas, layer-shell surface, or upstream Omarchy control. SUBCULT adds
   semantics where Qt exposes them and retains textual/CLI parity elsewhere.
-- Cava's bars, acquisition rails, wallpaper art, and NERV decorative marks are
+- Cava's bars, acquisition rails, wallpaper art, and SUBCULT decorative marks are
   ignored as meaning-bearing content; adjacent text communicates their state.
 - The suite does not override OS-level font DPI, screen-reader configuration,
   color filters, or input-device preferences.

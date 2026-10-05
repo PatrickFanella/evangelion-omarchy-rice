@@ -18,7 +18,7 @@ def main():
         os.environ["HOME"] = str(home)
         os.environ["XDG_CONFIG_HOME"] = str(home / ".config")
         os.environ["XDG_STATE_HOME"] = str(home / ".local/state")
-        loader = importlib.machinery.SourceFileLoader("magi_ambient", str(ROOT / "bin/magi-ambient"))
+        loader = importlib.machinery.SourceFileLoader("subcult_ambient", str(ROOT / "bin/subcult-ambient"))
         spec = importlib.util.spec_from_loader(loader.name, loader)
         ambient = importlib.util.module_from_spec(spec); loader.exec_module(ambient)
 
@@ -28,9 +28,9 @@ def main():
 
         ambient.STATE.mkdir(parents=True)
         (ambient.STATE / "mission-timer.json").write_text(json.dumps({"running": True, "paused": False, "phase": "work"}))
-        (ambient.STATE / "at-field").mkdir(); (ambient.STATE / "at-field/active").touch()
+        (ambient.STATE / "closed-door").mkdir(); (ambient.STATE / "closed-door/active").touch()
         focused = ambient.projection(datetime(2026, 8, 31, 12, tzinfo=timezone.utc))
-        assert focused["mission"] == "work" and focused["focus"] and focused["copy"] == "A.T. FIELD FOCUS"
+        assert focused["mission"] == "work" and focused["focus"] and focused["copy"] == "CLOSED DOOR FOCUS"
 
         ambient.update(lambda value: value.update(location={"latitude": 33.4484, "longitude": -112.0740}))
         solar = ambient.projection(datetime(2026, 8, 31, 12, tzinfo=timezone.utc))
@@ -43,11 +43,11 @@ def main():
         disabled = ambient.projection(datetime(2026, 8, 31, 12, tzinfo=timezone.utc))
         assert disabled["active"] is False and disabled["band"] == "baseline" and disabled["scene_offset"] == 0
 
-    source = (ROOT / "bin/magi-ambient").read_text()
+    source = (ROOT / "bin/subcult-ambient").read_text()
     assert all(word not in source for word in ("requests", "urllib", "geoclue", "curl"))
-    screensaver = (ROOT / "bin/magi-screensaver").read_text()
+    screensaver = (ROOT / "bin/subcult-screensaver").read_text()
     server = (ROOT / "start-page/server.py").read_text()
-    assert '["magi-ambient", "status", "--json"]' in screensaver and '["magi-ambient", "status", "--json"]' in server
+    assert '["subcult-ambient", "status", "--json"]' in screensaver and '["subcult-ambient", "status", "--json"]' in server
     assert "Timer" not in source and "while True" not in source
     print("PASS  explicit offline ambient time, mission, focus, quiet, and disable contracts")
 

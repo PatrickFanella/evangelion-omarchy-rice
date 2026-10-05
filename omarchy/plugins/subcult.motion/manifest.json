@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.motion",
+  "name": "SUBCULT Motion Controller",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "Live Off, Reduced, and Full motion preference service.",
+  "kinds": ["service"],
+  "keepLoaded": true,
+  "entryPoints": { "service": "Service.qml" }
+}

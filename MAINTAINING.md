@@ -14,10 +14,10 @@ sync without merging their ownership boundaries.
 - `distribution.json` and `DISTRIBUTION.md` define supported channels.
 - `packaging/release/allowlist.txt` defines the complete release archive.
 - `packaging/arch/PKGBUILD.release.in`, `packaging/arch/PKGBUILD-git`, and
-  `packaging/arch/evangelion-rice` define Arch system ownership and explicit
+  `packaging/arch/subcult-rice` define Arch system ownership and explicit
   user activation. The stable `PKGBUILD` is generated into `build/`, not tracked.
 
-MAGI plugins remain internal to the complete suite in v1.5. Do not publish a
+SUBCULT plugins remain internal to the complete suite in v1.5. Do not publish a
 plugin or runtime artifact from this workflow.
 
 ## Synchronize a release candidate
@@ -38,7 +38,7 @@ plugin or runtime artifact from this workflow.
 7. Run the complete local gate and retain machine-readable results:
 
    ```bash
-   EVANGELION_SOURCE_ONLY=1 EVANGELION_RELEASE_131_NESTED=1 ./validate.sh
+   SUBCULT_SOURCE_ONLY=1 SUBCULT_RELEASE_131_NESTED=1 ./validate.sh
    ./tests/cross-channel.py
    ```
 
@@ -55,7 +55,7 @@ git tag --verify v1.5.1
 ./scripts/build-release build --tag v1.5.1 --output build/one
 ./scripts/build-release build --tag v1.5.1 --output build/two
 cmp build/one/*.tar.gz build/two/*.tar.gz
-./scripts/build-release verify build/one/evangelion-omarchy-rice-1.5.1.tar.gz
+./scripts/build-release verify build/one/subcult-omarchy-rice-1.5.1.tar.gz
 ```
 
 Inspect the archive manifest and provenance, publish the archive and checksum
@@ -86,7 +86,7 @@ or accurately represent.
 - [ ] Standalone theme export and dedicated repository are synchronized.
 - [ ] Theme README links clearly to the complete suite.
 - [ ] Gallery image and repository commit are privacy/licensing reviewed.
-- [ ] MAGI plugins are described only as suite-internal components.
+- [ ] SUBCULT plugins are described only as suite-internal components.
 - [ ] Optional runtime remains a contract only; no runtime artifact is implied.
 - [ ] Release allowlist contains every required public guide and excludes local evidence.
 - [ ] Reproducible archive, checksum, manifest, and provenance verify.

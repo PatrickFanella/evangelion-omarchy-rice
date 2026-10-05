@@ -2,7 +2,7 @@
 
 set -u
 
-mode_file="${XDG_STATE_HOME:-$HOME/.local/state}/omarchy/evangelion-screensaver-mode"
+mode_file="${XDG_STATE_HOME:-$HOME/.local/state}/omarchy/subcult-screensaver-mode"
 if [[ -r $mode_file && $(<"$mode_file") == default ]]; then
   exec /usr/share/omarchy/bin/omarchy-launch-screensaver "$@"
 fi
@@ -15,7 +15,7 @@ fi
 # A later lifecycle phase owns the screen. Retire the informational idle card
 # before creating any fullscreen surfaces; lock always wins this arbitration.
 [[ $(omarchy-shell lock isLocked 2>/dev/null || echo true) == true ]] && exit 0
-omarchy-shell magi-idle hide >/dev/null 2>&1 || true
+omarchy-shell subcult-idle hide >/dev/null 2>&1 || true
 
 focused=$(omarchy-hyprland-monitor-focused)
 terminal=$(xdg-terminal-exec --print-id)
@@ -45,16 +45,16 @@ for monitor in $(hyprctl monitors -j | jq -r '.[].name'); do
   focus_monitor "$monitor"
   case "$terminal" in
     *Alacritty*)
-      hypr_exec alacritty --class=org.omarchy.screensaver --config-file "$OMARCHY_PATH/default/alacritty/screensaver.toml" -e magi-screensaver
+      hypr_exec alacritty --class=org.omarchy.screensaver --config-file "$OMARCHY_PATH/default/alacritty/screensaver.toml" -e subcult-screensaver
       ;;
     *ghostty*)
-      hypr_exec ghostty --class=org.omarchy.screensaver --config-file="$OMARCHY_PATH/default/ghostty/screensaver" --font-size=18 -e magi-screensaver
+      hypr_exec ghostty --class=org.omarchy.screensaver --config-file="$OMARCHY_PATH/default/ghostty/screensaver" --font-size=18 -e subcult-screensaver
       ;;
     *foot*)
-      hypr_exec foot --app-id=org.omarchy.screensaver --config="$OMARCHY_PATH/default/foot/screensaver.ini" -e magi-screensaver
+      hypr_exec foot --app-id=org.omarchy.screensaver --config="$OMARCHY_PATH/default/foot/screensaver.ini" -e subcult-screensaver
       ;;
     *kitty*)
-      hypr_exec kitty --class=org.omarchy.screensaver --override font_size=18 --override window_padding_width=0 -e magi-screensaver
+      hypr_exec kitty --class=org.omarchy.screensaver --override font_size=18 --override window_padding_width=0 -e subcult-screensaver
       ;;
     *)
       omarchy-notification-send -g ✋ "Screensaver requires Alacritty, Foot, Ghostty, or Kitty"

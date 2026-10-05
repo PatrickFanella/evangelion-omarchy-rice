@@ -20,7 +20,7 @@ def run(*args, cwd=None, env=None):
     return result
 
 
-with tempfile.TemporaryDirectory(prefix="evangelion-artifact-test-") as raw:
+with tempfile.TemporaryDirectory(prefix="subcult-artifact-test-") as raw:
     tmp = Path(raw)
     clone = tmp / "source"
     shutil.copytree(ROOT, clone, ignore=shutil.ignore_patterns(".git", "build", "test-results", "__pycache__", "*.pyc"))
@@ -32,7 +32,7 @@ with tempfile.TemporaryDirectory(prefix="evangelion-artifact-test-") as raw:
     out_a, out_b = tmp / "a", tmp / "b"
     run(str(clone / "scripts/build-release"), "build", "--tag", "v0.0.0-ci.1", "--output", str(out_a), cwd=clone)
     run(str(clone / "scripts/build-release"), "build", "--tag", "v0.0.0-ci.1", "--output", str(out_b), cwd=clone)
-    archive_a = out_a / "evangelion-omarchy-rice-0.0.0-ci.1.tar.gz"
+    archive_a = out_a / "subcult-omarchy-rice-0.0.0-ci.1.tar.gz"
     archive_b = out_b / archive_a.name
     assert archive_a.read_bytes() == archive_b.read_bytes(), "archive is not reproducible"
     run(str(clone / "scripts/build-release"), "verify", str(archive_a), cwd=clone)
@@ -41,7 +41,7 @@ with tempfile.TemporaryDirectory(prefix="evangelion-artifact-test-") as raw:
     extract.mkdir()
     with tarfile.open(archive_a, "r:gz") as tar:
         tar.extractall(extract, filter="data")
-    suite = extract / "evangelion-omarchy-rice-0.0.0-ci.1"
+    suite = extract / "subcult-omarchy-rice-0.0.0-ci.1"
     files = {str(path.relative_to(suite)) for path in suite.rglob("*") if path.is_file()}
     for denied in (".git", ".github", "media", "release", "captures", "test-results", "packaging/gallery"):
         assert not any(path == denied or path.startswith(denied + "/") for path in files), denied
@@ -54,8 +54,8 @@ with tempfile.TemporaryDirectory(prefix="evangelion-artifact-test-") as raw:
     home.mkdir(); state.mkdir()
     env = os.environ | {
         "HOME": str(home), "XDG_STATE_HOME": str(state),
-        "EVANGELION_SKIP_ACTIVATE": "1", "EVANGELION_SOURCE_ONLY": "1",
-        "EVANGELION_RELEASE_131_NESTED": "1", "EVANGELION_RELEASE_ARTIFACT_NESTED": "1",
+        "SUBCULT_SKIP_ACTIVATE": "1", "SUBCULT_SOURCE_ONLY": "1",
+        "SUBCULT_RELEASE_131_NESTED": "1", "SUBCULT_RELEASE_ARTIFACT_NESTED": "1",
     }
     run(str(suite / "preflight.py"), "--source-only", cwd=suite, env=env)
     run(str(suite / "scripts/build-release"), "verify-root", str(suite), cwd=suite, env=env)
@@ -67,7 +67,7 @@ with tempfile.TemporaryDirectory(prefix="evangelion-artifact-test-") as raw:
     second_snapshot = Path(second.stdout.strip().split("rollback snapshot: ")[-1])
     run(str(suite / "rollback.sh"), str(second_snapshot), cwd=suite, env=env)
     run(str(suite / "rollback.sh"), str(first_snapshot), cwd=suite, env=env)
-    theme_root = home / ".config/omarchy/themes/evangelion"
+    theme_root = home / ".config/omarchy/themes/subcult"
     assert not theme_root.exists() or not any(path.is_file() for path in theme_root.rglob("*")), \
         "rollback/removal left owned theme payload"
 
@@ -81,7 +81,7 @@ with tempfile.TemporaryDirectory(prefix="evangelion-artifact-test-") as raw:
                    "internal-manifest", "offline-preflight", "dry-run", "install",
                    "upgrade", "rollback", "removal", "no-publication"],
     }
-    output = Path(os.environ.get("EVANGELION_RELEASE_ARTIFACT_REPORT", ROOT / "test-results/release-artifact.json"))
+    output = Path(os.environ.get("SUBCULT_RELEASE_ARTIFACT_REPORT", ROOT / "test-results/release-artifact.json"))
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2) + "\n")
 

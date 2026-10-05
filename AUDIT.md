@@ -1,12 +1,12 @@
-# Evangelion Rice Release Audit
+# SUBCULT Rice Release Audit
 
 Audit ticket: SO1-337
 
 ## Results
 
 - Source validation: scripts, JSON, JSONC, Lua, manifests, and widget references pass.
-- Live registry: all Evangelion hotkeys are registered and all custom plugins load.
-- Menu actions: 102 actions inspected; no missing Evangelion command targets.
+- Live registry: all SUBCULT hotkeys are registered and all custom plugins load.
+- Menu actions: 102 actions inspected; no missing SUBCULT command targets.
 - Hyprland: live configuration reports no errors.
 - Persistence: mission timer and elapsed clock survive shell plugin rescans; safety previews restore cleanly.
 - Bar density: nominal 1920×1080 layout fits. Worst-case simultaneous mission, privacy, and health alerts retain safety telemetry; multi-channel privacy text was compacted after the stress test.

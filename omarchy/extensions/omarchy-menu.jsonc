@@ -1,637 +1,637 @@
 {
-  // MAGI command interface. Dotted IDs become children of the `magi` root;
+  // SUBCULT command interface. Dotted IDs become children of the `subcult` root;
   // targets reuse Omarchy's live providers instead of duplicating their logic.
-  "magi": {
+  "subcult": {
     "icon": "󰢮",
-    "label": "MAGI Command Interface",
-    "title": "MAGI // COMMAND",
-    "aliases": ["magi", "nerv", "evangelion"],
+    "label": "SUBCULT Command Interface",
+    "title": "SUBCULT // COMMAND",
+    "aliases": ["subcult", "subcult", "subcult"],
     "description": "Applications, system control, backgrounds, and presentation mode"
   },
-  "magi.command-palette": {
+  "subcult.command-palette": {
     "icon": "󰘳",
     "label": "Global Command Palette",
-    "action": "omarchy-shell magi-command-palette open",
+    "action": "omarchy-shell subcult-command-palette open",
     "description": "Fuzzy-search safe actions, settings, workspaces, diagnostics, help, and confirmed system actions"
   },
-  "magi.apps": {
+  "subcult.apps": {
     "icon": "󰀻",
     "label": "Application Index",
     "action": "omarchy-menu summon apps",
     "description": "Search and launch installed applications"
   },
-  "magi.settings": {
+  "subcult.settings": {
     "icon": "󰒓",
-    "label": "MAGI Control Center",
-    "action": "omarchy-shell magi-settings toggle",
+    "label": "SUBCULT Control Center",
+    "action": "omarchy-shell subcult-settings toggle",
     "description": "Preview, apply, and undo suite settings from one control surface"
   },
-  "magi.workspace-names": {
+  "subcult.workspace-names": {
     "icon": "󰘔",
     "label": "Workspace Identities",
     "action": "omarchy-shell workspace-names toggle",
     "description": "Edit full workspace names and collision-safe compact bar labels"
   },
-  "magi.topology": {
+  "subcult.topology": {
     "icon": "󰍹",
     "label": "Display Topologies",
-    "title": "MAGI // DISPLAY TOPOLOGY",
+    "title": "SUBCULT // DISPLAY TOPOLOGY",
     "description": "Inspect, enable, and safely undo saved monitor arrangements"
   },
-  "magi.topology.status": {
+  "subcult.topology.status": {
     "icon": "󰋼",
     "label": "Topology Status",
-    "action": "omarchy-launch-terminal -- bash -lc 'magi-topology status | jq; echo; read -rp \"Press Enter to close...\"'"
+    "action": "omarchy-launch-terminal -- bash -lc 'subcult-topology status | jq; echo; read -rp \"Press Enter to close...\"'"
   },
-  "magi.topology.enable": {
+  "subcult.topology.enable": {
     "icon": "󰐊",
     "label": "Enable Hot-Plug Restore",
-    "action": "magi-topology enable",
-    "checked": "magi-topology status | jq -e '.enabled == true' >/dev/null"
+    "action": "subcult-topology enable",
+    "checked": "subcult-topology status | jq -e '.enabled == true' >/dev/null"
   },
-  "magi.topology.disable": {
+  "subcult.topology.disable": {
     "icon": "󰅖",
     "label": "Disable Hot-Plug Restore",
-    "action": "magi-topology disable",
-    "checked": "magi-topology status | jq -e '.enabled == false' >/dev/null"
+    "action": "subcult-topology disable",
+    "checked": "subcult-topology status | jq -e '.enabled == false' >/dev/null"
   },
-  "magi.topology.undo": {
+  "subcult.topology.undo": {
     "icon": "󰕌",
     "label": "Undo Last Topology Apply",
-    "action": "magi-topology undo",
+    "action": "subcult-topology undo",
     "description": "Restore the previous monitor, workspace, window, bar, and presentation arrangement"
   },
-  "magi.machine-profile": {
+  "subcult.machine-profile": {
     "icon": "󰆓",
     "label": "Portable Machine Profiles",
-    "action": "omarchy-launch-terminal -- bash -lc 'magi-machine-profile --help; echo; read -rp \"Press Enter to close...\"'",
+    "action": "omarchy-launch-terminal -- bash -lc 'subcult-machine-profile --help; echo; read -rp \"Press Enter to close...\"'",
     "description": "Export or transactionally import privacy-sanitized cross-machine preferences"
   },
-  "magi.scenes": {
+  "subcult.scenes": {
     "icon": "󰏘",
     "label": "Affinity Scenes",
     "action": "omarchy-shell scene-editor toggle",
     "description": "Preview and coordinate wallpaper, palette, terminal, and optional scene behavior"
   },
-  "magi.background": {
+  "subcult.background": {
     "icon": "󰸉",
     "label": "Visual Environment",
     "action": "background=$(omarchy-theme-bg-switcher); [[ -n $background ]] && omarchy-theme-bg-set \"$background\"",
-    "description": "Select an Evangelion wallpaper"
+    "description": "Select an SUBCULT wallpaper"
   },
-  "magi.affinity": {
+  "subcult.affinity": {
     "icon": "󰏘",
-    "label": "EVA Unit Affinity",
-    "title": "MAGI // UNIT AFFINITY",
+    "label": "Field Affinity",
+    "title": "SUBCULT // UNIT AFFINITY",
     "description": "Automatic wallpaper colors or a persistent manual override"
   },
-  "magi.affinity.auto": {
+  "subcult.affinity.auto": {
     "icon": "󰑐",
     "label": "Automatic",
-    "action": "magi-affinity auto",
-    "checked": "[[ $(magi-affinity status | sed -n 's/^mode=//p') == auto ]]"
+    "action": "subcult-affinity auto",
+    "checked": "[[ $(subcult-affinity status | sed -n 's/^mode=//p') == auto ]]"
   },
-  "magi.affinity.neutral": {
-    "label": "NERV / MAGI Neutral",
-    "action": "magi-affinity set neutral"
+  "subcult.affinity.neutral": {
+    "label": "SUBCULT / SUBCULT Neutral",
+    "action": "subcult-affinity set neutral"
   },
-  "magi.affinity.unit-00-prototype": {
-    "label": "EVA-00 Prototype",
-    "action": "magi-affinity set unit-00-prototype"
+  "subcult.affinity.acid": {
+    "label": "Acid Block",
+    "action": "subcult-affinity set acid"
   },
-  "magi.affinity.unit-00-refit": {
-    "label": "EVA-00 Refit",
-    "action": "magi-affinity set unit-00-refit"
+  "subcult.affinity.paper": {
+    "label": "Paper Stock",
+    "action": "subcult-affinity set paper"
   },
-  "magi.affinity.unit-01": {
-    "label": "EVA-01 Test Type",
-    "action": "magi-affinity set unit-01"
+  "subcult.affinity.violet": {
+    "label": "Violet Field",
+    "action": "subcult-affinity set violet"
   },
-  "magi.affinity.unit-02": {
-    "label": "EVA-02 Production",
-    "action": "magi-affinity set unit-02"
+  "subcult.affinity.ink": {
+    "label": "Ink Run",
+    "action": "subcult-affinity set ink"
   },
-  "magi.affinity.refresh-bar": {
+  "subcult.affinity.refresh-bar": {
     "icon": "󰑐",
-    "label": "Refresh MAGI Bar",
-    "action": "magi-bar-refresh --notify",
+    "label": "Refresh SUBCULT Bar",
+    "action": "subcult-bar-refresh --notify",
     "description": "Reapply the active affinity palette without restarting the shell"
   },
-  "magi.motion": {
+  "subcult.motion": {
     "icon": "󰔎",
     "label": "Interface Motion",
-    "title": "MAGI // MOTION CONTROL",
-    "description": "Global animation level for participating Evangelion surfaces"
+    "title": "SUBCULT // MOTION CONTROL",
+    "description": "Global animation level for participating SUBCULT surfaces"
   },
-  "magi.motion.full": {
+  "subcult.motion.full": {
     "icon": "󰐊",
     "label": "Full Motion",
-    "action": "magi-motion set full",
-    "checked": "[[ $(magi-motion status) == full ]]",
+    "action": "subcult-motion set full",
+    "checked": "[[ $(subcult-motion status) == full ]]",
     "description": "Current v1.1 feel and complete v1.2 motion language"
   },
-  "magi.motion.reduced": {
+  "subcult.motion.reduced": {
     "icon": "󰘖",
     "label": "Reduced Motion",
-    "action": "magi-motion set reduced",
-    "checked": "[[ $(magi-motion status) == reduced ]]",
+    "action": "subcult-motion set reduced",
+    "checked": "[[ $(subcult-motion status) == reduced ]]",
     "description": "Short fades, minimal travel, no blur or repeated movement"
   },
-  "magi.motion.off": {
+  "subcult.motion.off": {
     "icon": "󰅖",
     "label": "Motion Off",
-    "action": "magi-motion set off",
-    "checked": "[[ $(magi-motion status) == off ]]",
+    "action": "subcult-motion set off",
+    "checked": "[[ $(subcult-motion status) == off ]]",
     "description": "Immediate state changes without decorative animation"
   },
-  "magi.presentation": {
+  "subcult.presentation": {
     "icon": "󰍹",
     "label": "Presentation Mode",
-    "action": "magi-presentation",
-    "checked": "pgrep -f -- '--class=org.omarchy.magi.' >/dev/null",
+    "action": "subcult-presentation",
+    "checked": "pgrep -f -- '--class=org.omarchy.subcult.' >/dev/null",
     "description": "Toggle system status and resource telemetry"
   },
-  "magi.demo": {
+  "subcult.demo": {
     "icon": "󰙨",
     "label": "Demonstration Mode",
-    "title": "MAGI // SAFE DEMONSTRATION",
+    "title": "SUBCULT // SAFE DEMONSTRATION",
     "description": "Isolated fictional interface scenarios with no live-data mixing"
   },
-  "magi.demo.enter": {"icon":"󰐊","label":"Enter / Resume Demo","action":"magi-demo enter","checked":"magi-demo status | grep -qx 'active=yes'"},
-  "magi.demo.next": {"icon":"󰒭","label":"Next Scenario","action":"magi-demo next","when":"magi-demo status | grep -qx 'active=yes'"},
-  "magi.demo.previous": {"icon":"󰒮","label":"Previous Scenario","action":"magi-demo previous","when":"magi-demo status | grep -qx 'active=yes'"},
-  "magi.demo.capture": {"icon":"󰹑","label":"Metadata-Safe Capture","action":"magi-demo capture","when":"magi-demo status | grep -qx 'active=yes'"},
-  "magi.demo.exit": {"icon":"󰅖","label":"Exit and Reset Demo","action":"magi-demo exit","when":"magi-demo status | grep -qx 'active=yes'"},
-  "magi.operating-profile": {
+  "subcult.demo.enter": {"icon":"󰐊","label":"Enter / Resume Demo","action":"subcult-demo enter","checked":"subcult-demo status | grep -qx 'active=yes'"},
+  "subcult.demo.next": {"icon":"󰒭","label":"Next Scenario","action":"subcult-demo next","when":"subcult-demo status | grep -qx 'active=yes'"},
+  "subcult.demo.previous": {"icon":"󰒮","label":"Previous Scenario","action":"subcult-demo previous","when":"subcult-demo status | grep -qx 'active=yes'"},
+  "subcult.demo.capture": {"icon":"󰹑","label":"Metadata-Safe Capture","action":"subcult-demo capture","when":"subcult-demo status | grep -qx 'active=yes'"},
+  "subcult.demo.exit": {"icon":"󰅖","label":"Exit and Reset Demo","action":"subcult-demo exit","when":"subcult-demo status | grep -qx 'active=yes'"},
+  "subcult.operating-profile": {
     "icon": "󰍹",
     "label": "Operating Profile",
-    "title": "MAGI // OPERATING PROFILE",
+    "title": "SUBCULT // OPERATING PROFILE",
     "description": "Coordinate displays, power, bar density, audio, and wallpaper"
   },
-  "magi.operating-profile.auto": {
+  "subcult.operating-profile.auto": {
     "icon": "󰑐",
     "label": "Context-Managed (Auto)",
-    "action": "magi-operating-profile auto",
-    "checked": "[[ $(magi-operating-profile status | sed -n 's/^mode=//p') == auto ]]",
+    "action": "subcult-operating-profile auto",
+    "checked": "[[ $(subcult-operating-profile status | sed -n 's/^mode=//p') == auto ]]",
     "description": "Release the manual hold; changes still require automation opt-in"
   },
-  "magi.operating-profile.docked": {
+  "subcult.operating-profile.docked": {
     "icon": "󰍹",
     "label": "Force Docked",
-    "action": "magi-operating-profile docked",
-    "checked": "[[ $(magi-operating-profile status | sed -n 's/^mode=//p') == docked ]]"
+    "action": "subcult-operating-profile docked",
+    "checked": "[[ $(subcult-operating-profile status | sed -n 's/^mode=//p') == docked ]]"
   },
-  "magi.operating-profile.mobile": {
+  "subcult.operating-profile.mobile": {
     "icon": "󰌢",
     "label": "Force Mobile",
-    "action": "magi-operating-profile mobile",
-    "checked": "[[ $(magi-operating-profile status | sed -n 's/^mode=//p') == mobile ]]"
+    "action": "subcult-operating-profile mobile",
+    "checked": "[[ $(subcult-operating-profile status | sed -n 's/^mode=//p') == mobile ]]"
   },
-  "magi.operating-profile.apply": {
+  "subcult.operating-profile.apply": {
     "icon": "󰑓",
     "label": "Reapply Current Profile",
-    "action": "magi-operating-profile apply"
+    "action": "subcult-operating-profile apply"
   },
-  "magi.operating-profile.automation": {
+  "subcult.operating-profile.automation": {
     "icon": "󰒓",
     "label": "Context Automation",
-    "title": "MAGI // PROFILE AUTOMATION",
+    "title": "SUBCULT // PROFILE AUTOMATION",
     "description": "Preview or opt into bounded context-selected profiles"
   },
-  "magi.operating-profile.automation-enable": {
+  "subcult.operating-profile.automation-enable": {
     "icon": "󰐕",
     "label": "Enable Environment Rule",
-    "action": "magi-context automation-rule environment_profile enable && magi-context automation enable",
-    "checked": "magi-context status --json --compact | jq -e '.controller.automation_enabled and .controller.automation_rules.environment_profile' >/dev/null",
+    "action": "subcult-context automation-rule environment_profile enable && subcult-context automation enable",
+    "checked": "subcult-context status --json --compact | jq -e '.controller.automation_enabled and .controller.automation_rules.environment_profile' >/dev/null",
     "description": "Opt in to dock/mobile profile changes; manual selection still wins"
   },
-  "magi.operating-profile.automation-disable": {
+  "subcult.operating-profile.automation-disable": {
     "icon": "󰅖",
     "label": "Disable All Automation",
-    "action": "magi-context automation disable",
+    "action": "subcult-context automation disable",
     "description": "Global kill switch; recommendations remain visible"
   },
-  "magi.operating-profile.automation-preview": {
+  "subcult.operating-profile.automation-preview": {
     "icon": "󰋼",
     "label": "Preview Pending Action",
-    "action": "omarchy-launch-terminal magi-context-automation preview",
+    "action": "omarchy-launch-terminal subcult-context-automation preview",
     "description": "Read-only plan, holds, cooldown, and reason"
   },
-  "magi.operating-profile.automation-undo": {
+  "subcult.operating-profile.automation-undo": {
     "icon": "󰕌",
     "label": "Undo Last Automated Change",
-    "action": "magi-context-automation undo",
+    "action": "subcult-context-automation undo",
     "description": "Restore the transaction snapshot captured before automation"
   },
-  "magi.ambient": {
+  "subcult.ambient": {
     "icon": "󰖔",
     "label": "Ambient Operations",
-    "title": "MAGI // AMBIENT OPERATIONS",
+    "title": "SUBCULT // AMBIENT OPERATIONS",
     "description": "Optional local time and explicit mission atmosphere"
   },
-  "magi.ambient.enable": {"icon":"󰐕","label":"Enable Ambient Cues","action":"magi-ambient enable"},
-  "magi.ambient.disable": {"icon":"󰅖","label":"Disable Ambient Cues","action":"magi-ambient disable"},
-  "magi.ambient.status": {"icon":"󰋼","label":"Show Ambient Status","action":"omarchy-launch-terminal magi-ambient status"},
-  "magi.deployment": {
+  "subcult.ambient.enable": {"icon":"󰐕","label":"Enable Ambient Cues","action":"subcult-ambient enable"},
+  "subcult.ambient.disable": {"icon":"󰅖","label":"Disable Ambient Cues","action":"subcult-ambient disable"},
+  "subcult.ambient.status": {"icon":"󰋼","label":"Show Ambient Status","action":"omarchy-launch-terminal subcult-ambient status"},
+  "subcult.deployment": {
     "icon": "󰚩",
-    "label": "EVA Deployment",
-    "title": "NERV // DEVELOPMENT SORTIE",
+    "label": "SUBCULT Deployment",
+    "title": "SUBCULT // DEVELOPMENT RUN",
     "description": "Assemble or recover the deterministic development mission"
   },
-  "magi.deployment.deploy": {
+  "subcult.deployment.deploy": {
     "icon": "󰐊",
     "label": "Deploy Mission Workspace",
-    "action": "magi-deployment deploy",
-    "checked": "[[ $(magi-deployment status | head -n1) == active ]]"
+    "action": "subcult-deployment deploy",
+    "checked": "[[ $(subcult-deployment status | head -n1) == active ]]"
   },
-  "magi.deployment.focus": {
+  "subcult.deployment.focus": {
     "icon": "󰍹",
     "label": "Focus Active Mission",
-    "action": "magi-deployment focus",
-    "when": "[[ $(magi-deployment status | head -n1) == active ]]"
+    "action": "subcult-deployment focus",
+    "when": "[[ $(subcult-deployment status | head -n1) == active ]]"
   },
-  "magi.deployment.recover": {
+  "subcult.deployment.recover": {
     "icon": "󰜺",
     "label": "Recover Mission Workspace",
-    "action": "magi-deployment teardown",
-    "when": "[[ $(magi-deployment status | head -n1) == active ]]"
+    "action": "subcult-deployment teardown",
+    "when": "[[ $(subcult-deployment status | head -n1) == active ]]"
   },
-  "magi.intrusion": {
+  "subcult.intrusion": {
     "icon": "󰀦",
-    "label": "Angel Intrusion Simulation",
-    "title": "NERV // SECURITY CONDITION ONE",
+    "label": "Intrusion Drill",
+    "title": "SUBCULT // SECURITY CONDITION ONE",
     "description": "Manual red-alert demonstration with transactional recovery"
   },
-  "magi.intrusion.enter": {
+  "subcult.intrusion.enter": {
     "icon": "󰐊",
     "label": "Initiate Simulation",
-    "action": "magi-intrusion enter",
-    "when": "[[ $(magi-intrusion status) == inactive ]]"
+    "action": "subcult-intrusion enter",
+    "when": "[[ $(subcult-intrusion status) == inactive ]]"
   },
-  "magi.intrusion.exit": {
+  "subcult.intrusion.exit": {
     "icon": "󰅖",
     "label": "SAFE EXIT / Restore State",
-    "action": "magi-intrusion exit",
-    "when": "[[ $(magi-intrusion status) != inactive ]]"
+    "action": "subcult-intrusion exit",
+    "when": "[[ $(subcult-intrusion status) != inactive ]]"
   },
-  "magi.intrusion.preview": {
+  "subcult.intrusion.preview": {
     "icon": "󰍹",
     "label": "Preview Warning Display",
-    "action": "magi-intrusion preview",
+    "action": "subcult-intrusion preview",
     "description": "Preview the OSD without changing desktop state"
   },
-  "magi.workspace-osd": {
+  "subcult.workspace-osd": {
     "icon": "󰍹",
     "label": "Workspace Channel OSD",
-    "action": "magi-workspace-osd toggle",
-    "checked": "[[ $(magi-workspace-osd status) == enabled ]]",
-    "description": "Toggle brief MAGI channel overlays during workspace changes"
+    "action": "subcult-workspace-osd toggle",
+    "checked": "[[ $(subcult-workspace-osd status) == enabled ]]",
+    "description": "Toggle brief SUBCULT channel overlays during workspace changes"
   },
-  "magi.focus": {
+  "subcult.focus": {
     "icon": "󰭟",
-    "label": "AT Field Focus Mode",
-    "action": "magi-focus toggle",
-    "checked": "[[ $(magi-focus status) == active ]]",
+    "label": "Closed Door Focus Mode",
+    "action": "subcult-focus toggle",
+    "checked": "[[ $(subcult-focus status) == active ]]",
     "description": "Suppress non-critical communications and apply focus treatment"
   },
-  "magi.mission": {
+  "subcult.mission": {
     "icon": "󰔛",
     "label": "Mission Timer",
-    "title": "MAGI // MISSION CLOCK",
-    "description": "Persistent focus sorties and recovery cycles"
+    "title": "SUBCULT // MISSION CLOCK",
+    "description": "Persistent focus runs and recovery cycles"
   },
-  "magi.mission.panel": {"icon":"󰋼","label":"Open Mission Clock","action":"omarchy-shell magi-mission toggle"},
-  "magi.mission.start": {"icon":"󰐊","label":"Begin Sortie","action":"magi-mission start"},
-  "magi.mission.toggle": {"icon":"󰏤","label":"Pause / Resume","action":"magi-mission toggle"},
-  "magi.mission.advance": {"icon":"󰒭","label":"Advance Phase","action":"magi-mission skip"},
-  "magi.mission.abort": {"icon":"󰅖","label":"Abort Mission","action":"magi-mission abort"},
-  "magi.health": {"icon":"󰄬","label":"System Health","title":"NERV // SYSTEM HEALTH","description":"Battery, thermal, storage, memory, services, updates, and connectivity"},
-  "magi.health.panel": {"icon":"󰋼","label":"Open Health Panel","action":"omarchy-shell magi-health toggle"},
-  "magi.health.inspect": {"icon":"󰆍","label":"Terminal Health Report","action":"omarchy-launch-terminal -- bash -lc 'magi-health status; echo; read -rp \"Press Enter to close...\"'"},
-  "magi.health.preview": {"icon":"󰀦","label":"Preview Health Warning","action":"magi-health preview --seconds 30"},
-  "magi.context": {"icon":"󰘦","label":"Context Inspector","title":"MAGI // CONTEXT INSPECTOR","description":"Explain current local context, freshness, contributing facts, and recommendations"},
-  "magi.context.panel": {"icon":"󰋼","label":"Open Context Inspector","action":"omarchy-shell magi-context-inspector toggle"},
-  "magi.context.refresh": {"icon":"󰑐","label":"Refresh Context","action":"omarchy-shell magi-context-inspector refresh","description":"Collect a new bounded local observation and update the inspector"},
-  "magi.context.explain": {"icon":"󰆍","label":"Terminal Explanation","action":"omarchy-launch-terminal -- bash -lc 'magi-context explain; echo; read -rp \"Press Enter to close...\"'"},
-  "magi.clock": {"icon":"󰥔","label":"World & Mission Clock","title":"MAGI // WORLD CHRONOMETER","description":"Arizona, UTC, remote zones, uptime, and mission elapsed time"},
-  "magi.clock.panel": {"icon":"󰋼","label":"Open Clock Matrix","action":"omarchy-shell magi-clock toggle"},
-  "magi.clock.toggle": {"icon":"󰐊","label":"Start / Pause Mission Elapsed","action":"magi-clock toggle"},
-  "magi.clock.reset": {"icon":"󰑐","label":"Reset Mission Elapsed","action":"magi-clock reset"},
-  "magi.capture": {"icon":"󰹑","label":"Capture Operations","title":"NERV // CAPTURE CONTROL","description":"Screenshots and persistent recording telemetry"},
-  "magi.capture.screenshot": {"icon":"󰹑","label":"Interactive Screenshot","action":"magi-capture screenshot"},
-  "magi.capture.recording": {"icon":"󰑋","label":"Start / Stop Recording","action":"magi-capture recording --stop-recording || omarchy-menu toggle trigger.capture.screenrecord"},
-  "magi.communications": {
+  "subcult.mission.panel": {"icon":"󰋼","label":"Open Mission Clock","action":"omarchy-shell subcult-mission toggle"},
+  "subcult.mission.start": {"icon":"󰐊","label":"Begin Mission","action":"subcult-mission start"},
+  "subcult.mission.toggle": {"icon":"󰏤","label":"Pause / Resume","action":"subcult-mission toggle"},
+  "subcult.mission.advance": {"icon":"󰒭","label":"Advance Phase","action":"subcult-mission skip"},
+  "subcult.mission.abort": {"icon":"󰅖","label":"Abort Mission","action":"subcult-mission abort"},
+  "subcult.health": {"icon":"󰄬","label":"System Health","title":"SUBCULT // SYSTEM HEALTH","description":"Battery, thermal, storage, memory, services, updates, and connectivity"},
+  "subcult.health.panel": {"icon":"󰋼","label":"Open Health Panel","action":"omarchy-shell subcult-health toggle"},
+  "subcult.health.inspect": {"icon":"󰆍","label":"Terminal Health Report","action":"omarchy-launch-terminal -- bash -lc 'subcult-health status; echo; read -rp \"Press Enter to close...\"'"},
+  "subcult.health.preview": {"icon":"󰀦","label":"Preview Health Warning","action":"subcult-health preview --seconds 30"},
+  "subcult.context": {"icon":"󰘦","label":"Context Inspector","title":"SUBCULT // CONTEXT INSPECTOR","description":"Explain current local context, freshness, contributing facts, and recommendations"},
+  "subcult.context.panel": {"icon":"󰋼","label":"Open Context Inspector","action":"omarchy-shell subcult-context-inspector toggle"},
+  "subcult.context.refresh": {"icon":"󰑐","label":"Refresh Context","action":"omarchy-shell subcult-context-inspector refresh","description":"Collect a new bounded local observation and update the inspector"},
+  "subcult.context.explain": {"icon":"󰆍","label":"Terminal Explanation","action":"omarchy-launch-terminal -- bash -lc 'subcult-context explain; echo; read -rp \"Press Enter to close...\"'"},
+  "subcult.clock": {"icon":"󰥔","label":"World & Mission Clock","title":"SUBCULT // WORLD CHRONOMETER","description":"Arizona, UTC, remote zones, uptime, and mission elapsed time"},
+  "subcult.clock.panel": {"icon":"󰋼","label":"Open Clock Matrix","action":"omarchy-shell subcult-clock toggle"},
+  "subcult.clock.toggle": {"icon":"󰐊","label":"Start / Pause Mission Elapsed","action":"subcult-clock toggle"},
+  "subcult.clock.reset": {"icon":"󰑐","label":"Reset Mission Elapsed","action":"subcult-clock reset"},
+  "subcult.capture": {"icon":"󰹑","label":"Capture Operations","title":"SUBCULT // CAPTURE CONTROL","description":"Screenshots and persistent recording telemetry"},
+  "subcult.capture.screenshot": {"icon":"󰹑","label":"Interactive Screenshot","action":"subcult-capture screenshot"},
+  "subcult.capture.recording": {"icon":"󰑋","label":"Start / Stop Recording","action":"subcult-capture recording --stop-recording || omarchy-menu toggle trigger.capture.screenrecord"},
+  "subcult.communications": {
     "icon": "󰖩",
     "label": "Communication Link",
-    "action": "omarchy-shell magi-communications toggle",
+    "action": "omarchy-shell subcult-communications toggle",
     "description": "Network, Bluetooth, VPN, route, and Tailscale telemetry"
   },
-  "magi.privacy": {
+  "subcult.privacy": {
     "icon": "󰒃",
     "label": "Privacy Activity",
-    "title": "NERV // PRIVACY CONTROL",
+    "title": "SUBCULT // PRIVACY CONTROL",
     "description": "Inspect microphone, camera, sharing, recording, and remote-control activity"
   },
-  "magi.privacy.inspect": {
+  "subcult.privacy.inspect": {
     "icon": "󰋼",
     "label": "Open Activity Monitor",
-    "action": "omarchy-shell magi-privacy toggle"
+    "action": "omarchy-shell subcult-privacy toggle"
   },
-  "magi.privacy.respond": {
+  "subcult.privacy.respond": {
     "icon": "󰒃",
     "label": "Safe Privacy Response",
-    "action": "magi-privacy stop all",
+    "action": "subcult-privacy stop all",
     "description": "Mute the microphone and stop known recorders or remote-control services"
   },
-  "magi.privacy.preview": {
+  "subcult.privacy.preview": {
     "icon": "󰔡",
     "label": "Preview All Alerts",
-    "action": "magi-privacy preview microphone,camera,screen,recording,remote --seconds 30"
+    "action": "subcult-privacy preview microphone,camera,screen,recording,remote --seconds 30"
   },
-  "magi.media": {
+  "subcult.media": {
     "icon": "󰝚",
     "label": "Audio Channel",
-    "title": "MAGI // MEDIA CONTROL",
+    "title": "SUBCULT // MEDIA CONTROL",
     "description": "Control the active MPRIS playback source"
   },
-  "magi.media.previous": {
+  "subcult.media.previous": {
     "icon": "󰒮",
     "label": "Previous Track",
-    "action": "magi-media previous"
+    "action": "subcult-media previous"
   },
-  "magi.media.play-pause": {
+  "subcult.media.play-pause": {
     "icon": "󰐎",
     "label": "Play / Pause",
-    "action": "magi-media play-pause"
+    "action": "subcult-media play-pause"
   },
-  "magi.media.next": {
+  "subcult.media.next": {
     "icon": "󰒭",
     "label": "Next Track",
-    "action": "magi-media next"
+    "action": "subcult-media next"
   },
-  "magi.media.stop": {
+  "subcult.media.stop": {
     "icon": "󰓛",
     "label": "Stop Playback",
-    "action": "magi-media stop"
+    "action": "subcult-media stop"
   },
-  "magi.boot": {
+  "subcult.boot": {
     "icon": "󰚩",
     "label": "Startup Sequence",
-    "title": "MAGI // LOGIN SEQUENCE",
+    "title": "SUBCULT // LOGIN SEQUENCE",
     "description": "Preview or configure graphical-login telemetry"
   },
-  "magi.boot.preview": {
+  "subcult.boot.preview": {
     "icon": "󰐊",
     "label": "Preview Sequence",
-    "action": "setsid -f magi-boot-sequence preview",
+    "action": "setsid -f subcult-boot-sequence preview",
     "description": "Run the sequence without changing its setting"
   },
-  "magi.boot.enable": {
+  "subcult.boot.enable": {
     "icon": "󰄬",
     "label": "Enable at Login",
-    "action": "magi-boot-sequence enable",
-    "checked": "[[ $(magi-boot-sequence status) == enabled ]]"
+    "action": "subcult-boot-sequence enable",
+    "checked": "[[ $(subcult-boot-sequence status) == enabled ]]"
   },
-  "magi.boot.disable": {
+  "subcult.boot.disable": {
     "icon": "󰅖",
     "label": "Disable at Login",
-    "action": "magi-boot-sequence disable",
-    "checked": "[[ $(magi-boot-sequence status) == disabled ]]"
+    "action": "subcult-boot-sequence disable",
+    "checked": "[[ $(subcult-boot-sequence status) == disabled ]]"
   },
-  "magi.sounds": {
+  "subcult.sounds": {
     "icon": "󰕾",
     "label": "Interface Sound Cues",
-    "title": "MAGI // AUDIO FEEDBACK",
+    "title": "SUBCULT // AUDIO FEEDBACK",
     "description": "Preview or configure procedural UI sounds"
   },
-  "magi.sounds.test": {
+  "subcult.sounds.test": {
     "icon": "󰐊",
     "label": "Test Sound Sequence",
-    "action": "setsid -f magi-sound preview all"
+    "action": "setsid -f subcult-sound preview all"
   },
-  "magi.sounds.enable": {
+  "subcult.sounds.enable": {
     "icon": "󰄬",
     "label": "Enable Sound Cues",
-    "action": "magi-sound enable",
-    "checked": "[[ $(magi-sound status) == enabled ]]"
+    "action": "subcult-sound enable",
+    "checked": "[[ $(subcult-sound status) == enabled ]]"
   },
-  "magi.sounds.disable": {
+  "subcult.sounds.disable": {
     "icon": "󰝟",
     "label": "Disable Sound Cues",
-    "action": "magi-sound disable",
-    "checked": "[[ $(magi-sound status) == disabled ]]"
+    "action": "subcult-sound disable",
+    "checked": "[[ $(subcult-sound status) == disabled ]]"
   },
-  "magi.sounds.kill": {
+  "subcult.sounds.kill": {
     "icon": "󰓛",
     "label": "Kill All Sound Immediately",
-    "action": "magi-sound kill",
+    "action": "subcult-sound kill",
     "description": "Persistently closes global audio authority"
   },
-  "magi.sounds.session": {
+  "subcult.sounds.session": {
     "icon": "󰍃",
     "label": "Toggle Session Cues",
-    "action": "[[ $(magi-sound status --json | jq -r '.categories.session.enabled') == true ]] && magi-sound category session disable || magi-sound category session enable",
-    "checked": "[[ $(magi-sound status --json | jq -r '.categories.session.enabled') == true ]]"
+    "action": "[[ $(subcult-sound status --json | jq -r '.categories.session.enabled') == true ]] && subcult-sound category session disable || subcult-sound category session enable",
+    "checked": "[[ $(subcult-sound status --json | jq -r '.categories.session.enabled') == true ]]"
   },
-  "magi.sounds.system": {
+  "subcult.sounds.system": {
     "icon": "󰓅",
     "label": "Toggle System Cues",
-    "action": "[[ $(magi-sound status --json | jq -r '.categories.system.enabled') == true ]] && magi-sound category system disable || magi-sound category system enable",
-    "checked": "[[ $(magi-sound status --json | jq -r '.categories.system.enabled') == true ]]"
+    "action": "[[ $(subcult-sound status --json | jq -r '.categories.system.enabled') == true ]] && subcult-sound category system disable || subcult-sound category system enable",
+    "checked": "[[ $(subcult-sound status --json | jq -r '.categories.system.enabled') == true ]]"
   },
-  "magi.sounds.workflow": {
+  "subcult.sounds.workflow": {
     "icon": "󰄬",
     "label": "Toggle Workflow Cues",
-    "action": "[[ $(magi-sound status --json | jq -r '.categories.workflow.enabled') == true ]] && magi-sound category workflow disable || magi-sound category workflow enable",
-    "checked": "[[ $(magi-sound status --json | jq -r '.categories.workflow.enabled') == true ]]"
+    "action": "[[ $(subcult-sound status --json | jq -r '.categories.workflow.enabled') == true ]] && subcult-sound category workflow disable || subcult-sound category workflow enable",
+    "checked": "[[ $(subcult-sound status --json | jq -r '.categories.workflow.enabled') == true ]]"
   },
-  "magi.sounds.critical": {
+  "subcult.sounds.critical": {
     "icon": "󰀪",
     "label": "Toggle Critical Cues",
-    "action": "[[ $(magi-sound status --json | jq -r '.categories.critical.enabled') == true ]] && magi-sound category critical disable || magi-sound category critical enable",
-    "checked": "[[ $(magi-sound status --json | jq -r '.categories.critical.enabled') == true ]]"
+    "action": "[[ $(subcult-sound status --json | jq -r '.categories.critical.enabled') == true ]] && subcult-sound category critical disable || subcult-sound category critical enable",
+    "checked": "[[ $(subcult-sound status --json | jq -r '.categories.critical.enabled') == true ]]"
   },
-  "magi.sounds.quiet": {
+  "subcult.sounds.quiet": {
     "icon": "󰒲",
     "label": "Quiet Hours 22:00–07:00",
-    "action": "[[ $(magi-sound status --json | jq -r '.quiet_hours.enabled') == true ]] && magi-sound quiet-hours off || magi-sound quiet-hours 22 7",
-    "checked": "[[ $(magi-sound status --json | jq -r '.quiet_hours.enabled') == true ]]"
+    "action": "[[ $(subcult-sound status --json | jq -r '.quiet_hours.enabled') == true ]] && subcult-sound quiet-hours off || subcult-sound quiet-hours 22 7",
+    "checked": "[[ $(subcult-sound status --json | jq -r '.quiet_hours.enabled') == true ]]"
   },
-  "magi.power-sequence": {
+  "subcult.power-sequence": {
     "icon": "󰚥",
-    "label": "Umbilical Power Sequence",
-    "title": "NERV // POWER TRANSITION",
+    "label": "Mains Power Sequence",
+    "title": "SUBCULT // POWER TRANSITION",
     "description": "Preview AC and internal-power telemetry"
   },
-  "magi.power-sequence.ac": {
+  "subcult.power-sequence.ac": {
     "icon": "󰚥",
-    "label": "Preview Umbilical Power",
-    "action": "magi-power-sequence preview ac"
+    "label": "Preview Mains Power",
+    "action": "subcult-power-sequence preview ac"
   },
-  "magi.power-sequence.battery": {
+  "subcult.power-sequence.battery": {
     "icon": "󰁹",
     "label": "Preview Internal Power",
-    "action": "magi-power-sequence preview battery"
+    "action": "subcult-power-sequence preview battery"
   },
-  "magi.devices": {
+  "subcult.devices": {
     "icon": "󰋐",
     "label": "External Device Telemetry",
-    "title": "NERV // EXTERNAL INTERFACE",
+    "title": "SUBCULT // EXTERNAL INTERFACE",
     "description": "Preview device notices or open recent mounted storage"
   },
-  "magi.devices.preview-storage": {
+  "subcult.devices.preview-storage": {
     "icon": "󰋊",
     "label": "Preview Storage Connection",
-    "action": "magi-device-osd preview storage connected"
+    "action": "subcult-device-osd preview storage connected"
   },
-  "magi.devices.preview-display": {
+  "subcult.devices.preview-display": {
     "icon": "󰍹",
     "label": "Preview Display Link",
-    "action": "magi-device-osd preview display connected"
+    "action": "subcult-device-osd preview display connected"
   },
-  "magi.devices.open-storage": {
+  "subcult.devices.open-storage": {
     "icon": "󰉋",
     "label": "Open Recent Mounted Storage",
-    "action": "magi-device-osd open",
-    "when": "[[ -r $HOME/.local/state/evangelion-rice/device-osd/last-storage ]]"
+    "action": "subcult-device-osd open",
+    "when": "[[ -r $HOME/.local/state/subcult-rice/device-osd/last-storage ]]"
   },
-  "magi.command-telemetry": {
+  "subcult.command-telemetry": {
     "icon": "󰆍",
     "label": "Command Completion Telemetry",
-    "title": "MAGI // TERMINAL OPERATIONS",
+    "title": "SUBCULT // TERMINAL OPERATIONS",
     "description": "Long-running command completion notices without command text"
   },
-  "magi.command-telemetry.preview-success": {
+  "subcult.command-telemetry.preview-success": {
     "icon": "󰄬",
     "label": "Preview Successful Operation",
-    "action": "magi-command-telemetry preview-success"
+    "action": "subcult-command-telemetry preview-success"
   },
-  "magi.command-telemetry.preview-failure": {
+  "subcult.command-telemetry.preview-failure": {
     "icon": "󰅖",
     "label": "Preview Failed Operation",
-    "action": "magi-command-telemetry preview-failure"
+    "action": "subcult-command-telemetry preview-failure"
   },
-  "magi.command-telemetry.enable": {
+  "subcult.command-telemetry.enable": {
     "icon": "󰄬",
     "label": "Enable Command Telemetry",
-    "action": "magi-command-telemetry enable",
-    "checked": "[[ $(magi-command-telemetry status | sed -n 's/^enabled=//p') == yes ]]"
+    "action": "subcult-command-telemetry enable",
+    "checked": "[[ $(subcult-command-telemetry status | sed -n 's/^enabled=//p') == yes ]]"
   },
-  "magi.command-telemetry.disable": {
+  "subcult.command-telemetry.disable": {
     "icon": "󰅖",
     "label": "Disable Command Telemetry",
-    "action": "magi-command-telemetry disable"
+    "action": "subcult-command-telemetry disable"
   },
-  "magi.thermal": {
+  "subcult.thermal": {
     "icon": "󰔏",
     "label": "Thermal Monitoring",
-    "title": "NERV // THERMAL CONTROL",
+    "title": "SUBCULT // THERMAL CONTROL",
     "description": "Inspect or preview temperature alerts"
   },
-  "magi.thermal.status": {
+  "subcult.thermal.status": {
     "icon": "󰔏",
     "label": "Show Thermal Status",
-    "action": "omarchy-launch-terminal -- bash -lc 'magi-thermal-alert status | jq; read -rp \"Press Enter to close...\"'"
+    "action": "omarchy-launch-terminal -- bash -lc 'subcult-thermal-alert status | jq; read -rp \"Press Enter to close...\"'"
   },
-  "magi.thermal.preview-warning": {
+  "subcult.thermal.preview-warning": {
     "icon": "󰀪",
     "label": "Preview Elevated Warning",
-    "action": "magi-thermal-alert preview warning"
+    "action": "subcult-thermal-alert preview warning"
   },
-  "magi.thermal.preview-critical": {
+  "subcult.thermal.preview-critical": {
     "icon": "󰀦",
     "label": "Preview Critical Warning",
-    "action": "magi-thermal-alert preview critical"
+    "action": "subcult-thermal-alert preview critical"
   },
-  "magi.thermal.enable": {
+  "subcult.thermal.enable": {
     "label": "Enable Thermal Alerts",
-    "action": "magi-thermal-alert enable",
-    "checked": "[[ $(magi-thermal-alert status | jq -r .enabled) == true ]]"
+    "action": "subcult-thermal-alert enable",
+    "checked": "[[ $(subcult-thermal-alert status | jq -r .enabled) == true ]]"
   },
-  "magi.thermal.disable": {
+  "subcult.thermal.disable": {
     "label": "Disable Thermal Alerts",
-    "action": "magi-thermal-alert disable"
+    "action": "subcult-thermal-alert disable"
   },
-  "magi.update-operation": {"icon":"󰚰","label":"MAGI System Update","title":"MAGI // MAINTENANCE OPERATION","description":"Run Omarchy update with phase telemetry and durable logs"},
-  "magi.update-operation.run": {"icon":"󰐊","label":"Launch Interactive Update","action":"omarchy-launch-terminal -- bash -lc 'magi-update run; code=$?; echo; read -rp \"Update exited $code. Press Enter to close...\"; exit $code'"},
-  "magi.update-operation.status": {"icon":"󰋼","label":"Show Last Update Status","action":"omarchy-launch-terminal -- bash -lc 'magi-update status; read -rp \"Press Enter to close...\"'"},
-  "magi.update-operation.log": {"icon":"󰈙","label":"Open Last Full Log","action":"omarchy-launch-terminal -- magi-update log"},
-  "magi.suite-update": {"icon":"󰚰","label":"MAGI Suite Updates","title":"MAGI // RICE RELEASE CONTROL","description":"Stable, Preview, and Development rice updates with evidence, exact preview, validation, and undo"},
-  "magi.suite-update.guide": {"icon":"󰐊","label":"Guided Update","action":"omarchy-launch-terminal -- bash -lc 'magi-suite-update guide; code=$?; echo; read -rp \"Update exited $code. Press Enter to close...\"; exit $code'"},
-  "magi.suite-update.check": {"icon":"󰋼","label":"Check Selected Channel","action":"omarchy-launch-terminal -- bash -lc 'magi-suite-update check; echo; read -rp \"Press Enter to close...\"'"},
-  "magi.suite-update.channel": {"icon":"󰘬","label":"Show Selected Channel","action":"omarchy-launch-terminal -- bash -lc 'magi-suite-update channel; echo; echo \"Change with: magi-suite-update channel stable|preview|development\"; read -rp \"Press Enter to close...\"'"},
-  "magi.suite-update.undo": {"icon":"󰕌","label":"Undo Last Suite Update","action":"omarchy-launch-terminal -- bash -lc 'read -rp \"Type UNDO to restore the last suite snapshot: \" answer; [[ $answer == UNDO ]] || { echo \"Undo cancelled.\"; read -rp \"Press Enter to close...\"; exit 0; }; magi-suite-update undo --yes; code=$?; echo; read -rp \"Undo exited $code. Press Enter to close...\"; exit $code'"},
-  "magi.onboarding": {"icon":"󰋗","label":"First-Run & Transfer","title":"MAGI // ONBOARDING","description":"Guided setup and privacy-sanitized configuration transfer"},
-  "magi.onboarding.guide": {"icon":"󰐊","label":"Open Guided Setup","action":"omarchy-launch-terminal -- magi-onboard guide"},
-  "magi.onboarding.status": {"icon":"󰋼","label":"Onboarding Status","action":"omarchy-launch-terminal -- bash -lc 'magi-onboard status; read -rp \"Press Enter to close...\"'"},
-  "magi.start-page": {"icon":"󰖟","label":"NERV Browser Start Page","action":"magi-start-page open","description":"Open the local dashboard in the current default browser"},
-  "magi.download-intake": {"icon":"󰇚","label":"Classified Download Intake","title":"NERV // DOWNLOAD INTAKE","description":"Inspect recent downloads before opening, revealing, hashing, or archiving them"},
-  "magi.download-intake.open": {"icon":"󰈙","label":"Open Intake Console","action":"omarchy-launch-terminal -- magi-downloads open"},
-  "magi.download-intake.folder": {"icon":"󰉋","label":"Open Downloads Directory","action":"xdg-open \"$(magi-downloads directory)\""},
-  "magi.download-intake.list": {"icon":"󰋼","label":"Print Recent Intake","action":"omarchy-launch-terminal -- bash -lc 'magi-downloads list; echo; read -rp \"Press Enter to close...\"'"},
-  "magi.controls": {
+  "subcult.update-operation": {"icon":"󰚰","label":"SUBCULT System Update","title":"SUBCULT // MAINTENANCE OPERATION","description":"Run Omarchy update with phase telemetry and durable logs"},
+  "subcult.update-operation.run": {"icon":"󰐊","label":"Launch Interactive Update","action":"omarchy-launch-terminal -- bash -lc 'subcult-update run; code=$?; echo; read -rp \"Update exited $code. Press Enter to close...\"; exit $code'"},
+  "subcult.update-operation.status": {"icon":"󰋼","label":"Show Last Update Status","action":"omarchy-launch-terminal -- bash -lc 'subcult-update status; read -rp \"Press Enter to close...\"'"},
+  "subcult.update-operation.log": {"icon":"󰈙","label":"Open Last Full Log","action":"omarchy-launch-terminal -- subcult-update log"},
+  "subcult.suite-update": {"icon":"󰚰","label":"SUBCULT Suite Updates","title":"SUBCULT // RICE RELEASE CONTROL","description":"Stable, Preview, and Development rice updates with evidence, exact preview, validation, and undo"},
+  "subcult.suite-update.guide": {"icon":"󰐊","label":"Guided Update","action":"omarchy-launch-terminal -- bash -lc 'subcult-suite-update guide; code=$?; echo; read -rp \"Update exited $code. Press Enter to close...\"; exit $code'"},
+  "subcult.suite-update.check": {"icon":"󰋼","label":"Check Selected Channel","action":"omarchy-launch-terminal -- bash -lc 'subcult-suite-update check; echo; read -rp \"Press Enter to close...\"'"},
+  "subcult.suite-update.channel": {"icon":"󰘬","label":"Show Selected Channel","action":"omarchy-launch-terminal -- bash -lc 'subcult-suite-update channel; echo; echo \"Change with: subcult-suite-update channel stable|preview|development\"; read -rp \"Press Enter to close...\"'"},
+  "subcult.suite-update.undo": {"icon":"󰕌","label":"Undo Last Suite Update","action":"omarchy-launch-terminal -- bash -lc 'read -rp \"Type UNDO to restore the last suite snapshot: \" answer; [[ $answer == UNDO ]] || { echo \"Undo cancelled.\"; read -rp \"Press Enter to close...\"; exit 0; }; subcult-suite-update undo --yes; code=$?; echo; read -rp \"Undo exited $code. Press Enter to close...\"; exit $code'"},
+  "subcult.onboarding": {"icon":"󰋗","label":"First-Run & Transfer","title":"SUBCULT // ONBOARDING","description":"Guided setup and privacy-sanitized configuration transfer"},
+  "subcult.onboarding.guide": {"icon":"󰐊","label":"Open Guided Setup","action":"omarchy-launch-terminal -- subcult-onboard guide"},
+  "subcult.onboarding.status": {"icon":"󰋼","label":"Onboarding Status","action":"omarchy-launch-terminal -- bash -lc 'subcult-onboard status; read -rp \"Press Enter to close...\"'"},
+  "subcult.start-page": {"icon":"󰖟","label":"SUBCULT Browser Start Page","action":"subcult-start-page open","description":"Open the local dashboard in the current default browser"},
+  "subcult.download-intake": {"icon":"󰇚","label":"Classified Download Intake","title":"SUBCULT // DOWNLOAD INTAKE","description":"Inspect recent downloads before opening, revealing, hashing, or archiving them"},
+  "subcult.download-intake.open": {"icon":"󰈙","label":"Open Intake Console","action":"omarchy-launch-terminal -- subcult-downloads open"},
+  "subcult.download-intake.folder": {"icon":"󰉋","label":"Open Downloads Directory","action":"xdg-open \"$(subcult-downloads directory)\""},
+  "subcult.download-intake.list": {"icon":"󰋼","label":"Print Recent Intake","action":"omarchy-launch-terminal -- bash -lc 'subcult-downloads list; echo; read -rp \"Press Enter to close...\"'"},
+  "subcult.controls": {
     "icon": "󰌌",
     "label": "Control Reference",
-    "action": "magi-control-reference",
-    "description": "Open Evangelion shortcuts and command guide"
+    "action": "subcult-control-reference",
+    "description": "Open SUBCULT shortcuts and command guide"
   },
-  "magi.theme": {
+  "subcult.theme": {
     "icon": "󰏘",
     "label": "Theme Systems",
     "action": "theme=$(omarchy-theme-switcher); [[ -n $theme ]] && omarchy-theme-set \"$theme\"",
     "description": "Select and manage desktop themes"
   },
-  "magi.terminal": {
+  "subcult.terminal": {
     "icon": "󰆍",
     "label": "Terminal Profile",
-    "title": "MAGI // TERMINAL COLOR SYSTEM",
+    "title": "SUBCULT // TERMINAL COLOR SYSTEM",
     "description": "Switch coordinated terminal color profiles"
   },
-  "magi.terminal.eva-01": {
+  "subcult.terminal.violet": {
     "icon": "󰘧",
-    "label": "EVA-01 Purple",
-    "action": "eva-terminal-profile eva-01",
-    "checked": "[[ $(eva-terminal-profile status) == eva-01 ]]",
+    "label": "Violet Field",
+    "action": "subcult-terminal-profile violet",
+    "checked": "[[ $(subcult-terminal-profile status) == violet ]]",
     "description": "Primary desktop profile"
   },
-  "magi.terminal.magi": {
+  "subcult.terminal.subcult": {
     "icon": "󰔟",
-    "label": "MAGI Green",
-    "action": "eva-terminal-profile magi",
-    "checked": "[[ $(eva-terminal-profile status) == magi ]]",
+    "label": "SUBCULT Green",
+    "action": "subcult-terminal-profile subcult",
+    "checked": "[[ $(subcult-terminal-profile status) == subcult ]]",
     "description": "System diagnostics profile"
   },
-  "magi.terminal.engineering": {
+  "subcult.terminal.engineering": {
     "icon": "󰈸",
     "label": "Engineering Orange",
-    "action": "eva-terminal-profile engineering",
-    "checked": "[[ $(eva-terminal-profile status) == engineering ]]",
+    "action": "subcult-terminal-profile engineering",
+    "checked": "[[ $(subcult-terminal-profile status) == engineering ]]",
     "description": "Maintenance and operations profile"
   },
-  "magi.terminal.context": {"icon":"󰉋","label":"Context-Aware Terminal","title":"MAGI // TERMINAL CONTEXT","description":"Choose an isolated profile from the launch directory without recoloring existing terminals"},
-  "magi.terminal.context.launch": {"icon":"󰆍","label":"Launch Context Terminal Here","action":"magi-terminal-context launch"},
-  "magi.terminal.context.inspect": {"icon":"󰋼","label":"Inspect Current Directory Rule","action":"omarchy-launch-terminal -- bash -lc 'magi-terminal-context detect --json | jq; echo; read -rp \"Press Enter to close...\"'"},
-  "magi.terminal.context.rules": {"icon":"󰒓","label":"Edit Context Rules","action":"omarchy-launch-editor ~/.config/omarchy/magi-terminal-context.json"},
-  "magi.lock": {
+  "subcult.terminal.context": {"icon":"󰉋","label":"Context-Aware Terminal","title":"SUBCULT // TERMINAL CONTEXT","description":"Choose an isolated profile from the launch directory without recoloring existing terminals"},
+  "subcult.terminal.context.launch": {"icon":"󰆍","label":"Launch Context Terminal Here","action":"subcult-terminal-context launch"},
+  "subcult.terminal.context.inspect": {"icon":"󰋼","label":"Inspect Current Directory Rule","action":"omarchy-launch-terminal -- bash -lc 'subcult-terminal-context detect --json | jq; echo; read -rp \"Press Enter to close...\"'"},
+  "subcult.terminal.context.rules": {"icon":"󰒓","label":"Edit Context Rules","action":"omarchy-launch-editor ~/.config/omarchy/subcult-terminal-context.json"},
+  "subcult.lock": {
     "icon": "󰌾",
     "label": "Secure Terminal",
     "action": "omarchy system lock",
     "description": "Lock this workstation"
   },
-  "magi.system": {
+  "subcult.system": {
     "icon": "󰐥",
     "label": "System and Power",
     "target": "system",
     "description": "Suspend, restart, shut down, or log out"
   },
 
-  // NERV session control. Destructive actions drill into a confirmation
+  // SUBCULT session control. Destructive actions drill into a confirmation
   // submenu whose first selection is always ABORT; execution requires an
   // additional directional choice and activation.
   "system": {
     "icon": "󰐥",
-    "label": "NERV Session Control",
-    "title": "NERV // SESSION",
+    "label": "SUBCULT Session Control",
+    "title": "SUBCULT // SESSION",
     "description": "Secure workstation state and power operations"
   },
   "system.screensaver": {
@@ -722,7 +722,7 @@
     "icon": "󰢮",
     "label": "Neon Overdrive",
     "title": "Neon Overdrive Controls",
-    "when": "eva-capabilities has neon-overdrive"
+    "when": "subcult-capabilities has neon-overdrive"
   },
   "style.neon-overdrive.preset": {"icon":"󰏘","label":"Preset"},
   "style.neon-overdrive.preset.static": {"icon":"󰖔","label":"Static","checked":"~/.config/omarchy/themes/neon-overdrive/scripts/neon-control is-preset static","action":"~/.config/omarchy/themes/neon-overdrive/scripts/neon-control preset static"},

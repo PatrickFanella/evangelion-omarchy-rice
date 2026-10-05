@@ -1,0 +1,1 @@
+{"schemaVersion":1,"id":"subcult.health","name":"SUBCULT System Health","version":"1.0.0","author":"SUBCULT Rice","description":"Quiet-when-nominal consolidated system health.","kinds":["bar-widget"],"entryPoints":{"barWidget":"BarWidget.qml"},"barWidget":{"displayName":"SUBCULT System Health","category":"System","allowMultiple":false,"defaultSection":"right"}}

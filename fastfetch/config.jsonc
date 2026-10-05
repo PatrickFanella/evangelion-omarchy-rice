@@ -7,8 +7,8 @@
   },
   "display": { "separator": "  ", "disableLinewrap": true },
   "modules": [
-    { "type": "custom", "format": "\u001b[38;2;213;32;50m━━ MAGI SYSTEM STATUS ━━" },
-    { "type": "title", "key": "\u001b[38;2;156;242;58mPILOT" },
+    { "type": "custom", "format": "\u001b[38;2;213;32;50m━━ SUBCULT SYSTEM STATUS ━━" },
+    { "type": "title", "key": "\u001b[38;2;156;242;58mOPERATOR" },
     { "type": "separator", "string": "\u001b[38;2;75;40;109m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" },
     { "type": "os", "key": "\u001b[38;2;143;75;200mSYSTEM" },
     { "type": "host", "key": "\u001b[38;2;143;75;200mHOST" },

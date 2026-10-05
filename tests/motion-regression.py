@@ -18,9 +18,9 @@ PLUGINS = ROOT / "omarchy/plugins"
 
 def motion(home, *args):
     env = {**os.environ, "HOME": str(home), "XDG_CONFIG_HOME": str(home / ".config"),
-           "XDG_STATE_HOME": str(home / ".local/state"), "EVANGELION_SKIP_RUNTIME": "1"}
+           "XDG_STATE_HOME": str(home / ".local/state"), "SUBCULT_SKIP_RUNTIME": "1"}
     started = time.perf_counter()
-    result = subprocess.run([str(ROOT / "bin/magi-motion"), *args], env=env,
+    result = subprocess.run([str(ROOT / "bin/subcult-motion"), *args], env=env,
                             text=True, capture_output=True, check=True)
     return result.stdout.strip(), (time.perf_counter() - started) * 1000
 
@@ -38,9 +38,9 @@ def mode_stress():
             actual, elapsed = motion(home, "set", expected)
             latencies.append(elapsed)
             assert actual == expected
-            state = json.loads((home / ".local/state/evangelion-rice/motion/state.json").read_text())
+            state = json.loads((home / ".local/state/subcult-rice/motion/state.json").read_text())
             assert state["mode"] == expected
-        selected = json.loads((home / ".config/omarchy/evangelion.json").read_text())
+        selected = json.loads((home / ".config/omarchy/subcult.json").read_text())
         assert selected["motion"]["mode"] == sequence[-1]
         final = json.loads(motion(home, "status", "--json")[0])
         assert final["selected_mode"] == sequence[-1] and final["mode"] == sequence[-1]
@@ -53,35 +53,35 @@ def mode_stress():
 
 def wallpaper_stress():
     expected = {
-        "5-eva-unit-00-prototype.png": "unit-00-prototype",
-        "6-eva-unit-00-refit.png": "unit-00-refit",
-        "2-eva-unit-01.png": "unit-01",
-        "7-eva-unit-02.png": "unit-02",
-        "1-nerv-logo.png": "neutral",
+        "5-subcult-acid.png": "acid",
+        "6-subcult-paper.png": "paper",
+        "2-subcult-violet.png": "violet",
+        "7-subcult-ink.png": "ink",
+        "1-subcult-logo.png": "neutral",
     }
     sequence = list(expected.items()) * 12
     started = time.perf_counter()
     for wallpaper, affinity in sequence:
-        result = subprocess.run([str(ROOT / "bin/magi-affinity"), "detect", wallpaper],
+        result = subprocess.run([str(ROOT / "bin/subcult-affinity"), "detect", wallpaper],
                                 text=True, capture_output=True, check=True)
         assert result.stdout.strip() == affinity
     elapsed = (time.perf_counter() - started) * 1000
     assert elapsed < 5000
-    affinity_source = (ROOT / "bin/magi-affinity").read_text()
+    affinity_source = (ROOT / "bin/subcult-affinity").read_text()
     assert "mktemp -d" in affinity_source and "Affinity apply failed; previous state restored." in affinity_source
     return {"iterations": len(sequence), "elapsed_ms": round(elapsed, 2),
             "last_request_wins_mapping": True, "transactional_apply": True}
 
 
 def interruption_contracts():
-    notifications = source("evangelion.notifications")
-    card = source("evangelion.notifications", "components/NotificationCard.qml")
-    workspace = source("evangelion.workspace-osd")
-    device = source("evangelion.device-osd")
-    power = source("evangelion.power-sequence")
-    intrusion = source("evangelion.angel-intrusion")
-    update = source("evangelion.update-operation")
-    motion_state = source("evangelion.motion", "MotionState.qml")
+    notifications = source("subcult.notifications")
+    card = source("subcult.notifications", "components/NotificationCard.qml")
+    workspace = source("subcult.workspace-osd")
+    device = source("subcult.device-osd")
+    power = source("subcult.power-sequence")
+    intrusion = source("subcult.intrusion")
+    update = source("subcult.update-operation")
+    motion_state = source("subcult.motion", "MotionState.qml")
 
     assert "refreshPopup(" in notifications
     assert "onSummaryChanged: cardSlot.remainingLifetime = 1.0" in notifications
@@ -118,9 +118,9 @@ def activity_contracts():
             assert signature not in signatures, signature
             signatures.add(signature)
             findings.append({"file": relative, "kind": "timer", "running_guard": running.strip()})
-    power = source("evangelion.power", "Panel.qml")
-    cava = source("evangelion.cava", "BarWidget.qml")
-    notification = source("evangelion.notifications")
+    power = source("subcult.power", "Panel.qml")
+    cava = source("subcult.cava", "BarWidget.qml")
+    notification = source("subcult.notifications")
     assert "running: motion.full && root.opened && root.rotatingPhrases" in power
     assert "motion.full && root.charging && !root.fullyCharged && root.opened" in power
     assert "running: root.shouldRun" in cava

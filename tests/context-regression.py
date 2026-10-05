@@ -9,7 +9,7 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-COMMAND = ROOT / "bin/magi-context"
+COMMAND = ROOT / "bin/subcult-context"
 COLLECTORS = ("power", "thermal", "displays", "devices", "connectivity",
               "media", "time", "operating_profile")
 SECRETS = {
@@ -27,9 +27,9 @@ def environment(home, fixture=None, **extra):
     env = {**os.environ, "HOME": str(home),
            "XDG_CONFIG_HOME": str(home / ".config"),
            "XDG_STATE_HOME": str(home / ".local/state"),
-           "MAGI_CONTEXT_COMMAND_PATH": str(home / "empty-bin"), **extra}
+           "SUBCULT_CONTEXT_COMMAND_PATH": str(home / "empty-bin"), **extra}
     if fixture:
-        env["MAGI_CONTEXT_FIXTURE"] = str(fixture)
+        env["SUBCULT_CONTEXT_FIXTURE"] = str(fixture)
     return env
 
 
@@ -68,8 +68,8 @@ def main():
         home = Path(temporary)
         (home / "empty-bin").mkdir()
         fixture = home / "fixture.json"
-        state_path = home / ".local/state/evangelion-rice/context/state.json"
-        request_path = home / ".local/state/evangelion-rice/context/requests.json"
+        state_path = home / ".local/state/subcult-rice/context/state.json"
+        request_path = home / ".local/state/subcult-rice/context/requests.json"
 
         # An incompatible persisted schema is ignored without being rewritten by
         # read-only status; the next explicit refresh migrates to the current v1.
@@ -94,7 +94,7 @@ def main():
         # Kill a refresh between reservation and publication. A new process must
         # recover, win publication, and leave no partial JSON behind.
         interrupted = subprocess.Popen([str(COMMAND), "refresh", "--json", "--compact"],
-            env=environment(home, fixture, MAGI_CONTEXT_TEST_DELAY_MS="1500"),
+            env=environment(home, fixture, SUBCULT_CONTEXT_TEST_DELAY_MS="1500"),
             text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         time.sleep(0.12)
         interrupted.terminate()
@@ -110,7 +110,7 @@ def main():
         workers = []
         for delay in (240, 180, 120, 60, 0):
             workers.append(subprocess.Popen([str(COMMAND), "refresh", "--json", "--compact"],
-                env=environment(home, fixture, MAGI_CONTEXT_TEST_DELAY_MS=str(delay)),
+                env=environment(home, fixture, SUBCULT_CONTEXT_TEST_DELAY_MS=str(delay)),
                 text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE))
             time.sleep(0.02)
         outputs = [worker.communicate(timeout=5) for worker in workers]

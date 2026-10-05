@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/omarchy"
+mode_file="$state_dir/subcult-screensaver-mode"
+
+case "${1:-status}" in
+  subcult)
+    mkdir -p "$state_dir"
+    printf '%s\n' subcult >"$mode_file"
+    echo "SUBCULT screensaver enabled"
+    ;;
+  default)
+    mkdir -p "$state_dir"
+    printf '%s\n' default >"$mode_file"
+    echo "Default Omarchy screensaver restored"
+    ;;
+  status)
+    [[ -r $mode_file ]] && cat "$mode_file" || echo subcult
+    ;;
+  *)
+    echo "Usage: subcult-screensaver-mode [subcult|default|status]" >&2
+    exit 2
+    ;;
+esac

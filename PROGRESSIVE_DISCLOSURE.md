@@ -1,6 +1,6 @@
 # Progressive telemetry disclosure
 
-MAGI surfaces start calm and compact. Rich diagnostic fields remain one action
+SUBCULT surfaces start calm and compact. Rich diagnostic fields remain one action
 away in the context inspector, system-health panel, operations log, and start
 page telemetry card. Each surface remembers Compact or Details independently in
 the preserved `~/.config/omarchy/disclosure.json` file.
@@ -21,10 +21,10 @@ consistently and disclosure itself adds no flashing or decorative motion.
 For scripting and recovery:
 
 ```sh
-magi-disclosure status
-magi-disclosure toggle context
-magi-disclosure set health details
-magi-disclosure reset
+subcult-disclosure status
+subcult-disclosure toggle context
+subcult-disclosure set health details
+subcult-disclosure reset
 ```
 
 Only the four named surfaces and the two modes `compact` and `details` are

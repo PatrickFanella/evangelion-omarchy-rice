@@ -1,6 +1,6 @@
 # Bar icon unification
 
-The Evangelion bar keeps Omarchy's upstream implementations behind transparent
+The SUBCULT bar keeps Omarchy's upstream implementations behind transparent
 adapters. The adapter loads from `$OMARCHY_PATH`, forwards
 the bar and settings objects, and delegates `open`, `close`, and `toggle` to the
 native widget. This retains upstream click bindings, panels, tooltips, IPC, and
@@ -8,13 +8,13 @@ live status behavior without copying vendor code into this repository.
 
 | Surface | Installed ID | Native implementation | Treatment |
 | --- | --- | --- | --- |
-| Agents | `evangelion.agents` | `omarchy.agents` | Tinted native agent glyph and panel |
-| Bluetooth | `evangelion.bluetooth` | `omarchy.bluetooth` | Tinted native radio states and panel |
-| Dropbox | `evangelion.dropbox` | `omarchy.dropbox` | Tinted recognizable vendor mark |
-| Tailscale | `evangelion.tailscale` | `omarchy.tailscale` | Tinted recognizable vendor mark |
+| Agents | `subcult.agents` | `omarchy.agents` | Tinted native agent glyph and panel |
+| Bluetooth | `subcult.bluetooth` | `omarchy.bluetooth` | Tinted native radio states and panel |
+| Dropbox | `subcult.dropbox` | `omarchy.dropbox` | Tinted recognizable vendor mark |
+| Tailscale | `subcult.tailscale` | `omarchy.tailscale` | Tinted recognizable vendor mark |
 | StatusNotifier tray | `omarchy.tray` | Omarchy tray | Symbolic icons inherit bar foreground; full-color vendor artwork is preserved |
 
-The resting bar foreground is EVA violet-grey `#B79ACB`, shared by native
+The resting bar foreground is SUBCULT violet-grey `#B79ACB`, shared by native
 widget glyphs and symbolic StatusNotifier icons. There are no per-widget frames
 or decorative halos. Native widgets remain responsible for active, disabled,
 warning, and urgent colors, while green, amber, and red stay reserved for real
@@ -26,20 +26,20 @@ rules:
 
 | Affinity | Resting bar/icon token |
 | --- | --- |
-| NERV/MAGI Neutral | lavender `#A995B8` |
-| Unit-00 Prototype | armor gold `#D8B84E` |
-| Unit-00 Refit | ice blue `#79BFE3` |
-| Unit-01 | EVA violet `#B79ACB` |
-| Unit-02 | restrained coral `#D77A64` |
+| SUBCULT/SUBCULT Neutral | lavender `#A995B8` |
+| Acid Block | armor gold `#D8B84E` |
+| Paper Stock | ice blue `#79BFE3` |
+| Violet | SUBCULT violet `#B79ACB` |
+| Ink | restrained coral `#D77A64` |
 
 Each token has at least 4.5:1 contrast against its generated bar background.
-`magi-affinity palette [PROFILE]` reports the resolved colors as JSON. Auto and
+`subcult-affinity palette [PROFILE]` reports the resolved colors as JSON. Auto and
 manual affinity modes use the same table, so changing a wallpaper cannot reset
 the bar to the general near-white panel foreground.
 
 Successful affinity transactions immediately push the generated palette into
-the running shell with `magi-bar-refresh`; no process restart is involved. The
-command is idempotent and is also available in the EVA Unit Affinity menu for
+the running shell with `subcult-bar-refresh`; no process restart is involved. The
+command is idempotent and is also available in the Field Affinity menu for
 manual recovery. A failed IPC attempt records an actionable status while
 leaving the correct on-disk palette ready for a later retry.
 
@@ -48,7 +48,7 @@ leaving the correct on-disk palette ready for a later retry.
 The adapters require the corresponding first-party Omarchy plugin beneath
 `$OMARCHY_PATH/shell/plugins`. Run `./preflight.py` before installation after a
 major Omarchy upgrade. If an upstream widget moves or changes incompatibly,
-replace its `evangelion.*` ID in `~/.config/omarchy/shell.json` with the native
+replace its `subcult.*` ID in `~/.config/omarchy/shell.json` with the native
 ID shown above and restart the shell. This is a per-widget fallback; the rest of
 the theme remains active.
 

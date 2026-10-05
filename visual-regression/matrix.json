@@ -4,10 +4,10 @@
   "defaults": {"width": 1280, "height": 720, "scale": 1.0, "tolerance_percent": 0.08, "channel_tolerance": 20, "neighborhood_radius": 2},
   "cases": [
     {"id": "neutral-full-desktop-nominal", "affinity": "neutral", "motion": "full", "variant": "default", "state": "nominal", "capability": "available"},
-    {"id": "unit00-reduced-laptop-warning", "affinity": "unit-00-prototype", "motion": "reduced", "variant": "default", "state": "warning", "capability": "stale", "width": 1024, "height": 640},
-    {"id": "unit00refit-off-hidpi-critical", "affinity": "unit-00-refit", "motion": "off", "variant": "high-contrast", "state": "critical", "capability": "unavailable", "width": 1440, "height": 900, "scale": 1.25},
-    {"id": "unit01-full-wide-nominal", "affinity": "unit-01", "motion": "full", "variant": "oled", "state": "nominal", "capability": "available", "width": 1600, "height": 720},
-    {"id": "unit02-reduced-projector-warning", "affinity": "unit-02", "motion": "reduced", "variant": "daylight", "state": "warning", "capability": "unavailable", "width": 1280, "height": 800}
+    {"id": "acid-reduced-laptop-warning", "affinity": "acid", "motion": "reduced", "variant": "default", "state": "warning", "capability": "stale", "width": 1024, "height": 640},
+    {"id": "paper-off-hidpi-critical", "affinity": "paper", "motion": "off", "variant": "high-contrast", "state": "critical", "capability": "unavailable", "width": 1440, "height": 900, "scale": 1.25},
+    {"id": "violet-full-wide-nominal", "affinity": "violet", "motion": "full", "variant": "oled", "state": "nominal", "capability": "available", "width": 1600, "height": 720},
+    {"id": "ink-reduced-projector-warning", "affinity": "ink", "motion": "reduced", "variant": "daylight", "state": "warning", "capability": "unavailable", "width": 1280, "height": 800}
   ],
   "masks": [
     {"name": "clock-seconds", "x": 615, "y": 14, "width": 50, "height": 20},

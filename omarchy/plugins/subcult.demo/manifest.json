@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.demo",
+  "name": "SUBCULT Demonstration Mode",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "Isolated deterministic full-interface scenarios for safe captures and reproduction.",
+  "kinds": ["service"],
+  "keepLoaded": true,
+  "entryPoints": {"service": "Service.qml"}
+}

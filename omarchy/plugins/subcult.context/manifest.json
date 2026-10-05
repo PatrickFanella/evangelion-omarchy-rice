@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.context",
+  "name": "SUBCULT Context Inspector",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "Explainable local context and explicit recommendations.",
+  "kinds": ["bar-widget"],
+  "entryPoints": {"barWidget": "BarWidget.qml"},
+  "barWidget": {"displayName":"SUBCULT Context Inspector","category":"System","allowMultiple":false,"defaultSection":"right"}
+}

@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.workspace-osd",
+  "name": "SUBCULT Workspace Transitions",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "Brief SUBCULT channel overlays for actual Hyprland workspace transitions.",
+  "kinds": ["service"],
+  "keepLoaded": true,
+  "entryPoints": { "service": "Service.qml" }
+}

@@ -8,12 +8,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 directory = ROOT / "packaging/gallery"
 data = json.loads((directory / "submission.json").read_text())
-preview = directory / "evangelion.webp"
+preview = directory / "subcult.webp"
 submission = (directory / "SUBMISSION.md").read_text()
 
 assert data["schema_version"] == 1
 assert data["target_repository"] == "https://github.com/omacom/omarchy-site"
-assert data["theme_repository"] == "https://github.com/so1omon563/omarchy-evangelion-theme"
+assert data["theme_repository"] == "https://github.com/PatrickFanella/omarchy-subcult-theme"
 assert data["theme_repository_commit"] == "c117a3ca6d2ecb07a3cd13f5a2e1e075c751b06a"
 assert data["public_install"] == "passed-isolated-omarchy-theme-install"
 assert data["insert_after"] == "Eldritch" and data["insert_before"] == "Event Horizon"
@@ -29,8 +29,8 @@ assert (width & 0x3FFF, height & 0x3FFF) == (data["image_width"], data["image_he
 assert hashlib.sha256(payload).hexdigest() == data["image_sha256"]
 assert data["source_sha256"] != "PENDING"
 assert "Pull request opened after owner approval" in submission
-assert 'assets/themes/evangelion.webp' in submission
-assert 'alt="Evangelion theme"' in submission
+assert 'assets/themes/subcult.webp' in submission
+assert 'alt="SUBCULT theme"' in submission
 assert "unofficial non-commercial fan theme" in submission
 
 print("PASS  official Omarchy gallery submission package")

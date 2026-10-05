@@ -1,4 +1,4 @@
-# MAGI media controls
+# SUBCULT media controls
 
 The media and spectrum widgets form one fixed-geometry group immediately after
 the workspace labels. Omarchy's native MPRIS service selects the oldest active
@@ -38,13 +38,13 @@ CLI controls use the shell's native active-player arbitration when available
 and fall back to Playerctl for compatibility:
 
 ```bash
-magi-media status
-magi-media status --json
-magi-media list
-magi-media source-next
-magi-media source-previous
-magi-media source-switch   # transfer playback to the next source
-magi-media play-pause
-magi-media volume-up
-magi-media volume-down
+subcult-media status
+subcult-media status --json
+subcult-media list
+subcult-media source-next
+subcult-media source-previous
+subcult-media source-switch   # transfer playback to the next source
+subcult-media play-pause
+subcult-media volume-up
+subcult-media volume-down
 ```

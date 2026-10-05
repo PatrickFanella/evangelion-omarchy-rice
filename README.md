@@ -1,4 +1,4 @@
-# Evangelion Omarchy Rice
+# SUBCULT Omarchy Rice
 
 Monitor and dock layouts can be saved, previewed, restored, and safely undone;
 see [Monitor topology profiles](TOPOLOGIES.md).
@@ -6,18 +6,18 @@ Those preferences can be moved between unlike machines using
 [privacy-sanitized machine profiles](MACHINE_PROFILES.md).
 [Optional surfaces remain intentional offline](OFFLINE_RESILIENCE.md), with
 bounded retries, cache-age labels, and privacy-safe unavailable states.
-[MAGI sound cues are opt-in and category controlled](SOUND.md), with quiet
+[SUBCULT sound cues are opt-in and category controlled](SOUND.md), with quiet
 hours, volume ceilings, scene overrides, visual equivalents, and a kill switch.
-The [global MAGI command palette](COMMAND_PALETTE.md) provides deterministic
+The [global SUBCULT command palette](COMMAND_PALETTE.md) provides deterministic
 fuzzy search across safe actions, settings, workspaces, diagnostics, and help.
-The [private MAGI operations log](OPERATIONS_LOG.md) adds bounded, searchable
+The [private SUBCULT operations log](OPERATIONS_LOG.md) adds bounded, searchable
 notification and system history with explicit clear/export and safe actions.
 [Progressive telemetry disclosure](PROGRESSIVE_DISCLOSURE.md) keeps context,
 health, history, and start-page surfaces calm while preserving on-demand detail.
 The [community compatibility workflow](BETA_TESTING.md) produces a reviewed,
 privacy-safe v2 report and a non-gating, maintainer-curated evidence matrix.
 
-[![MAGI Integrity Check](https://github.com/so1omon563/evangelion-omarchy-rice/actions/workflows/validate.yml/badge.svg)](https://github.com/so1omon563/evangelion-omarchy-rice/actions/workflows/validate.yml)
+[![SUBCULT Integrity Check](https://github.com/PatrickFanella/subcult-omarchy-rice/actions/workflows/validate.yml/badge.svg)](https://github.com/PatrickFanella/subcult-omarchy-rice/actions/workflows/validate.yml)
 
 > **v1.5.1:** Fixes crowded workspace labels and presentation placement on
 > Hyprland 0.56.2. See [release notes](RELEASE_NOTES.md#v151--workspace-and-presentation-fixes).
@@ -33,7 +33,7 @@ privacy-safe v2 report and a non-gating, maintainer-curated evidence matrix.
 > **v1.4.0:** the distribution release adds a standalone gallery-ready
 > theme, reproducible complete-suite archives, explicit Arch user activation,
 > cross-channel conflict/rollback tests, and clear selection and maintainer
-> workflows. MAGI plugins remain coordinated suite-internal components. The
+> workflows. SUBCULT plugins remain coordinated suite-internal components. The
 > v1.3 desktop baseline—including affinity-aware icons, restart-free palette
 > refresh, semantic start-page state, explainable local context, and bounded
 > opt-in automation—remains intact. It is validated by source
@@ -45,44 +45,44 @@ privacy-safe v2 report and a non-gating, maintainer-curated evidence matrix.
 > icons, restart-free palette refresh, semantic start-page state, and cache-safe
 > Zen/Chromium behavior; v1.4 preserves and revalidates those contracts.
 
-An unofficial *Neon Genesis Evangelion* desktop environment for Omarchy:
-seven wallpapers, EVA affinity palettes, MAGI shell plugins, responsive menus
+An unofficial *Neon Genesis SUBCULT* desktop environment for Omarchy:
+seven wallpapers, SUBCULT affinity palettes, SUBCULT shell plugins, responsive menus
 and overlays, terminal profiles, safety telemetry, sounds, and operator tools.
-The [MAGI control center](SETTINGS.md) provides one keyboard-first surface for
+The [SUBCULT control center](SETTINGS.md) provides one keyboard-first surface for
 the suite's affinity, motion, profile, widget, weather, media, privacy, sound,
 display, and bounded visual settings, with preview and one-step undo. See
 [Safe visual customization](VISUAL_CUSTOMIZATION.md) for its accessibility and
 fallback contract.
 [Workspace identities](WORKSPACES.md) are user-editable, remain full-length in
 the OSD, and collapse into collision-safe labels against the live bar width.
-[MAGI affinity scenes](SCENES.md) coordinate wallpaper, palette, terminal
+[SUBCULT affinity scenes](SCENES.md) coordinate wallpaper, palette, terminal
 identity, and opt-in ambient, motion, or sound behavior as one reversible plan.
 [Theme variants](THEME_VARIANTS.md) layer Standard, OLED, Daylight, or High
-Contrast treatment over every NERV/EVA affinity with preview and one-step revert.
+Contrast treatment over every SUBCULT/SUBCULT affinity with preview and one-step revert.
 [Coordinated activity modes](ACTIVITY_MODES.md) provide manual, per-action
 opt-in Work, Focus, Gaming, Presentation, Travel, and Quiet transactions.
-[MAGI media controls](MEDIA_CONTROLS.md) coordinate multiple MPRIS sources,
+[SUBCULT media controls](MEDIA_CONTROLS.md) coordinate multiple MPRIS sources,
 privacy-safe artwork, player detail, and Cava without destabilizing bar geometry.
 [Accessibility standards](ACCESSIBILITY.md) define contrast, scaling, keyboard,
 assistive semantics, motion, timeout, flashing, and documented platform limits.
 
-![Evangelion Omarchy desktop](media/desktop-hero.png)
+![SUBCULT Omarchy desktop](media/desktop-hero.png)
 
-| MAGI start page | Session controls |
+| SUBCULT start page | Session controls |
 |---|---|
-| ![MAGI start page](media/start-page.png) | ![NERV session controls](media/session-menu.png) |
+| ![SUBCULT start page](media/start-page.png) | ![SUBCULT session controls](media/session-menu.png) |
 
 | Lock screen | Terminal profiles |
 |---|---|
-| ![MAGI lock screen](media/lock-screen.png) | ![MAGI terminal profiles](media/profile-switching.gif) |
+| ![SUBCULT lock screen](media/lock-screen.png) | ![SUBCULT terminal profiles](media/profile-switching.gif) |
 
 | Full motion | Reduced motion |
 |---|---|
-| ![Full MAGI interface motion](media/motion-full.gif) | ![Reduced MAGI interface motion](media/motion-reduced.gif) |
+| ![Full SUBCULT interface motion](media/motion-full.gif) | ![Reduced SUBCULT interface motion](media/motion-reduced.gif) |
 
 ![Seven included wallpapers](media/wallpaper-gallery.png)
 
-![Synthetic comparison of MAGI recommendation, automation, stale, and disabled context states](media/context-states.png)
+![Synthetic comparison of SUBCULT recommendation, automation, stale, and disabled context states](media/context-states.png)
 
 > This is an unofficial fan project, unaffiliated with the rights holders.
 > Software is MIT-licensed; artwork has separate terms. Read
@@ -118,34 +118,34 @@ bug report.
 Choose the channel before installing. For only the palette and wallpapers:
 
 ```bash
-omarchy theme install https://github.com/so1omon563/omarchy-evangelion-theme.git
+omarchy theme install https://github.com/PatrickFanella/omarchy-subcult-theme.git
 ```
 
-For the complete MAGI desktop, download the archive and matching checksum from
-the [latest GitHub release](https://github.com/so1omon563/evangelion-omarchy-rice/releases/latest),
+For the complete SUBCULT desktop, download the archive and matching checksum from
+the [latest GitHub release](https://github.com/PatrickFanella/subcult-omarchy-rice/releases/latest),
 verify them, extract, and run from an active Omarchy Hyprland session:
 
 ```bash
-sha256sum --check evangelion-omarchy-rice-1.5.1.tar.gz.sha256
-tar -xzf evangelion-omarchy-rice-1.5.1.tar.gz
-cd evangelion-omarchy-rice-1.5.1
+sha256sum --check subcult-omarchy-rice-1.5.1.tar.gz.sha256
+tar -xzf subcult-omarchy-rice-1.5.1.tar.gz
+cd subcult-omarchy-rice-1.5.1
 ./scripts/build-release verify-root .
 ./preflight.py
 ./install.sh --dry-run --preset default
 ./install.sh --apply --preset default
-omarchy theme set evangelion
+omarchy theme set subcult
 ./validate.sh
 ```
 
 Contributors and testers may instead follow the moving Git checkout:
 
 ```bash
-git clone git@github.com:so1omon563/evangelion-omarchy-rice.git
-cd evangelion-omarchy-rice
+git clone git@github.com:PatrickFanella/subcult-omarchy-rice.git
+cd subcult-omarchy-rice
 ./preflight.py
 ./install.sh --dry-run --preset default
 ./install.sh --apply --preset default
-omarchy theme set evangelion
+omarchy theme set subcult
 ./validate.sh
 ```
 
@@ -173,10 +173,10 @@ See [DISTRIBUTION.md](DISTRIBUTION.md) for their normative ownership contract.
 
 ## Configuration
 
-Personal settings live in `~/.config/omarchy/evangelion.json`, which the
+Personal settings live in `~/.config/omarchy/subcult.json`, which the
 installer creates once and preserves on upgrades. Terminal, editor, shell,
 project path, deployment, presentation, browser selection, weather, operating
-profiles, global motion level, local MAGI context controls, thermal thresholds,
+profiles, global motion level, local SUBCULT context controls, thermal thresholds,
 and optional integrations are documented in
 [CONFIGURATION.md](CONFIGURATION.md). The complete context inputs, privacy
 boundary, precedence, reasons, recommendations, automation controls,
@@ -184,7 +184,7 @@ accessibility behavior, and performance contract are in [CONTEXT.md](CONTEXT.md)
 
 Distribution boundaries, the complete plugin audit, and the deliberately small
 optional-integration contract are documented in [DISTRIBUTION.md](DISTRIBUTION.md),
-[PLUGIN_AUDIT.md](PLUGIN_AUDIT.md), and [MAGI_RUNTIME.md](MAGI_RUNTIME.md).
+[PLUGIN_AUDIT.md](PLUGIN_AUDIT.md), and [SUBCULT_RUNTIME.md](SUBCULT_RUNTIME.md).
 Exact-tag suite archives, checksums, provenance, and offline installation are
 covered in [RELEASE_ARTIFACTS.md](RELEASE_ARTIFACTS.md).
 Arch package ownership and explicit per-user activation are covered in
@@ -195,7 +195,7 @@ The synchronized release, theme-gallery, packaging, and privacy review workflow
 for contributors is in [MAINTAINING.md](MAINTAINING.md).
 
 The browser always follows `omarchy launch browser`; no browser executable is
-hard-coded. Cava is an independent `evangelion.cava` bar plugin and hides when
+hard-coded. Cava is an independent `subcult.cava` bar plugin and hides when
 Cava is unavailable. Neon Overdrive is a separately selected compatibility
 component and is never installed by a preset.
 
@@ -224,24 +224,24 @@ The inclusive-interaction standard and automated audit matrix are documented in
 For Stable, Preview, and Development suite updates with immutable evidence,
 exact change preview, validation, and one-command undo, use the
 [guided suite updater](SUITE_UPDATES.md). This is separate from operating-system
-updates wrapped by `magi-update`.
+updates wrapped by `subcult-update`.
 
 New installations and privacy-sanitized preference transfer are covered by the
 [first-run onboarding guide](ONBOARDING.md).
 
-If custom shell or Hyprland configuration cannot load, `magi-recovery enter`
+If custom shell or Hyprland configuration cannot load, `subcult-recovery enter`
 activates a stock-only static layout after taking an exact local snapshot.
 Use `Super + Alt + R` when the compositor is responsive, or run it from a TTY;
-`magi-recovery exit` restores the prior configuration. See
+`subcult-recovery exit` restores the prior configuration. See
 [HOTKEYS.md](HOTKEYS.md#static-recovery-mode) for the complete recovery path.
 
-For v1.5 configuration changes, run `magi-migrate preview` before applying an
+For v1.5 configuration changes, run `subcult-migrate preview` before applying an
 upgrade. The assistant names every preserved setting and replacement and
 requires `keep` or `replace` for each conflict. Interrupted applies are held for
-explicit `magi-migrate recover`; see [UPGRADING.md](UPGRADING.md#guided-migration-into-v15).
+explicit `subcult-migrate recover`; see [UPGRADING.md](UPGRADING.md#guided-migration-into-v15).
 
 Every changed target is recorded in a transaction snapshot under
-`~/.local/state/evangelion-rice/install-backups/`. Failed activation or
+`~/.local/state/subcult-rice/install-backups/`. Failed activation or
 validation automatically rolls back the active transaction.
 
 ```bash
@@ -252,7 +252,7 @@ validation automatically rolls back the active transaction.
 Users upgrading from v1.2 keep their selected motion mode and personal
 configuration; context automation and every individual rule remain off until
 explicitly enabled. Users upgrading from the original v1.0-era installation receive an automatic,
-rollback-safe migration from `so1omon.*` to `evangelion.*` plugin IDs. Read
+rollback-safe migration from `so1omon.*` to `subcult.*` plugin IDs. Read
 [UPGRADING.md](UPGRADING.md) before upgrading or removing a multi-transaction
 installation; a rollback reverses one transaction, not the entire history.
 
@@ -270,7 +270,7 @@ checks are:
 ./tests/motion-regression.py
 ./tests/motion-observe.py # optional live observation
 ./tests/context-regression.py
-./tests/magi-extension-contract.py # internal widget state boundary
+./tests/subcult-extension-contract.py # internal widget state boundary
 ./tests/visual-regression.py --self-test # canonical privacy-safe frames and CI diffs
 ./tests/performance-overlay.py # opt-in aggregate developer telemetry
 ./tests/context-observe.py # optional live T480 observation; restores state

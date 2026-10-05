@@ -1,4 +1,4 @@
-name: MAGI Integrity Check
+name: SUBCULT Integrity Check
 
 on:
   push:
@@ -55,7 +55,7 @@ jobs:
       - name: Test reversible operating mode motion
         run: ./tests/mode-transition.py test-results/mode-transition.json
 
-      - name: Test stateful MAGI bar motion
+      - name: Test stateful SUBCULT bar motion
         run: ./tests/bar-motion.py test-results/bar-motion.json
 
       - name: Test context privacy, interruption, and restart regressions
@@ -75,21 +75,21 @@ jobs:
 
       - name: Build and validate reproducible suite artifact
         env:
-          EVANGELION_RELEASE_ARTIFACT_REPORT: test-results/release-artifact.json
+          SUBCULT_RELEASE_ARTIFACT_REPORT: test-results/release-artifact.json
         run: ./tests/release-artifact.py
 
       - name: Validate Arch package and user activation lifecycle
         env:
-          EVANGELION_ARCH_PACKAGE_REPORT: test-results/arch-package.json
+          SUBCULT_ARCH_PACKAGE_REPORT: test-results/arch-package.json
         run: ./tests/arch-package.py
 
       - name: Validate cross-channel transitions and conflicts
         env:
-          EVANGELION_CROSS_CHANNEL_REPORT: test-results/cross-channel.json
+          SUBCULT_CROSS_CHANNEL_REPORT: test-results/cross-channel.json
         run: ./tests/cross-channel.py
 
       - name: Validate internal extension state contract
-        run: ./tests/magi-extension-contract.py
+        run: ./tests/subcult-extension-contract.py
 
       - name: Validate static recovery transaction
         run: ./tests/recovery.py
@@ -99,7 +99,7 @@ jobs:
 
       - name: Compare canonical visual baselines
         env:
-          EVANGELION_VISUAL_RESULTS: test-results/visual-regression
+          SUBCULT_VISUAL_RESULTS: test-results/visual-regression
         run: ./tests/visual-regression.py --self-test
 
       - name: Retain clean-user results
@@ -112,11 +112,11 @@ jobs:
             test-results/visual-regression/
           if-no-files-found: error
 
-      - name: Run MAGI integrity checks
+      - name: Run SUBCULT integrity checks
         env:
-          EVANGELION_SOURCE_ONLY: "1"
-          EVANGELION_RELEASE_131_NESTED: "1"
-          EVANGELION_RELEASE_ARTIFACT_NESTED: "1"
+          SUBCULT_SOURCE_ONLY: "1"
+          SUBCULT_RELEASE_131_NESTED: "1"
+          SUBCULT_RELEASE_ARTIFACT_NESTED: "1"
         run: ./validate.sh
 
       - name: Test transactional installer

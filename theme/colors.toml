@@ -1,6 +1,6 @@
 mode = "dark"
 
-# Evangelion / Tokyo-3 command-center palette
+# SUBCULT / SUBCULT command-center palette
 accent = "#9CF23A"
 selection = "#4B286D"
 muted = "#665577"
@@ -15,7 +15,7 @@ dark_foreground = "#8E809A"
 light_foreground = "#D2C6DC"
 bright_foreground = "#FFFFFF"
 
-# Purple-to-green borders echo EVA-01 without sacrificing contrast.
+# Purple-to-green borders echo VIOLET without sacrificing contrast.
 hyprland_active_border = "rgba(8F4BC8ee) rgba(9CF23Aee) 45deg"
 hyprland_inactive_border = "rgba(3A2A45cc)"
 active_border_color = "#9CF23A"

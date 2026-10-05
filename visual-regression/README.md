@@ -1,6 +1,6 @@
 # Canonical visual regression harness
 
-The harness renders deterministic fictional MAGI surfaces without reading the
+The harness renders deterministic fictional SUBCULT surfaces without reading the
 live desktop, home directory, network, processes, or hardware. The pairwise
 matrix covers every affinity family, Full/Reduced/Off motion, theme variants,
 multiple resolutions/scales, safety states, and available/stale/unavailable

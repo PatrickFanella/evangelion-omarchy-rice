@@ -17,7 +17,7 @@ parser.add_argument("--output", type=Path, default=ROOT / "build/arch")
 args = parser.parse_args()
 archive = args.archive.resolve()
 subprocess.run([ROOT / "scripts/build-release", "verify", archive], check=True)
-with tempfile.TemporaryDirectory(prefix="evangelion-arch-") as raw:
+with tempfile.TemporaryDirectory(prefix="subcult-arch-") as raw:
     with tarfile.open(archive, "r:gz") as tar:
         provenance_member = next(m for m in tar.getmembers() if m.name.endswith("/RELEASE-PROVENANCE.json"))
         provenance = json.load(tar.extractfile(provenance_member))

@@ -6,12 +6,12 @@ Prepared against upstream commit `9832321e9b9cdb4f8124dda7fd33eea776ec468a`.
 Pull request opened after owner approval:
 [`omacom/omarchy-site#140`](https://github.com/omacom/omarchy-site/pull/140).
 
-Theme source: [`so1omon563/omarchy-evangelion-theme`](https://github.com/so1omon563/omarchy-evangelion-theme)
+Theme source: [`PatrickFanella/omarchy-subcult-theme`](https://github.com/PatrickFanella/omarchy-subcult-theme)
 at verified commit `c117a3ca6d2ecb07a3cd13f5a2e1e075c751b06a`.
 
 ## Submission text
 
-> Add Evangelion, an unofficial non-commercial fan theme with an EVA-inspired
+> Add SUBCULT, an unofficial non-commercial fan theme with an SUBCULT-inspired
 > command-center palette and seven original prompt-generated wallpapers. The
 > linked repository is a declarative Omarchy theme package: no Lua, executable
 > hooks, terminal launch configuration, or suite components are included.
@@ -20,7 +20,7 @@ at verified commit `c117a3ca6d2ecb07a3cd13f5a2e1e075c751b06a`.
 
 ## Complete site change
 
-Add `assets/themes/evangelion.webp`, then insert this block in
+Add `assets/themes/subcult.webp`, then insert this block in
 `themes/index.html` after Eldritch and before Event Horizon:
 
 ```diff
@@ -29,8 +29,8 @@ Add `assets/themes/evangelion.webp`, then insert this block in
    <figcaption><a href="https://github.com/eldritch-theme/omarchy">Eldritch</a></figcaption>
  </figure>
 +<figure class="themes__theme">
-+  <a href="https://github.com/so1omon563/omarchy-evangelion-theme"><img src="/assets/themes/evangelion.webp" alt="Evangelion theme" loading="lazy" decoding="async"></a>
-+  <figcaption><a href="https://github.com/so1omon563/omarchy-evangelion-theme">Evangelion</a></figcaption>
++  <a href="https://github.com/PatrickFanella/omarchy-subcult-theme"><img src="/assets/themes/subcult.webp" alt="SUBCULT theme" loading="lazy" decoding="async"></a>
++  <figcaption><a href="https://github.com/PatrickFanella/omarchy-subcult-theme">SUBCULT</a></figcaption>
 +</figure>
  <figure class="themes__theme">
    <a href="https://github.com/OldJobobo/omarchy-event-horizon-theme"><img src="/assets/themes/event-horizon.webp" alt="Event Horizon theme" loading="lazy" decoding="async"></a>
@@ -39,16 +39,16 @@ Add `assets/themes/evangelion.webp`, then insert this block in
 ```
 
 No other upstream files change. The binary addition is the reviewed
-`evangelion.webp` in this directory.
+`subcult.webp` in this directory.
 
 ## Preview evidence
 
 - Source: real 1920×1080 Omarchy workspace captured on 2026-08-31
 - Surfaces: sanitized shell terminal and read-only Neovim editor
-- Wallpaper: active Evangelion theme background
+- Wallpaper: active SUBCULT theme background
 - Excluded: cursor, notifications, browser content, personal files, host/user
   identity, live system/process/network telemetry
-- Conversion: `magick source.png -strip -resize '1200>' -quality 80 evangelion.webp`
+- Conversion: `magick source.png -strip -resize '1200>' -quality 80 subcult.webp`
 - Required output: 1200×675 WebP, below approximately 100 KB
 
 The source capture remains outside Git because it is validation material. Its
@@ -57,7 +57,7 @@ SHA-256 and the output SHA-256 are recorded in `submission.json`.
 ## Owner approval checklist
 
 - [x] Dedicated public theme repository contents and install command approved
-- [x] `evangelion.webp` visually approved at full resolution
+- [x] `subcult.webp` visually approved at full resolution
 - [x] Fan-project and non-commercial artwork language approved
 - [x] Exact HTML block and alphabetical position approved
 - [x] Permission explicitly given to fork and open the external pull request

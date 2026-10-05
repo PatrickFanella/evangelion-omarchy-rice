@@ -62,7 +62,7 @@ def sample(pid, count=6, interval=.25, action=None):
 
 def main():
     pid = shell_pid()
-    original = run("magi-motion", "status").stdout.strip()
+    original = run("subcult-motion", "status").stdout.strip()
     report = {"schema_version": 1, "status": "passed", "hardware_class": "ThinkPad T480 reference",
               "sample_interval_ms": 250, "original_mode": original, "observations": {}}
     try:
@@ -71,17 +71,17 @@ def main():
         def exercise():
             started = time.perf_counter()
             for mode in ("reduced", "off", "full") * 4:
-                run("magi-motion", "set", mode)
+                run("subcult-motion", "set", mode)
                 run("omarchy-shell", "workspace-osd", "preview", "1", check=False)
                 run("omarchy-shell", "device-osd", "preview", "storage", "connected", check=False)
             transition["elapsed_ms"] = round((time.perf_counter() - started) * 1000, 2)
         report["observations"]["transition"] = sample(pid, count=20, action=exercise)
         report["transition_elapsed_ms"] = transition["elapsed_ms"]
     finally:
-        run("magi-motion", "set", original, check=False)
+        run("subcult-motion", "set", original, check=False)
         run("omarchy-shell", "workspace-osd", "hide", check=False)
         run("omarchy-shell", "device-osd", "hide", check=False)
-    report["restored_mode"] = run("magi-motion", "status").stdout.strip()
+    report["restored_mode"] = run("subcult-motion", "status").stdout.strip()
     report["restored"] = report["restored_mode"] == original
     if not report["restored"]:
         report["status"] = "failed"

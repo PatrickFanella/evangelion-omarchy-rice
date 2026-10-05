@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Semantic desktop-state contracts for the local NERV start page."""
+"""Semantic desktop-state contracts for the local SUBCULT start page."""
 import importlib.util
 import json
 import os
@@ -16,14 +16,14 @@ with tempfile.TemporaryDirectory() as directory:
     state = Path(directory)
     active = state / "affinity-active"
     refresh = state / "bar-refresh.json"
-    active.write_text("unit-01\n")
+    active.write_text("violet\n")
     refresh.write_text(json.dumps({"result": "success"}))
     os.utime(refresh, (active.stat().st_mtime + 1, active.stat().st_mtime + 1))
     with mock.patch.object(SERVER, "AFFINITY_ACTIVE", active), mock.patch.object(SERVER, "BAR_REFRESH", refresh):
-        with mock.patch.object(SERVER, "key_values", return_value={"mode": "auto", "active": "unit-01"}):
-            assert SERVER.affinity_surface() == {"mode": "auto", "active": "unit-01", "label": "UNIT-01", "state": "current"}
+        with mock.patch.object(SERVER, "key_values", return_value={"mode": "auto", "active": "violet"}):
+            assert SERVER.affinity_surface() == {"mode": "auto", "active": "violet", "label": "VIOLET", "state": "current"}
         refresh.write_text(json.dumps({"result": "failed"}))
-        with mock.patch.object(SERVER, "key_values", return_value={"mode": "manual", "active": "unit-00-refit"}):
+        with mock.patch.object(SERVER, "key_values", return_value={"mode": "manual", "active": "paper"}):
             assert SERVER.affinity_surface()["state"] == "stale"
         with mock.patch.object(SERVER, "key_values", return_value={}):
             assert SERVER.affinity_surface()["state"] == "unavailable"
@@ -39,7 +39,7 @@ app = (ROOT / "start-page/app.js").read_text()
 html = (ROOT / "start-page/index.html").read_text()
 server = (ROOT / "start-page/server.py").read_text()
 assert '"/api/desktop"' in server
-assert '"magi-operating-profile", "status"' in server
+assert '"subcult-operating-profile", "status"' in server
 assert "setInterval(syncDesktop, 2000)" in app
 assert "rail-affinity-state" in app and 'id="rail-affinity-state"' in html
 assert '"Cache-Control", "no-store, max-age=0"' in server

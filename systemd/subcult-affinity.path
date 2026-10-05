@@ -1,0 +1,11 @@
+[Unit]
+Description=Watch Omarchy wallpaper selection for SUBCULT affinity changes
+
+[Path]
+# Omarchy replaces the background symlink atomically. Watching the symlink
+# itself misses that rename; the containing directory always receives it.
+PathChanged=%h/.local/state/omarchy/current
+Unit=subcult-affinity.service
+
+[Install]
+WantedBy=default.target

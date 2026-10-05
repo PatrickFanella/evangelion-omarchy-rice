@@ -9,17 +9,17 @@
     ],
     "profiles": [
       {"root":"config","path":"omarchy/operating-profiles.json"},
-      {"root":"state","path":"evangelion-rice/operating-profile/mode"}
+      {"root":"state","path":"subcult-rice/operating-profile/mode"}
     ],
     "affinity": [
-      {"root":"state","path":"evangelion-rice/affinity-mode"},
-      {"root":"state","path":"evangelion-rice/affinity-manual"},
-      {"root":"state","path":"evangelion-rice/theme-variant"}
+      {"root":"state","path":"subcult-rice/affinity-mode"},
+      {"root":"state","path":"subcult-rice/affinity-manual"},
+      {"root":"state","path":"subcult-rice/theme-variant"}
     ],
     "settings": [
-      {"root":"config","path":"omarchy/evangelion.json"},
-      {"root":"config","path":"omarchy/magi-clock.json"},
-      {"root":"config","path":"omarchy/magi-terminal-context.json"},
+      {"root":"config","path":"omarchy/subcult.json"},
+      {"root":"config","path":"omarchy/subcult-clock.json"},
+      {"root":"config","path":"omarchy/subcult-terminal-context.json"},
       {"root":"config","path":"omarchy/motion.json"},
       {"root":"config","path":"omarchy/performance.json"},
       {"root":"config","path":"omarchy/rice-health.json"},

@@ -12,8 +12,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent
 HOME = Path.home()
-WEATHER_CACHE = HOME / ".cache/evangelion-rice/weather.json"
-STATE_ROOT = HOME / ".local/state/evangelion-rice"
+WEATHER_CACHE = HOME / ".cache/subcult-rice/weather.json"
+STATE_ROOT = HOME / ".local/state/subcult-rice"
 AFFINITY_ACTIVE = STATE_ROOT / "affinity-active"
 BAR_REFRESH = STATE_ROOT / "bar-refresh.json"
 EVENTS = deque(maxlen=8)
@@ -21,10 +21,10 @@ EVENT_LOCK = threading.Lock()
 PREVIOUS = {}
 ACTIVE_PLAYER = ""
 LIB = Path(__file__).resolve().parent.parent / "lib"
-if not (LIB / "magi_resilience.py").is_file():
-    LIB = HOME / ".local/lib/evangelion-rice"
+if not (LIB / "subcult_resilience.py").is_file():
+    LIB = HOME / ".local/lib/subcult-rice"
 sys.path.insert(0, str(LIB))
-from magi_resilience import cache_state, load_policy, retry_delay
+from subcult_resilience import cache_state, load_policy, retry_delay
 RESILIENCE = load_policy()
 WEATHER_RETRY = {"failures": 0, "next_at": 0}
 
@@ -38,7 +38,7 @@ def run(args, timeout=2):
 
 def record_operation(category, summary, source="start-page", dedupe_key=""):
     """Best-effort local audit event; the dashboard must survive an absent index."""
-    command = ["magi-operations-log", "record", category, summary, "--source", source]
+    command = ["subcult-operations-log", "record", category, summary, "--source", source]
     if dedupe_key:
         command.extend(["--dedupe-key", dedupe_key])
     try:
@@ -59,7 +59,7 @@ def key_values(command):
 def context_surface():
     baseline = {"schema_version": 1, "active": False, "status": "baseline", "freshness": "unknown", "reason_code": "context-unavailable", "label": "", "facts": {}}
     try:
-        value = json.loads(run(["magi-context", "surface", "--json", "--compact"]))
+        value = json.loads(run(["subcult-context", "surface", "--json", "--compact"]))
     except json.JSONDecodeError:
         return baseline
     if value.get("schema_version") != 1 or not isinstance(value.get("active"), bool):
@@ -69,9 +69,9 @@ def context_surface():
 
 def ambient_surface():
     baseline = {"active": False, "band": "baseline", "mission": "standby", "focus": False,
-                "quiet": False, "copy": "NERV // CENTRAL COMMAND", "scene_offset": 0}
+                "quiet": False, "copy": "SUBCULT // CENTRAL COMMAND", "scene_offset": 0}
     try:
-        value = json.loads(run(["magi-ambient", "status", "--json"]))
+        value = json.loads(run(["subcult-ambient", "status", "--json"]))
     except json.JSONDecodeError:
         return baseline
     return {key: value.get(key, baseline[key]) for key in baseline} if value.get("schema_version") == 1 else baseline
@@ -79,7 +79,7 @@ def ambient_surface():
 
 def disclosure_surface():
     try:
-        value = json.loads(run(["magi-disclosure", "status", "start-page"]))
+        value = json.loads(run(["subcult-disclosure", "status", "start-page"]))
     except json.JSONDecodeError:
         value = {}
     mode = value.get("mode", "compact")
@@ -132,7 +132,7 @@ def network():
 
 
 def workspace():
-    names = {1: "MAGI-01 · MELCHIOR", 2: "MAGI-02 · BALTHASAR", 3: "MAGI-03 · CASPER",
+    names = {1: "SUBCULT-01 · PRESS", 2: "SUBCULT-02 · ARCHIVE", 3: "SUBCULT-03 · DOOR",
              4: "WORKSPACE-04 · ENTRY", 5: "WORKSPACE-05 · TERMINAL"}
     try:
         data = json.loads(run(["hyprctl", "-j", "activeworkspace"]))
@@ -147,16 +147,16 @@ def workspace():
 
 def affinity_surface():
     """Project published affinity state without repeating wallpaper policy."""
-    affinity = key_values(["magi-affinity", "status"])
+    affinity = key_values(["subcult-affinity", "status"])
     mode = affinity.get("mode")
     active = affinity.get("active")
-    valid_profiles = {"neutral", "unit-00-prototype", "unit-00-refit", "unit-01", "unit-02"}
+    valid_profiles = {"neutral", "acid", "paper", "violet", "ink"}
     if mode == "disabled":
-        return {"mode": "disabled", "active": "neutral", "label": "NERV / NEUTRAL", "state": "disabled"}
+        return {"mode": "disabled", "active": "neutral", "label": "SUBCULT / PRESS", "state": "disabled"}
     if mode not in {"auto", "manual"} or active not in valid_profiles:
         return {"mode": "unknown", "active": "neutral", "label": "AFFINITY UNAVAILABLE", "state": "unavailable"}
-    labels = {"neutral": "NERV / NEUTRAL", "unit-00-prototype": "UNIT-00 PROTOTYPE",
-              "unit-00-refit": "UNIT-00 REFIT", "unit-01": "UNIT-01", "unit-02": "UNIT-02"}
+    labels = {"neutral": "SUBCULT / PRESS", "acid": "ACID BLOCK",
+              "paper": "PAPER STOCK", "violet": "VIOLET", "ink": "INK"}
     state = "current"
     try:
         refresh = json.loads(BAR_REFRESH.read_text())
@@ -168,7 +168,7 @@ def affinity_surface():
 
 
 def desktop_surface():
-    profile = key_values(["magi-operating-profile", "status"])
+    profile = key_values(["subcult-operating-profile", "status"])
     return {"affinity": affinity_surface(), "workspace": workspace(),
             "profile": profile.get("active", profile.get("effective", "unavailable")),
             "updated_at": int(time.time())}
@@ -219,8 +219,8 @@ def record_events(snapshot):
     now = time.strftime("%H:%M:%S")
     with EVENT_LOCK:
         if not EVENTS:
-            EVENTS.appendleft({"time": now, "type": "SYSTEM", "message": "MAGI DASHBOARD LINK ESTABLISHED"})
-            record_operation("system", "MAGI dashboard link established", dedupe_key="dashboard-link")
+            EVENTS.appendleft({"time": now, "type": "SYSTEM", "message": "SUBCULT DASHBOARD LINK ESTABLISHED"})
+            record_operation("system", "SUBCULT dashboard link established", dedupe_key="dashboard-link")
         for key, (value, event_type, message) in checks.items():
             if key in PREVIOUS and PREVIOUS[key] != value:
                 rendered = message(value)
@@ -230,7 +230,7 @@ def record_events(snapshot):
             PREVIOUS[key] = value
         fallback = list(EVENTS)
     try:
-        result = subprocess.run(["magi-operations-log", "search", "", "--limit", "8"], text=True, capture_output=True, timeout=.5, check=False)
+        result = subprocess.run(["subcult-operations-log", "search", "", "--limit", "8"], text=True, capture_output=True, timeout=.5, check=False)
         entries = json.loads(result.stdout).get("entries", []) if result.returncode == 0 else []
         if entries:
             return [{"time": time.strftime("%H:%M:%S", time.localtime(row.get("last_at", 0))), "type": str(row.get("category", "system")).upper(), "message": row.get("summary", "")} for row in entries]
@@ -245,7 +245,7 @@ def status():
     except (OSError, tomllib.TOMLDecodeError):
         colors = {}
     try:
-        thermal = json.loads(run(["magi-thermal-alert", "status"]))
+        thermal = json.loads(run(["subcult-thermal-alert", "status"]))
     except json.JSONDecodeError:
         thermal = {"available": False}
     capacities = []
@@ -254,7 +254,7 @@ def status():
             capacities.append(int(path.read_text()))
         except (OSError, ValueError):
             pass
-    profile = key_values(["magi-operating-profile", "status"])
+    profile = key_values(["subcult-operating-profile", "status"])
     snapshot = {
         "theme": {key: colors.get(key) for key in ("accent", "selection", "background", "dark_background", "foreground", "dark_foreground", "orange", "cyan", "bright_red") if colors.get(key)},
         "thermal": {key: thermal.get(key) for key in ("available", "temperature_c", "tier")},
@@ -335,7 +335,7 @@ class Handler(SimpleHTTPRequestHandler):
             return
         if self.path == "/api/disclosure/toggle":
             try:
-                result = subprocess.run(["magi-disclosure", "toggle", "start-page"], text=True, capture_output=True, timeout=2)
+                result = subprocess.run(["subcult-disclosure", "toggle", "start-page"], text=True, capture_output=True, timeout=2)
                 payload = json.loads(result.stdout) if result.returncode == 0 else {"mode": "compact"}
                 self.json_response({"ok": result.returncode == 0, "mode": payload.get("mode", "compact")})
             except (OSError, subprocess.SubprocessError, json.JSONDecodeError):

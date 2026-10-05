@@ -1,0 +1,1 @@
+{"schemaVersion":1,"id":"subcult.world-clock","name":"SUBCULT World Clock","version":"1.0.0","author":"SUBCULT Rice","description":"World zones, session uptime, and mission elapsed time.","kinds":["bar-widget"],"entryPoints":{"barWidget":"BarWidget.qml"},"barWidget":{"displayName":"SUBCULT World Clock","category":"Time","allowMultiple":false,"defaultSection":"center"}}

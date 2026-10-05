@@ -10,8 +10,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-COMMAND = ROOT / "bin/magi-context"
-MODULE = ROOT / "lib/magi_context_collectors.py"
+COMMAND = ROOT / "bin/subcult-context"
+MODULE = ROOT / "lib/subcult_context_collectors.py"
 
 
 def write(path, value):
@@ -20,9 +20,9 @@ def write(path, value):
 
 
 def load_collectors(sys_root, state_home, command_path):
-    os.environ["EVA_SYS_ROOT"] = str(sys_root)
+    os.environ["SUBCULT_SYS_ROOT"] = str(sys_root)
     os.environ["XDG_STATE_HOME"] = str(state_home)
-    os.environ["MAGI_CONTEXT_COMMAND_PATH"] = str(command_path)
+    os.environ["SUBCULT_CONTEXT_COMMAND_PATH"] = str(command_path)
     spec = importlib.util.spec_from_file_location("fixture_collectors", MODULE)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -32,7 +32,7 @@ def load_collectors(sys_root, state_home, command_path):
 def cli(home, fixture, *args):
     env = {**os.environ, "HOME": str(home), "XDG_CONFIG_HOME": str(home / ".config"),
            "XDG_STATE_HOME": str(home / ".local/state"),
-           "MAGI_CONTEXT_FIXTURE": str(fixture), "MAGI_CONTEXT_COMMAND_PATH": str(home / "empty-bin")}
+           "SUBCULT_CONTEXT_FIXTURE": str(fixture), "SUBCULT_CONTEXT_COMMAND_PATH": str(home / "empty-bin")}
     return subprocess.run([str(COMMAND), *args], env=env, text=True,
                           capture_output=True, check=True)
 
@@ -63,8 +63,8 @@ def main():
         write(ac / "type", "Mains"); write(ac / "online", 0)
         write(sys_root / "class/hwmon/hwmon0/temp1_input", 72000)
         write(sys_root / "class/hwmon/hwmon0/temp2_input", 86000)
-        write(state_home / "evangelion-rice/operating-profile/mode", "auto")
-        write(state_home / "evangelion-rice/operating-profile/active", "mobile")
+        write(state_home / "subcult-rice/operating-profile/mode", "auto")
+        write(state_home / "subcult-rice/operating-profile/active", "mobile")
         collectors = load_collectors(sys_root, state_home, empty_bin)
         assert collectors.collect_power()["value"] == {"source": "battery", "battery_percent": 70,
                                                         "charging": False, "battery_count": 2}
@@ -116,12 +116,12 @@ def main():
         assert rejected_value["signals"]["connectivity"]["reason"] == "cached-observation"
         assert "private-network-name" not in json.dumps(rejected_value)
 
-        config_path = home / ".config/omarchy/evangelion.json"
+        config_path = home / ".config/omarchy/subcult.json"
         config = json.loads(config_path.read_text()) if config_path.exists() else {}
         config["context"] = {"enabled": True, "automation_enabled": False, "decorative_enabled": True,
                              "max_age_seconds": 1, "collectors": {name: True for name in full_fixture()}}
         config_path.parent.mkdir(parents=True, exist_ok=True); config_path.write_text(json.dumps(config))
-        state_path = home / ".local/state/evangelion-rice/context/state.json"
+        state_path = home / ".local/state/subcult-rice/context/state.json"
         old = json.loads(state_path.read_text())
         old_time = (datetime.now(timezone.utc) - timedelta(seconds=10)).isoformat().replace("+00:00", "Z")
         for item in old["signals"].values():

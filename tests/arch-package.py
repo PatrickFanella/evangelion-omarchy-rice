@@ -19,7 +19,7 @@ def run(*args, cwd=None, env=None):
     return result
 
 
-with tempfile.TemporaryDirectory(prefix="evangelion-arch-test-") as raw:
+with tempfile.TemporaryDirectory(prefix="subcult-arch-test-") as raw:
     tmp = Path(raw); source = tmp / "source"
     shutil.copytree(ROOT, source, ignore=shutil.ignore_patterns(".git", "build", "test-results", "__pycache__", "*.pyc"))
     run("git", "init", "--quiet", cwd=source)
@@ -29,7 +29,7 @@ with tempfile.TemporaryDirectory(prefix="evangelion-arch-test-") as raw:
     run("git", "tag", "v0.0.0-ci.2", cwd=source)
     release = tmp / "release"
     run(source / "scripts/build-release", "build", "--tag", "v0.0.0-ci.2", "--output", release, cwd=source)
-    archive = release / "evangelion-omarchy-rice-0.0.0-ci.2.tar.gz"
+    archive = release / "subcult-omarchy-rice-0.0.0-ci.2.tar.gz"
     arch = tmp / "arch"
     run(source / "scripts/build-arch-package", archive, "--output", arch, cwd=source)
     pkgbuild = (arch / "PKGBUILD").read_text()
@@ -45,13 +45,13 @@ with tempfile.TemporaryDirectory(prefix="evangelion-arch-test-") as raw:
     shutil.copy2(source / "packaging/arch/PKGBUILD-git", vcs_dir / "PKGBUILD")
     if shutil.which("makepkg"):
         vcs_info = run("makepkg", "--printsrcinfo", cwd=vcs_dir).stdout
-        assert "provides = evangelion-omarchy-rice" in vcs_info
-        assert "conflicts = evangelion-omarchy-rice" in vcs_info
+        assert "provides = subcult-omarchy-rice" in vcs_info
+        assert "conflicts = subcult-omarchy-rice" in vcs_info
     else:
         run("bash", "-n", vcs_dir / "PKGBUILD", cwd=vcs_dir)
         vcs_source = (vcs_dir / "PKGBUILD").read_text()
-        assert "provides=('evangelion-omarchy-rice')" in vcs_source
-        assert "conflicts=('evangelion-omarchy-rice')" in vcs_source
+        assert "provides=('subcult-omarchy-rice')" in vcs_source
+        assert "conflicts=('subcult-omarchy-rice')" in vcs_source
     assert "packaging/release/allowlist.txt" in (vcs_dir / "PKGBUILD").read_text()
 
     srcdir, pkgdir = tmp / "src", tmp / "pkg"
@@ -60,8 +60,8 @@ with tempfile.TemporaryDirectory(prefix="evangelion-arch-test-") as raw:
         tar.extractall(srcdir, filter="data")
     package_cmd = f'source "{arch}/PKGBUILD"; srcdir="{srcdir}"; pkgdir="{pkgdir}"; package'
     run("bash", "-c", package_cmd, cwd=arch)
-    share = pkgdir / "usr/share/evangelion-rice"
-    launcher = pkgdir / "usr/bin/evangelion-rice"
+    share = pkgdir / "usr/share/subcult-rice"
+    launcher = pkgdir / "usr/bin/subcult-rice"
     assert share.is_dir() and os.access(launcher, os.X_OK)
     assert set(path.name for path in pkgdir.iterdir()) == {"usr"}
     assert not any("home" in path.parts for path in pkgdir.rglob("*"))
@@ -72,9 +72,9 @@ with tempfile.TemporaryDirectory(prefix="evangelion-arch-test-") as raw:
     home, state = tmp / "home", tmp / "state"
     home.mkdir(); state.mkdir()
     env = os.environ | {"HOME": str(home), "XDG_STATE_HOME": str(state),
-                        "EVANGELION_RICE_ROOT": str(share), "EVANGELION_SKIP_ACTIVATE": "1",
-                        "EVANGELION_SOURCE_ONLY": "1", "EVANGELION_RELEASE_ARTIFACT_NESTED": "1",
-                        "EVANGELION_RELEASE_131_NESTED": "1"}
+                        "SUBCULT_RICE_ROOT": str(share), "SUBCULT_SKIP_ACTIVATE": "1",
+                        "SUBCULT_SOURCE_ONLY": "1", "SUBCULT_RELEASE_ARTIFACT_NESTED": "1",
+                        "SUBCULT_RELEASE_131_NESTED": "1"}
     before = sorted(str(path.relative_to(home)) for path in home.rglob("*"))
     status = json.loads(run(launcher, "status", "--json", env=env).stdout)
     assert status["package_version"] == "0.0.0-ci.2" and status["activated"] is False
@@ -91,7 +91,7 @@ with tempfile.TemporaryDirectory(prefix="evangelion-arch-test-") as raw:
               "checks": ["release-pkgbuild", "vcs-pkgbuild", "srcinfo", "package-root-only",
                          "no-home-mutation", "dependency-contract", "plan", "setup", "upgrade",
                          "status", "rollback", "deactivate", "no-install-hook", "aur-not-published"]}
-    output = Path(os.environ.get("EVANGELION_ARCH_PACKAGE_REPORT", ROOT / "test-results/arch-package.json"))
+    output = Path(os.environ.get("SUBCULT_ARCH_PACKAGE_REPORT", ROOT / "test-results/arch-package.json"))
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2) + "\n")
 

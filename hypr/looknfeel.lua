@@ -1,12 +1,12 @@
--- Tokyo-3 operations-console geometry and motion. The controller's effective
+-- SUBCULT press-room geometry and motion. The controller's effective
 -- mode includes temporary capture/presentation/game bypass holds; failure to
 -- resolve it deliberately falls back to the established v1.1 Full profile.
 local function motion_mode()
-  local override = os.getenv("EVANGELION_MOTION_MODE")
+  local override = os.getenv("SUBCULT_MOTION_MODE")
   if override == "off" or override == "reduced" or override == "full" then
     return override
   end
-  local handle = io.popen("magi-motion effective 2>/dev/null")
+  local handle = io.popen("subcult-motion effective 2>/dev/null")
   if not handle then return "full" end
   local value = handle:read("*l")
   handle:close()
@@ -73,32 +73,32 @@ hl.config({
   animations = { enabled = profile.animations },
 })
 
-hl.curve("magiSnap", { type = "bezier", points = { { 0.16, 1 }, { 0.3, 1 } } })
-hl.curve("magiExit", { type = "bezier", points = { { 0.7, 0 }, { 0.84, 0 } } })
-hl.curve("magiLinear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
+hl.curve("subcultSnap", { type = "bezier", points = { { 0.16, 1 }, { 0.3, 1 } } })
+hl.curve("subcultExit", { type = "bezier", points = { { 0.7, 0 }, { 0.84, 0 } } })
+hl.curve("subcultLinear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
 
 if mode == "full" then
   -- Stable v1.1 profile: spatial workspace continuity and restrained pop-in.
-  hl.animation({ leaf = "windows", enabled = true, speed = 5.2 * animation_scale, bezier = "magiSnap" })
-  hl.animation({ leaf = "windowsIn", enabled = true, speed = 4.8 * animation_scale, bezier = "magiSnap", style = "popin 94%" })
-  hl.animation({ leaf = "windowsOut", enabled = true, speed = 3.2 * animation_scale, bezier = "magiExit", style = "popin 96%" })
-  hl.animation({ leaf = "border", enabled = true, speed = 4.0 * animation_scale, bezier = "magiLinear" })
-  hl.animation({ leaf = "fade", enabled = true, speed = 4.6 * animation_scale, bezier = "magiSnap" })
-  hl.animation({ leaf = "layers", enabled = true, speed = 5.2 * animation_scale, bezier = "magiSnap" })
-  hl.animation({ leaf = "layersIn", enabled = true, speed = 5.0 * animation_scale, bezier = "magiSnap", style = "slide" })
-  hl.animation({ leaf = "layersOut", enabled = true, speed = 4.0 * animation_scale, bezier = "magiExit", style = "slide" })
-  hl.animation({ leaf = "workspaces", enabled = true, speed = 4.8 * animation_scale, bezier = "magiSnap", style = "slide" })
-  hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 4.2 * animation_scale, bezier = "magiSnap", style = "slidevert" })
+  hl.animation({ leaf = "windows", enabled = true, speed = 5.2 * animation_scale, bezier = "subcultSnap" })
+  hl.animation({ leaf = "windowsIn", enabled = true, speed = 4.8 * animation_scale, bezier = "subcultSnap", style = "popin 94%" })
+  hl.animation({ leaf = "windowsOut", enabled = true, speed = 3.2 * animation_scale, bezier = "subcultExit", style = "popin 96%" })
+  hl.animation({ leaf = "border", enabled = true, speed = 4.0 * animation_scale, bezier = "subcultLinear" })
+  hl.animation({ leaf = "fade", enabled = true, speed = 4.6 * animation_scale, bezier = "subcultSnap" })
+  hl.animation({ leaf = "layers", enabled = true, speed = 5.2 * animation_scale, bezier = "subcultSnap" })
+  hl.animation({ leaf = "layersIn", enabled = true, speed = 5.0 * animation_scale, bezier = "subcultSnap", style = "slide" })
+  hl.animation({ leaf = "layersOut", enabled = true, speed = 4.0 * animation_scale, bezier = "subcultExit", style = "slide" })
+  hl.animation({ leaf = "workspaces", enabled = true, speed = 4.8 * animation_scale, bezier = "subcultSnap", style = "slide" })
+  hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 4.2 * animation_scale, bezier = "subcultSnap", style = "slidevert" })
 elseif mode == "reduced" then
   -- No travel, pop/scale, or blur. Short fades retain immediate state context.
-  hl.animation({ leaf = "windows", enabled = false, speed = 1.0, bezier = "magiLinear" })
-  hl.animation({ leaf = "windowsIn", enabled = false, speed = 1.0, bezier = "magiLinear" })
-  hl.animation({ leaf = "windowsOut", enabled = false, speed = 1.0, bezier = "magiLinear" })
-  hl.animation({ leaf = "border", enabled = true, speed = 8.0, bezier = "magiLinear" })
-  hl.animation({ leaf = "fade", enabled = true, speed = 8.0, bezier = "magiLinear" })
-  hl.animation({ leaf = "layers", enabled = false, speed = 1.0, bezier = "magiLinear" })
-  hl.animation({ leaf = "layersIn", enabled = false, speed = 1.0, bezier = "magiLinear" })
-  hl.animation({ leaf = "layersOut", enabled = false, speed = 1.0, bezier = "magiLinear" })
-  hl.animation({ leaf = "workspaces", enabled = false, speed = 1.0, bezier = "magiLinear" })
-  hl.animation({ leaf = "specialWorkspace", enabled = false, speed = 1.0, bezier = "magiLinear" })
+  hl.animation({ leaf = "windows", enabled = false, speed = 1.0, bezier = "subcultLinear" })
+  hl.animation({ leaf = "windowsIn", enabled = false, speed = 1.0, bezier = "subcultLinear" })
+  hl.animation({ leaf = "windowsOut", enabled = false, speed = 1.0, bezier = "subcultLinear" })
+  hl.animation({ leaf = "border", enabled = true, speed = 8.0, bezier = "subcultLinear" })
+  hl.animation({ leaf = "fade", enabled = true, speed = 8.0, bezier = "subcultLinear" })
+  hl.animation({ leaf = "layers", enabled = false, speed = 1.0, bezier = "subcultLinear" })
+  hl.animation({ leaf = "layersIn", enabled = false, speed = 1.0, bezier = "subcultLinear" })
+  hl.animation({ leaf = "layersOut", enabled = false, speed = 1.0, bezier = "subcultLinear" })
+  hl.animation({ leaf = "workspaces", enabled = false, speed = 1.0, bezier = "subcultLinear" })
+  hl.animation({ leaf = "specialWorkspace", enabled = false, speed = 1.0, bezier = "subcultLinear" })
 end

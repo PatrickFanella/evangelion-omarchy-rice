@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 root=$(cd -- "$(dirname -- "$0")" && pwd)
-state_root=${XDG_STATE_HOME:-$HOME/.local/state}/evangelion-rice
+state_root=${XDG_STATE_HOME:-$HOME/.local/state}/subcult-rice
 dry_run=false apply=false assume_yes=false preset=default component_arg= shell_choice=auto shell_opt_out=false
 transaction_started=false backup_root= manifest=
 readonly all_components=(theme tools shell hypr start-page services extras shell-integration neon-overdrive)
 readonly legacy_plugin_ids=(
-  so1omon.angel-intrusion so1omon.atfield so1omon.battery so1omon.cava
+  so1omon.intrusion so1omon.closed-door so1omon.battery so1omon.cava
   so1omon.clipboard so1omon.communications so1omon.device-osd so1omon.health
-  so1omon.lock so1omon.magi-idle so1omon.media so1omon.mission
+  so1omon.lock so1omon.subcult-idle so1omon.media so1omon.mission
   so1omon.notifications so1omon.operating-profile so1omon.power
   so1omon.power-sequence so1omon.privacy so1omon.thermal
   so1omon.update-operation so1omon.workspace-osd so1omon.workspaces
@@ -29,11 +29,11 @@ preset. Complete config replacements require interactive confirmation or --yes.
 EOF
 }
 list_components(){ cat <<'EOF'
-theme              Evangelion theme, palettes, and wallpapers
-tools              MAGI commands installed in ~/.local/bin
+theme              SUBCULT theme, palettes, and wallpapers
+tools              SUBCULT commands installed in ~/.local/bin
 shell              Omarchy plugins, menus, hooks, and shell configuration
 hypr               Hyprland bindings, behavior, and appearance configuration
-start-page         Local MAGI start-page application
+start-page         Local SUBCULT start-page application
 services           User systemd units for affinity and start-page activation
 extras             Fastfetch and Neovim integrations
 shell-integration  Bash, Zsh, or Fish startup integration (optional)
@@ -74,7 +74,7 @@ else
 fi
 $shell_opt_out && unset 'selected[shell-integration]'
 
-standalone_theme=$HOME/.config/omarchy/themes/evangelion
+standalone_theme=$HOME/.config/omarchy/themes/subcult
 if [[ ${selected[theme]:-0} == 1 && -d $standalone_theme/.git ]]; then
   cat >&2 <<EOF
 CHANNEL CONFLICT // $standalone_theme is a Git-installed standalone theme.
@@ -84,8 +84,8 @@ EOF
   exit 3
 fi
 
-if [[ ${EVANGELION_SKIP_ACTIVATE:-0} == 1 ]]; then "$root/preflight.py" --source-only; else "$root/preflight.py"; fi
-if [[ ${selected[neon-overdrive]:-0} == 1 ]] && ! "$root/bin/eva-capabilities" has neon-overdrive; then
+if [[ ${SUBCULT_SKIP_ACTIVATE:-0} == 1 ]]; then "$root/preflight.py" --source-only; else "$root/preflight.py"; fi
+if [[ ${selected[neon-overdrive]:-0} == 1 ]] && ! "$root/bin/subcult-capabilities" has neon-overdrive; then
   echo "Neon Overdrive integration was requested but ~/.config/omarchy/themes/neon-overdrive/scripts/neon-control was not detected." >&2
   exit 1
 fi
@@ -109,23 +109,23 @@ add_tree(){
   done < <(find "$source_root" -type f | sort)
 }
 add_tree tools "$root/bin" "$HOME/.local/bin" 755
-add_tree tools "$root/lib" "$HOME/.local/lib/evangelion-rice" 644
-add_tree tools "$root/recovery" "$HOME/.local/share/evangelion-rice/recovery" 644
-add_tree tools "$root/migrations" "$HOME/.local/share/evangelion-rice/migrations" 644
-add_tree tools "$root/omarchy/i18n" "$HOME/.local/share/evangelion-rice/i18n" 644
-add_file tools "$root/VERSION" "$HOME/.local/share/evangelion-rice/.suite-version" 644
-add_file tools "$root/dependencies.tsv" "$HOME/.local/share/evangelion-rice/dependencies.tsv" 644
-add_file tools "$root/omarchy/performance-budgets.json" "$HOME/.local/share/evangelion-rice/performance/performance-budgets.json" 644
-add_file tools "$root/omarchy/performance-inventory.json" "$HOME/.local/share/evangelion-rice/performance/performance-inventory.json" 644
-add_file tools "$root/omarchy/rice-health.json" "$HOME/.local/share/evangelion-rice/rice-health.json" 644
-add_file tools "$root/omarchy/snapshot-manifest.json" "$HOME/.local/share/evangelion-rice/snapshot-manifest.json" 644
-add_file tools "$root/omarchy/settings-schema.json" "$HOME/.local/share/evangelion-rice/settings-schema.json" 644
-add_file tools "$root/omarchy/commands.json" "$HOME/.local/share/evangelion-rice/commands.json" 644
-add_file tools "$root/omarchy/theme-variants.json" "$HOME/.local/share/evangelion-rice/theme-variants.json" 644
-add_file tools "$root/omarchy/activity-modes.json" "$HOME/.local/share/evangelion-rice/activity-modes.json" 644
-add_file tools "$root/omarchy/disclosure.json" "$HOME/.local/share/evangelion-rice/disclosure.json" 644
-add_file shell "$root/omarchy/update.json" "$HOME/.config/omarchy/evangelion-update.json" 644 preserve
-add_tree theme "$root/theme" "$HOME/.config/omarchy/themes/evangelion" 644
+add_tree tools "$root/lib" "$HOME/.local/lib/subcult-rice" 644
+add_tree tools "$root/recovery" "$HOME/.local/share/subcult-rice/recovery" 644
+add_tree tools "$root/migrations" "$HOME/.local/share/subcult-rice/migrations" 644
+add_tree tools "$root/omarchy/i18n" "$HOME/.local/share/subcult-rice/i18n" 644
+add_file tools "$root/VERSION" "$HOME/.local/share/subcult-rice/.suite-version" 644
+add_file tools "$root/dependencies.tsv" "$HOME/.local/share/subcult-rice/dependencies.tsv" 644
+add_file tools "$root/omarchy/performance-budgets.json" "$HOME/.local/share/subcult-rice/performance/performance-budgets.json" 644
+add_file tools "$root/omarchy/performance-inventory.json" "$HOME/.local/share/subcult-rice/performance/performance-inventory.json" 644
+add_file tools "$root/omarchy/rice-health.json" "$HOME/.local/share/subcult-rice/rice-health.json" 644
+add_file tools "$root/omarchy/snapshot-manifest.json" "$HOME/.local/share/subcult-rice/snapshot-manifest.json" 644
+add_file tools "$root/omarchy/settings-schema.json" "$HOME/.local/share/subcult-rice/settings-schema.json" 644
+add_file tools "$root/omarchy/commands.json" "$HOME/.local/share/subcult-rice/commands.json" 644
+add_file tools "$root/omarchy/theme-variants.json" "$HOME/.local/share/subcult-rice/theme-variants.json" 644
+add_file tools "$root/omarchy/activity-modes.json" "$HOME/.local/share/subcult-rice/activity-modes.json" 644
+add_file tools "$root/omarchy/disclosure.json" "$HOME/.local/share/subcult-rice/disclosure.json" 644
+add_file shell "$root/omarchy/update.json" "$HOME/.config/omarchy/subcult-update.json" 644 preserve
+add_tree theme "$root/theme" "$HOME/.config/omarchy/themes/subcult" 644
 add_tree shell "$root/omarchy/plugins" "$HOME/.config/omarchy/plugins" 644
 if [[ ${selected[shell]:-0} == 1 ]]; then
   for index in "${!plan_target[@]}"; do
@@ -134,14 +134,14 @@ if [[ ${selected[shell]:-0} == 1 ]]; then
 fi
 add_tree neon-overdrive "$root/omarchy/plugins/neon.overdrive" "$HOME/.config/omarchy/plugins/neon.overdrive" 644
 add_file shell "$root/omarchy/extensions/omarchy-menu.jsonc" "$HOME/.config/omarchy/extensions/omarchy-menu.jsonc" 644
-add_file shell "$root/omarchy/evangelion.json" "$HOME/.config/omarchy/evangelion.json" 644 preserve
+add_file shell "$root/omarchy/subcult.json" "$HOME/.config/omarchy/subcult.json" 644 preserve
 add_file shell "$root/omarchy/resilience.json" "$HOME/.config/omarchy/resilience.json" 644 preserve
 add_file shell "$root/omarchy/sound.json" "$HOME/.config/omarchy/sound.json" 600 preserve
 add_file shell "$root/omarchy/activity-modes.json" "$HOME/.config/omarchy/activity-modes.json" 600 preserve
 add_file shell "$root/omarchy/disclosure.json" "$HOME/.config/omarchy/disclosure.json" 600 preserve
 add_file shell "$root/omarchy/operations-log.json" "$HOME/.config/omarchy/operations-log.json" 600 preserve
 add_file shell "$root/omarchy/performance.json" "$HOME/.config/omarchy/performance.json" 644 preserve
-for file in command-telemetry.json magi-clock.json magi-terminal-context.json motion.json operating-profiles.json shell.json thermal-alerts.json; do add_file shell "$root/omarchy/$file" "$HOME/.config/omarchy/$file" 644; done
+for file in command-telemetry.json subcult-clock.json subcult-terminal-context.json motion.json operating-profiles.json shell.json thermal-alerts.json; do add_file shell "$root/omarchy/$file" "$HOME/.config/omarchy/$file" 644; done
 add_file shell "$root/omarchy/topologies.json" "$HOME/.config/omarchy/topologies.json" 644 preserve
 add_file shell "$root/omarchy/media.json" "$HOME/.config/omarchy/media.json" 644 preserve
 add_file shell "$root/omarchy/workspaces.json" "$HOME/.config/omarchy/workspaces.json" 644 preserve
@@ -149,21 +149,21 @@ add_file shell "$root/omarchy/visual.json" "$HOME/.config/omarchy/visual.json" 6
 add_file shell "$root/omarchy/scenes.json" "$HOME/.config/omarchy/scenes.json" 644 preserve
 add_tree shell "$root/omarchy/hooks" "$HOME/.config/omarchy/hooks" 755
 for file in bindings.lua hyprland.lua looknfeel.lua; do add_file hypr "$root/hypr/$file" "$HOME/.config/hypr/$file" 644; done
-add_tree start-page "$root/start-page" "$HOME/.local/share/evangelion-rice/start-page" 644
+add_tree start-page "$root/start-page" "$HOME/.local/share/subcult-rice/start-page" 644
 add_tree services "$root/systemd" "$HOME/.config/systemd/user" 644
 add_file extras "$root/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc" 644
-add_file extras "$root/nvim/lua/plugins/eva-terminal-profile.lua" "$HOME/.config/nvim/lua/plugins/eva-terminal-profile.lua" 644
-add_file shell-integration "$root/shell/magi-command-telemetry.bash" "$HOME/.config/omarchy/magi-command-telemetry.bash" 644
-add_file shell-integration "$root/shell/evangelion.bash" "$HOME/.config/omarchy/evangelion.bash" 644
-add_file shell-integration "$root/shell/evangelion.zsh" "$HOME/.config/omarchy/evangelion.zsh" 644
-add_file shell-integration "$root/shell/evangelion.fish" "$HOME/.config/omarchy/evangelion.fish" 644
+add_file extras "$root/nvim/lua/plugins/subcult-terminal-profile.lua" "$HOME/.config/nvim/lua/plugins/subcult-terminal-profile.lua" 644
+add_file shell-integration "$root/shell/subcult-command-telemetry.bash" "$HOME/.config/omarchy/subcult-command-telemetry.bash" 644
+add_file shell-integration "$root/shell/subcult.bash" "$HOME/.config/omarchy/subcult.bash" 644
+add_file shell-integration "$root/shell/subcult.zsh" "$HOME/.config/omarchy/subcult.zsh" 644
+add_file shell-integration "$root/shell/subcult.fish" "$HOME/.config/omarchy/subcult.fish" 644
 
 if [[ ${selected[shell-integration]:-0} == 1 ]]; then
   [[ $shell_choice == auto ]] && shell_choice=$(basename "${SHELL:-bash}")
   case $shell_choice in
-    bash) rc_target=$HOME/.bashrc; rc_line='[[ -r $HOME/.config/omarchy/evangelion.bash ]] && source "$HOME/.config/omarchy/evangelion.bash"' ;;
-    zsh) rc_target=$HOME/.zshrc; rc_line='[[ -r $HOME/.config/omarchy/evangelion.zsh ]] && source "$HOME/.config/omarchy/evangelion.zsh"' ;;
-    fish) rc_target=$HOME/.config/fish/config.fish; rc_line='test -r "$HOME/.config/omarchy/evangelion.fish"; and source "$HOME/.config/omarchy/evangelion.fish"' ;;
+    bash) rc_target=$HOME/.bashrc; rc_line='[[ -r $HOME/.config/omarchy/subcult.bash ]] && source "$HOME/.config/omarchy/subcult.bash"' ;;
+    zsh) rc_target=$HOME/.zshrc; rc_line='[[ -r $HOME/.config/omarchy/subcult.zsh ]] && source "$HOME/.config/omarchy/subcult.zsh"' ;;
+    fish) rc_target=$HOME/.config/fish/config.fish; rc_line='test -r "$HOME/.config/omarchy/subcult.fish"; and source "$HOME/.config/omarchy/subcult.fish"' ;;
     *) printf 'Unsupported shell integration: %s; use --shell bash|zsh|fish or --no-shell-integration\n' "$shell_choice" >&2; exit 2 ;;
   esac
   if grep -qF "$rc_line" "$rc_target" 2>/dev/null; then rc_action=unchanged
@@ -172,7 +172,7 @@ if [[ ${selected[shell-integration]:-0} == 1 ]]; then
 else rc_action=skip; fi
 
 components=$(printf '%s\n' "${!selected[@]}" | sort | paste -sd, -)
-printf 'EVANGELION INSTALL PLAN // %s\n' "$components"
+printf 'SUBCULT INSTALL PLAN // %s\n' "$components"
 changes=0 replacements=0
 if [[ ${selected[shell]:-0} == 1 ]]; then
   for legacy_id in "${legacy_plugin_ids[@]}"; do
@@ -206,7 +206,7 @@ stamp=$(date +%Y%m%d-%H%M%S)-$$
 backup_root=$state_root/install-backups/$stamp
 manifest=$backup_root/manifest.tsv
 mkdir -p "$backup_root/files"
-printf '# Evangelion Rice rollback manifest v2\n' >"$manifest"
+printf '# SUBCULT Rice rollback manifest v2\n' >"$manifest"
 transaction_started=true
 backup_target(){
   local target=$1 rel=${1#/}
@@ -216,7 +216,7 @@ backup_target(){
 }
 transaction_failed(){
   local code=$?; trap - ERR; set +e
-  if $transaction_started; then printf 'INSTALL FAILED // automatically restoring %s\n' "$backup_root" >&2; EVANGELION_SKIP_ACTIVATE=1 "$root/rollback.sh" "$backup_root" >&2; fi
+  if $transaction_started; then printf 'INSTALL FAILED // automatically restoring %s\n' "$backup_root" >&2; SUBCULT_SKIP_ACTIVATE=1 "$root/rollback.sh" "$backup_root" >&2; fi
   exit "$code"
 }
 trap transaction_failed ERR
@@ -236,13 +236,13 @@ for index in "${!plan_target[@]}"; do
 done
 if [[ $rc_action != skip && $rc_action != unchanged ]]; then
   backup_target "$rc_target"; mkdir -p "$(dirname "$rc_target")"; [[ -e $rc_target ]] || : >"$rc_target"
-  printf '\n# Evangelion Rice\n%s\n' "$rc_line" >>"$rc_target"
+  printf '\n# SUBCULT Rice\n%s\n' "$rc_line" >>"$rc_target"
 fi
-[[ ${EVANGELION_FORCE_INSTALL_FAILURE:-0} == 1 ]] && false
-if [[ ${EVANGELION_SKIP_ACTIVATE:-0} != 1 ]]; then
+[[ ${SUBCULT_FORCE_INSTALL_FAILURE:-0} == 1 ]] && false
+if [[ ${SUBCULT_SKIP_ACTIVATE:-0} != 1 ]]; then
   [[ ${selected[shell]:-0} == 1 ]] && omarchy-shell -q shell rescanPlugins
   [[ ${selected[hypr]:-0} == 1 ]] && hyprctl reload >/dev/null
-  if [[ ${selected[services]:-0} == 1 ]]; then systemctl --user daemon-reload; systemctl --user enable --now magi-affinity.path magi-start-page.service magi-topology.service >/dev/null; fi
+  if [[ ${selected[services]:-0} == 1 ]]; then systemctl --user daemon-reload; systemctl --user enable --now subcult-affinity.path subcult-start-page.service subcult-topology.service >/dev/null; fi
 fi
 if [[ -f $root/RELEASE-PROVENANCE.json ]]; then
   "$root/scripts/build-release" verify-root "$root"
@@ -250,10 +250,10 @@ else
   # The installer owns this transaction's activation check. Avoid recursively
   # running historical upgrade/channel installers inside it; those gates run
   # directly in CI and in the contributor validation entry point.
-  EVANGELION_SOURCE_ONLY=${EVANGELION_SKIP_ACTIVATE:-0} \
-    EVANGELION_RELEASE_131_NESTED=1 \
-    EVANGELION_CROSS_CHANNEL_NESTED=1 \
-    EVANGELION_RELEASE_ARTIFACT_NESTED=1 \
+  SUBCULT_SOURCE_ONLY=${SUBCULT_SKIP_ACTIVATE:-0} \
+    SUBCULT_RELEASE_131_NESTED=1 \
+    SUBCULT_CROSS_CHANNEL_NESTED=1 \
+    SUBCULT_RELEASE_ARTIFACT_NESTED=1 \
     "$root/validate.sh"
 fi
 mkdir -p "$state_root"; printf '%s\n' "$backup_root" >"$state_root/last-install-backup"

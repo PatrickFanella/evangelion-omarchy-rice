@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "name": "evangelion",
+  "name": "subcult",
   "derived_from_suite": "v1.5.0",
-  "suite_homepage": "https://github.com/so1omon563/evangelion-omarchy-rice",
+  "suite_homepage": "https://github.com/PatrickFanella/subcult-omarchy-rice",
   "files": {
     "theme/colors.toml": "colors.toml",
     "theme/btop.theme": "btop.theme",

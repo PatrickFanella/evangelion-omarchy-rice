@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.closed-door",
+  "name": "Closed Door Focus",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "Persistent Closed Door focus-mode safety indicator.",
+  "kinds": ["bar-widget"],
+  "entryPoints": { "barWidget": "BarWidget.qml" },
+  "barWidget": {
+    "displayName": "Closed Door Focus",
+    "description": "Visible only while focus mode is active",
+    "category": "System",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

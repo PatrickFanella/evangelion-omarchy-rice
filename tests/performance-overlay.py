@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Acceptance coverage for the opt-in MAGI developer performance overlay."""
+"""Acceptance coverage for the opt-in SUBCULT developer performance overlay."""
 
 import json
 import os
@@ -8,7 +8,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-ROOT=Path(__file__).resolve().parents[1]; COMMAND=ROOT/"bin/magi-performance"
+ROOT=Path(__file__).resolve().parents[1]; COMMAND=ROOT/"bin/subcult-performance"
 
 def executable(path,body):
     path.write_text("#!/bin/sh\n"+body+"\n"); path.chmod(path.stat().st_mode|stat.S_IXUSR)
@@ -17,10 +17,10 @@ with tempfile.TemporaryDirectory() as directory:
     base=Path(directory); home=base/"home"; fake=base/"bin"; config=home/".config/omarchy/performance.json"; state=base/"state"
     fake.mkdir(parents=True); config.parent.mkdir(parents=True)
     config.write_text(json.dumps({"schema_version":1,"enabled":False,"sample_interval_ms":10,"probe_timeout_ms":80,"maximum_components":3,"maximum_samples":16}))
-    for name in ("magi-health","magi-context","magi-extension-state"):
+    for name in ("subcult-health","subcult-context","subcult-extension-state"):
         executable(fake/name,"printf 'PRIVATE-PAYLOAD-SENTINEL\\n'")
-    executable(fake/"magi-motion","sleep 1; printf '{}\\n'")
-    env={**os.environ,"HOME":str(home),"PATH":f"{fake}:/usr/bin:/bin","EVA_PERFORMANCE_CONFIG":str(config),"EVA_PERFORMANCE_STATE_DIR":str(state)}
+    executable(fake/"subcult-motion","sleep 1; printf '{}\\n'")
+    env={**os.environ,"HOME":str(home),"PATH":f"{fake}:/usr/bin:/bin","SUBCULT_PERFORMANCE_CONFIG":str(config),"SUBCULT_PERFORMANCE_STATE_DIR":str(state)}
     def run(*args,check=True): return subprocess.run([str(COMMAND),*args],env=env,text=True,capture_output=True,check=check,timeout=3)
 
     disabled=json.loads(run("sample","--json").stdout)
@@ -41,16 +41,16 @@ with tempfile.TemporaryDirectory() as directory:
     assert stat.S_IMODE((state/"aggregate.json").stat().st_mode)==0o600 and stat.S_IMODE(export.stat().st_mode)==0o600
     assert run("disable").stdout.strip()=="disabled" and json.loads(run("status","--json").stdout)["enabled"] is False
 
-qml=(ROOT/"omarchy/plugins/evangelion.performance/Service.qml").read_text()
-manifest=json.loads((ROOT/"omarchy/plugins/evangelion.performance/manifest.json").read_text())
+qml=(ROOT/"omarchy/plugins/subcult.performance/Service.qml").read_text()
+manifest=json.loads((ROOT/"omarchy/plugins/subcult.performance/manifest.json").read_text())
 shell=json.loads((ROOT/"omarchy/shell.json").read_text()); bindings=(ROOT/"hypr/bindings.lua").read_text(); docs=(ROOT/"HOTKEYS.md").read_text()
-assert manifest["id"]=="evangelion.performance" and manifest["keepLoaded"] is True
-assert any(item["id"]=="evangelion.performance" for item in shell["plugins"])
+assert manifest["id"]=="subcult.performance" and manifest["keepLoaded"] is True
+assert any(item["id"]=="subcult.performance" for item in shell["plugins"])
 assert 'running:root.enabled' in qml and 'root.enabled && !sampleProbe.running' in qml
 assert 'Motion.MotionState' in qml and 'motion.full?180:80' in qml and 'enabled:!motion.off' in qml
 assert 'payload_capture:false' in qml and 'WlrKeyboardFocus.None' in qml
 assert 'refresh_hz' in qml and 'CACHE FRESHNESS' in qml and 'age_seconds' in qml
-assert 'SUPER + CTRL + ALT + F' in bindings and 'magi-performance toggle' in bindings
+assert 'SUPER + CTRL + ALT + F' in bindings and 'subcult-performance toggle' in bindings
 assert 'SUPER + ALT + F' not in bindings
 assert 'Super + Ctrl + Alt + F' in docs and 'disabled by default' in docs
 print("PASS  disabled-idle, bounded payload-blind aggregates, export, hotkey, and motion policy")

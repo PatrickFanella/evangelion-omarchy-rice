@@ -45,13 +45,13 @@ with tempfile.TemporaryDirectory() as directory:
     assert digest(exported) == first
 
     # Mimic `omarchy theme install`: clone a repository whose name resolves to
-    # `evangelion`, then stage its declarative contents without suite files.
+    # `subcult`, then stage its declarative contents without suite files.
     subprocess.run(["git", "init", "--quiet", "--initial-branch=main"], cwd=exported, check=True)
     subprocess.run(["git", "add", "."], cwd=exported, check=True)
     subprocess.run(["git", "-c", "user.name=Theme Test", "-c", "user.email=theme@example.invalid",
                     "commit", "--quiet", "-m", "theme"], cwd=exported, check=True)
     home = temp / "home"
-    installed = home / ".config/omarchy/themes/evangelion"
+    installed = home / ".config/omarchy/themes/subcult"
     installed.parent.mkdir(parents=True)
     subprocess.run(["git", "clone", "--quiet", exported, installed], check=True)
     assert (installed / "colors.toml").is_file()
@@ -84,11 +84,11 @@ with tempfile.TemporaryDirectory() as directory:
     assert unrelated.read_text() == "accent = '#ffffff'\n"
 
     metadata = json.loads((exported / ".distribution.json").read_text())
-    assert metadata["name"] == "evangelion" and metadata["derived_from_suite"] == "v1.5.0"
-    suite_url = "https://github.com/so1omon563/evangelion-omarchy-rice"
+    assert metadata["name"] == "subcult" and metadata["derived_from_suite"] == "v1.5.0"
+    suite_url = "https://github.com/PatrickFanella/subcult-omarchy-rice"
     assert metadata["suite_homepage"] == suite_url
     readme = (exported / "README.md").read_text()
-    assert "Want the complete MAGI desktop?" in readme and suite_url in readme
+    assert "Want the complete SUBCULT desktop?" in readme and suite_url in readme
     assert "does not silently install or enable any suite component" in " ".join(readme.split())
 
 print("PASS  standalone theme export install apply cycle update and removal")

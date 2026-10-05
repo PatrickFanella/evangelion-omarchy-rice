@@ -133,7 +133,7 @@ stationary power confirmations without invoking any real session action.
 screensaver dismissal, boot retirement, authoritative timers, and complete
 Full/Reduced/Off paths without waiting for real idle or powering off a display.
 `start-page-context.py` verifies the local desktop endpoint's affinity identity,
-freshness states, MAGI workspace labels, unavailable fallbacks, two-second
+freshness states, SUBCULT workspace labels, unavailable fallbacks, two-second
 bounded refresh contract, and privacy field exclusions.
 
 `release-v1.3.1.py` executes both mixed browser-bundle directions, requires
@@ -148,7 +148,7 @@ theme conflict refusal, suite install, forced partial failure, exact rollback,
 internal-plugin policy, and browser/motion/privacy/responsive compatibility;
 CI retains its machine-readable JSON evidence.
 
-`magi-extension-contract.py` runs the v1 internal suite adapter against an
+`subcult-extension-contract.py` runs the v1 internal suite adapter against an
 isolated fake command path. It covers capability negotiation, compatible data,
 partial failure, missing providers, malformed output, 250 ms provider timeouts,
 complete static fallback, settings minimization, and privacy-safe projection.
@@ -164,7 +164,7 @@ are journaled, successful migration rolls back exactly, and a forced failure
 after the first write blocks new work until validated recovery restores every
 original file and permission.
 
-`visual-regression.py` renders a privacy-safe pairwise matrix of canonical MAGI
+`visual-regression.py` renders a privacy-safe pairwise matrix of canonical SUBCULT
 surfaces with ImageMagick, applies named masks and pixel tolerances, verifies
 the checked-in SHA-256 provenance manifest, and retains actual/expected/diff
 images. Its self-test deliberately perturbs a frame and proves that the failure
@@ -176,7 +176,7 @@ rapid-settle behavior, atomic profile state, manual authority, Auto feedback,
 and Off-mode instant presentation without changing any wallpaper asset.
 `mode-transition.py` verifies all seven coordinated mode families, unfocused
 non-obscuring feedback, Full/Reduced/Off paths, exact-client restoration,
-duplicate suppression, partial-launch rollback, manual Angel exit, dock rescue,
+duplicate suppression, partial-launch rollback, manual Intrusion drill exit, dock rescue,
 and wallpaper-aware presentation placement without launching applications.
 `bar-motion.py` checks shared fixed-geometry cues across every required widget,
 immediate safety-critical paths, still nominal state, no label/layout animation,

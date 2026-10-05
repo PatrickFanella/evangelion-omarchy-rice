@@ -56,15 +56,15 @@ assert evidence["community_testing"]["required_reports"] == 0
 assert evidence["gates"]["candidate_ci"] == "passed-run-33459244026"
 old_app = git_show("start-page/app.js")
 old_html = git_show("start-page/index.html")
-data = {"affinity":{"mode":"auto","active":"unit-00-prototype","label":"UNIT-00 PROTOTYPE","state":"current"},
-        "workspace":{"available":True,"id":1,"label":"MAGI-01 · MELCHIOR"},
+data = {"affinity":{"mode":"auto","active":"acid","label":"ACID BLOCK","state":"current"},
+        "workspace":{"available":True,"id":1,"label":"SUBCULT-01 · PRESS"},
         "profile":"mobile","uptime":60,"network":{"online":True}}
 
 # Old HTML with current JS must no longer fail merely because the badge is absent.
 mixed_old_html = run_paint(function(current_app, "paintRail"), data, False)
 assert mixed_old_html.returncode == 0, mixed_old_html.stderr
 painted = json.loads(mixed_old_html.stdout)
-assert "MELCHIOR" in painted["rail-workspace"]["textContent"]
+assert "PRESS" in painted["rail-workspace"]["textContent"]
 assert painted["rail-profile"]["textContent"] == "MOBILE"
 
 # The reverse mix reproduced the user-visible failure, so versioned URLs must
@@ -103,24 +103,24 @@ with tempfile.TemporaryDirectory() as directory:
     old.mkdir(); home.mkdir(); empty_sys.mkdir(); empty_commands.mkdir()
     subprocess.run(["git", "archive", "--format=tar", f"--output={archive}", "v1.3.0"], cwd=ROOT, check=True)
     subprocess.run(["tar", "-xf", archive, "-C", old], check=True)
-    env = os.environ | {"HOME": str(home), "XDG_STATE_HOME": str(state), "EVANGELION_SKIP_ACTIVATE": "1",
-                        "EVANGELION_RELEASE_131_NESTED": "1", "EVANGELION_RELEASE_ARTIFACT_NESTED": "1",
-                        "EVANGELION_CROSS_CHANNEL_NESTED": "1", "EVA_SYS_ROOT": str(empty_sys),
-                        "MAGI_CONTEXT_COMMAND_PATH": str(empty_commands)}
+    env = os.environ | {"HOME": str(home), "XDG_STATE_HOME": str(state), "SUBCULT_SKIP_ACTIVATE": "1",
+                        "SUBCULT_RELEASE_131_NESTED": "1", "SUBCULT_RELEASE_ARTIFACT_NESTED": "1",
+                        "SUBCULT_CROSS_CHANNEL_NESTED": "1", "SUBCULT_SYS_ROOT": str(empty_sys),
+                        "SUBCULT_CONTEXT_COMMAND_PATH": str(empty_commands)}
     def install(source):
         subprocess.run([str(source / "install.sh"), "--apply", "--preset", "default", "--yes"], env=env,
                        check=True, stdout=subprocess.DEVNULL)
-        return Path((state / "evangelion-rice/last-install-backup").read_text().strip())
+        return Path((state / "subcult-rice/last-install-backup").read_text().strip())
     initial = install(old)
-    assert 'app.js?v=' not in (home / ".local/share/evangelion-rice/start-page/index.html").read_text()
+    assert 'app.js?v=' not in (home / ".local/share/subcult-rice/start-page/index.html").read_text()
     upgrade = install(ROOT)
-    assert 'app.js?v=' in (home / ".local/share/evangelion-rice/start-page/index.html").read_text()
+    assert 'app.js?v=' in (home / ".local/share/subcult-rice/start-page/index.html").read_text()
     subprocess.run([str(ROOT / "rollback.sh"), str(upgrade)], env=env, check=True, stdout=subprocess.DEVNULL)
-    assert 'app.js?v=' not in (home / ".local/share/evangelion-rice/start-page/index.html").read_text()
+    assert 'app.js?v=' not in (home / ".local/share/subcult-rice/start-page/index.html").read_text()
     repeat_upgrade = install(ROOT)
     subprocess.run([str(ROOT / "rollback.sh"), str(repeat_upgrade)], env=env, check=True, stdout=subprocess.DEVNULL)
     subprocess.run([str(ROOT / "rollback.sh"), str(initial)], env=env, check=True, stdout=subprocess.DEVNULL)
-    assert not (home / ".config/omarchy/themes/evangelion/colors.toml").exists()
-    assert not (home / ".local/share/evangelion-rice/start-page/index.html").exists()
+    assert not (home / ".config/omarchy/themes/subcult/colors.toml").exists()
+    assert not (home / ".local/share/subcult-rice/start-page/index.html").exists()
 
 print("PASS  v1.3.1 mixed browser bundles and exact v1.3.0 upgrade lifecycle")

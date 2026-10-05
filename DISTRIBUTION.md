@@ -9,12 +9,12 @@ The machine-readable companion is [`distribution.json`](distribution.json).
 
 | Tier | Intended channel | Owned payload | Activation | Updates and rollback | Removal |
 |---|---|---|---|---|---|
-| Theme | Omarchy theme catalog or theme Git repository | `theme/` copied as one named theme | User selects `evangelion`; it never edits the active theme implicitly | Replace only files inside the named theme directory; previous version or package-manager cache supplies rollback | Remove the named theme only when it is inactive; retain unrelated themes and user config |
-| Suite | Versioned GitHub release archive | Repository-owned files installed by `install.sh` into documented user paths | Explicit `--apply`, component selection, confirmation, then user-level service/theme activation | Transactional snapshot before mutation; exact manifest rollback; preserved `evangelion.json` | Manifest-driven rollback removes created files and restores replaced files; no directory-wide deletion |
-| Arch package | AUR/Arch source package | Immutable suite payload under `/usr/share/evangelion-rice` and launchers under `/usr/bin` | Package installation does not modify `$HOME`; desktop user runs a separate activation command | Pacman owns system payload versions; user activation creates its own transaction for rollback | Pacman removes system payload; separate user deactivation restores that user's snapshot |
+| Theme | Omarchy theme catalog or theme Git repository | `theme/` copied as one named theme | User selects `subcult`; it never edits the active theme implicitly | Replace only files inside the named theme directory; previous version or package-manager cache supplies rollback | Remove the named theme only when it is inactive; retain unrelated themes and user config |
+| Suite | Versioned GitHub release archive | Repository-owned files installed by `install.sh` into documented user paths | Explicit `--apply`, component selection, confirmation, then user-level service/theme activation | Transactional snapshot before mutation; exact manifest rollback; preserved `subcult.json` | Manifest-driven rollback removes created files and restores replaced files; no directory-wide deletion |
+| Arch package | AUR/Arch source package | Immutable suite payload under `/usr/share/subcult-rice` and launchers under `/usr/bin` | Package installation does not modify `$HOME`; desktop user runs a separate activation command | Pacman owns system payload versions; user activation creates its own transaction for rollback | Pacman removes system payload; separate user deactivation restores that user's snapshot |
 
 The theme catalog submission is an independently usable product, not an alias
-for the suite installer. MAGI plugins are internal suite components in v1.4;
+for the suite installer. SUBCULT plugins are internal suite components in v1.4;
 none are advertised, packaged, or installed as standalone products. The audit
 and optional runtime contract remain architectural evidence for a future
 decision, not a current distribution channel.
@@ -23,14 +23,14 @@ decision, not a current distribution channel.
 
 There are three owners:
 
-- The package manager owns files under `/usr/share/evangelion-rice` and
+- The package manager owns files under `/usr/share/subcult-rice` and
   `/usr/bin`. Package scripts must not treat a home directory as a package
   target.
 - The suite transaction owns only the exact user paths recorded in its
   `manifest.tsv`. Existing targets are snapshotted before replacement and new
   targets are recorded for removal.
 - The user owns preserved preferences, unrelated files, and every path not
-  named by the selected tier. `~/.config/omarchy/evangelion.json` is created
+  named by the selected tier. `~/.config/omarchy/subcult.json` is created
   once and preserved on updates.
 
 Complete-file replacements such as `shell.json` and the three Hyprland Lua
@@ -40,7 +40,7 @@ desktop user from `sudo`, delete an unowned directory, or silently edit shell
 startup files.
 
 The standalone theme and suite both use
-`~/.config/omarchy/themes/evangelion`. If that path is a Git-owned standalone
+`~/.config/omarchy/themes/subcult`. If that path is a Git-owned standalone
 theme clone, suite activation fails read-only with remediation instructions.
 The user must switch themes and remove the clone before retrying; the installer
 never merges suite files into another channel's Git tree. Git checkout,
@@ -92,7 +92,7 @@ external hardware verification is not represented as a release failure.
 
 Software and configuration are MIT-licensed. The wallpapers are separately
 licensed under CC BY-NC 4.0 only to the extent described in
-[`ASSETS_LICENSE.md`](ASSETS_LICENSE.md), and Evangelion names, designs, and
+[`ASSETS_LICENSE.md`](ASSETS_LICENSE.md), and SUBCULT names, designs, and
 marks remain third-party property. Every artifact containing wallpapers must
 include `ASSETS_LICENSE.md`, `theme/ARTWORK.md`, and the audited hashes. It must
 be labeled unofficial and non-commercial and must not imply endorsement.
@@ -108,8 +108,8 @@ plugin, Arch, or AUR maintainer.
 
 - Theme extraction must contain only the theme-tier payload and notices.
 - Reusable plugins follow the versioned, capability-detected contract in
-  [`MAGI_RUNTIME.md`](MAGI_RUNTIME.md). Version 1 intentionally avoids a shared
-  runtime package: plugin-local fallbacks are required and MAGI integration is
+  [`SUBCULT_RUNTIME.md`](SUBCULT_RUNTIME.md). Version 1 intentionally avoids a shared
+  runtime package: plugin-local fallbacks are required and SUBCULT integration is
   optional, additive, and theme-independent.
 - Every plugin remains classified, but v1.4 distributes plugins only inside the
   complete suite.
@@ -129,7 +129,7 @@ repository:
 ./scripts/export-theme
 ```
 
-The ignored `build/omarchy-evangelion-theme/` directory is replaced from
+The ignored `build/omarchy-subcult-theme/` directory is replaced from
 `packaging/theme/manifest.json` on every run, preventing hand-maintained drift.
 
 Build and verify a reproducible complete-suite archive from an exact semantic

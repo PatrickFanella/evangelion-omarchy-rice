@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = (ROOT / "omarchy/plugins/evangelion.context/BarWidget.qml").read_text()
+SOURCE = (ROOT / "omarchy/plugins/subcult.context/BarWidget.qml").read_text()
 SHELL = json.loads((ROOT / "omarchy/shell.json").read_text())
 MENU = (ROOT / "omarchy/extensions/omarchy-menu.jsonc").read_text()
 BINDINGS = (ROOT / "hypr/bindings.lua").read_text()
@@ -13,10 +13,10 @@ STRINGS = json.loads((ROOT / "omarchy/i18n/en-US.json").read_text())["strings"]
 
 
 def main():
-    assert any(item["id"] == "evangelion.context" for item in SHELL["bar"]["layout"]["right"])
-    assert 'target: "magi-context-inspector"' in SOURCE
-    assert '["magi-context","status","--json","--compact"]' in SOURCE
-    assert '["magi-context","refresh","--json","--compact"]' in SOURCE
+    assert any(item["id"] == "subcult.context" for item in SHELL["bar"]["layout"]["right"])
+    assert 'target: "subcult-context-inspector"' in SOURCE
+    assert '["subcult-context","status","--json","--compact"]' in SOURCE
+    assert '["subcult-context","refresh","--json","--compact"]' in SOURCE
     assert "Timer {" not in SOURCE, "inspector added background collection"
     assert 'Motion.MotionPopupCard' in SOURCE and 'fittedContentWidth' in SOURCE and 'fittedContentHeight' in SOURCE
     assert "centerOnBar:true" in SOURCE and "Math.min(contentColumn.implicitHeight" in SOURCE
@@ -35,10 +35,10 @@ def main():
     assert "automatic_actions" in SOURCE
     assert 'i18n.tr("context.automation.manual")' in SOURCE and "Held // Manual profile" == STRINGS["context.automation.manual"]
     assert '"context.automation.queued"' in SOURCE and "Action queued" == STRINGS["context.automation.queued"]
-    assert '"magi.context.panel"' in MENU and '"magi.context.refresh"' in MENU
+    assert '"subcult.context.panel"' in MENU and '"subcult.context.refresh"' in MENU
     assert "SUPER + CTRL + ALT + G" in BINDINGS
     assert "SUPER + ALT + G" not in BINDINGS
-    print("PASS  responsive privacy-bounded MAGI context inspector")
+    print("PASS  responsive privacy-bounded SUBCULT context inspector")
 
 
 if __name__ == "__main__":

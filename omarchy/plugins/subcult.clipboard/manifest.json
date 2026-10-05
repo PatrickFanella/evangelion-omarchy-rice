@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.clipboard",
+  "name": "SUBCULT Clipboard Archive",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice / Omarchy",
+  "description": "A classified SUBCULT data archive built on Omarchy's clipboard backend",
+  "kinds": [
+    "overlay"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "overlay": "Clipboard.qml"
+  },
+  "omarchy": { "clonedFrom": "omarchy.clipboard" }
+}

@@ -5,8 +5,8 @@ import importlib.util
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-MODULE = ROOT / "lib/magi_context_policy.py"
-spec = importlib.util.spec_from_file_location("magi_context_policy", MODULE)
+MODULE = ROOT / "lib/subcult_context_policy.py"
+spec = importlib.util.spec_from_file_location("subcult_context_policy", MODULE)
 policy = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(policy)
 
@@ -85,7 +85,7 @@ def main():
     stale = evaluate({"temperature_c": 99, "display_mode": "docked"}, fresh=False)
     assert stale["status"] == "unknown" and stale["reason"]["code"] == "no-fresh-policy-inputs"
 
-    print("PASS  deterministic MAGI context policy boundaries and convergence")
+    print("PASS  deterministic SUBCULT context policy boundaries and convergence")
 
 
 if __name__ == "__main__":

@@ -31,7 +31,7 @@ branch and review its diff:
 
 ```sh
 tools/accept-compatibility-report /path/to/report.json \
-  --issue https://github.com/so1omon563/evangelion-omarchy-rice/issues/123
+  --issue https://github.com/PatrickFanella/subcult-omarchy-rice/issues/123
 git diff -- compatibility/community-matrix.json
 ```
 

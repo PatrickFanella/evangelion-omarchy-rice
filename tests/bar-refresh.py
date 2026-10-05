@@ -3,8 +3,8 @@ import base64, json, os, subprocess, tempfile
 from pathlib import Path
 
 root=Path(__file__).resolve().parents[1]
-command=root/"bin/magi-bar-refresh"
-affinity=(root/"bin/magi-affinity").read_text()
+command=root/"bin/subcult-bar-refresh"
+affinity=(root/"bin/subcult-affinity").read_text()
 menu=(root/"omarchy/extensions/omarchy-menu.jsonc").read_text()
 
 with tempfile.TemporaryDirectory() as raw:
@@ -47,10 +47,10 @@ contracts={
   "supported_ipc":'shell applyTheme "$colors_payload" "$shell_payload"' in command.read_text(),
   "bounded_ipc":'OMARCHY_SHELL_IPC_TIMEOUT=2s timeout 3' in command.read_text(),
   "serialized":'flock -w 2' in command.read_text(),
-  "automatic_after_commit":'magi-bar-refresh --quiet --source affinity' in affinity and affinity.index('mv -f "$tmp/active" "$active_file"') < affinity.index('magi-bar-refresh --quiet --source affinity'),
-  "failure_is_actionable":'Run magi-bar-refresh; if needed, run omarchy restart shell.' in affinity,
+  "automatic_after_commit":'subcult-bar-refresh --quiet --source affinity' in affinity and affinity.index('mv -f "$tmp/active" "$active_file"') < affinity.index('subcult-bar-refresh --quiet --source affinity'),
+  "failure_is_actionable":'Run subcult-bar-refresh; if needed, run omarchy restart shell.' in affinity,
   "no_automatic_restart":'omarchy restart shell' not in command.read_text().split("Recovery:")[0],
-  "menu_recovery":'"magi.affinity.refresh-bar"' in menu and 'magi-bar-refresh --notify' in menu,
+  "menu_recovery":'"subcult.affinity.refresh-bar"' in menu and 'subcult-bar-refresh --notify' in menu,
 }
 failed=[name for name,value in contracts.items() if not value]
 if failed: raise AssertionError(", ".join(failed))

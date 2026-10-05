@@ -47,10 +47,10 @@ def main():
     for marker in ("Upgrade from v1.2 to v1.3", "snapshot=$(cat", './rollback.sh "$snapshot"',
                    "without silently opting into automation"):
         assert marker in upgrading, marker
-    for marker in ("MAGI context and recommendations", "manual-profile-selection",
-                   "magi-context disable", "context-observe.py"):
+    for marker in ("SUBCULT context and recommendations", "manual-profile-selection",
+                   "subcult-context disable", "context-observe.py"):
         assert marker in troubleshooting, marker
-    for marker in ("v1.3.0 — MAGI intelligence and context", "167.59 ms p95",
+    for marker in ("v1.3.0 — SUBCULT intelligence and context", "167.59 ms p95",
                    "External hardware feedback remains welcome but optional"):
         assert marker in release_notes, marker
     assert "[CONTEXT.md](CONTEXT.md)" in readme

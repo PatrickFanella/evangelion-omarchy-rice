@@ -1,9 +1,9 @@
 # Cross-channel compatibility contract
 
-Evangelion Rice supports three distribution channels: the standalone Omarchy
+SUBCULT Rice supports three distribution channels: the standalone Omarchy
 theme, the complete tagged suite archive, and the Arch package with explicit
 per-user activation. A Git checkout is a development source for the same suite
-transaction, not a fourth ownership tier. MAGI plugins are suite-internal.
+transaction, not a fourth ownership tier. SUBCULT plugins are suite-internal.
 
 ## Transitions
 
@@ -30,11 +30,11 @@ channel versions, ownership boundaries, transition outcomes, and these gates:
 - Arch package and activation ownership remain separate;
 - theme/suite overlap is detected without mutation;
 - a forced partial activation restores the previous state;
-- internal plugins and the optional MAGI runtime are not standalone products;
+- internal plugins and the optional SUBCULT runtime are not standalone products;
 - browser selection remains XDG-default based;
 - full/reduced/off motion, privacy boundaries, and responsive layouts retain
   their existing regression contracts;
-- Omarchy compatibility is capability-based and optional MAGI integration
+- Omarchy compatibility is capability-based and optional SUBCULT integration
   falls back safely when absent, stale, malformed, or incompatible.
 
 The JSON report is retained by CI. A distribution ticket is complete only when

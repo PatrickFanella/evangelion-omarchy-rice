@@ -1,6 +1,6 @@
 # Monitor topology profiles
 
-MAGI can remember local display arrangements without changing the default
+SUBCULT can remember local display arrangements without changing the default
 desktop behavior. Profiles remain disabled until explicitly enabled, and their
 configuration stays private under `~/.config/omarchy/topologies.json`.
 
@@ -9,14 +9,14 @@ configuration stays private under `~/.config/omarchy/topologies.json`.
 Arrange displays and workspaces normally, then save the current topology:
 
 ```bash
-magi-topology save home-dock
-magi-topology status
-magi-topology preview home-dock
+subcult-topology save home-dock
+subcult-topology status
+subcult-topology preview home-dock
 ```
 
 The identity uses connector names, display model descriptions, dimensions, and
 internal/external classification. It deliberately excludes EDIDs, serials,
-device IDs, host paths, window titles, and application content. MAGI labels a
+device IDs, host paths, window titles, and application content. SUBCULT labels a
 shape as `laptop`, `dock`, `projector`, `ultrawide`, `multi-monitor`, or
 `unknown`.
 
@@ -25,20 +25,20 @@ ID, so a display change between preview and confirmation cannot silently apply
 a stale plan:
 
 ```bash
-magi-topology apply home-dock --confirm PLAN_ID
-magi-topology undo
+subcult-topology apply home-dock --confirm PLAN_ID
+subcult-topology undo
 ```
 
 Apply records the prior monitor and window/workspace arrangement first. Undo
-restores it. MAGI moves existing workspaces and windows; it never closes,
+restores it. SUBCULT moves existing workspaces and windows; it never closes,
 relaunches, or rewrites application data. A failed apply attempts the same
 rollback automatically.
 
 ## Hot-plug restoration
 
 ```bash
-magi-topology enable
-magi-topology disable
+subcult-topology enable
+subcult-topology disable
 ```
 
 When enabled, the user service listens to Hyprland monitor events and waits
@@ -48,4 +48,4 @@ unknown identity is a safe no-op, leaving Hyprland's current arrangement
 untouched. The debounce can be set from 250–10000 ms in `topologies.json`.
 
 If the service is unavailable, profiles remain usable manually. Inspect it with
-`systemctl --user status magi-topology.service`.
+`systemctl --user status subcult-topology.service`.

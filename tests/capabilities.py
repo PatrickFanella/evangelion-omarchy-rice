@@ -5,11 +5,11 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 def write(path,value): path.parent.mkdir(parents=True,exist_ok=True); path.write_text(str(value))
 def probe(sysroot, command_path):
-    env=os.environ|{"EVA_SYS_ROOT":str(sysroot),"EVA_COMMAND_PATH":str(command_path)}
-    return json.loads(subprocess.run([str(ROOT/"bin/eva-capabilities")],env=env,text=True,capture_output=True,check=True).stdout)
+    env=os.environ|{"SUBCULT_SYS_ROOT":str(sysroot),"SUBCULT_COMMAND_PATH":str(command_path)}
+    return json.loads(subprocess.run([str(ROOT/"bin/subcult-capabilities")],env=env,text=True,capture_output=True,check=True).stdout)
 def thermal_status(sysroot, state):
-    env=os.environ|{"EVA_SYS_ROOT":str(sysroot),"XDG_STATE_HOME":str(state)}
-    return json.loads(subprocess.run([str(ROOT/"bin/magi-thermal-alert"),"status"],env=env,text=True,capture_output=True,check=True).stdout)
+    env=os.environ|{"SUBCULT_SYS_ROOT":str(sysroot),"XDG_STATE_HOME":str(state)}
+    return json.loads(subprocess.run([str(ROOT/"bin/subcult-thermal-alert"),"status"],env=env,text=True,capture_output=True,check=True).stdout)
 with tempfile.TemporaryDirectory() as temporary:
     base=Path(temporary); empty=base/"empty"; empty.mkdir(); commands=base/"commands"; commands.mkdir()
     unavailable=probe(empty,commands)

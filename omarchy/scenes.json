@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "scenes": [
-    {"id":"nerv-command","label":"NERV Command","wallpaper":"1-nerv-command.png","affinity":"neutral","terminal":"magi","sound":"keep","ambient":"keep","motion":"keep"},
-    {"id":"unit-00-prototype","label":"EVA-00 Prototype","wallpaper":"5-eva-unit-00-prototype.png","affinity":"unit-00-prototype","terminal":"unit-00-prototype","sound":"keep","ambient":"keep","motion":"keep"},
-    {"id":"unit-00-refit","label":"EVA-00 Refit","wallpaper":"6-eva-unit-00-refit.png","affinity":"unit-00-refit","terminal":"unit-00-refit","sound":"keep","ambient":"keep","motion":"keep"},
-    {"id":"unit-01","label":"EVA-01 Test Type","wallpaper":"2-eva-unit-01.png","affinity":"unit-01","terminal":"eva-01","sound":"keep","ambient":"keep","motion":"keep"},
-    {"id":"unit-02","label":"EVA-02 Production","wallpaper":"7-eva-unit-02.png","affinity":"unit-02","terminal":"unit-02","sound":"keep","ambient":"keep","motion":"keep"},
-    {"id":"magi-operations","label":"MAGI Operations","wallpaper":"3-magi-tokyo3.png","affinity":"neutral","terminal":"engineering","sound":"keep","ambient":"keep","motion":"keep"}
+    {"id":"subcult-command","label":"SUBCULT Command","wallpaper":"1-subcult-press.png","affinity":"neutral","terminal":"subcult","sound":"keep","ambient":"keep","motion":"keep"},
+    {"id":"acid","label":"Acid Block","wallpaper":"5-subcult-acid.png","affinity":"acid","terminal":"acid","sound":"keep","ambient":"keep","motion":"keep"},
+    {"id":"paper","label":"Paper Stock","wallpaper":"6-subcult-paper.png","affinity":"paper","terminal":"paper","sound":"keep","ambient":"keep","motion":"keep"},
+    {"id":"violet","label":"Violet Field","wallpaper":"2-subcult-violet.png","affinity":"violet","terminal":"violet","sound":"keep","ambient":"keep","motion":"keep"},
+    {"id":"ink","label":"Ink Run","wallpaper":"7-subcult-ink.png","affinity":"ink","terminal":"ink","sound":"keep","ambient":"keep","motion":"keep"},
+    {"id":"subcult-operations","label":"SUBCULT Operations","wallpaper":"3-subcult-archive.png","affinity":"neutral","terminal":"engineering","sound":"keep","ambient":"keep","motion":"keep"}
   ]
 }

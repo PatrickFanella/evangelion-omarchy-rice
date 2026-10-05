@@ -24,10 +24,10 @@ Compact/Details choices for dense telemetry are bounded and preserved in
 
 ## Suite release channel
 
-`~/.config/omarchy/evangelion-update.json` stores the explicitly selected rice
+`~/.config/omarchy/subcult-update.json` stores the explicitly selected rice
 release channel and is preserved across installations. Stable is the default;
 Preview and Development require explicit risk acceptance. Use
-`magi-suite-update channel` and see [SUITE_UPDATES.md](SUITE_UPDATES.md).
+`subcult-suite-update channel` and see [SUITE_UPDATES.md](SUITE_UPDATES.md).
 
 ## Visual customization
 
@@ -38,7 +38,7 @@ in preserved `~/.config/omarchy/activity-modes.json`. Every subsystem is
 individually opted in, every apply requires an exact preview plan, and one-step
 undo restores the full transaction. See [ACTIVITY_MODES.md](ACTIVITY_MODES.md).
 
-Use the Visual category in the MAGI Control Center to adjust bounded density,
+Use the Visual category in the SUBCULT Control Center to adjust bounded density,
 accent strength, typography, panel treatment, compositor blur, window opacity,
 gaps, borders, and animation intensity. Settings are stored in the preserved
 `~/.config/omarchy/visual.json`; unsupported compositor effects degrade safely
@@ -48,13 +48,13 @@ and precedence are in [VISUAL_CUSTOMIZATION.md](VISUAL_CUSTOMIZATION.md).
 ## Affinity scenes
 
 Theme treatment is an independent inherited dimension. Select Standard, OLED,
-Daylight, or High Contrast in Control Center, or use `magi-theme-variant
-preview`, `revert`, and `apply`. Wallpaper-driven NERV/EVA affinity remains
+Daylight, or High Contrast in Control Center, or use `subcult-theme-variant
+preview`, `revert`, and `apply`. Wallpaper-driven SUBCULT/SUBCULT affinity remains
 authoritative. See [THEME_VARIANTS.md](THEME_VARIANTS.md).
 
 Scene definitions live in the preserved `~/.config/omarchy/scenes.json`.
-Use `magi-scene preview SCENE` before applying, `magi-scene undo` to restore
-the preceding coordinated state, and `magi-scene auto` to follow wallpaper
+Use `subcult-scene preview SCENE` before applying, `subcult-scene undo` to restore
+the preceding coordinated state, and `subcult-scene auto` to follow wallpaper
 affinity again. Optional audio remains interlocked and all shipped scenes keep
 the existing sound, ambient, and motion settings. See [SCENES.md](SCENES.md).
 
@@ -68,7 +68,7 @@ while paused, and can be changed to `always` or `off`. See
 
 ## Core user configuration
 
-The installer creates and then preserves `~/.config/omarchy/evangelion.json`:
+The installer creates and then preserves `~/.config/omarchy/subcult.json`:
 
 ```json
 {
@@ -117,7 +117,7 @@ The installer creates and then preserves `~/.config/omarchy/evangelion.json`:
 - `shell`: `auto`, `bash`, `zsh`, or `fish` for launched login shells.
 - `shell_integration`: preference for helpers; pass
   `--no-shell-integration` to prevent installer startup-file edits.
-- `project_dir`: EVA deployment directory; empty uses the invocation directory.
+- `project_dir`: SUBCULT deployment directory; empty uses the invocation directory.
 - `motion.mode`: `full` preserves the current visual feel; `reduced` shortens
   motion and removes blur, repeated movement, and most travel; `off` requests
   immediate state changes from participating v1.2 surfaces.
@@ -131,14 +131,14 @@ The installer creates and then preserves `~/.config/omarchy/evangelion.json`:
 - `presentation.workspace`: Fastfetch/btop presentation workspace.
 
 ```bash
-eva-user-config show
-eva-user-config terminal
-eva-user-config editor
-eva-user-config shell
-magi-motion status
-magi-motion set reduced
-magi-context status
-magi-context explain
+subcult-user-config show
+subcult-user-config terminal
+subcult-user-config editor
+subcult-user-config shell
+subcult-motion status
+subcult-motion set reduced
+subcult-context status
+subcult-context explain
 ```
 
 ## Developer performance overlay
@@ -150,10 +150,10 @@ collector executes only while explicitly enabled and rotates through one fixed,
 allowlisted aggregate probe per interval.
 
 ```bash
-magi-performance enable
-magi-performance status --json
-magi-performance export ./magi-performance-report.json
-magi-performance disable
+subcult-performance enable
+subcult-performance status --json
+subcult-performance export ./subcult-performance-report.json
+subcult-performance disable
 ```
 
 No provider output is parsed or retained. Reports contain component names,
@@ -161,9 +161,9 @@ availability, aggregate latency, cache age/activity, sample counts, and motion
 mode only; they exclude command output, paths, process IDs, window titles, and
 machine or network identity.
 
-## MAGI context foundation
+## SUBCULT context foundation
 
-`magi-context` publishes capability-aware local observations for power and
+`subcult-context` publishes capability-aware local observations for power and
 batteries, thermal pressure, displays and dock state, input/audio device counts,
 connectivity state, media activity, local time band, and the explicit operating
 profile. It deliberately excludes device names, player identities and metadata,
@@ -172,20 +172,20 @@ history, document paths, and other payload content. Published values pass a
 strict per-collector field, type, enum, and range allowlist.
 
 ```bash
-magi-context status --json       # Read current state; does not publish
-magi-context surface --json      # Fixed presentation-safe projection
-magi-context explain             # Human-readable state and reason
-magi-context refresh --json      # Atomically publish the latest request
-magi-context disable             # Global kill switch
-magi-context enable
-magi-context automation enable   # Opt-in; defaults disabled
-magi-context automation disable
-magi-context decorative disable
-magi-context collector media disable
+subcult-context status --json       # Read current state; does not publish
+subcult-context surface --json      # Fixed presentation-safe projection
+subcult-context explain             # Human-readable state and reason
+subcult-context refresh --json      # Atomically publish the latest request
+subcult-context disable             # Global kill switch
+subcult-context enable
+subcult-context automation enable   # Opt-in; defaults disabled
+subcult-context automation disable
+subcult-context decorative disable
+subcult-context collector media disable
 ```
 
 Published state lives at
-`~/.local/state/evangelion-rice/context/state.json` with mode `0600`. Schema v1
+`~/.local/state/subcult-rice/context/state.json` with mode `0600`. Schema v1
 separates signals, normalized facts, derived state, freshness, reasons, and
 recommendations. `unknown`, `unavailable`, `stale`, and `disabled` are explicit
 contract values. Concurrent refreshes use monotonic request IDs; a superseded
@@ -229,38 +229,38 @@ shared state rather than detecting anything itself and refreshes collectors only
 when the panel is opened or Refresh is explicitly selected. Displayed facts use
 a second fixed allowlist; raw signal values and the numeric confidence field are
 not rendered. The panel is also available with `Super + Ctrl + Alt + G` or from
-`MAGI Command Interface → Context Inspector`.
+`SUBCULT Command Interface → Context Inspector`.
 
 ### Context-aware surfaces
 
 The mode OSD, low-urgency notification borders, start-page status rail, and
-screensaver HUD all consume the same read-only `magi-context surface`
+screensaver HUD all consume the same read-only `subcult-context surface`
 projection. They never run collectors or independently inspect hardware. The
 projection contains only a fixed status, stable reason code, short label, and
 allowlisted contributing facts. Critical notification urgency remains visually
 authoritative, and every surface keeps its normal geometry.
 
-Run `magi-context decorative disable` to remove these decorative cues while
+Run `subcult-context decorative disable` to remove these decorative cues while
 leaving context collection and the inspector available. Disabled, stale,
 unknown, unavailable, or missing context resolves to `baseline`; in that state
 the surfaces match the v1.2 presentation exactly. Re-enable cues with
-`magi-context decorative enable` and explicitly refresh from the inspector or
-with `magi-context refresh`.
+`subcult-context decorative enable` and explicitly refresh from the inspector or
+with `subcult-context refresh`.
 
 ### Ambient operations
 
-`magi-ambient` projects local clock bands plus explicit MAGI Mission and A.T.
+`subcult-ambient` projects local clock bands plus explicit SUBCULT Mission and A.T.
 Field state into restrained start-page copy and screensaver scene selection.
-It does not infer activity, intent, or location, and it never overrides EVA
+It does not infer activity, intent, or location, and it never overrides SUBCULT
 affinity, safety state, accessibility/motion settings, or manual profiles.
 
 ```bash
-magi-ambient status --json
-magi-ambient disable             # Exact baseline presentation
-magi-ambient enable
-magi-ambient quiet-hours 22 7    # Local whole-hour boundaries
-magi-ambient location 33.4484 -112.0740
-magi-ambient clear-location
+subcult-ambient status --json
+subcult-ambient disable             # Exact baseline presentation
+subcult-ambient enable
+subcult-ambient quiet-hours 22 7    # Local whole-hour boundaries
+subcult-ambient location 33.4484 -112.0740
+subcult-ambient clear-location
 ```
 
 Without an explicit location, fixed local-clock bands are used. Providing
@@ -272,19 +272,19 @@ there is no ambient daemon, timer, or hidden polling loop.
 
 ## Interface motion
 
-Choose `MAGI Command Interface → Interface Motion`, or use:
+Choose `SUBCULT Command Interface → Interface Motion`, or use:
 
 ```bash
-magi-motion set full
-magi-motion set reduced
-magi-motion set off
-magi-motion cycle
-magi-motion show                 # Resolved mode and named tokens
-magi-motion hold screen-share    # Temporarily reduce expensive effects
-magi-motion release screen-share # Restore the selected mode
+subcult-motion set full
+subcult-motion set reduced
+subcult-motion set off
+subcult-motion cycle
+subcult-motion show                 # Resolved mode and named tokens
+subcult-motion hold screen-share    # Temporarily reduce expensive effects
+subcult-motion release screen-share # Restore the selected mode
 ```
 
-The preference is written atomically to preserved `evangelion.json` and takes
+The preference is written atomically to preserved `subcult.json` and takes
 effect without logout. Shared definitions live in
 `~/.config/omarchy/motion.json`: named durations, delays, easing curves, travel
 distances, opacities, scales, and capability flags for each mode. Avoid changing these
@@ -306,7 +306,7 @@ alerts always appear immediately in every mode, never pulse, and retain their
 normal dwell or manual-dismiss behavior. Updating an existing notification
 coalesces in place instead of replaying its entrance.
 
-MAGI bar popups use the same effective mode without moving actionable content:
+SUBCULT bar popups use the same effective mode without moving actionable content:
 Full adds a single anchor-edge acquisition cue, Reduced shortens the content
 fade, and Off keeps the established v1.1 popup fade without extra decoration.
 Clipboard and power controls acquire keyboard focus immediately; closing is
@@ -334,25 +334,25 @@ background service so all outputs reveal the same ready frame without a black
 or stretched intermediate. Affinity updates are serialized and debounced:
 rapid cycling settles on the final symlink, then shell colors, borders, and the
 profile for newly opened terminals commit transactionally. Auto mode announces
-the resulting EVA unit only when it changes; manual mode stays authoritative.
+the resulting SUBCULT unit only when it changes; manual mode stays authoritative.
 Full and Reduced retain Omarchy's supported compositor-safe reveal, while Off
 snaps the selected frame immediately. Unknown artwork resolves to neutral, and
 the original wallpaper commands, hashes, and licensing metadata are unchanged.
 
 Operating modes share one fixed, non-interactive transition card near the lower
-left edge. Presentation, Deployment, A.T. Field, Angel Intrusion, dock/mobile,
+left edge. Presentation, Deployment, Closed Door, Intrusion Drill, dock/mobile,
 and isolated terminal context report entering, active, exited, or aborted state
 without covering the desktop or taking focus. Full adds a small edge acquisition
 cue, Reduced uses only a short fade, and Off changes immediately. Deployment
 and Presentation roll back partial launches; existing sessions are focused
-instead of duplicated. A.T. Field and Angel restore captured state, Angel stays
-manual with `magi-intrusion exit` always authoritative, dock changes rescue
+instead of duplicated. Closed Door and Intrusion drill restore captured state, Intrusion drill stays
+manual with `subcult-intrusion exit` always authoritative, dock changes rescue
 windows from removed outputs, and presentation still follows wallpaper-safe
 placement.
 
-The MAGI bar uses a shared three-pixel state cue for workspace selection,
+The SUBCULT bar uses a shared three-pixel state cue for workspace selection,
 playing media, mission activity, privacy capture, system health, Cava
-availability, communication faults, battery flow/reserve, and A.T. Field.
+availability, communication faults, battery flow/reserve, and Closed Door.
 Affinity changes reuse a two-pixel workspace edge cue and the bar's palette,
 adding no extra widget width. Full and Reduced use a single short opacity/color
 transition; Off snaps. Privacy, recording, thermal/health, offline network, and
@@ -361,7 +361,7 @@ do not loop or animate, labels retain their existing bounded/elided geometry,
 and Cava remains independently optional with its established process limits.
 
 Workspace identities are stored in `~/.config/omarchy/workspaces.json` using
-schema version 1. The graphical editor is available from the MAGI menu or by
+schema version 1. The graphical editor is available from the SUBCULT menu or by
 pressing `W` inside the control center. Full names remain in tooltips and the
 workspace OSD, while the bar selects full, compact, or numeric labels from its
 live width. Collision handling, safe import/export, field limits, and the CLI
@@ -381,7 +381,7 @@ and Full resumes only after the last one is released.
 
 ## Browser
 
-Browser selection is deliberately outside `evangelion.json`. Launches use
+Browser selection is deliberately outside `subcult.json`. Launches use
 `omarchy launch browser`, following the current XDG/Omarchy default even after
 switching between Zen, Chromium, or another browser.
 
@@ -404,9 +404,9 @@ omarchy weather location --clear
 The page listens only on `127.0.0.1:8765`; control requests accept allowlisted
 loopback origins.
 
-Its status rail reports the published EVA affinity mode and identity, palette
+Its status rail reports the published SUBCULT affinity mode and identity, palette
 freshness (`current`, `stale`, `unavailable`, or `disabled`), and the active
-MAGI workspace label and operating profile. A lightweight local-only
+SUBCULT workspace label and operating profile. A lightweight local-only
 `/api/desktop` projection checks those fields every two seconds; the full weather, media, and hardware snapshot
 remains on its 30-second interval. Workspace data is limited to the numeric ID
 and configured label. Window titles, application names, paths, hostnames, and
@@ -419,38 +419,38 @@ power profile, bar size, audio target, wallpaper, and display layout values.
 Unsupported power/audio controls are skipped safely.
 
 ```bash
-magi-operating-profile plan
-magi-operating-profile auto     # Release manual hold; allow recommendations
-magi-operating-profile docked
-magi-operating-profile mobile
-magi-context-automation preview
-magi-context-automation apply --dry-run
-magi-context-automation undo
+subcult-operating-profile plan
+subcult-operating-profile auto     # Release manual hold; allow recommendations
+subcult-operating-profile docked
+subcult-operating-profile mobile
+subcult-context-automation preview
+subcult-context-automation apply --dry-run
+subcult-context-automation undo
 ```
 
 Context automation is off by default and requires two explicit opt-ins:
 
 ```bash
-magi-context automation-rule environment_profile enable
-magi-context automation enable
+subcult-context automation-rule environment_profile enable
+subcult-context automation enable
 ```
 
 Recommendations remain visible while automation is disabled. With both
 switches enabled, the operating-profile shell service runs the allowlisted
 action after fresh context publication. A manual `docked` or `mobile` selection
 creates the visible `manual-profile-selection` hold; select `auto` to release
-it. Temporary holds use `magi-context-automation hold REASON` and `release
+it. Temporary holds use `subcult-context-automation hold REASON` and `release
 REASON`.
 
 Each automated change captures power, audio, wallpaper, display, bar, and
 active-profile state first. A failed subsystem triggers best-effort rollback
 and is named in automation status. The executor deduplicates generations,
 enforces a five-minute cooldown, supports read-only preview/dry-run, and keeps
-one explicit undo snapshot. `magi-context automation disable` is the global
+one explicit undo snapshot. `subcult-context automation disable` is the global
 kill switch and does not remove recommendations.
 
-Terminal rules live in `~/.config/omarchy/magi-terminal-context.json` and may
-select `eva-01`, `magi`, or `engineering` by path or marker file without
+Terminal rules live in `~/.config/omarchy/subcult-terminal-context.json` and may
+select `violet`, `subcult`, or `engineering` by path or marker file without
 changing existing terminals. See [HOTKEYS.md](HOTKEYS.md).
 
 ## Bar icon treatment
@@ -468,16 +468,16 @@ The resting foreground is a dedicated affinity token rather than the general
 panel text color. Auto and manual Unit-00/01/02 selections therefore recolor
 native and symbolic glyphs while leaving green, amber, red, disabled, and
 full-color vendor states authoritative. Inspect the resolved palette with
-`magi-affinity palette` or `magi-affinity palette unit-02`.
+`subcult-affinity palette` or `subcult-affinity palette ink`.
 
-After a successful affinity transaction, `magi-affinity` pushes the generated
+After a successful affinity transaction, `subcult-affinity` pushes the generated
 `colors.toml` and `shell.toml` directly through Omarchy's supported
 `shell applyTheme` IPC. This updates the live bar without restarting the shell,
 moving focus, or creating a transient empty bar. The call is serialized and
 bounded; a missing or unresponsive shell leaves the committed on-disk palette
 intact and reports the recovery command rather than silently claiming success.
-Run `magi-bar-refresh` or choose `MAGI Command Interface → EVA Unit Affinity →
-Refresh MAGI Bar` to retry manually. `magi-bar-refresh status` reports the last
+Run `subcult-bar-refresh` or choose `SUBCULT Command Interface → Field Affinity →
+Refresh SUBCULT Bar` to retry manually. `subcult-bar-refresh status` reports the last
 result without exposing the theme path or palette contents.
 
 ## Thermal, screensaver, and optional integrations
@@ -486,12 +486,12 @@ result without exposing the theme path or palette contents.
 cooldowns, and polling. Keep clear thresholds below alert thresholds.
 
 Screensaver preferences live in
-`~/.config/omarchy/evangelion-screensaver.json`; use
-`magi-screensaver-mode evangelion|default` to select the implementation.
+`~/.config/omarchy/subcult-screensaver.json`; use
+`subcult-screensaver-mode subcult|default` to select the implementation.
 
-Run `eva-capabilities` for NetworkManager, Bluetooth, Tailscale, brightness,
+Run `subcult-capabilities` for NetworkManager, Bluetooth, Tailscale, brightness,
 power profiles, audio, batteries, sensors, Cava, and Neon availability. Missing
-integrations degrade independently. The default `evangelion.cava` widget hides
+integrations degrade independently. The default `subcult.cava` widget hides
 when Cava is absent. Neon compatibility is explicitly installed only when its
 external integration exists:
 

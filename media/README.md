@@ -13,8 +13,8 @@ in `release-media.sha256`; validation rejects any unreviewed replacement.
 | `session-menu.png` | Real menu panel isolated from a live capture and composited over project wallpaper 3 |
 | `lock-screen.png` | Clean live lock-screen capture |
 | `wallpaper-gallery.png` | Contact sheet generated from all seven audited wallpapers |
-| `profile-switching.gif` | Illustrative MAGI, Engineering, and EVA-01 profile sequence built from project artwork and palette colors |
-| `motion-full.gif` | Continuous 60 fps Full-mode recording, delivered at 15 fps, of synthetic MAGI cues over the project standby surface |
+| `profile-switching.gif` | Illustrative SUBCULT, Engineering, and VIOLET profile sequence built from project artwork and palette colors |
+| `motion-full.gif` | Continuous 60 fps Full-mode recording, delivered at 15 fps, of synthetic SUBCULT cues over the project standby surface |
 | `motion-reduced.gif` | Continuous 60 fps Reduced-mode recording, delivered at 15 fps, of the same synthetic cue sequence |
 | `context-states.png` | Deterministic export of `context-states.svg`; four fictional context states with exact release copy and no live telemetry |
 | `context-states.svg` | Reviewable vector source for the v1.3 context-state comparison; project-authored shapes and text only |
@@ -44,8 +44,8 @@ To capture the start page without exposing live telemetry, visit:
 http://127.0.0.1:8765/?demo=1
 ```
 
-The v1.3.1 replacement visibly includes Manual / Unit-01 affinity with a
-Current badge, MAGI-01 / Melchior workspace identity, and the fictional
+The v1.3.1 replacement visibly includes Manual / Violet affinity with a
+Current badge, SUBCULT-01 / Melchior workspace identity, and the fictional
 Engineering profile. The complete frame contains no browser sidebar, account
 identity, host data, local path, window title, or live activity. Metadata was
 stripped after capture; the PNG contains only image data chunks.

@@ -1,7 +1,7 @@
 # Guided suite updates
 
-`magi-suite-update` updates Evangelion Omarchy Rice itself. It is intentionally
-separate from `magi-update run`, which wraps the authoritative `omarchy update`
+`subcult-suite-update` updates SUBCULT Omarchy Rice itself. It is intentionally
+separate from `subcult-update run`, which wraps the authoritative `omarchy update`
 system operation.
 
 ## Channels and trust
@@ -12,10 +12,10 @@ the remote `main` head. Preview and Development require `--accept-risk`; a
 channel change never downloads or applies an update.
 
 ```bash
-magi-suite-update channel
-magi-suite-update channel stable
-magi-suite-update channel preview --accept-risk
-magi-suite-update channel development --accept-risk
+subcult-suite-update channel
+subcult-suite-update channel stable
+subcult-suite-update channel preview --accept-risk
+subcult-suite-update channel development --accept-risk
 ```
 
 The check result displays the immutable commit and its evidence: branch or tag,
@@ -27,12 +27,12 @@ channels, including when a selected channel has no eligible release.
 ## Check, preview, apply, undo
 
 ```bash
-magi-suite-update check
-magi-suite-update guide
-magi-suite-update preview --preset default
-magi-suite-update apply --plan PLAN_ID --yes
-magi-suite-update status --json
-magi-suite-update undo --yes
+subcult-suite-update check
+subcult-suite-update guide
+subcult-suite-update preview --preset default
+subcult-suite-update apply --plan PLAN_ID --yes
+subcult-suite-update status --json
+subcult-suite-update undo --yes
 ```
 
 Preview stages the resolved commit, verifies that checkout, runs the staged
@@ -48,10 +48,10 @@ requires typing `DOWNGRADE`, and the noninteractive apply form additionally
 requires `--allow-downgrade`. No confirmation means no mutation.
 
 Resolution cache lives under
-`~/.local/state/evangelion-rice/suite-update/`. When the network is unavailable,
+`~/.local/state/subcult-rice/suite-update/`. When the network is unavailable,
 `check` clearly reports cached/offline evidence. A stale resolution may be
 inspected but cannot be staged or applied; reconnect and check again. Channel
-selection is stored in `~/.config/omarchy/evangelion-update.json` and is
+selection is stored in `~/.config/omarchy/subcult-update.json` and is
 preserved across suite installations.
 
 Stable is a stability policy, not a claim that every tag is cryptographically

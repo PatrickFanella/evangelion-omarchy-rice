@@ -2,7 +2,7 @@
 """Shared-inheritance, contrast, compatibility, and preview transaction tests."""
 import json,os,subprocess,tempfile
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1];CLI=ROOT/"bin/magi-theme-variant";REG=ROOT/"omarchy/theme-variants.json"
+ROOT=Path(__file__).resolve().parents[1];CLI=ROOT/"bin/subcult-theme-variant";REG=ROOT/"omarchy/theme-variants.json"
 def luminance(value):
  channels=[]
  for offset in (0,2,4):
@@ -16,13 +16,13 @@ def run(env,*args,ok=True):
  return value
 data=json.loads(REG.read_text());assert data["schema_version"]==1 and data["default"]=="standard"
 assert set(data["variants"])=={"standard","oled","daylight","high-contrast"} and all(row["extends"]=="affinity" for row in data["variants"].values())
-assert set(data["affinities"])=={"neutral","unit-00-prototype","unit-00-refit","unit-01","unit-02"}
+assert set(data["affinities"])=={"neutral","acid","paper","violet","ink"}
 wallpapers={item for rows in data["wallpaper_compatibility"].values() for item in rows}
-assert wallpapers=={"1-nerv-command.png","2-eva-unit-01.png","3-magi-tokyo3.png","4-angel-alert.png","5-eva-unit-00-prototype.png","6-eva-unit-00-refit.png","7-eva-unit-02.png"}
+assert wallpapers=={"1-subcult-press.png","2-subcult-violet.png","3-subcult-archive.png","4-subcult-signal.png","5-subcult-acid.png","6-subcult-paper.png","7-subcult-ink.png"}
 with tempfile.TemporaryDirectory() as raw:
  base=Path(raw);state=base/"state";fake=base/"bin";fake.mkdir();log=base/"apply.log"
- helper=fake/"magi-affinity";helper.write_text("#!/bin/sh\nprintf '%s\\n' apply >> \"$EVA_VARIANT_TEST_LOG\"\n");helper.chmod(0o755)
- env={**os.environ,"PATH":str(fake)+os.pathsep+os.environ.get("PATH",""),"EVA_VARIANT_STATE":str(state),"EVA_VARIANT_REGISTRY":str(REG),"EVA_VARIANT_TEST_LOG":str(log)}
+ helper=fake/"subcult-affinity";helper.write_text("#!/bin/sh\nprintf '%s\\n' apply >> \"$SUBCULT_VARIANT_TEST_LOG\"\n");helper.chmod(0o755)
+ env={**os.environ,"PATH":str(fake)+os.pathsep+os.environ.get("PATH",""),"SUBCULT_VARIANT_STATE":str(state),"SUBCULT_VARIANT_REGISTRY":str(REG),"SUBCULT_VARIANT_TEST_LOG":str(log)}
  for affinity in data["affinities"]:
   for variant in data["variants"]:
    row=json.loads(run(env,"resolve",affinity,variant).stdout);assert row["profile"]==affinity and row["variant"]==variant
@@ -37,7 +37,7 @@ with tempfile.TemporaryDirectory() as raw:
  run(env,"preview","oled");applied=json.loads(run(env,"apply","high-contrast").stdout);assert applied["status"]=="applied" and not applied["revert_available"]
  assert json.loads(run(env,"status").stdout)["active"]=="high-contrast" and not (state/"theme-variant-preview.json").exists()
  assert (state/"theme-variant").stat().st_mode & 0o777==0o600 and len(log.read_text().splitlines())==5
-affinity=(ROOT/"bin/magi-affinity").read_text();terminal=(ROOT/"bin/eva-terminal-profile").read_text()
-assert 'magi-theme-variant' in affinity and 'EVA_TERMINAL_BACKGROUND' in affinity and 'mode = "$color_mode"' in affinity
-assert 'EVA_TERMINAL_SELECTION_TEXT' in terminal
+affinity=(ROOT/"bin/subcult-affinity").read_text();terminal=(ROOT/"bin/subcult-terminal-profile").read_text()
+assert 'subcult-theme-variant' in affinity and 'SUBCULT_TERMINAL_BACKGROUND' in affinity and 'mode = "$color_mode"' in affinity
+assert 'SUBCULT_TERMINAL_SELECTION_TEXT' in terminal
 print("PASS  inherited affinity treatment matrix contrast wallpaper compatibility terminal coordination and preview rollback")

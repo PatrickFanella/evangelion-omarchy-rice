@@ -22,33 +22,33 @@ ratios={name:round(contrast(palette[name],background),2) for name in required}
 assert all(value>=4.5 for value in ratios.values()),ratios
 
 plugins=ROOT/"omarchy/plugins"
-popup=(plugins/"evangelion.motion/MotionPopupCard.qml").read_text()
+popup=(plugins/"subcult.motion/MotionPopupCard.qml").read_text()
 assert all(x in popup for x in ('Accessible.role: Accessible.Dialog','Accessible.name: root.accessibleName','Shortcut { sequence: "Escape"','enabled: root.open'))
 
 participants=("media","context","privacy","health","communications","mission","world-clock")
 semantics={}
 for name in participants:
-    source=(plugins/f"evangelion.{name}/BarWidget.qml").read_text()
+    source=(plugins/f"subcult.{name}/BarWidget.qml").read_text()
     semantics[name]=all(x in source for x in ("property string accessibleName","Accessible.role","Accessible.name","Accessible.description"))
 assert all(semantics.values()),semantics
 
 editors={
- "settings":plugins/"evangelion.settings/Service.qml",
- "scenes":plugins/"evangelion.scene-editor/Service.qml",
- "workspaces":plugins/"evangelion.workspace-names/Service.qml",
+ "settings":plugins/"subcult.settings/Service.qml",
+ "scenes":plugins/"subcult.scene-editor/Service.qml",
+ "workspaces":plugins/"subcult.workspace-names/Service.qml",
 }
 for name,path in editors.items():
     source=path.read_text()
     assert "WlrKeyboardFocus.Exclusive" in source and "Accessible.Dialog" in source and "Accessible.description" in source,name
     assert "Key_Escape" in source and "Key_Up" in source and "Key_Down" in source,name
 
-lock=(plugins/"evangelion.lock/LockView.qml").read_text()
+lock=(plugins/"subcult.lock/LockView.qml").read_text()
 assert all(x in lock for x in ("Accessible.EditableText","Session password","echoMode: TextInput.Password","passwordMaskDelay: 0"))
 assert "Accessible.name: passwordInput.text" not in lock
 workspace=editors["workspaces"].read_text()
 assert workspace.count("Accessible.EditableText")>=3 and all(x in workspace for x in ('workspaces.full_name','workspaces.short','workspaces.channel'))
-assert 'Accessible.ignored: true' in (plugins/"evangelion.cava/BarWidget.qml").read_text()
-assert 'Accessible.ignored: true' in (plugins/"evangelion.media/BarWidget.qml").read_text()
+assert 'Accessible.ignored: true' in (plugins/"subcult.cava/BarWidget.qml").read_text()
+assert 'Accessible.ignored: true' in (plugins/"subcult.media/BarWidget.qml").read_text()
 
 keyboard={
  "media":("Key_Space","Key_Left","Key_Right","Key_Plus","Key_Minus"),
@@ -56,15 +56,15 @@ keyboard={
  "clipboard":("forceActiveFocus","Keys.onPressed","Key_Escape"),
  "power":("focusTarget: keyCatcher","onCloseRequested: root.close()"),
 }
-paths={"media":plugins/"evangelion.media/BarWidget.qml","context":plugins/"evangelion.context/BarWidget.qml","clipboard":plugins/"evangelion.clipboard/Clipboard.qml","power":plugins/"evangelion.power/Panel.qml"}
+paths={"media":plugins/"subcult.media/BarWidget.qml","context":plugins/"subcult.context/BarWidget.qml","clipboard":plugins/"subcult.clipboard/Clipboard.qml","power":plugins/"subcult.power/Panel.qml"}
 assert all(all(token in paths[name].read_text() for token in tokens) for name,tokens in keyboard.items())
 
 all_qml="\n".join(path.read_text() for path in plugins.rglob("*.qml"))
 assert "#70667a" not in all_qml.lower() and "#82768d" not in all_qml.lower()
-power=(plugins/"evangelion.power/Panel.qml").read_text()
+power=(plugins/"subcult.power/Panel.qml").read_text()
 assert "loops: Animation.Infinite" in power and "running: motion.full && root.charging" in power and "duration: 950" in power
 for name in ("settings","scene-editor","workspace-names"):
-    source=(plugins/f"evangelion.{name}/Service.qml").read_text()
+    source=(plugins/f"subcult.{name}/Service.qml").read_text()
     assert not re.search(r"Timer\s*\{[^}]*onTriggered:[^}]*opened\s*=\s*false",source,re.S),name
 
 profiles=json.loads((ROOT/"tests/fixtures/responsive-layouts.json").read_text())["profiles"]

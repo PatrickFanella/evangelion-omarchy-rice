@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+case ${1:-open} in
+serve)exec python3 "$HOME/.local/share/subcult-rice/start-page/server.py";;open)systemctl --user start subcult-start-page.service;omarchy launch browser http://127.0.0.1:8765/;;status)systemctl --user --no-pager status subcult-start-page.service;;*)echo 'Usage: subcult-start-page {open|serve|status}' >&2;exit 2;;esac

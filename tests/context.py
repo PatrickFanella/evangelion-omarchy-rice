@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exercise the local MAGI context contract in an isolated user environment."""
+"""Exercise the local SUBCULT context contract in an isolated user environment."""
 
 import ast
 import json
@@ -10,7 +10,7 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-COMMAND = ROOT / "bin/magi-context"
+COMMAND = ROOT / "bin/subcult-context"
 COLLECTORS = {"power", "thermal", "displays", "devices", "connectivity",
               "media", "time", "operating_profile"}
 
@@ -46,7 +46,7 @@ def main():
         assert initial["contract"]["policy_version"] == 1
         assert initial["contract"]["availability_values"] == ["unknown", "available", "unavailable", "disabled"]
         assert initial["contract"]["freshness_values"] == ["unknown", "fresh", "stale", "disabled"]
-        assert not (home / ".local/state/evangelion-rice/context/state.json").exists(), "status must be read-only"
+        assert not (home / ".local/state/subcult-rice/context/state.json").exists(), "status must be read-only"
         surface = json.loads(run(home, "surface", "--json", "--compact").stdout)
         assert surface == {"schema_version": 1, "active": False, "status": "baseline", "freshness": "unknown",
                            "reason_code": "awaiting-observations", "label": "", "facts": {}}
@@ -55,7 +55,7 @@ def main():
         assert refreshed["generation"] == 1 and refreshed["request_id"] == 1
         assert refreshed["signals"]["time"]["availability"] == "available"
         assert all(item["availability"] in {"available", "unavailable"} for item in refreshed["signals"].values())
-        state_path = home / ".local/state/evangelion-rice/context/state.json"
+        state_path = home / ".local/state/subcult-rice/context/state.json"
         assert state_path.stat().st_mode & 0o777 == 0o600
         explanation = run(home, "explain").stdout
         # Collection intentionally observes the current machine, so thermal,
@@ -67,7 +67,7 @@ def main():
         disabled = json.loads(run(home, "disable", "--json").stdout)
         assert disabled["derived_state"]["status"] == "disabled"
         assert all(item["availability"] == "disabled" for item in disabled["signals"].values())
-        config_path = home / ".config/omarchy/evangelion.json"
+        config_path = home / ".config/omarchy/subcult.json"
         config = json.loads(config_path.read_text())
         assert config["context"]["enabled"] is False
         assert config["context"]["automation_enabled"] is False
@@ -107,19 +107,19 @@ def main():
         slow = subprocess.Popen([str(COMMAND), "refresh", "--json"],
                                 # Leave enough headroom for the competing live
                                 # capability collection on a loaded CI runner.
-                                env=environment(home, MAGI_CONTEXT_TEST_DELAY_MS="1500"),
+                                env=environment(home, SUBCULT_CONTEXT_TEST_DELAY_MS="1500"),
                                 text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         time.sleep(0.05)
         fast = json.loads(run(home, "refresh", "--json").stdout)
         slow_out, slow_err = slow.communicate(timeout=8)
         assert slow.returncode == 0, slow_err
-        final = json.loads((home / ".local/state/evangelion-rice/context/state.json").read_text())
-        requests = json.loads((home / ".local/state/evangelion-rice/context/requests.json").read_text())
+        final = json.loads((home / ".local/state/subcult-rice/context/state.json").read_text())
+        requests = json.loads((home / ".local/state/subcult-rice/context/requests.json").read_text())
         assert fast["request_id"] == requests["latest_request_id"] == final["request_id"] == 2
         assert final["generation"] == 1, "superseded request published stale state"
         assert json.loads(slow_out)["request_id"] == 2, "superseded caller did not receive latest state"
 
-    print("PASS  local MAGI context schema, controller, and latest-request publication")
+    print("PASS  local SUBCULT context schema, controller, and latest-request publication")
 
 
 if __name__ == "__main__":

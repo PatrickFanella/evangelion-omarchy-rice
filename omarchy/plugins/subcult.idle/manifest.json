@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.idle",
+  "name": "SUBCULT Idle Status",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "Lightweight SUBCULT system-status overlay shown before the screensaver.",
+  "kinds": ["service"],
+  "keepLoaded": true,
+  "entryPoints": { "service": "Service.qml" }
+}

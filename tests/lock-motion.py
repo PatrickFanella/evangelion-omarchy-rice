@@ -7,8 +7,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "test-results/lock-motion.json"
-service = (ROOT / "omarchy/plugins/evangelion.lock/Service.qml").read_text()
-view = (ROOT / "omarchy/plugins/evangelion.lock/LockView.qml").read_text()
+service = (ROOT / "omarchy/plugins/subcult.lock/Service.qml").read_text()
+view = (ROOT / "omarchy/plugins/subcult.lock/LockView.qml").read_text()
 menu = (ROOT / "omarchy/extensions/omarchy-menu.jsonc").read_text()
 
 checks = {}

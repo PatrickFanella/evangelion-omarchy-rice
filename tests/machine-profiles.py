@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 import json,os,stat,subprocess,tempfile
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1];CMD=ROOT/"bin/magi-machine-profile"
+ROOT=Path(__file__).resolve().parents[1];CMD=ROOT/"bin/subcult-machine-profile"
 with tempfile.TemporaryDirectory() as raw:
  b=Path(raw);home=b/"home";config=b/"config/omarchy";state=b/"state";fake=b/"hyprctl";fixture=b/"monitors.json";empty=b/"empty";empty.mkdir();config.mkdir(parents=True)
  fake.write_text('#!/bin/sh\ncat "$MONITORS"\n');fake.chmod(0o755)
  src=[{"name":"eDP-1","description":"PRIVATE SERIAL 123","width":1920,"height":1080,"refreshRate":60,"x":0,"y":0,"scale":1,"transform":0},{"name":"DP-9","description":"PRIVATE DEVICE ABC","width":2560,"height":1440,"refreshRate":60,"x":1920,"y":0,"scale":1,"transform":0}];fixture.write_text(json.dumps(src))
- (config/"operating-profiles.json").write_text(json.dumps({"travel":{"power_profile":"power-saver","bar_size":24,"audio_target":"internal","wallpaper":"eva.png","display_layout":"internal"}}))
+ (config/"operating-profiles.json").write_text(json.dumps({"travel":{"power_profile":"power-saver","bar_size":24,"audio_target":"internal","wallpaper":"subcult.png","display_layout":"internal"}}))
  (config/"topologies.json").write_text(json.dumps({"schema_version":1,"enabled":False,"debounce_ms":1500,"profiles":{"private-dock":{"fingerprint":"0123456789abcdef","kind":"dock","monitors":src,"windows":[{"address":"0xSECRET"}],"workspaces":[{"workspace":2,"monitor":"DP-9"}],"focused_workspace":2,"surfaces":{"bar_position":"top","presentation_workspace":5}}}}))
- env={**os.environ,"HOME":str(home),"XDG_CONFIG_HOME":str(b/"config"),"XDG_STATE_HOME":str(state),"EVA_MACHINE_PROFILE_HYPRCTL":str(fake),"EVA_MACHINE_PROFILE_COMMAND_PATH":str(empty),"PATH":str(empty)+":/usr/bin","MONITORS":str(fixture)}
+ env={**os.environ,"HOME":str(home),"XDG_CONFIG_HOME":str(b/"config"),"XDG_STATE_HOME":str(state),"SUBCULT_MACHINE_PROFILE_HYPRCTL":str(fake),"SUBCULT_MACHINE_PROFILE_COMMAND_PATH":str(empty),"PATH":str(empty)+":/usr/bin","MONITORS":str(fixture)}
  def run(*a,ok=True,extra=None):
   p=subprocess.run([str(CMD),*map(str,a)],env=env|({} if extra is None else extra),text=True,capture_output=True)
   if ok and p.returncode:raise AssertionError(p.stderr)
@@ -22,7 +22,7 @@ with tempfile.TemporaryDirectory() as raw:
  assert run("import",out,"--confirm","wrong",ok=False).returncode!=0
  result=json.loads(run("import",out,"--confirm",plan["plan_id"]).stdout);mapped=json.loads((config/"topologies.json").read_text())["profiles"]["private-dock"];assert mapped["monitors"][1]["name"]=="HDMI-A-1" and mapped["workspaces"][0]["monitor"]=="HDMI-A-1"
  run("rollback",result["transaction"]);assert (config/"operating-profiles.json").read_bytes()==before_ops and (config/"topologies.json").read_bytes()==before_top
- plan=json.loads(run("import",out).stdout);failed=run("import",out,"--confirm",plan["plan_id"],ok=False,extra={"EVANGELION_FORCE_MACHINE_PROFILE_FAILURE":"1"});assert failed.returncode!=0 and (config/"topologies.json").read_bytes()==before_top
+ plan=json.loads(run("import",out).stdout);failed=run("import",out,"--confirm",plan["plan_id"],ok=False,extra={"SUBCULT_FORCE_MACHINE_PROFILE_FAILURE":"1"});assert failed.returncode!=0 and (config/"topologies.json").read_bytes()==before_top
  hostile=json.loads(out.read_text());hostile["topology_templates"]["private-dock"]["monitors"][0]["role"]='internal\"; exec evil';bad=b/"bad.json";bad.write_text(json.dumps(hostile));assert run("import",bad,ok=False).returncode!=0
  hostile=json.loads(out.read_text());hostile["token"]="secret";bad.write_text(json.dumps(hostile));assert run("import",bad,ok=False).returncode!=0
  hostile=json.loads(out.read_text());hostile["topology_templates"]["private-dock"]["surfaces"]["host"]="/private/path";bad.write_text(json.dumps(hostile));assert run("import",bad,ok=False).returncode!=0

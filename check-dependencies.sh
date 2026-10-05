@@ -2,7 +2,7 @@
 set -uo pipefail
 
 root=$(cd -- "$(dirname -- "$0")" && pwd)
-manifest=${EVANGELION_DEPENDENCIES_FILE:-$root/dependencies.tsv}
+manifest=${SUBCULT_DEPENDENCIES_FILE:-$root/dependencies.tsv}
 source_only=false
 quiet=false
 

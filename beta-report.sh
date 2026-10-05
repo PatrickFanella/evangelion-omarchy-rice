@@ -61,7 +61,7 @@ case $action in
       }
     fi
     run_and_record install "$root/install.sh" --apply "$@"
-    snapshot_file=${XDG_STATE_HOME:-$HOME/.local/state}/evangelion-rice/last-install-backup
+    snapshot_file=${XDG_STATE_HOME:-$HOME/.local/state}/subcult-rice/last-install-backup
     [[ -f $snapshot_file ]] || { echo 'Install completed without a recorded rollback snapshot.' >&2; exit 1; }
     cp -- "$snapshot_file" "$output/snapshot.local"
     echo 'INSTALL COMPLETE // run validate next'
@@ -75,9 +75,9 @@ case $action in
     (($# == 0)) || { usage >&2; exit 2; }
     [[ -f $output/snapshot.local ]] || { echo 'No snapshot recorded by this beta bundle.' >&2; exit 2; }
     snapshot=$(<"$output/snapshot.local")
-    state_root=${XDG_STATE_HOME:-$HOME/.local/state}/evangelion-rice/install-backups
+    state_root=${XDG_STATE_HOME:-$HOME/.local/state}/subcult-rice/install-backups
     [[ $snapshot == "$state_root/"* && -f $snapshot/manifest.tsv ]] || {
-      echo 'Recorded snapshot is outside this user’s Evangelion install-backup directory or is invalid.' >&2; exit 2;
+      echo 'Recorded snapshot is outside this user’s SUBCULT install-backup directory or is invalid.' >&2; exit 2;
     }
     run_and_record rollback "$root/rollback.sh" "$snapshot"
     echo 'ROLLBACK COMPLETE // manually confirm prior desktop state, then finalize'
@@ -98,7 +98,7 @@ case $action in
     jq -e '.qualitative.result|IN("pass","pass-with-issues","blocked")' "$output/review.json" >/dev/null || { echo 'Review result must be pass, pass-with-issues, or blocked.' >&2; exit 2; }
     jq -e '.restoration_confirmed==true and .privacy_reviewed==true and .consent_to_publish==true' "$output/review.json" >/dev/null || { echo 'All review confirmations must be true before finalizing.' >&2; exit 2; }
     commit=$(<"$output/commit")
-    channel=$(jq -r '.selected_channel//"stable"' "$HOME/.config/omarchy/evangelion-update.json" 2>/dev/null || printf stable)
+    channel=$(jq -r '.selected_channel//"stable"' "$HOME/.config/omarchy/subcult-update.json" 2>/dev/null || printf stable)
     version=$(git -C "$root" describe --tags --always --dirty)
     jq -n --arg commit "$commit" --arg version "$version" --arg channel "$channel" --slurpfile selection "$output/selection.json" --slurpfile environment "$output/environment.json" --slurpfile review "$output/review.json" \
       --argjson preflight "$(<"$(status_file preflight)")" \
@@ -106,7 +106,7 @@ case $action in
       --argjson install "$(<"$(status_file install)")" \
       --argjson validation "$(<"$(status_file validation)")" \
       --argjson rollback "$(<"$(status_file rollback)")" \
-      '{schema_version:2,report_kind:"evangelion-community-compatibility",candidate:{version:$version,commit:$commit,channel:$channel},environment:$environment[0],selection:$selection[0],lifecycle:{preflight:$preflight,dry_run:$dry_run,install:$install,validation:$validation,rollback:$rollback},all_passed:([$preflight,$dry_run,$install,$validation,$rollback]|all(. == 0)),qualitative:$review[0].qualitative,hardware_class:$review[0].hardware_class,restoration_confirmed:$review[0].restoration_confirmed,privacy:{raw_logs_included:false,unique_machine_identifiers_collected:false,manual_review_completed:$review[0].privacy_reviewed,consent_to_publish:$review[0].consent_to_publish}}' \
+      '{schema_version:2,report_kind:"subcult-community-compatibility",candidate:{version:$version,commit:$commit,channel:$channel},environment:$environment[0],selection:$selection[0],lifecycle:{preflight:$preflight,dry_run:$dry_run,install:$install,validation:$validation,rollback:$rollback},all_passed:([$preflight,$dry_run,$install,$validation,$rollback]|all(. == 0)),qualitative:$review[0].qualitative,hardware_class:$review[0].hardware_class,restoration_confirmed:$review[0].restoration_confirmed,privacy:{raw_logs_included:false,unique_machine_identifiers_collected:false,manual_review_completed:$review[0].privacy_reviewed,consent_to_publish:$review[0].consent_to_publish}}' \
       >"$output/report.json"
     python3 "$root/tools/accept-compatibility-report" --validate-only "$output/report.json"
     printf 'REPORT READY // review before sharing: %s/report.json\n' "$output"
@@ -115,7 +115,7 @@ case $action in
     (($# == 0)) || { usage >&2; exit 2; }
     [[ -f $output/report.json ]] || { echo 'Finalize and review report.json first.' >&2; exit 2; }
     python3 "$root/tools/accept-compatibility-report" --validate-only "$output/report.json"
-    xdg-open 'https://github.com/so1omon563/evangelion-omarchy-rice/issues/new?template=beta-report.yml'
+    xdg-open 'https://github.com/PatrickFanella/subcult-omarchy-rice/issues/new?template=beta-report.yml'
     echo 'ISSUE FORM OPENED // attach report.json yourself after one final visual review'
     ;;
   *) usage >&2; exit 2;;

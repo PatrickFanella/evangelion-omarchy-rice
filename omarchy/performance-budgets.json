@@ -11,9 +11,9 @@
   },
   "cache_max_age_seconds": {"context": 300, "health": 900, "mission": 3600, "motion": 86400},
   "exceptions": {
-    "evangelion.battery": "30-second safety telemetry",
-    "evangelion.thermal": "event-driven safety monitor",
-    "evangelion.lock": "short timers run only while authentication is visible",
-    "evangelion.notifications": "short timers run only for visible notification lifecycle"
+    "subcult.battery": "30-second safety telemetry",
+    "subcult.thermal": "event-driven safety monitor",
+    "subcult.lock": "short timers run only while authentication is visible",
+    "subcult.notifications": "short timers run only for visible notification lifecycle"
   }
 }

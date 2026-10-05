@@ -1,8 +1,8 @@
 # Complete-suite release artifacts
 
-The complete Evangelion Rice suite is distributed as a reproducible tarball.
+The complete SUBCULT Rice suite is distributed as a reproducible tarball.
 It is separate from the independently installable theme and does not publish
-the suite's internal MAGI plugins as standalone products.
+the suite's internal SUBCULT plugins as standalone products.
 
 ## Build from an exact tag
 
@@ -21,8 +21,8 @@ the same tag produces identical bytes.
 
 Output is written to `build/release/` and is intentionally ignored by Git:
 
-- `evangelion-omarchy-rice-1.5.1.tar.gz`
-- `evangelion-omarchy-rice-1.5.1.tar.gz.sha256`
+- `subcult-omarchy-rice-1.5.1.tar.gz`
+- `subcult-omarchy-rice-1.5.1.tar.gz.sha256`
 
 The artifact includes `RELEASE-PROVENANCE.json` with the exact tag and commit,
 plus `RELEASE-MANIFEST.sha256` covering every payload file. The external
@@ -33,10 +33,10 @@ checksum covers the compressed archive.
 Download both files into the same directory, then run:
 
 ```bash
-sha256sum --check evangelion-omarchy-rice-1.5.1.tar.gz.sha256
-tar -xzf evangelion-omarchy-rice-1.5.1.tar.gz
-cd evangelion-omarchy-rice-1.5.1
-./scripts/build-release verify ../evangelion-omarchy-rice-1.5.1.tar.gz
+sha256sum --check subcult-omarchy-rice-1.5.1.tar.gz.sha256
+tar -xzf subcult-omarchy-rice-1.5.1.tar.gz
+cd subcult-omarchy-rice-1.5.1
+./scripts/build-release verify ../subcult-omarchy-rice-1.5.1.tar.gz
 ./preflight.py --source-only
 ./install.sh --dry-run --preset default
 ./install.sh --apply --preset default
@@ -68,6 +68,6 @@ CI builds the archive twice, compares it byte-for-byte, verifies both checksum
 layers, and exercises preflight, dry-run, install, upgrade, rollback, and
 removal in an isolated home. CI retains the result only as validation evidence;
 the v1.5.1 archive and checksum are published through the
-[latest GitHub release](https://github.com/so1omon563/evangelion-omarchy-rice/releases/latest).
+[latest GitHub release](https://github.com/PatrickFanella/subcult-omarchy-rice/releases/latest).
 The release page and `.sha256` attachment are authoritative for the current
 digest. Future versions still require exact-candidate CI and explicit release approval.

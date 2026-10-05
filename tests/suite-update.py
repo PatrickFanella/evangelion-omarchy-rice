@@ -8,15 +8,15 @@ import tempfile
 import time
 from pathlib import Path
 
-ROOT=Path(__file__).resolve().parents[1];COMMAND=ROOT/"bin/magi-suite-update"
+ROOT=Path(__file__).resolve().parents[1];COMMAND=ROOT/"bin/subcult-suite-update"
 def run(env,*args,check=True):return subprocess.run([str(COMMAND),*args],env=env,text=True,capture_output=True,check=check)
 def executable(path,text):path.write_text(text);path.chmod(path.stat().st_mode|stat.S_IXUSR)
 
-with tempfile.TemporaryDirectory(prefix="evangelion-suite-update-") as raw:
+with tempfile.TemporaryDirectory(prefix="subcult-suite-update-") as raw:
     base=Path(raw);source=base/"source";source.mkdir();(source/"VERSION").write_text("1.6.0\n")
     executable(source/"install.sh",'''#!/usr/bin/env bash
 set -e
-if [[ $1 == --dry-run ]]; then echo "EVANGELION INSTALL PLAN // fixture"; echo "REPLACE shell fixture"; echo "DRY RUN COMPLETE // no target files changed"; exit; fi
+if [[ $1 == --dry-run ]]; then echo "SUBCULT INSTALL PLAN // fixture"; echo "REPLACE shell fixture"; echo "DRY RUN COMPLETE // no target files changed"; exit; fi
 snapshot="$XDG_STATE_HOME/fixture-snapshot"; mkdir -p "$snapshot"; echo applied >"$snapshot/marker"; echo "INSTALL COMPLETE // rollback snapshot: $snapshot"
 ''')
     executable(source/"rollback.sh",'''#!/usr/bin/env bash
@@ -28,8 +28,8 @@ set -e
       "preview":{"version":"1.7.0-rc.1","ref":"v1.7.0-rc.1","commit":"b"*40,"evidence":{"kind":"tag","tag_object":"annotated","signature":"verified","release_gate":True}},
       "development":{"version":"development","ref":"main","commit":"c"*40,"evidence":{"kind":"branch","signature":"not-applicable","release_gate":False}}
     }}))
-    home=base/"home";config=base/"config";state=base/"state";installed=home/".local/share/evangelion-rice";installed.mkdir(parents=True);(installed/".suite-version").write_text("1.5.0\n")
-    env={**os.environ,"HOME":str(home),"XDG_CONFIG_HOME":str(config),"XDG_STATE_HOME":str(state),"EVANGELION_UPDATE_INDEX":str(index),"EVANGELION_UPDATE_SOURCE":str(source),"EVANGELION_SKIP_ACTIVATE":"1"}
+    home=base/"home";config=base/"config";state=base/"state";installed=home/".local/share/subcult-rice";installed.mkdir(parents=True);(installed/".suite-version").write_text("1.5.0\n")
+    env={**os.environ,"HOME":str(home),"XDG_CONFIG_HOME":str(config),"XDG_STATE_HOME":str(state),"SUBCULT_UPDATE_INDEX":str(index),"SUBCULT_UPDATE_SOURCE":str(source),"SUBCULT_SKIP_ACTIVATE":"1"}
 
     assert run(env,"channel").stdout.strip()=="stable"
     checked=json.loads(run(env,"check","--json").stdout)
@@ -39,7 +39,7 @@ set -e
     assert run(env,"apply","--plan","wrong","--yes",check=False).returncode!=0
     assert run(env,"apply","--plan",plan,check=False).returncode!=0
     applied=run(env,"apply","--plan",plan,"--yes");assert "SUITE UPDATE COMPLETE" in applied.stdout
-    active=json.loads((state/"evangelion-rice/suite-update/active.json").read_text());snapshot=Path(active["rollback_snapshot"]);assert (snapshot/"marker").exists()
+    active=json.loads((state/"subcult-rice/suite-update/active.json").read_text());snapshot=Path(active["rollback_snapshot"]);assert (snapshot/"marker").exists()
     assert run(env,"undo",check=False).returncode!=0
     run(env,"undo","--yes");assert not (snapshot/"marker").exists()
 
@@ -54,7 +54,7 @@ set -e
     run(env,"channel","preview","--accept-risk");run(env,"check","--json")
     index.unlink();cached=json.loads(run(env,"check","--json").stdout)
     assert cached["source"]=="cache" and "offline_reason" in cached and cached["channel"]=="preview"
-    cfg=config/"omarchy/evangelion-update.json";value=json.loads(cfg.read_text());value["stale_after_seconds"]=0;cfg.write_text(json.dumps(value));time.sleep(1)
+    cfg=config/"omarchy/subcult-update.json";value=json.loads(cfg.read_text());value["stale_after_seconds"]=0;cfg.write_text(json.dumps(value));time.sleep(1)
     stale=run(env,"preview",check=False);assert stale.returncode!=0 and "stale" in stale.stderr.lower()
 
     # Downgrades add a second acknowledgment beyond the exact preview ID.

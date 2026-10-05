@@ -5,5 +5,5 @@
 if (($#)); then
   exec /usr/share/omarchy/bin/omarchy-launch-terminal "$@"
 else
-  exec magi-terminal-context launch
+  exec subcult-terminal-context launch
 fi

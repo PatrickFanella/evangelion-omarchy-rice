@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="720" viewBox="0 0 1600 720" role="img" aria-labelledby="title desc">
-  <title id="title">MAGI context state comparison</title>
+  <title id="title">SUBCULT context state comparison</title>
   <desc id="desc">Four fictional examples show a recommendation, opted-in automation, stale or missing signals, and disabled context.</desc>
   <rect width="1600" height="720" fill="#09070f"/>
   <path d="M0 0h1600v8H0z" fill="#7c3aed"/><path d="M0 712h1600v8H0z" fill="#a3ff12"/>
   <g font-family="DejaVu Sans Mono, monospace">
-    <text x="64" y="76" fill="#a3ff12" font-size="18" letter-spacing="4">NERV // MAGI CONTEXT</text>
+    <text x="64" y="76" fill="#a3ff12" font-size="18" letter-spacing="4">SUBCULT // SUBCULT CONTEXT</text>
     <text x="64" y="126" fill="#f5f3ff" font-size="38" font-weight="700">EXPLAINABLE STATE, EXPLICIT AUTHORITY</text>
     <text x="64" y="162" fill="#9992aa" font-size="17">SYNTHETIC RELEASE DEMONSTRATION · NO LIVE TELEMETRY</text>
     <g transform="translate(64 218)">

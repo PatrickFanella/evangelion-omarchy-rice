@@ -1,0 +1,6 @@
+[Unit]
+Description=Apply wallpaper-driven SUBCULT affinity
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/subcult-affinity apply

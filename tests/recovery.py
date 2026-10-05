@@ -9,7 +9,7 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-COMMAND = ROOT / "bin/magi-recovery"
+COMMAND = ROOT / "bin/subcult-recovery"
 
 
 def digest(path):
@@ -32,8 +32,8 @@ with tempfile.TemporaryDirectory() as directory:
     shell.chmod(0o640); hypr.chmod(0o600)
     originals = {path: (digest(path), stat.S_IMODE(path.stat().st_mode)) for path in (shell, hypr)}
     env = {**os.environ, "HOME": str(home), "XDG_CONFIG_HOME": str(config),
-           "XDG_STATE_HOME": str(state), "EVANGELION_SKIP_ACTIVATE": "1",
-           "EVANGELION_RECOVERY_ROOT": str(ROOT / "recovery")}
+           "XDG_STATE_HOME": str(state), "SUBCULT_SKIP_ACTIVATE": "1",
+           "SUBCULT_RECOVERY_ROOT": str(ROOT / "recovery")}
 
     assert run(env, "status").stdout.strip() == "inactive"
     entered = run(env, "enter")
@@ -43,7 +43,7 @@ with tempfile.TemporaryDirectory() as directory:
     ids = [item["id"] for section in static["bar"]["layout"].values() for item in section]
     assert ids and all(item.startswith("omarchy.") for item in ids)
     assert static["plugins"] == [] and static["disabledPlugins"] == []
-    assert "evangelion" not in shell.read_text().lower()
+    assert "subcult" not in shell.read_text().lower()
     assert "default.hypr.omarchy" in hypr.read_text()
     assert "hypr.monitors" not in hypr.read_text() and "hypr.bindings" not in hypr.read_text()
     evidence = json.loads(run(env, "evidence").stdout)
@@ -51,9 +51,9 @@ with tempfile.TemporaryDirectory() as directory:
     assert not any(key in evidence for key in ("home", "host", "path", "error_output"))
 
     # Entering twice is idempotent and keeps the original recovery snapshot.
-    active = (state / "evangelion-rice/recovery/active").resolve()
+    active = (state / "subcult-rice/recovery/active").resolve()
     assert "ALREADY ACTIVE" in run(env, "enter").stdout
-    assert (state / "evangelion-rice/recovery/active").resolve() == active
+    assert (state / "subcult-rice/recovery/active").resolve() == active
 
     exited = run(env, "exit")
     assert "RECOVERY CLEARED" in exited.stdout
@@ -63,7 +63,7 @@ with tempfile.TemporaryDirectory() as directory:
     assert run(env, "exit").stdout.strip() == "RECOVERY NOT ACTIVE"
 
     # A mid-entry failure rolls back without advertising recovery as active.
-    failed_env = {**env, "EVANGELION_FORCE_RECOVERY_FAILURE": "1"}
+    failed_env = {**env, "SUBCULT_FORCE_RECOVERY_FAILURE": "1"}
     failed = run(failed_env, "enter", check=False)
     assert failed.returncode != 0 and "original configuration restored" in failed.stderr
     assert run(env, "status").stdout.strip() == "inactive"

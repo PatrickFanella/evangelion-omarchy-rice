@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "subcult.command-palette",
+  "name": "SUBCULT Command Palette",
+  "version": "1.0.0",
+  "author": "SUBCULT Rice",
+  "description": "Global keyboard-first fuzzy command registry with explicit danger confirmation.",
+  "kinds": ["service"],
+  "keepLoaded": true,
+  "entryPoints": {"service": "Service.qml"}
+}

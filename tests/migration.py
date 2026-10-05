@@ -9,7 +9,7 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-COMMAND = ROOT / "bin/magi-migrate"
+COMMAND = ROOT / "bin/subcult-migrate"
 
 
 def run(env, *args, check=True):
@@ -23,8 +23,8 @@ def fingerprint(path):
 with tempfile.TemporaryDirectory() as directory:
     base = Path(directory); config = base / "config"; state = base / "state"
     env = {**os.environ, "HOME": str(base / "home"), "XDG_CONFIG_HOME": str(config),
-           "XDG_STATE_HOME": str(state), "EVANGELION_MIGRATION_ROOT": str(ROOT),
-           "EVANGELION_SKIP_ACTIVATE": "1"}
+           "XDG_STATE_HOME": str(state), "SUBCULT_MIGRATION_ROOT": str(ROOT),
+           "SUBCULT_SKIP_ACTIVATE": "1"}
     fixtures = {
         "omarchy/shell.json": '{"user":"shell"}\n',
         "hypr/hyprland.lua": '-- user hyprland\n',
@@ -42,7 +42,7 @@ with tempfile.TemporaryDirectory() as directory:
     assert all(item["status"] == "conflict" and item["replacement_required"] for item in preview["operations"])
     assert len(preview["required_actions"]) == 4 and preview["read_only"] is True
     assert sorted(str(path.relative_to(base)) for path in base.rglob("*")) == state_before
-    assert "omarchy/evangelion.json" in preview["preserved"]
+    assert "omarchy/subcult.json" in preview["preserved"]
 
     unresolved = run(env, "apply", check=False)
     assert unresolved.returncode == 2 and "Unresolved conflicts" in unresolved.stderr
@@ -56,16 +56,16 @@ with tempfile.TemporaryDirectory() as directory:
     snapshot = Path(applied["snapshot"])
     assert (config / "omarchy/shell.json").read_text() == fixtures["omarchy/shell.json"]
     assert (config / "hypr/hyprland.lua").read_bytes() == (ROOT / "hypr/hyprland.lua").read_bytes()
-    assert (state / "evangelion-rice/migrations/installed-version").read_text().strip() == "1.5.0"
+    assert (state / "subcult-rice/migrations/installed-version").read_text().strip() == "1.5.0"
     journal = json.loads((snapshot / "journal.json").read_text())
     assert journal["state"] == "completed"
     assert {item["id"]: item["action"] for item in journal["operations"]}["shell"] == "keep"
 
     run(env, "rollback", str(snapshot))
     assert {name: fingerprint(config / name) for name in fixtures} == before
-    assert not (state / "evangelion-rice/migrations/installed-version").exists()
+    assert not (state / "subcult-rice/migrations/installed-version").exists()
 
-    failed_env = {**env, "EVANGELION_FORCE_MIGRATION_FAILURE": "1"}
+    failed_env = {**env, "SUBCULT_FORCE_MIGRATION_FAILURE": "1"}
     failed = run(failed_env, "apply", "--resolve", "shell=replace", "--resolve", "hyprland=replace",
                  "--resolve", "bindings=replace", "--resolve", "looknfeel=replace", check=False)
     assert failed.returncode == 2

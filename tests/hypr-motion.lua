@@ -10,7 +10,7 @@ hl = {
 
 local previous = os.getenv
 os.getenv = function(key)
-  if key == "EVANGELION_MOTION_MODE" then return expected end
+  if key == "SUBCULT_MOTION_MODE" then return expected end
   return previous(key)
 end
 dofile(root .. "hypr/looknfeel.lua")

@@ -4,13 +4,13 @@
   "name": "Neon Overdrive Spectrum",
   "version": "1.1.0",
   "author": "local",
-  "description": "EVA-colored CAVA bar visualizer without the animated wallpaper service",
+  "description": "SUBCULT-colored CAVA bar visualizer without the animated wallpaper service",
   "kinds": ["bar-widget"],
   "entryPoints": {
     "barWidget": "BarWidget.qml"
   },
   "barWidget": {
-    "displayName": "EVA Spectrum",
+    "displayName": "SUBCULT Spectrum",
     "description": "Purple, green, and orange live audio spectrum",
     "category": "Audio",
     "allowMultiple": false,

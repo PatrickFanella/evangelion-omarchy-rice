@@ -10,7 +10,7 @@ assert json.loads((ROOT/"packaging/theme/manifest.json").read_text())["derived_f
 notes=(ROOT/"RELEASE_NOTES.md").read_text();assert "v1.5.0 — Adaptive Operations" in notes
 for token in ("command palette","operations log","progressive telemetry disclosure","Work, Focus","OLED","quiet-hour","machine profiles","schema-v2","disabled by default","rollback"):
  assert token.lower() in notes.lower(),token
-upgrade=(ROOT/"UPGRADING.md").read_text();assert "Upgrade from v1.4.1 to v1.5" in upgrade and "magi-migrate preview" in upgrade and "evangelion-omarchy-rice-1.5.0.tar.gz" in upgrade
+upgrade=(ROOT/"UPGRADING.md").read_text();assert "Upgrade from v1.4.1 to v1.5" in upgrade and "subcult-migrate preview" in upgrade and "subcult-omarchy-rice-1.5.0.tar.gz" in upgrade
 migration=json.loads((ROOT/"migrations/1.4.1-to-1.5.0.json").read_text());preserved=set(migration["preserved"])
 for name in ("resilience","sound","activity-modes","disclosure","operations-log","performance","topologies","media","workspaces","visual","scenes"):
  assert f"omarchy/{name}.json" in preserved,name

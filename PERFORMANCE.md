@@ -19,8 +19,8 @@ encoding an already-failing aspiration.
 | Default background poll interval | at least 5000 ms |
 | Concurrent probes per component | 1 |
 
-Run `magi-performance-budget static` for the deterministic inventory gate and
-`magi-performance-budget measure` for a payload-blind live report. Missing
+Run `subcult-performance-budget static` for the deterministic inventory gate and
+`subcult-performance-budget measure` for a payload-blind live report. Missing
 `/proc`, logs, or shell IPC produces `partial`, not invented zeroes. A measured
 limit violation produces `failed`. Reports contain only aggregate numbers and
 metric names; never PIDs, commands, payloads, paths, hostnames, or identity.

@@ -1,10 +1,10 @@
-# MAGI Control Center
+# SUBCULT Control Center
 
-Press `Super + Ctrl + Alt + S`, or choose **MAGI Control Center** from the MAGI
+Press `Super + Ctrl + Alt + S`, or choose **SUBCULT Control Center** from the SUBCULT
 menu, to open the unified settings surface. This chord is intentionally outside
 Omarchy's stock bindings; `Super + K` remains the authoritative live reference.
 
-The control center covers ten categories: EVA affinity, motion, operating
+The control center covers ten categories: SUBCULT affinity, motion, operating
 profile, widgets, ambient weather, media, privacy, sound, and display. Its
 choices come from `settings-schema.json`, not duplicated UI logic. It reports a
 missing dependency as unavailable and leaves the existing configuration intact.
@@ -25,7 +25,7 @@ new value, and expected effects. Press `A` to apply that exact preview, or move
 away to discard it. Press `U` to undo the last control-center change, `R` to
 refresh live values and capabilities, and Escape to close.
 
-Apply first captures a selective named snapshot with `magi-snapshot`. The
+Apply first captures a selective named snapshot with `subcult-snapshot`. The
 preview's plan ID must still match when `A` is pressed, preventing a stale or
 altered plan from being activated. Undo restores that snapshot through the same
 validated snapshot contract. Existing suite configuration remains compatible;
@@ -36,10 +36,10 @@ keyboard-navigable and does not require hand-editing JSON. The equivalent
 diagnostic commands are:
 
 ```bash
-magi-settings status
-magi-settings preview motion.mode reduced
-magi-settings apply motion.mode reduced --confirm PLAN_ID_FROM_PREVIEW
-magi-settings undo
+subcult-settings status
+subcult-settings preview motion.mode reduced
+subcult-settings apply motion.mode reduced --confirm PLAN_ID_FROM_PREVIEW
+subcult-settings undo
 ```
 
 Press `C` from the Control Center to open the affinity scene editor. Scene

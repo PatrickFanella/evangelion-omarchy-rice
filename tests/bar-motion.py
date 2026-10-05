@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
-"""Contracts for quiet, stateful MAGI bar microinteractions."""
+"""Contracts for quiet, stateful SUBCULT bar microinteractions."""
 import json, re, sys
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
 out=Path(sys.argv[1]) if len(sys.argv)>1 else root/"test-results/bar-motion.json"
-motion=root/"omarchy/plugins/evangelion.motion"
+motion=root/"omarchy/plugins/subcult.motion"
 cue=(motion/"StateCue.qml").read_text()
 widgets={name:(root/path).read_text() for name,path in {
- "workspace":"omarchy/plugins/evangelion.workspaces/Workspaces.qml",
- "media":"omarchy/plugins/evangelion.media/BarWidget.qml",
- "mission":"omarchy/plugins/evangelion.mission/BarWidget.qml",
- "privacy":"omarchy/plugins/evangelion.privacy/BarWidget.qml",
- "health":"omarchy/plugins/evangelion.health/BarWidget.qml",
- "cava":"omarchy/plugins/evangelion.cava/BarWidget.qml",
- "communications":"omarchy/plugins/evangelion.communications/BarWidget.qml",
- "power":"omarchy/plugins/evangelion.power/Panel.qml",
- "atfield":"omarchy/plugins/evangelion.atfield/BarWidget.qml",
- "context":"omarchy/plugins/evangelion.context/BarWidget.qml",
+ "workspace":"omarchy/plugins/subcult.workspaces/Workspaces.qml",
+ "media":"omarchy/plugins/subcult.media/BarWidget.qml",
+ "mission":"omarchy/plugins/subcult.mission/BarWidget.qml",
+ "privacy":"omarchy/plugins/subcult.privacy/BarWidget.qml",
+ "health":"omarchy/plugins/subcult.health/BarWidget.qml",
+ "cava":"omarchy/plugins/subcult.cava/BarWidget.qml",
+ "communications":"omarchy/plugins/subcult.communications/BarWidget.qml",
+ "power":"omarchy/plugins/subcult.power/Panel.qml",
+ "closed-door":"omarchy/plugins/subcult.closed-door/BarWidget.qml",
+ "context":"omarchy/plugins/subcult.context/BarWidget.qml",
 }.items()}
 checks={
  "shared_fixed_geometry":'width: cueWidth' in cue and 'Behavior on opacity' in cue,

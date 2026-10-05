@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 import json, os, stat, subprocess, tempfile
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1]; COMMAND=ROOT/"bin/magi-snapshot"
+ROOT=Path(__file__).resolve().parents[1]; COMMAND=ROOT/"bin/subcult-snapshot"
 with tempfile.TemporaryDirectory() as raw:
-    base=Path(raw); home=base/"home"; config=home/".config"; state=home/".local/state"; store=state/"evangelion-rice/snapshots"; spec=base/"spec.json"
-    spec.write_text(json.dumps({"schema_version":1,"retention":2,"components":{"layouts":[{"root":"config","path":"omarchy/shell.json"}],"profiles":[{"root":"config","path":"omarchy/profile.json"}],"affinity":[{"root":"state","path":"evangelion-rice/affinity-mode"}],"settings":[{"root":"config","path":"omarchy/settings.json"}]}}))
-    files={"layouts":config/"omarchy/shell.json","profiles":config/"omarchy/profile.json","affinity":state/"evangelion-rice/affinity-mode","settings":config/"omarchy/settings.json"}
+    base=Path(raw); home=base/"home"; config=home/".config"; state=home/".local/state"; store=state/"subcult-rice/snapshots"; spec=base/"spec.json"
+    spec.write_text(json.dumps({"schema_version":1,"retention":2,"components":{"layouts":[{"root":"config","path":"omarchy/shell.json"}],"profiles":[{"root":"config","path":"omarchy/profile.json"}],"affinity":[{"root":"state","path":"subcult-rice/affinity-mode"}],"settings":[{"root":"config","path":"omarchy/settings.json"}]}}))
+    files={"layouts":config/"omarchy/shell.json","profiles":config/"omarchy/profile.json","affinity":state/"subcult-rice/affinity-mode","settings":config/"omarchy/settings.json"}
     for name,path in files.items(): path.parent.mkdir(parents=True,exist_ok=True); path.write_text(json.dumps({"component":name})+"\n")
-    env={**os.environ,"EVA_SNAPSHOT_HOME":str(home),"XDG_CONFIG_HOME":str(config),"XDG_STATE_HOME":str(state),"EVA_SNAPSHOT_SPEC":str(spec),"EVA_SNAPSHOT_STORE":str(store),"EVA_SNAPSHOT_SKIP_ACTIVATE":"1"}
+    env={**os.environ,"SUBCULT_SNAPSHOT_HOME":str(home),"XDG_CONFIG_HOME":str(config),"XDG_STATE_HOME":str(state),"SUBCULT_SNAPSHOT_SPEC":str(spec),"SUBCULT_SNAPSHOT_STORE":str(store),"SUBCULT_SNAPSHOT_SKIP_ACTIVATE":"1"}
     def run(*args,check=True): return subprocess.run([str(COMMAND),*args],env=env,text=True,capture_output=True,check=check)
     created=json.loads(run("create","baseline","--note","Before display tuning").stdout); assert created["files"]==4 and created["pruned"]==[]
     manifest=json.loads(run("show","baseline").stdout); assert manifest["note"]=="Before display tuning" and set(manifest["components"])==set(files)

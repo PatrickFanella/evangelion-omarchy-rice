@@ -32,7 +32,7 @@ guide = (ROOT / "DISTRIBUTION_GUIDE.md").read_text()
 maintaining = (ROOT / "MAINTAINING.md").read_text()
 for marker in ("v1.4.0 — distribution and packaging", "suite-internal", "machine-readable"):
     assert marker in notes
-for marker in ("Just the look", "Complete MAGI desktop", "Managed Arch package", "Switching channels"):
+for marker in ("Just the look", "Complete SUBCULT desktop", "Managed Arch package", "Switching channels"):
     assert marker in guide
 for marker in ("Final release checklist", "Theme gallery review", "wait for the exact candidate CI"):
     assert marker in maintaining

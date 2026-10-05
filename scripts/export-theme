@@ -34,7 +34,7 @@ def validate(tree: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("destination", nargs="?", default=str(ROOT / "build/omarchy-evangelion-theme"))
+    parser.add_argument("destination", nargs="?", default=str(ROOT / "build/omarchy-subcult-theme"))
     args = parser.parse_args()
     destination = Path(args.destination).resolve()
     if destination == ROOT or ROOT in destination.parents and destination.name in {"theme", "packaging", "media"}:
@@ -42,7 +42,7 @@ def main() -> None:
 
     manifest = json.loads(MANIFEST.read_text())
     destination.parent.mkdir(parents=True, exist_ok=True)
-    scratch = Path(tempfile.mkdtemp(prefix=".evangelion-theme-", dir=destination.parent))
+    scratch = Path(tempfile.mkdtemp(prefix=".subcult-theme-", dir=destination.parent))
     try:
         for source_name, target_name in manifest["files"].items():
             source = ROOT / source_name

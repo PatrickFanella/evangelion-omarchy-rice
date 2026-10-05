@@ -1,0 +1,1 @@
+{"schemaVersion":1,"id":"subcult.update-operation","name":"SUBCULT Update Operation","version":"1.0.0","author":"SUBCULT Rice","description":"Non-blocking phase telemetry for wrapped Omarchy updates.","kinds":["service"],"keepLoaded":true,"entryPoints":{"service":"Service.qml"}}
