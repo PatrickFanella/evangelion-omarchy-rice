@@ -58,6 +58,23 @@ the preceding coordinated state, and `subcult-scene auto` to follow wallpaper
 affinity again. Optional audio remains interlocked and all shipped scenes keep
 the existing sound, ambient, and motion settings. See [SCENES.md](SCENES.md).
 
+## tmux
+
+Every affinity or theme-variant change rewrites
+`~/.config/tmux/themes/subcult.tmux.conf` with the active palette and sources
+it into a running tmux server. The session label, active window, active pane
+border, and mode highlight use the affinity accent; the hostname uses the
+secondary accent. The file is written only when tmux is installed or that
+directory already exists, and a tmux failure never rolls back the affinity.
+Set `SUBCULT_TMUX_THEME` to write it elsewhere.
+
+The suite does not edit your tmux configuration. Source the fragment after any
+other theme so it wins when tmux starts:
+
+```tmux
+source-file -q ~/.config/tmux/themes/subcult.tmux.conf
+```
+
 ## Media and Cava
 
 Preserved media preferences live in `~/.config/omarchy/media.json`. Remote
