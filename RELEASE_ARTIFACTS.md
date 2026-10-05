@@ -68,6 +68,6 @@ CI builds the archive twice, compares it byte-for-byte, verifies both checksum
 layers, and exercises preflight, dry-run, install, upgrade, rollback, and
 removal in an isolated home. CI retains the result only as validation evidence;
 the v2.0.0 archive and checksum are published, once released, through the
-[latest GitHub release](https://github.com/PatrickFanella/subcult-omarchy-rice/releases/latest).
+[latest release](https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice/releases/latest).
 The release page and `.sha256` attachment are authoritative for the current
 digest. Future versions still require exact-candidate CI and explicit release approval.

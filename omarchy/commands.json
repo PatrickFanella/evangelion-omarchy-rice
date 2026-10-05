@@ -27,6 +27,6 @@
     {"id":"diagnostic.rice","label":"Run rice health diagnostic","category":"Diagnostics","description":"Open read-only suite health analysis","aliases":["repair","integrity"],"danger":"safe","action":["omarchy-launch-terminal","--","subcult-rice-health"]},
     {"id":"diagnostic.resilience","label":"Inspect offline resilience","category":"Diagnostics","description":"Show optional surface freshness and privacy","aliases":["cache","offline","stale"],"danger":"safe","action":["omarchy-launch-terminal","--","subcult-resilience"]},
     {"id":"diagnostic.capabilities","label":"Inspect machine capabilities","category":"Diagnostics","description":"Show portable hardware capability detection","aliases":["hardware","compatibility"],"danger":"safe","action":["omarchy-launch-terminal","--","subcult-capabilities"]},
-    {"id":"help.repository","label":"Open SUBCULT Rice documentation","category":"Help","description":"Open the complete-suite repository","aliases":["readme","github","manual"],"danger":"safe","action":["xdg-open","https://github.com/PatrickFanella/subcult-omarchy-rice"]}
+    {"id":"help.repository","label":"Open SUBCULT Rice documentation","category":"Help","description":"Open the complete-suite repository","aliases":["readme","gitea","manual"],"danger":"safe","action":["xdg-open","https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice"]}
   ]
 }

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "name": "subcult",
   "derived_from_suite": "v1.5.0",
-  "suite_homepage": "https://github.com/PatrickFanella/subcult-omarchy-rice",
+  "suite_homepage": "https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice",
   "files": {
     "theme/colors.toml": "colors.toml",
     "theme/btop.theme": "btop.theme",

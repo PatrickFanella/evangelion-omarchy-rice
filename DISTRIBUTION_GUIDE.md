@@ -49,7 +49,7 @@ the standalone clone before moving to the suite.
 
 ## Complete suite: tagged release archive
 
-Download the archive and matching `.sha256` from the GitHub release, then:
+Download the archive and matching `.sha256` from the Gitea release, then:
 
 ```bash
 sha256sum --check subcult-omarchy-rice-2.0.0.tar.gz.sha256
@@ -77,7 +77,7 @@ For removal, roll transactions back newest to oldest as described in
 ## Development checkout
 
 ```bash
-git clone git@github.com:PatrickFanella/subcult-omarchy-rice.git
+git clone https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice.git
 cd subcult-omarchy-rice
 git status --short
 ./preflight.py

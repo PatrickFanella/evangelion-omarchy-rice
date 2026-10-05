@@ -29,4 +29,4 @@ Run the reproducible geometry/visual-policy fixtures with:
 ```
 
 The JSON output records exact panel rectangles for regression comparison and is
-retained by GitHub Actions with the clean-user report.
+retained by Gitea Actions with the clean-user report.

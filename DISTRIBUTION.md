@@ -10,7 +10,7 @@ The machine-readable companion is [`distribution.json`](distribution.json).
 | Tier | Intended channel | Owned payload | Activation | Updates and rollback | Removal |
 |---|---|---|---|---|---|
 | Theme | Omarchy theme catalog or theme Git repository | `theme/` copied as one named theme | User selects `subcult`; it never edits the active theme implicitly | Replace only files inside the named theme directory; previous version or package-manager cache supplies rollback | Remove the named theme only when it is inactive; retain unrelated themes and user config |
-| Suite | Versioned GitHub release archive | Repository-owned files installed by `install.sh` into documented user paths | Explicit `--apply`, component selection, confirmation, then user-level service/theme activation | Transactional snapshot before mutation; exact manifest rollback; preserved `subcult.json` | Manifest-driven rollback removes created files and restores replaced files; no directory-wide deletion |
+| Suite | Versioned Gitea release archive | Repository-owned files installed by `install.sh` into documented user paths | Explicit `--apply`, component selection, confirmation, then user-level service/theme activation | Transactional snapshot before mutation; exact manifest rollback; preserved `subcult.json` | Manifest-driven rollback removes created files and restores replaced files; no directory-wide deletion |
 | Arch package | AUR/Arch source package | Immutable suite payload under `/usr/share/subcult-rice` and launchers under `/usr/bin` | Package installation does not modify `$HOME`; desktop user runs a separate activation command | Pacman owns system payload versions; user activation creates its own transaction for rollback | Pacman removes system payload; separate user deactivation restores that user's snapshot |
 
 The theme catalog submission is an independently usable product, not an alias
@@ -136,7 +136,7 @@ The ignored `build/omarchy-subcult-theme/` directory is replaced from
 Build and verify a reproducible complete-suite archive from an exact semantic
 version tag with `./scripts/build-release`; see
 [`RELEASE_ARTIFACTS.md`](RELEASE_ARTIFACTS.md). The approved v1.4.0 archive is
-published on GitHub Releases; future construction remains local and
+published on Gitea releases; future construction remains local and
 CI-validation-only until that release receives explicit publication approval.
 
 The Arch package and strictly separate per-user activation lifecycle are

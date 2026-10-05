@@ -28,7 +28,7 @@ wallpaper affinity, themed shell widgets, workspace identities, media and Cava
 integration, start page, screensaver, terminal profiles, motion system, and
 installer live in the complete **SUBCULT Omarchy Rice** project:
 
-**[Explore the complete SUBCULT Rice suite →](https://github.com/PatrickFanella/subcult-omarchy-rice)**
+**[Explore the complete SUBCULT Rice suite →](https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice)**
 
 The suite includes this theme, so install one path or the other according to
 the experience you want. Installing the theme does not silently install or

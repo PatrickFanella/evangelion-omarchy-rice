@@ -59,7 +59,7 @@ cmp build/one/*.tar.gz build/two/*.tar.gz
 ```
 
 Inspect the archive manifest and provenance, publish the archive and checksum
-to the matching GitHub release, and test the public download in an isolated
+to the matching Gitea release, and test the public download in an isolated
 home. Package installation, upgrade, rollback, and removal must use the exact
 published bits—not a nearby checkout.
 
@@ -76,7 +76,7 @@ not been submitted. A new submission needs a public theme URL, a reviewed
 1200×675 WebP of the SUBCULT desktop, alphabetical placement, the exact site
 diff, and owner approval before any external PR is opened.
 
-The complete suite stays on GitHub Releases (and optionally Arch/AUR) because
+The complete suite stays on Gitea releases (and optionally Arch/AUR) because
 it owns executable commands, shell plugins, Hyprland configuration, services,
 and transactional user changes that a declarative Omarchy theme cannot safely
 or accurately represent.
