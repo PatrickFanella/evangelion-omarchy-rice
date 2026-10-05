@@ -30,6 +30,7 @@ python3 "$root/tests/lock-motion.py" /tmp/subcult-lock-motion.json >/dev/null &&
 python3 "$root/tests/lifecycle-motion.py" /tmp/subcult-lifecycle-motion.json >/dev/null && pass "boot idle screensaver lifecycle contracts" || fail "boot idle screensaver lifecycle contracts"
 python3 "$root/tests/affinity-motion.py" /tmp/subcult-affinity-motion.json >/dev/null && pass "wallpaper affinity transition contracts" || fail "wallpaper affinity transition contracts"
 python3 "$root/tests/theme-variants.py" >/dev/null && pass "inherited theme variant matrix" || fail "inherited theme variant matrix"
+python3 "$root/tests/tmux-theme.py" >/dev/null && pass "tmux fragment follows the affinity palette" || fail "tmux fragment follows the affinity palette"
 python3 "$root/tests/activity-modes.py" >/dev/null && pass "manual coordinated activity modes" || fail "manual coordinated activity modes"
 python3 "$root/tests/mode-transition.py" /tmp/subcult-mode-transition.json >/dev/null && pass "reversible operating mode contracts" || fail "reversible operating mode contracts"
 python3 "$root/tests/bar-motion.py" /tmp/subcult-bar-motion.json >/dev/null && pass "stateful SUBCULT bar motion contracts" || fail "stateful SUBCULT bar motion contracts"
