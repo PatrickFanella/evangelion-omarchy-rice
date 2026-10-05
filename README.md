@@ -93,11 +93,11 @@ bug report.
 
 ## Quick start
 
-Choose the channel before installing. For only the palette and wallpapers:
-
-```bash
-omarchy theme install https://github.com/PatrickFanella/omarchy-subcult-theme.git
-```
+The palette and wallpapers are not published as a standalone Omarchy theme yet,
+so the complete suite is the install path. The older
+`PatrickFanella/omarchy-subcult-theme` repository is a different theme with its
+own palette; it also installs as `subcult`, and the suite installer refuses to
+merge into it.
 
 For the complete SUBCULT desktop, download the archive and matching checksum from
 the [latest GitHub release](https://github.com/PatrickFanella/subcult-omarchy-rice/releases/latest),

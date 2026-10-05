@@ -6,14 +6,10 @@ seven wallpapers rendered from the SUBCULT marks.
 
 ## Install
 
-Install from the published dedicated theme repository:
-
-```bash
-omarchy theme install https://github.com/PatrickFanella/omarchy-subcult-theme.git
-```
-
-The repository name resolves to the theme slug `subcult`. Installation
-applies the theme; switch back later with `omarchy theme set <another-theme>`.
+Install with `omarchy theme install <repository>` once this package is
+published as its own repository. A repository named `omarchy-subcult-theme`
+resolves to the theme slug `subcult`. Installation applies the theme; switch
+back later with `omarchy theme set <another-theme>`.
 
 Cycle its wallpapers with:
 
