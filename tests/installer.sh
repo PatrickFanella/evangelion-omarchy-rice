@@ -16,6 +16,12 @@ done
 opt_out_plan=$(run_install --dry-run --preset full --no-shell-integration)
 [[ $opt_out_plan != *"shell-integration"* ]] || fail "shell opt-out remained selected"
 pass "shell integration opt-out"
+for preset in minimal default full; do
+  plan=$(run_install --dry-run --preset "$preset")
+  [[ $plan != *start-page* ]] || fail "$preset preset selected the hosted site"
+done
+pass "all presets omit the hosted site"
+
 if run_install --dry-run --components neon-overdrive >/dev/null 2>&1; then fail "undetected Neon Overdrive integration was accepted"; fi
 pass "Neon Overdrive requires detected integration"
 run_install --dry-run --preset minimal >/dev/null
@@ -46,7 +52,7 @@ run_rollback "$partial_snapshot" >/dev/null
 pass "partial install and idempotent rollback"
 
 run_install --apply --preset full --yes >/dev/null
-[[ -f $test_root/home/.config/omarchy/shell.json && -f $test_root/home/.config/systemd/user/subcult-start-page.service ]] || fail "full preset omitted default components"
+[[ -f $test_root/home/.config/omarchy/shell.json && -f $test_root/home/.config/systemd/user/subcult-affinity.path ]] || fail "full preset omitted default components"
 [[ -f $test_root/home/.config/fastfetch/config.jsonc && -f $test_root/home/.config/nvim/lua/plugins/subcult-terminal-profile.lua ]] || fail "full preset omitted extras"
 [[ -f $test_root/home/.config/omarchy/subcult.json ]] || fail "full preset omitted portable user configuration"
 [[ -f $test_root/home/.config/omarchy/motion.json && -f $test_root/home/.config/omarchy/plugins/subcult.motion/manifest.json ]] || fail "full preset omitted motion foundation"
@@ -68,6 +74,18 @@ jq -e '.bar.layout.left | map(.id) | index("subcult.media") as $media | index("s
 [[ ! -e $test_root/home/.config/omarchy/plugins/neon.overdrive ]] || fail "full preset installed undetected Neon Overdrive integration"
 grep -qF 'source "$HOME/.config/omarchy/subcult.bash"' "$test_root/home/.bashrc" || fail "full preset omitted shell integration"
 initial_full_snapshot=$(cat "$test_root/state/subcult-rice/last-install-backup")
+[[ ! -e $test_root/home/.local/share/subcult-rice/start-page/index.html && ! -e $test_root/home/.config/systemd/user/subcult-start-page.service && ! -e $test_root/home/.local/bin/subcult-start-page ]] || fail "full preset installed hosted site"
+run_install --apply --preset full --with-start-page --yes >/dev/null
+[[ -f $test_root/home/.local/share/subcult-rice/start-page/index.html && -f $test_root/home/.config/systemd/user/subcult-start-page.service && -x $test_root/home/.local/bin/subcult-start-page ]] || fail "start-page opt-in incomplete"
+addon_snapshot=$(cat "$test_root/state/subcult-rice/last-install-backup")
+run_rollback "$addon_snapshot" >/dev/null
+[[ ! -e $test_root/home/.local/share/subcult-rice/start-page/index.html && ! -e $test_root/home/.config/systemd/user/subcult-start-page.service && ! -e $test_root/home/.local/bin/subcult-start-page ]] || fail "start-page rollback incomplete"
+run_install --apply --components start-page --yes >/dev/null
+component_snapshot=$(cat "$test_root/state/subcult-rice/last-install-backup")
+[[ -f $test_root/home/.config/systemd/user/subcult-start-page.service && -x $test_root/home/.local/bin/subcult-start-page ]] || fail "standalone start-page component incomplete"
+run_rollback "$component_snapshot" >/dev/null
+pass "hosted site opt-in and rollback"
+
 sed -i 's#"project_dir": ""#"project_dir": "/tmp/custom-project"#' "$test_root/home/.config/omarchy/subcult.json"
 sed -i 's#"mode": "full"#"mode": "reduced"#' "$test_root/home/.config/omarchy/subcult.json"
 jq '.enabled=true' "$test_root/home/.config/omarchy/performance.json" >"$test_root/performance.json" && mv "$test_root/performance.json" "$test_root/home/.config/omarchy/performance.json"

@@ -41,8 +41,9 @@ inventory; `./check-dependencies.sh` prints only what this machine lacks.
 ```
 
 Preflight reads versions, session state, dependencies, writable targets, free
-space, conflicting services, port 8765, hotkeys, displays, applications,
-batteries, sensors, audio, and networking. It performs no writes.
+space, conflicting services, hotkeys, displays, applications,
+batteries, sensors, audio, and networking. It performs no writes. Add `--with-start-page` to check port 8765 for the
+optional hosted start page.
 
 If `~/.config/omarchy/themes/subcult` is a Git-installed standalone theme,
 the suite installer exits read-only with `CHANNEL CONFLICT`. Switch to another
@@ -65,11 +66,25 @@ files into another channel's Git tree.
 | `tools` | Named `subcult-*` commands in `~/.local/bin/` | Created/replaced |
 | `shell` | Omarchy plugins, menu, hooks, JSON config | Complete configs replaced; `subcult.json` preserved |
 | `hypr` | `~/.config/hypr/{bindings,hyprland,looknfeel}.lua` | Complete files replaced |
-| `start-page` | `~/.local/share/subcult-rice/start-page/` | Created/replaced |
+| `start-page` | Page assets, `subcult-start-page` command, and its user service | Created/replaced; service enabled |
 | `services` | `~/.config/systemd/user/subcult-*` | Named units replaced and enabled |
 | `extras` | Fastfetch and Neovim user config | Named files replaced |
 | `shell-integration` | Shell startup file plus Omarchy scripts | One source stanza appended; scripts replaced |
 | `neon-overdrive` | Optional compatibility plugin | Requires detected external integration |
+
+Every preset omits the hosted browser start page, including `full`. Opt in
+while installing the suite or add it later:
+
+```bash
+./install.sh --dry-run --preset full --with-start-page
+./install.sh --apply --preset full --with-start-page
+# Add to an existing installation:
+./install.sh --apply --components start-page
+```
+
+The `start-page` component includes its launcher and hosting service. The
+`services` component installs affinity and topology services. Reinstalling
+without the add-on preserves an existing start-page installation.
 
 The installer does not merge Lua or `shell.json`; they are complete
 replacements shown in the plan. It does not remove unrelated target-directory
@@ -104,9 +119,10 @@ omarchy theme set subcult
 omarchy restart shell
 ./validate.sh
 subcult-capabilities | jq .
-systemctl --user --no-pager status subcult-affinity.path subcult-start-page.service
-subcult-start-page open
+systemctl --user --no-pager status subcult-affinity.path
 ```
+
+If you installed the optional start page, run `subcult-start-page open`.
 
 Cycle the wallpaper with `omarchy theme bg next` and open the SUBCULT menu with
 `Super + M`. Missing optional widgets should

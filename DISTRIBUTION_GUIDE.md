@@ -6,7 +6,7 @@ installing; combining channels does not unlock additional features.
 | Goal | Channel | What it installs | Best for |
 |---|---|---|---|
 | Just the look | Omarchy theme gallery/Git theme | Palette, app theme fragments, and seven wallpapers | Users who want native Omarchy theming without SUBCULT |
-| Complete SUBCULT desktop | Tagged release archive | Theme, tools, shell, Hyprland integration, start page, and selected services | Most users who want the whole experience |
+| Complete SUBCULT desktop | Tagged release archive | Theme, tools, shell, Hyprland integration and selected services; start page available as an add-on | Most users who want the whole experience |
 | Follow development | Git checkout | The same suite payload, from a mutable source checkout | Contributors and testers |
 | Managed system package | Arch package | Immutable source under `/usr/share/subcult-rice`; user activation remains explicit | Arch users who want pacman ownership |
 

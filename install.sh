@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 root=$(cd -- "$(dirname -- "$0")" && pwd)
 state_root=${XDG_STATE_HOME:-$HOME/.local/state}/subcult-rice
-dry_run=false apply=false assume_yes=false preset=default component_arg= shell_choice=auto shell_opt_out=false tmux_opt_out=false
+dry_run=false apply=false assume_yes=false preset=default component_arg= shell_choice=auto shell_opt_out=false tmux_opt_out=false start_page_opt_in=false
 transaction_started=false backup_root= manifest=
 readonly all_components=(theme tools shell hypr start-page services extras shell-integration neon-overdrive)
 readonly legacy_plugin_ids=(
@@ -107,14 +107,15 @@ declare -A legacy_defaults=(
 usage(){ cat <<'EOF'
 Usage: ./install.sh [--dry-run | --apply] [--preset minimal|default|full]
                     [--components NAME[,NAME...]] [--shell auto|bash|zsh|fish]
-                    [--no-shell-integration] [--no-tmux-integration] [--yes]
+                    [--with-start-page] [--no-shell-integration] [--no-tmux-integration] [--yes]
 
 minimal: theme + tools
-default: minimal + shell + Hyprland + start page + services
+default: minimal + shell + Hyprland + services
 full:    default + application extras + detected-shell integration
 
 Use --list-components for selectable components. --components overrides the
-preset. Complete config replacements require interactive confirmation or --yes.
+preset. --with-start-page adds the optional hosted browser start page.
+Complete config replacements require interactive confirmation or --yes.
 EOF
 }
 list_components(){ cat <<'EOF'
@@ -122,8 +123,8 @@ theme              SUBCULT theme, palettes, and wallpapers
 tools              SUBCULT commands installed in ~/.local/bin
 shell              Omarchy plugins, menus, hooks, and shell configuration
 hypr               Hyprland bindings, behavior, and appearance configuration
-start-page         Local SUBCULT start-page application
-services           User systemd units for affinity and start-page activation
+start-page         Optional local SUBCULT start page, command, and user service
+services           User systemd units for affinity and topology restoration
 extras             Fastfetch and Neovim integrations
 shell-integration  Bash, Zsh, or Fish startup integration (optional)
 neon-overdrive     Compatibility widget for a detected Neon Overdrive theme
@@ -135,6 +136,7 @@ while (($#)); do
     --preset) shift; preset=${1:-};; --components) shift; component_arg=${1:-};;
     --shell) shift; shell_choice=${1:-};; --no-shell-integration) shell_opt_out=true;;
     --no-tmux-integration) tmux_opt_out=true;;
+    --with-start-page) start_page_opt_in=true;;
     --list-components) list_components; exit 0;; -h|--help) usage; exit 0;;
     *) printf 'Unknown option: %s\n' "$1" >&2; usage >&2; exit 2;;
   esac
@@ -156,13 +158,14 @@ if [[ -n $component_arg ]]; then
 else
   case $preset in
     minimal) preset_components=(theme tools);;
-    default) preset_components=(theme tools shell hypr start-page services);;
-    full) preset_components=(theme tools shell hypr start-page services extras shell-integration);;
+    default) preset_components=(theme tools shell hypr services);;
+    full) preset_components=(theme tools shell hypr services extras shell-integration);;
     *) printf 'Unknown preset: %s\n' "$preset" >&2; exit 2;;
   esac
   for component in "${preset_components[@]}"; do select_component "$component"; done
 fi
 $shell_opt_out && unset 'selected[shell-integration]'
+$start_page_opt_in && select_component start-page
 
 standalone_theme=$HOME/.config/omarchy/themes/subcult
 if [[ ${selected[theme]:-0} == 1 && -d $standalone_theme/.git ]]; then
@@ -174,7 +177,10 @@ EOF
   exit 3
 fi
 
-if [[ ${SUBCULT_SKIP_ACTIVATE:-0} == 1 ]]; then "$root/preflight.py" --source-only; else "$root/preflight.py"; fi
+preflight_args=()
+[[ ${SUBCULT_SKIP_ACTIVATE:-0} == 1 ]] && preflight_args+=(--source-only)
+[[ ${selected[start-page]:-0} == 1 ]] && preflight_args+=(--with-start-page)
+"$root/preflight.py" "${preflight_args[@]}"
 if [[ ${selected[neon-overdrive]:-0} == 1 ]] && ! "$root/bin/subcult-capabilities" has neon-overdrive; then
   echo "Neon Overdrive integration was requested but ~/.config/omarchy/themes/neon-overdrive/scripts/neon-control was not detected." >&2
   exit 1
@@ -197,7 +203,10 @@ add_tree(){
   [[ ${selected[$component]:-0} == 1 ]] || return 0
   while IFS= read -r source; do
     rel=${source#"$source_root/"}
-    [[ $rel == __pycache__/* || $rel == *.pyc ]] || add_file "$component" "$source" "$target_root/$rel" "$mode"
+    [[ $rel == __pycache__/* || $rel == *.pyc ]] && continue
+    [[ $component == tools && $rel == subcult-start-page ]] && continue
+    [[ $component == services && $rel == subcult-start-page.service ]] && continue
+    add_file "$component" "$source" "$target_root/$rel" "$mode"
   done < <(find "$source_root" -type f | sort)
 }
 add_tree tools "$root/bin" "$HOME/.local/bin" 755
@@ -245,6 +254,8 @@ add_file shell "$root/omarchy/visual.json" "$HOME/.config/omarchy/visual.json" 6
 add_file shell "$root/omarchy/scenes.json" "$HOME/.config/omarchy/scenes.json" 644 preserve
 add_tree shell "$root/omarchy/hooks" "$HOME/.config/omarchy/hooks" 755
 for file in bindings.lua hyprland.lua looknfeel.lua; do add_file hypr "$root/hypr/$file" "$HOME/.config/hypr/$file" 644; done
+add_file start-page "$root/bin/subcult-start-page" "$HOME/.local/bin/subcult-start-page" 755
+add_file start-page "$root/systemd/subcult-start-page.service" "$HOME/.config/systemd/user/subcult-start-page.service" 644
 add_tree start-page "$root/start-page" "$HOME/.local/share/subcult-rice/start-page" 644
 add_tree services "$root/systemd" "$HOME/.config/systemd/user" 644
 add_file extras "$root/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc" 644
@@ -385,7 +396,15 @@ if [[ ${SUBCULT_SKIP_ACTIVATE:-0} != 1 ]]; then
   [[ ${selected[shell]:-0} == 1 ]] && omarchy-shell -q shell rescanPlugins
   [[ ${selected[hypr]:-0} == 1 ]] && hyprctl reload >/dev/null
   [[ ${selected[theme]:-0} == 1 ]] && command -v fc-cache >/dev/null && fc-cache "$HOME/.local/share/fonts/subcult" >/dev/null 2>&1 || true
-  if [[ ${selected[services]:-0} == 1 ]]; then systemctl --user daemon-reload; systemctl --user enable --now subcult-affinity.path subcult-start-page.service subcult-topology.service >/dev/null; fi
+  if [[ ${selected[services]:-0} == 1 || ${selected[start-page]:-0} == 1 ]]; then
+    systemctl --user daemon-reload
+    if [[ ${selected[services]:-0} == 1 ]]; then
+      systemctl --user enable --now subcult-affinity.path subcult-topology.service >/dev/null
+    fi
+    if [[ ${selected[start-page]:-0} == 1 ]]; then
+      systemctl --user enable --now subcult-start-page.service >/dev/null
+    fi
+  fi
 fi
 if [[ -f $root/RELEASE-PROVENANCE.json ]]; then
   "$root/scripts/build-release" verify-root "$root"

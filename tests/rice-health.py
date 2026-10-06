@@ -12,13 +12,20 @@ with tempfile.TemporaryDirectory() as directory:
     cache=home/".local/state/subcult-rice/health-updates.json"; cache.parent.mkdir(parents=True,exist_ok=True); cache.write_text('{"count":0,"checked_at":1}\n')
     old=time.time()-4000; os.utime(cache,(old,old))
     deps=data/"dependencies.tsv"; deps.parent.mkdir(parents=True); deps.write_text("required\tbase\tpython3\tpython\tRuntime\n")
-    config=data/"rice-health.json"; config.write_text(json.dumps({"schema_version":1,"suite_version":"1.5.0","required_services":[],"owned_port":{"number":65531,"service":"none.service"},"stale_seconds":{"health_cache":1800},"allowlisted_fixes":["quarantine-stale-health-cache"]}))
+    config=data/"rice-health.json"; config.write_text(json.dumps({"schema_version":1,"suite_version":"1.5.0","required_services":[],"optional_services":["subcult-start-page.service"],"owned_port":{"number":65531,"service":"none.service"},"stale_seconds":{"health_cache":1800},"allowlisted_fixes":["quarantine-stale-health-cache"]}))
     env={**os.environ,"SUBCULT_RICE_HEALTH_HOME":str(home),"SUBCULT_RICE_HEALTH_ROOT":str(data),"SUBCULT_RICE_HEALTH_CONFIG":str(config),"SUBCULT_RICE_HEALTH_DEPENDENCIES":str(deps),"SUBCULT_RICE_HEALTH_STATE":str(state),"SUBCULT_RICE_HEALTH_SHELL":str(shell),"SUBCULT_RICE_HEALTH_PLUGINS":str(plugins),"SUBCULT_RICE_HEALTH_CACHE":str(cache),"SUBCULT_RICE_HEALTH_INSTALLED":str(installed)}
     def run(*args,check=True): return subprocess.run([str(COMMAND),*args],env=env,text=True,capture_output=True,check=check)
     report=json.loads(run("diagnose","--json").stdout)
     assert report["read_only"] is True and report["status"]=="attention" and report["fixes"]==["quarantine-stale-health-cache"]
     assert {row["category"] for row in report["findings"]}=={"version","dependencies","services","widgets","ownership","ports","schemas","cache"}
     assert all(set(row)>={"id","category","severity","status","summary","evidence","reason"} for row in report["findings"])
+    services=next(row for row in report["findings"] if row["id"]=="suite.services")
+    assert services["evidence"]["checked"]==0
+    assert next(row for row in report["findings"] if row["id"]=="suite.port")["status"]=="unavailable"
+    unit=home/".config/systemd/user/subcult-start-page.service"; unit.parent.mkdir(parents=True); unit.write_text("[Unit]\n")
+    addon=json.loads(run("diagnose","--json").stdout)
+    assert next(row for row in addon["findings"] if row["id"]=="suite.services")["evidence"]["checked"]==1
+    unit.unlink()
     deps.rename(data/"dependencies.saved"); unavailable=json.loads(run("diagnose","--json").stdout)
     assert next(row for row in unavailable["findings"] if row["id"]=="suite.dependencies")["status"]=="unavailable"
     (data/"dependencies.saved").rename(deps)

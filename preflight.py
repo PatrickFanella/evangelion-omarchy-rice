@@ -113,7 +113,7 @@ def add_check(checks, name, status, detail, remediation=""):
     checks.append({"name": name, "status": status, "detail": detail, "remediation": remediation})
 
 
-def build_report(activation):
+def build_report(activation, start_page=False):
     checks = []
     omarchy = command_version("omarchy", "omarchy")
     hyprland = command_version("hyprctl", "hyprland")
@@ -159,13 +159,14 @@ def build_report(activation):
               f"{usage.free // (1024*1024)} MiB free; {required_bytes // (1024*1024)} MiB safety minimum",
               "Free space in the home filesystem before installation")
 
-    port = port_open(8765)
-    # The Evangelion Rice start page holds the same port until the upgrade
-    # retires it, so either suite service counts as the expected owner.
-    expected_service = active_service("subcult-start-page.service") or active_service("magi-start-page.service")
-    add_check(checks, "start-page-port", "blocker" if port and not expected_service else "pass",
-              "port 8765 is " + ("owned by the existing SUBCULT service" if port and expected_service else "occupied by another process" if port else "available"),
-              "Stop the process using TCP port 8765 or configure a different port")
+    if start_page:
+        port = port_open(8765)
+        # The Evangelion Rice start page holds the same port until the upgrade
+        # retires it, so either suite service counts as the expected owner.
+        expected_service = active_service("subcult-start-page.service") or active_service("magi-start-page.service")
+        add_check(checks, "start-page-port", "blocker" if port and not expected_service else "pass",
+                  "port 8765 is " + ("owned by the existing SUBCULT service" if port and expected_service else "occupied by another process" if port else "available"),
+                  "Stop the process using TCP port 8765 or configure a different port")
     incompatible_services = [unit for unit in ("waybar.service", "swaync.service") if active_service(unit)]
     add_check(checks, "service-conflicts", "blocker" if incompatible_services else "pass",
               "active competing services: " + ", ".join(incompatible_services) if incompatible_services else "no competing bar or notification services detected",
@@ -226,8 +227,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--json", action="store_true", help="emit machine-readable JSON")
     parser.add_argument("--source-only", action="store_true", help="do not require an active Hyprland session")
+    parser.add_argument("--with-start-page", action="store_true", help="check the optional start-page server port")
     args = parser.parse_args()
-    report = build_report(not args.source_only)
+    report = build_report(not args.source_only, args.with_start_page)
     print(json.dumps(report, indent=2, sort_keys=True) if args.json else human(report) or "")
     return 0 if report["compatible"] else 1
 

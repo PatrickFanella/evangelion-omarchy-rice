@@ -139,8 +139,12 @@ and stops unsafe installs before the first backup or write.
 Presets:
 
 - `minimal`: theme and command-line tools only.
-- `default`: minimal plus shell, Hyprland, start page, and user services.
+- `default`: minimal plus shell, Hyprland, and user services.
 - `full`: default plus Fastfetch/Neovim extras and detected-shell integration.
+
+The hosted browser start page is an optional add-on for every preset, including
+`full`. Add `--with-start-page`, or install it later with
+`./install.sh --apply --components start-page`.
 
 Select individual components with `--components`, override shell detection with
 `--shell bash|zsh|fish`, or use `--no-shell-integration`. See
