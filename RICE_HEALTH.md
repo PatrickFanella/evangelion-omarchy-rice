@@ -3,7 +3,7 @@
 SO1-410 adds a suite-specific integrity layer alongside the existing hardware
 health view. `subcult-rice-health diagnose` is always read-only. It checks version
 evidence, required and recommended dependencies, user-service activity,
-configured widget entry points, plugin ownership, the local start-page port,
+configured widget entry points, plugin ownership, the local start-page port when the add-on is installed,
 configuration schemas, and cache freshness. Every finding contains bounded
 evidence and a reason; reports exclude command output, process identity, host
 identity, network identity, and configuration contents.

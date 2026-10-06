@@ -30,3 +30,13 @@ assert session_status(desktop | {"XDG_SESSION_TYPE": "tty"}, monitor)["status"] 
 assert session_status(desktop | {"XDG_CURRENT_DESKTOP": "GNOME"}, monitor)["status"] == "blocker"
 assert session_status({}, [], activation=False)["status"] == "pass"
 print("PASS  preflight session detection with responsive IPC and no exported signature")
+
+with patch.object(preflight, "port_open", return_value=True) as port_probe, \
+     patch.object(preflight, "active_service", return_value=False):
+    report = preflight.build_report(False)
+    assert not any(check["name"] == "start-page-port" for check in report["checks"])
+    port_probe.assert_not_called()
+    report = preflight.build_report(False, start_page=True)
+    check = next(check for check in report["checks"] if check["name"] == "start-page-port")
+    assert check["status"] == "blocker", check
+print("PASS  occupied start-page port only blocks explicit site installs")

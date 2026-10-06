@@ -1,7 +1,8 @@
 {
   "schema_version": 1,
   "suite_version": "2.0.0",
-  "required_services": ["subcult-start-page.service", "subcult-affinity.path"],
+  "required_services": ["subcult-affinity.path"],
+  "optional_services": ["subcult-start-page.service"],
   "owned_port": {"number": 8765, "service": "subcult-start-page.service"},
   "stale_seconds": {"health_cache": 1800},
   "allowlisted_fixes": ["quarantine-stale-health-cache"]

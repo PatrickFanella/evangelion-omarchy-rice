@@ -86,11 +86,17 @@ expect "migration assistant installed" test -x "$test_root/home/.local/bin/subcu
 expect "versioned migration plan installed" test -f "$test_root/home/.local/share/subcult-rice/migrations/1.5.1-to-2.0.0.json"
 expect "hotkeys installed" test -f "$test_root/home/.config/hypr/bindings.lua"
 expect "theme installed" test -f "$test_root/home/.config/omarchy/themes/subcult/colors.toml"
-expect "start page installed" test -f "$test_root/home/.local/share/subcult-rice/start-page/index.html"
-expect "user services installed" test -f "$test_root/home/.config/systemd/user/subcult-start-page.service"
+expect "start page omitted by default" test ! -e "$test_root/home/.local/share/subcult-rice/start-page/index.html"
+expect "start-page service omitted by default" test ! -e "$test_root/home/.config/systemd/user/subcult-start-page.service"
+expect "start-page command omitted by default" test ! -e "$test_root/home/.local/bin/subcult-start-page"
 expect "shell activated after login" grep -q $'omarchy-shell\t-q shell rescanPlugins' "$event_log"
 expect "Hyprland activated after login" grep -q $'hyprctl\treload' "$event_log"
-expect "services activated after login" grep -q 'enable --now subcult-affinity.path subcult-start-page.service' "$event_log"
+expect "services activated after login" grep -q 'enable --now subcult-affinity.path subcult-topology.service' "$event_log"
+if grep -q 'enable --now.*subcult-start-page.service' "$event_log"; then fail "full install activated hosted site"; fi
+run_install --apply --components start-page --yes >/dev/null
+addon_snapshot=$(<"$test_root/state/subcult-rice/last-install-backup")
+expect "optional hosted site activated" grep -q 'enable --now subcult-start-page.service' "$event_log"
+run_rollback "$addon_snapshot" >/dev/null
 "${run_env[@]}" omarchy theme set subcult
 expect "theme selection after login" grep -q $'omarchy\ttheme set subcult' "$event_log"
 "${run_env[@]}" "$root/validate.sh" >/dev/null || fail "post-activation validation"

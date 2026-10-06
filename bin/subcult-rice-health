@@ -55,7 +55,8 @@ def diagnose():
         "Required gaps block features; recommended gaps reduce the intended experience."))
 
     service_states={}; service_probe=command_exists("systemctl")
-    for service in cfg.get("required_services",[]):
+    installed_optional=[service for service in cfg.get("optional_services",[]) if (HOME/".config/systemd/user"/service).is_file()]
+    for service in cfg.get("required_services",[]) + installed_optional:
         result=run(["systemctl","--user","is-active",service]) if service_probe else None
         unreachable=result and "failed to connect" in result.stderr.lower()
         service_states[service]="active" if result and result.returncode==0 else "unavailable" if not result or unreachable else "inactive"
@@ -91,12 +92,14 @@ def diagnose():
         "Legacy or mismatched plugin namespaces can shadow packaged suite plugins."))
 
     port=cfg.get("owned_port",{}); bound=False
+    port_expected=port.get("service") in service_states
     try:
-        with socket.socket() as probe: bound=probe.connect_ex(("127.0.0.1",int(port.get("number",8765))))==0
+        if port_expected:
+            with socket.socket() as probe: bound=probe.connect_ex(("127.0.0.1",int(port.get("number",8765))))==0
     except (OSError,ValueError): pass
     owner_active=service_states.get(port.get("service"))=="active"; collision=bound and not owner_active
-    rows.append(finding("suite.port","ports","warning" if collision else "info","failed" if collision else "passed",
-        "Local suite port may be owned by another process" if collision else "Local suite port state is consistent",
+    rows.append(finding("suite.port","ports","warning" if collision else "info","failed" if collision else "passed" if port_expected else "unavailable",
+        "Optional start page is not installed" if not port_expected else "Local suite port may be owned by another process" if collision else "Local suite port state is consistent",
         {"port":int(port.get("number",8765)),"bound":bound,"expected_service_active":owner_active},
         "A bound suite port is only expected while its declared user service is active."))
 
