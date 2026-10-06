@@ -76,6 +76,11 @@ replacements shown in the plan. It does not remove unrelated target-directory
 files. Use `--shell bash|zsh|fish` to override detection or
 `--no-shell-integration` to avoid startup-file edits.
 
+The `tools` component also appends the SUBCULT tmux theme source line when tmux
+is installed or a user tmux configuration exists. Existing configuration is
+preserved, repeat installs avoid duplicate source lines, and rollback restores
+the prior file. Use `--no-tmux-integration` to skip this edit.
+
 ## Transactions and backups
 
 All preflight checks finish before mutation. Every changed target is copied to

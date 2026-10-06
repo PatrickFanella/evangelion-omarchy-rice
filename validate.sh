@@ -31,6 +31,7 @@ python3 "$root/tests/lifecycle-motion.py" /tmp/subcult-lifecycle-motion.json >/d
 python3 "$root/tests/affinity-motion.py" /tmp/subcult-affinity-motion.json >/dev/null && pass "wallpaper affinity transition contracts" || fail "wallpaper affinity transition contracts"
 python3 "$root/tests/theme-variants.py" >/dev/null && pass "inherited theme variant matrix" || fail "inherited theme variant matrix"
 python3 "$root/tests/tmux-theme.py" >/dev/null && pass "tmux fragment follows the affinity palette" || fail "tmux fragment follows the affinity palette"
+python3 "$root/tests/tmux-install.py" >/dev/null && pass "transactional tmux source integration" || fail "transactional tmux source integration"
 python3 "$root/tests/activity-modes.py" >/dev/null && pass "manual coordinated activity modes" || fail "manual coordinated activity modes"
 python3 "$root/tests/mode-transition.py" /tmp/subcult-mode-transition.json >/dev/null && pass "reversible operating mode contracts" || fail "reversible operating mode contracts"
 python3 "$root/tests/bar-motion.py" /tmp/subcult-bar-motion.json >/dev/null && pass "stateful SUBCULT bar motion contracts" || fail "stateful SUBCULT bar motion contracts"
@@ -78,6 +79,7 @@ if [[ ${SUBCULT_RELEASE_ARTIFACT_NESTED:-0} != 1 ]]; then
 fi
 if rg -n 'Work/subcult-rice' "$root/bin" "$root/lib" "$root/omarchy" >/dev/null; then fail "owner-specific project path remains"; else pass "no owner-specific project path"; fi
 python3 -m py_compile "$root/preflight.py" 2>/dev/null && pass "compatibility preflight parses" || fail "compatibility preflight parse"
+python3 "$root/tests/preflight.py" >/dev/null && pass "preflight session detection" || fail "preflight session detection"
 awk -F '\t' 'BEGIN { ok=1 } /^#/ || NF==0 { next } NF!=5 || $1 !~ /^(required|recommended|optional|development)$/ { ok=0 } END { exit !ok }' "$root/dependencies.tsv" \
   && pass "dependency manifest schema" || fail "dependency manifest schema"
 for documented in jq lua python3 ghostty nvim btop fastfetch cava playerctl nmcli sensors wpctl pactl busctl tailscale brightnessctl notify-send xdg-open; do
