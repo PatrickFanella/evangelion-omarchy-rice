@@ -12,7 +12,7 @@
       "versioning": "independent-semver-with-derived-suite-version"
     },
     "suite": {
-      "channel": "github-release",
+      "channel": "gitea-release",
       "payload": ["repository-release-archive"],
       "owns_user_config": "manifest-listed-paths-only",
       "activation": "explicit-transactional-install",

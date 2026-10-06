@@ -25,9 +25,9 @@ makepkg --cleanbuild
 namcap PKGBUILD subcult-omarchy-rice-2.0.0-1-any.pkg.tar.zst
 ```
 
-The generated PKGBUILD expects the archive at the matching GitHub Release URL.
+The generated PKGBUILD expects the archive at the matching Gitea release URL.
 The checksum-pinned stable `PKGBUILD` is attached to the
-[latest GitHub release](https://github.com/PatrickFanella/subcult-omarchy-rice/releases/latest).
+[latest release](https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice/releases/latest).
 CI validates packaging in an isolated package root without installing into the
 host. AUR publication is deferred: there is no maintained AUR repository yet.
 The scripts never publish externally on their own.

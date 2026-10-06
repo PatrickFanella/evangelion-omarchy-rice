@@ -85,7 +85,7 @@ with tempfile.TemporaryDirectory() as directory:
 
     metadata = json.loads((exported / ".distribution.json").read_text())
     assert metadata["name"] == "subcult" and metadata["derived_from_suite"] == "v1.5.0"
-    suite_url = "https://github.com/PatrickFanella/subcult-omarchy-rice"
+    suite_url = "https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice"
     assert metadata["suite_homepage"] == suite_url
     readme = (exported / "README.md").read_text()
     assert "Want the complete SUBCULT desktop?" in readme and suite_url in readme

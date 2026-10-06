@@ -84,7 +84,7 @@ def main():
     assert community["required_reports"] == 0
     assert community["status"] == "optional-post-release"
     assert "reference ThinkPad T480" in text("BETA_TESTING.md")
-    assert "GitHub Actions" in text("BETA_TESTING.md")
+    assert "Gitea Actions" in text("BETA_TESTING.md")
     v13 = __import__("json").loads(text("release/v1.3.0.json"))
     assert v13["final_release_allowed"] is True
     assert v13["candidate_commit"] == "d363835424b48989a0e16c8869672a9df56fe6fe"

@@ -36,7 +36,7 @@ def atomic(path,value):
 def main():
  parser=argparse.ArgumentParser();parser.add_argument("--validate-only",action="store_true");parser.add_argument("report");parser.add_argument("--issue");args=parser.parse_args();report=validate(json.loads(Path(args.report).read_text()))
  if args.validate_only:print("REPORT VALID // schema v2 and privacy invariants passed");return
- if not args.issue or not re.fullmatch(r"https://github\.com/PatrickFanella/subcult-omarchy-rice/issues/\d+",args.issue):raise SystemExit("--issue must be an accepted repository issue URL")
+ if not args.issue or not re.fullmatch(r"https://git\.subcult\.tv/PatrickFanella/subcult-omarchy-rice/issues/\d+",args.issue):raise SystemExit("--issue must be an accepted repository issue URL")
  matrix=json.loads(MATRIX.read_text());environment=report["environment"];key=hashlib.sha256((report["candidate"]["commit"]+json.dumps(environment,sort_keys=True)+report["hardware_class"]).encode()).hexdigest()[:16]
  row={"id":key,"issue":args.issue,"candidate":report["candidate"],"hardware_class":report["hardware_class"],"architecture":environment["architecture"],"displays":environment["displays"],"capabilities":environment["capabilities"],"selection":report["selection"],"lifecycle":report["lifecycle"],"result":report["qualitative"]["result"],"issues":report["qualitative"]["issues"]}
  matrix["observations"]=[item for item in matrix["observations"] if item["id"]!=key]+[row];atomic(MATRIX,matrix);print(f"MATRIX UPDATED // {key}")

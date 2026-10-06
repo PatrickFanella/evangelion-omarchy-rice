@@ -24,12 +24,16 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Install validation dependencies
-        run: sudo apt-get update && sudo apt-get install --yes fonts-dejavu-core imagemagick jq librsvg2-bin lua5.4 ripgrep
+        # Runner containers may run as root without sudo.
+        run: |
+          sudo=$(command -v sudo || true)
+          $sudo apt-get update
+          $sudo apt-get install --yes fonts-dejavu-core git imagemagick jq librsvg2-bin lua5.4 python3 ripgrep
 
       - name: Test isolated clean-user lifecycle
         run: ./tests/clean-user.sh test-results/clean-user.json

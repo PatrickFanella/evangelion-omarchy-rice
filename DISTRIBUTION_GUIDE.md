@@ -32,16 +32,16 @@ steps—never private desktop state.
 
 ## Just the look: theme channel
 
-```bash
-omarchy theme install https://github.com/PatrickFanella/omarchy-subcult-theme.git
-omarchy theme set subcult
-omarchy theme bg next
-```
+Not published yet. `scripts/export-theme` builds the declarative theme payload
+into `build/omarchy-subcult-theme/`, but no public repository carries it, so use
+the complete suite for now. `PatrickFanella/omarchy-subcult-theme` is an older,
+separate Subcult theme with a different palette, not this payload.
 
-Use Omarchy's normal theme update flow to update the Git clone. To remove it,
-select another theme first, then remove only the SUBCULT theme clone. This
-channel cannot provide SUBCULT widgets, workspace identities, commands, motion,
-start page, services, or affinity automation.
+Once published, the channel installs with `omarchy theme install <repository>`
+and updates through Omarchy's normal theme flow. To remove it, select another
+theme first, then remove only the SUBCULT theme clone. This channel cannot
+provide SUBCULT widgets, workspace identities, commands, motion, start page,
+services, or affinity automation.
 
 The theme and suite both own `~/.config/omarchy/themes/subcult`. The suite
 installer refuses to merge into a Git-owned theme clone. Switch away and remove
@@ -49,7 +49,7 @@ the standalone clone before moving to the suite.
 
 ## Complete suite: tagged release archive
 
-Download the archive and matching `.sha256` from the GitHub release, then:
+Download the archive and matching `.sha256` from the Gitea release, then:
 
 ```bash
 sha256sum --check subcult-omarchy-rice-2.0.0.tar.gz.sha256
@@ -77,7 +77,7 @@ For removal, roll transactions back newest to oldest as described in
 ## Development checkout
 
 ```bash
-git clone git@github.com:PatrickFanella/subcult-omarchy-rice.git
+git clone https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice.git
 cd subcult-omarchy-rice
 git status --short
 ./preflight.py

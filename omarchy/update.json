@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
   "selected_channel": "stable",
-  "remote": "https://github.com/PatrickFanella/subcult-omarchy-rice.git",
+  "remote": "https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice.git",
   "stale_after_seconds": 86400
 }

@@ -1,6 +1,6 @@
 # SUBCULT Omarchy Rice
 
-[![SUBCULT Integrity Check](https://github.com/PatrickFanella/subcult-omarchy-rice/actions/workflows/validate.yml/badge.svg)](https://github.com/PatrickFanella/subcult-omarchy-rice/actions/workflows/validate.yml)
+[![SUBCULT Integrity Check](https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice/actions/workflows/validate.yml/badge.svg?branch=main)](https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice/actions?workflow=validate.yml)
 
 A complete Omarchy desktop in the SUBCULT poster-press identity: ink canvases,
 paper text, violet fields, and acid-green registration blocks. It ships seven
@@ -93,14 +93,14 @@ bug report.
 
 ## Quick start
 
-Choose the channel before installing. For only the palette and wallpapers:
-
-```bash
-omarchy theme install https://github.com/PatrickFanella/omarchy-subcult-theme.git
-```
+The palette and wallpapers are not published as a standalone Omarchy theme yet,
+so the complete suite is the install path. The older
+`PatrickFanella/omarchy-subcult-theme` repository is a different theme with its
+own palette; it also installs as `subcult`, and the suite installer refuses to
+merge into it.
 
 For the complete SUBCULT desktop, download the archive and matching checksum from
-the [latest GitHub release](https://github.com/PatrickFanella/subcult-omarchy-rice/releases/latest),
+the [latest release](https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice/releases/latest),
 verify them, extract, and run from an active Omarchy Hyprland session:
 
 ```bash
@@ -118,7 +118,7 @@ omarchy theme set subcult
 Contributors and testers can follow the Git checkout instead:
 
 ```bash
-git clone git@github.com:PatrickFanella/subcult-omarchy-rice.git
+git clone https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice.git
 cd subcult-omarchy-rice
 ./preflight.py
 ./install.sh --dry-run --preset default
@@ -127,7 +127,9 @@ omarchy theme set subcult
 ./validate.sh
 ```
 
-Use the HTTPS clone URL if SSH is not configured. Arch users can use the
+The canonical repository, issues, releases, and CI are on Gitea at
+`git.subcult.tv`. The GitHub copy is a read-only mirror with Actions disabled.
+Arch users can use the
 checksum-pinned `PKGBUILD` attached to the release and the explicit activation
 workflow in [ARCH_PACKAGING.md](ARCH_PACKAGING.md). AUR publication is deferred.
 Always review the dry run. The default preset replaces complete Omarchy shell

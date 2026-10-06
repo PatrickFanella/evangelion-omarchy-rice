@@ -5,7 +5,7 @@ _upstream_version=@VERSION@
 pkgrel=1
 pkgdesc='Unofficial SUBCULT-inspired complete desktop suite for Omarchy'
 arch=('any')
-url='https://github.com/PatrickFanella/subcult-omarchy-rice'
+url='https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice'
 license=('MIT' 'CCPL:by-nc')
 depends=('bash' 'coreutils' 'hyprland' 'jq' 'lua' 'omarchy' 'python' 'systemd')
 optdepends=(
@@ -25,7 +25,7 @@ optdepends=(
   'wl-clipboard: clipboard actions'
   'xdg-utils: browser and capture opening'
 )
-source=("https://github.com/PatrickFanella/subcult-omarchy-rice/releases/download/v${_upstream_version}/subcult-omarchy-rice-${_upstream_version}.tar.gz")
+source=("https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice/releases/download/v${_upstream_version}/subcult-omarchy-rice-${_upstream_version}.tar.gz")
 sha256sums=('@SHA256@')
 
 package() {

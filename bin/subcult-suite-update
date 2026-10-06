@@ -18,7 +18,7 @@ STATE = Path(os.environ.get("XDG_STATE_HOME", Path.home()/".local/state"))/"subc
 CACHE = STATE/"resolution.json"; ACTIVE = STATE/"active.json"; HISTORY = STATE/"history.jsonl"
 NOTIFIED = STATE/"notified.json"
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT = {"schema_version":1,"selected_channel":"stable","remote":"https://github.com/PatrickFanella/subcult-omarchy-rice.git","stale_after_seconds":86400}
+DEFAULT = {"schema_version":1,"selected_channel":"stable","remote":"https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice.git","stale_after_seconds":86400}
 SEMVER = re.compile(r"^v(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?$")
 
 def atomic(path, value):

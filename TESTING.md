@@ -214,7 +214,7 @@ test-results/clean-user.json
 ```
 
 Pass another output path as the first argument when running in CI or a disposable
-VM. GitHub Actions uploads the clean-user, responsive-layout, and motion-regression
+VM. Gitea Actions uploads the clean-user, responsive-layout, and motion-regression
 JSON reports together as the `validation-results` artifact.
 Physical hardware coverage beyond the reference T480 is not asserted by this
 harness. Responsive layouts have a separate automated matrix, and optional

@@ -8,7 +8,7 @@ improve future releases, but are not required to install or release v1.4.
 
 A useful report comes from a clean environment: a new user account, disposable
 installation, or machine that has never received the developer's live
-configuration. GitHub Actions provides repeatable CI evidence but does not
+configuration. Gitea Actions provides repeatable CI evidence but does not
 claim to represent additional physical Omarchy hardware.
 
 Do not test on a machine where losing the current desktop configuration would
@@ -20,7 +20,7 @@ Clone the exact current release, then collect a local evidence bundle:
 
 ```bash
 git clone --branch v1.4.1 --depth 1 \
-  https://github.com/PatrickFanella/subcult-omarchy-rice.git
+  https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice.git
 cd subcult-omarchy-rice
 ./beta-report.sh prepare ~/subcult-beta --preset default
 ./beta-report.sh install ~/subcult-beta --preset default
@@ -49,7 +49,7 @@ anything automatically. The `*.log` files remain local diagnostic material.
 
 ## Report the result
 
-[Open a beta report](https://github.com/PatrickFanella/subcult-omarchy-rice/issues/new?template=beta-report.yml)
+[Open a beta report](https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice/issues/new?template=.github%2FISSUE_TEMPLATE%2Fbeta-report.yml)
 and attach or paste `report.json`. Describe hardware as a broad class (for
 example, “AMD desktop with discrete GPU”); provide display resolution and
 scale, component selection, install/validation/rollback outcomes, any blocker

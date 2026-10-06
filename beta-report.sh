@@ -115,7 +115,7 @@ case $action in
     (($# == 0)) || { usage >&2; exit 2; }
     [[ -f $output/report.json ]] || { echo 'Finalize and review report.json first.' >&2; exit 2; }
     python3 "$root/tools/accept-compatibility-report" --validate-only "$output/report.json"
-    xdg-open 'https://github.com/PatrickFanella/subcult-omarchy-rice/issues/new?template=beta-report.yml'
+    xdg-open 'https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice/issues/new?template=.github%2FISSUE_TEMPLATE%2Fbeta-report.yml'
     echo 'ISSUE FORM OPENED // attach report.json yourself after one final visual review'
     ;;
   *) usage >&2; exit 2;;

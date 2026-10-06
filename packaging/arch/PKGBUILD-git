@@ -3,7 +3,7 @@ pkgver=1.4.0.r0.g0000000
 pkgrel=1
 pkgdesc='Unofficial SUBCULT-inspired complete desktop suite for Omarchy (git)'
 arch=('any')
-url='https://github.com/PatrickFanella/subcult-omarchy-rice'
+url='https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice'
 license=('MIT' 'CCPL:by-nc')
 depends=('bash' 'coreutils' 'git' 'hyprland' 'jq' 'lua' 'omarchy' 'python' 'systemd')
 optdepends=('btop' 'brightnessctl' 'cava' 'fastfetch' 'libnotify' 'lm_sensors'
@@ -11,7 +11,7 @@ optdepends=('btop' 'brightnessctl' 'cava' 'fastfetch' 'libnotify' 'lm_sensors'
             'tailscale' 'wireplumber' 'wl-clipboard' 'xdg-utils')
 provides=('subcult-omarchy-rice')
 conflicts=('subcult-omarchy-rice')
-source=('subcult-omarchy-rice::git+https://github.com/PatrickFanella/subcult-omarchy-rice.git')
+source=('subcult-omarchy-rice::git+https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice.git')
 sha256sums=('SKIP')
 
 pkgver() {
