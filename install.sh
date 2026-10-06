@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 root=$(cd -- "$(dirname -- "$0")" && pwd)
 state_root=${XDG_STATE_HOME:-$HOME/.local/state}/subcult-rice
-dry_run=false apply=false assume_yes=false preset=default component_arg= shell_choice=auto shell_opt_out=false
+dry_run=false apply=false assume_yes=false preset=default component_arg= shell_choice=auto shell_opt_out=false tmux_opt_out=false
 transaction_started=false backup_root= manifest=
 readonly all_components=(theme tools shell hypr start-page services extras shell-integration neon-overdrive)
 readonly legacy_plugin_ids=(
@@ -107,7 +107,7 @@ declare -A legacy_defaults=(
 usage(){ cat <<'EOF'
 Usage: ./install.sh [--dry-run | --apply] [--preset minimal|default|full]
                     [--components NAME[,NAME...]] [--shell auto|bash|zsh|fish]
-                    [--no-shell-integration] [--yes]
+                    [--no-shell-integration] [--no-tmux-integration] [--yes]
 
 minimal: theme + tools
 default: minimal + shell + Hyprland + start page + services
@@ -134,6 +134,7 @@ while (($#)); do
     --dry-run) dry_run=true;; --apply) apply=true;; --yes|-y) assume_yes=true;;
     --preset) shift; preset=${1:-};; --components) shift; component_arg=${1:-};;
     --shell) shift; shell_choice=${1:-};; --no-shell-integration) shell_opt_out=true;;
+    --no-tmux-integration) tmux_opt_out=true;;
     --list-components) list_components; exit 0;; -h|--help) usage; exit 0;;
     *) printf 'Unknown option: %s\n' "$1" >&2; usage >&2; exit 2;;
   esac
@@ -265,6 +266,11 @@ if [[ ${selected[shell-integration]:-0} == 1 ]]; then
   elif [[ -e $rc_target ]]; then rc_action=append
   else rc_action=create; fi
 else rc_action=skip; fi
+tmux_action=skip
+if [[ ${selected[tools]:-0} == 1 ]] && ! $tmux_opt_out; then
+  tmux_plan=$(python3 "$root/scripts/tmux-install-plan.py")
+  IFS=$'\t' read -r tmux_action tmux_target tmux_line <<<"$tmux_plan"
+fi
 legacy_suite_retire=false
 [[ ${selected[shell]:-0} == 1 && ${selected[tools]:-0} == 1 ]] && legacy_suite_retire=true
 legacy_rc_files=()
@@ -302,6 +308,10 @@ done
 if [[ $rc_action != skip ]]; then
   printf '%-9s %-18s %s\n' "${rc_action^^}" shell-integration "$rc_target"
   [[ $rc_action == unchanged ]] || changes=$((changes+1))
+fi
+if [[ $tmux_action != skip ]]; then
+  printf '%-9s %-18s %s\n' "${tmux_action^^}" tmux-integration "$tmux_target"
+  [[ $tmux_action == unchanged ]] || changes=$((changes+1))
 fi
 printf '\nPLAN SUMMARY // %d changes · %d complete-file replacements\n' "$changes" "$replacements"
 $dry_run && { echo "DRY RUN COMPLETE // no target files changed"; exit 0; }
@@ -364,6 +374,11 @@ done
 if [[ $rc_action != skip && $rc_action != unchanged ]]; then
   backup_target "$rc_target"; mkdir -p "$(dirname "$rc_target")"; [[ -e $rc_target ]] || : >"$rc_target"
   printf '\n# SUBCULT Rice\n%s\n' "$rc_line" >>"$rc_target"
+fi
+if [[ $tmux_action != skip && $tmux_action != unchanged ]]; then
+  backup_target "$tmux_target"
+  mkdir -p "$(dirname "$tmux_target")"
+  printf '\n# SUBCULT affinity palette\n%s\n' "$tmux_line" >>"$tmux_target"
 fi
 [[ ${SUBCULT_FORCE_INSTALL_FAILURE:-0} == 1 ]] && false
 if [[ ${SUBCULT_SKIP_ACTIVATE:-0} != 1 ]]; then

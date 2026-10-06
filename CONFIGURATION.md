@@ -62,14 +62,23 @@ the existing sound, ambient, and motion settings. See [SCENES.md](SCENES.md).
 
 Every affinity or theme-variant change rewrites
 `~/.config/tmux/themes/subcult.tmux.conf` with the active palette and sources
-it into a running tmux server. The session label, active window, active pane
-border, and mode highlight use the affinity accent; the hostname uses the
-secondary accent. The file is written only when tmux is installed or that
-directory already exists, and a tmux failure never rolls back the affinity.
+it into a running tmux server. The segmented status bar keeps the session,
+hostname, window labels, mode indicators, and clock. The session label, active
+window, active pane border, and mode highlight use the affinity accent; the
+hostname uses the secondary accent. The file is written only when tmux is
+installed or that directory already exists, and a tmux failure never rolls back
+the affinity.
 Set `SUBCULT_TMUX_THEME` to write it elsewhere.
 
-The suite does not edit your tmux configuration. Source the fragment after any
-other theme so it wins when tmux starts:
+Installing the `tools` component adds the source line at the end of your tmux
+configuration when tmux is installed or a configuration already exists. It
+prefers an existing `$XDG_CONFIG_HOME/tmux/tmux.conf`, then `~/.tmux.conf`,
+defaulting to `~/.config/tmux/tmux.conf`. Existing source lines, including those
+in sourced local configuration files, are preserved without duplication. The edit appears
+in the dry run and is backed up for rollback. Use `--no-tmux-integration` to
+keep the installer from editing tmux configuration.
+
+For a manual setup, source the fragment after any other theme:
 
 ```tmux
 source-file -q ~/.config/tmux/themes/subcult.tmux.conf

@@ -131,9 +131,12 @@ def build_report(activation):
     session_type = os.environ.get("XDG_SESSION_TYPE", "")
     desktop = os.environ.get("XDG_CURRENT_DESKTOP", "")
     signature = os.environ.get("HYPRLAND_INSTANCE_SIGNATURE", "")
-    session_ready = session_type.lower() == "wayland" and "hyprland" in desktop.lower() and bool(signature)
+    monitor_data = monitors()
+    # hyprctl can discover the current instance without an exported signature.
+    # A responsive compositor is also evidence of an active desktop session.
+    session_ready = session_type.lower() == "wayland" and "hyprland" in desktop.lower() and bool(signature or monitor_data)
     add_check(checks, "active-session", "pass" if session_ready or not activation else "blocker",
-              f"type={session_type or 'unset'}, desktop={desktop or 'unset'}, hyprland_socket={'set' if signature else 'unset'}",
+              f"type={session_type or 'unset'}, desktop={desktop or 'unset'}, hyprland_socket={'set' if signature else 'unset'}, ipc={'responsive' if monitor_data else 'unavailable'}",
               "Run from an active Omarchy Hyprland session, or use --source-only when activation is not requested")
 
     deps = dependency_groups()
@@ -173,7 +176,6 @@ def build_report(activation):
               f"{hotkeys['declared']} bindings; duplicates={hotkeys['duplicates'] or 'none'}; live={hotkeys['live_target']}",
               "Review ~/.config/hypr/bindings.lua before installation")
 
-    monitor_data = monitors()
     add_check(checks, "display-ipc", "pass" if monitor_data else "optional",
               f"{len(monitor_data)} active monitor(s) reported" if monitor_data else "Hyprland display geometry unavailable to this process",
               "Run preflight directly inside the active Hyprland session for geometry and scale details")

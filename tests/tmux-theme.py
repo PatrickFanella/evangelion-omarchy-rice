@@ -41,9 +41,12 @@ with tempfile.TemporaryDirectory() as directory:
         assert apply(profile).returncode == 0, profile
         fragment = target.read_text()
         assert f"active {row['label']} palette" in fragment, profile
-        assert f'status-left "#[fg=#{row["dark"]},bg=#{row["accent"]},bold] #S' in fragment, profile
-        assert f'#[fg=#{row["accent2"]}]#h ' in fragment and f'"fg=#{row["muted"]}"' in fragment, profile
+        assert f'#[fg=#{row["dark"]},bg=#{row["accent"]},bold] #S' in fragment, profile
+        assert f'#[fg=#{row["dark"]},bg=#{row["accent2"]},bold] #h ' in fragment, profile
+        assert f'"fg=#{row["muted"]}"' in fragment, profile
         assert f'mode-style "bg=#{row["accent"]},fg=#{row["dark"]}"' in fragment, profile
+        assert '%H:%M' in fragment and '' in fragment and '' in fragment, profile
+        assert 'status-left-length 80' in fragment and 'status-right-length 120' in fragment, profile
         assert "{{" not in fragment and "$" not in fragment, profile
     assert log.read_text().count(f"source-file -- {target}") == len(REGISTRY["affinities"])
 
