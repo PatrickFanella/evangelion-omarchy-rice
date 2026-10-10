@@ -80,3 +80,4 @@ packaging/arch/subcult-rice
 packaging/release/allowlist.txt
 HEAT_INVESTIGATION.md
 DESKTOP_RECIPES.md
+WORKFLOW_DASHBOARD.md

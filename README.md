@@ -285,3 +285,5 @@ before redistribution.
 [Heat investigation](HEAT_INVESTIGATION.md) adds an opt-in local timeline of temperatures, fan speeds, power profiles, and CPU contributors.
 
 [Desktop recipes](DESKTOP_RECIPES.md) coordinate workspace, scene, focus, and motion with preview, confirmation, and undo.
+
+[Workspace dashboard](WORKFLOW_DASHBOARD.md) follows the active workspace with tool links, attention items, and bounded local task/build summaries.

@@ -28,6 +28,17 @@
     <button id="density-toggle" title="Cycle dashboard density">DENSITY // STD</button>
   </div>
   <section>
+    <article class="workflow-card">
+      <div class="instrument-head"><label>WORKSPACE TOOLS</label><span class="instrument-chip" id="workflow-label">ACQUIRING</span></div>
+      <p id="workflow-tools">Workspace tools unavailable</p>
+      <nav id="workflow-links" aria-label="Workspace links"></nav>
+    </article>
+    <article class="workflow-card workflow-queue">
+      <div class="instrument-head"><label>ATTENTION / QUEUE</label><span class="instrument-chip">LOCAL FEED</span></div>
+      <div id="workflow-attention" role="status"></div>
+      <ul id="workflow-tasks"></ul><ul id="workflow-builds"></ul>
+      <small>Task and build timestamps come from your local exporter.</small>
+    </article>
     <article class="hero subcult-card" id="subcult-card">
       <div class="instrument-head"><label>SUBCULT CONSENSUS</label><span class="instrument-chip" id="subcult-chip">SYNCING</span></div>
       <div class="subcult-summary"><div><span>DECISION // 001</span><h2 id="subcult-verdict">ANALYZING SYSTEM STATE</h2></div><strong id="subcult-percent">000%</strong></div>
