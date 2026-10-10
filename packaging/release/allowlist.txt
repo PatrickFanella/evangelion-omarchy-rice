@@ -78,3 +78,4 @@ compatibility/
 tools/accept-compatibility-report
 packaging/arch/subcult-rice
 packaging/release/allowlist.txt
+HEAT_INVESTIGATION.md
