@@ -7,6 +7,8 @@ import "../subcult.motion" as Motion
 
 BarWidget {
   id:root; moduleName:"subcult.world-clock"; property bool popupOpen:false
+  Motion.AdaptiveVisibility { id:adaptive; widget:"subcult.world-clock"; activity:root.status.met.running || root.popupOpen }
+  visible:adaptive.shown
   property string accessibleName:"World clock, UTC "+status.utc
   Accessible.role:Accessible.Button
   Accessible.name:accessibleName

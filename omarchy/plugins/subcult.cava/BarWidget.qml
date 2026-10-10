@@ -8,6 +8,7 @@ import "../subcult.motion" as Motion
 BarWidget {
   id: root
   moduleName: "subcult.cava"
+  Motion.AdaptiveVisibility { id:adaptive; widget:"subcult.cava"; activity:root.playing }
   readonly property var media: bar?.shell?.firstPartyServiceFor("omarchy.media")
   readonly property var player: media ? media.activePlayer : null
   readonly property bool hasMedia: player !== null && (player.trackTitle || player.trackArtist)
@@ -17,9 +18,9 @@ BarWidget {
   property string pausedBehavior: "standby"
   property var levels: [3,5,8,12,17,22,16,11,7,4,4,7,11,16,22,17,12,8]
   readonly property bool compactBar: bar && !bar.vertical && bar.width < 1600
-  readonly property bool shouldRun: cavaAvailable && hasMedia && (cavaMode === "always" || playing)
+  readonly property bool shouldRun: cavaAvailable && hasMedia && (cavaMode === "always" || playing) && adaptive.shown
 
-  visible: cavaAvailable && cavaMode !== "off" && hasMedia
+  visible: cavaAvailable && cavaMode !== "off" && hasMedia && adaptive.shown
   implicitWidth: visible ? (bar && bar.vertical ? barSize : Style.space(compactBar ? 72 : 126)) : 0
   implicitHeight: barSize
 
