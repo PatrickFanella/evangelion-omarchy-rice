@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "kits": [
+    {
+      "id": 1,
+      "label": "Dash",
+      "directory": "",
+      "terminal_profile": "violet",
+      "apps": [],
+      "links": [
+        {
+          "label": "Local dashboard",
+          "url": "http://127.0.0.1:8765/"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "Development",
+      "directory": "",
+      "terminal_profile": "engineering",
+      "apps": [
+        {
+          "label": "T3 Code",
+          "argv": [
+            "t3code"
+          ],
+          "alternatives": [
+            [
+              "t3code-nightly"
+            ]
+          ]
+        },
+        {
+          "label": "Browser",
+          "argv": [
+            "omarchy",
+            "launch",
+            "browser"
+          ]
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": 3,
+      "label": "Browsing",
+      "directory": "",
+      "terminal_profile": "violet",
+      "apps": [
+        {
+          "label": "Browser",
+          "argv": [
+            "omarchy",
+            "launch",
+            "browser"
+          ]
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": 4,
+      "label": "Journal",
+      "directory": "",
+      "terminal_profile": "paper",
+      "apps": [
+        {
+          "label": "Obsidian",
+          "argv": [
+            "obsidian"
+          ]
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": 5,
+      "label": "Social Media",
+      "directory": "",
+      "terminal_profile": "violet",
+      "apps": [
+        {
+          "label": "Zen Browser",
+          "argv": [
+            "zen-browser"
+          ]
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": 6,
+      "label": "Mail",
+      "directory": "",
+      "terminal_profile": "violet",
+      "apps": [],
+      "links": []
+    },
+    {
+      "id": 7,
+      "label": "Media",
+      "directory": "",
+      "terminal_profile": "violet",
+      "apps": [],
+      "links": []
+    },
+    {
+      "id": 8,
+      "label": "Chat",
+      "directory": "",
+      "terminal_profile": "violet",
+      "apps": [],
+      "links": []
+    },
+    {
+      "id": 9,
+      "label": "Calendar",
+      "directory": "",
+      "terminal_profile": "violet",
+      "apps": [],
+      "links": []
+    },
+    {
+      "id": 10,
+      "label": "Misc",
+      "directory": "",
+      "terminal_profile": "violet",
+      "apps": [],
+      "links": []
+    }
+  ]
+}

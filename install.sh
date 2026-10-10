@@ -224,6 +224,7 @@ add_file tools "$root/omarchy/settings-schema.json" "$HOME/.local/share/subcult-
 add_file tools "$root/omarchy/commands.json" "$HOME/.local/share/subcult-rice/commands.json" 644
 add_file tools "$root/omarchy/theme-variants.json" "$HOME/.local/share/subcult-rice/theme-variants.json" 644
 add_file tools "$root/omarchy/activity-modes.json" "$HOME/.local/share/subcult-rice/activity-modes.json" 644
+add_file tools "$root/omarchy/workspace-kits.json" "$HOME/.local/share/subcult-rice/workspace-kits.json" 600
 add_file tools "$root/omarchy/disclosure.json" "$HOME/.local/share/subcult-rice/disclosure.json" 644
 add_file shell "$root/omarchy/update.json" "$HOME/.config/omarchy/subcult-update.json" 644 preserve
 add_tree theme "$root/theme" "$HOME/.config/omarchy/themes/subcult" 644
@@ -249,6 +250,7 @@ add_file shell "$root/omarchy/performance.json" "$HOME/.config/omarchy/performan
 for file in command-telemetry.json subcult-clock.json subcult-terminal-context.json motion.json operating-profiles.json shell.json thermal-alerts.json; do add_file shell "$root/omarchy/$file" "$HOME/.config/omarchy/$file" 644; done
 add_file shell "$root/omarchy/topologies.json" "$HOME/.config/omarchy/topologies.json" 644 preserve
 add_file shell "$root/omarchy/media.json" "$HOME/.config/omarchy/media.json" 644 preserve
+add_file shell "$root/omarchy/workspace-kits.json" "$HOME/.config/omarchy/workspace-kits.json" 600 preserve
 add_file shell "$root/omarchy/workspaces.json" "$HOME/.config/omarchy/workspaces.json" 644 preserve
 add_file shell "$root/omarchy/visual.json" "$HOME/.config/omarchy/visual.json" 644 preserve
 add_file shell "$root/omarchy/scenes.json" "$HOME/.config/omarchy/scenes.json" 644 preserve

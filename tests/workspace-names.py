@@ -22,7 +22,7 @@ with tempfile.TemporaryDirectory() as raw:
     run("display","auto")
     full=json.loads(run("status","--json","--width","2560").stdout);compact=json.loads(run("status","--json","--width","1366").stdout);minimal=json.loads(run("status","--json","--width","800").stdout)
     assert full["tier"]=="full" and compact["tier"]=="compact" and minimal["tier"]=="minimal"
-    assert full["workspaces"][0]["label"]=="01·PRESS" and compact["workspaces"][0]["label"]=="01·PRS" and minimal["workspaces"][0]["label"]=="1"
+    assert full["workspaces"][0]["label"]=="01·Dash" and compact["workspaces"][0]["label"]=="01·DSH" and minimal["workspaces"][0]["label"]=="1"
     changed=json.loads(run("set","1","ANALYSIS CORE","--short","OPS","--channel","LOCAL PRINT CHANNEL").stdout)
     assert changed["name"]=="ANALYSIS CORE" and stat.S_IMODE(config.stat().st_mode)==0o644
     run("set","2","OPERATIONS CORE","--short","OPS")
@@ -34,7 +34,7 @@ with tempfile.TemporaryDirectory() as raw:
     assert run("import",str(exported),"--confirm","wrong",ok=False).returncode!=0 and config.read_bytes()==before
     applied=json.loads(run("import",str(exported),"--confirm",plan["plan_id"]).stdout);assert applied["status"]=="imported" and "IMPORTED ANALYSIS" in config.read_text()
     hostile=base/"hostile.json";hostile.write_text(json.dumps({"schema_version":1,"workspaces":[{"id":1,"name":"BAD\nNAME","short":"BAD","channel":"X","accent":"#000000"}]}));assert run("import",str(hostile),ok=False).returncode!=0
-    run("reset");assert "PRESS" in config.read_text()
+    run("reset");assert "Dash" in config.read_text()
     legacy=json.loads(config.read_text());legacy.pop("display_mode")
     for row in legacy["workspaces"]:row.pop("icon")
     config.write_text(json.dumps(legacy));run("set","1","LEGACY PRESS")
