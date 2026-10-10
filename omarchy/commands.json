@@ -453,6 +453,24 @@
         "xdg-open",
         "https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice"
       ]
+    },
+    {
+      "id": "tools.recipes",
+      "label": "Open desktop recipes",
+      "category": "Tools",
+      "description": "Preview workspace, scene, focus, and motion combinations",
+      "aliases": [
+        "writing",
+        "develop",
+        "homelab"
+      ],
+      "danger": "safe",
+      "action": [
+        "omarchy-launch-terminal",
+        "--",
+        "subcult-recipe",
+        "open"
+      ]
     }
   ]
 }

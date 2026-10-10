@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "recipes": [
+    {"id":"develop","label":"Development","workspace":2,"scene":"subcult-operations","focus":"keep","motion":"keep"},
+    {"id":"write","label":"Journal / Writing","workspace":4,"scene":"paper","focus":"on","motion":"reduced"},
+    {"id":"browse","label":"Browsing","workspace":3,"scene":"violet","focus":"off","motion":"keep"},
+    {"id":"media","label":"Media","workspace":7,"scene":"ink","focus":"off","motion":"keep"},
+    {"id":"homelab","label":"Local & Homelab","workspace":1,"scene":"subcult-command","focus":"keep","motion":"keep"}
+  ]
+}
