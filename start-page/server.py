@@ -6,6 +6,7 @@ import threading
 import time
 import tomllib
 import sys
+from urllib.parse import urlsplit, parse_qs
 from collections import deque
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -302,7 +303,17 @@ class Handler(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
-        if self.path == "/api/status":
+        if urlsplit(self.path).path == "/api/journal":
+            query = parse_qs(urlsplit(self.path).query).get("q", [""])[0]
+            if len(query)>160 or any(ord(c)<32 for c in query):
+                self.json_response({"error":"Invalid query"}, 400)
+                return
+            try:
+                payload = json.loads(run(["subcult-journal", "search", query, "--limit", "20"], 1))
+            except (ValueError, TypeError):
+                payload = {"entries":[], "unavailable":True}
+            self.json_response(payload)
+        elif self.path == "/api/status":
             self.json_response(status())
         elif self.path == "/api/desktop":
             self.json_response(desktop_surface())

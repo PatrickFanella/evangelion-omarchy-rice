@@ -86,6 +86,8 @@
     <article class="operations-card">
       <div class="instrument-head"><label>OPERATIONS LOG</label><span class="instrument-chip">LIVE BUFFER</span></div>
       <div class="event-log" id="event-log"><div><time>--:--:--</time><b>SYSTEM</b><span>WAITING FOR EVENT BUS</span></div></div>
+      <form id="journal-search"><label for="journal-query">Search desktop journal</label><input id="journal-query" maxlength="160" placeholder="Focus, workspace, update…"><button type="submit">SEARCH</button></form>
+      <div id="journal-results" aria-live="polite"></div>
     </article>
   </section>
   <footer>LOCAL LOOPBACK // ALLOWLISTED MEDIA CONTROL // <span id="sync">SYNCHRONIZING</span><span class="footer-hint">PRESS / FOR COMMAND PALETTE</span></footer>

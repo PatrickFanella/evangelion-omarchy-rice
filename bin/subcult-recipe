@@ -75,6 +75,7 @@ def apply(name,token,launch):
             if d.run(['subcult-workspace-kit','launch',str(row['workspace']),'--confirm',kit['plan_id']],timeout=20) is None:
                 raise ValueError('Recipe applied; application launch incomplete. Undo restores settings, not applications.')
         d.event('settings','Recipe applied: '+row['label'],'desktop-recipes')
+        d.run(['subcult-journal','event','recipe','--label',row['label']],timeout=1)
         return {'status':'applied','recipe':name,'undo_available':True,'apps_launched':launch}
 
 def undo():

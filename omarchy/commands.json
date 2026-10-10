@@ -471,6 +471,24 @@
         "subcult-recipe",
         "open"
       ]
+    },
+    {
+      "id": "tools.journal",
+      "label": "Search desktop journal",
+      "category": "Tools",
+      "description": "Search sanitized local history",
+      "aliases": [
+        "timeline",
+        "history",
+        "focus"
+      ],
+      "danger": "safe",
+      "action": [
+        "omarchy-launch-terminal",
+        "--",
+        "subcult-journal",
+        "open"
+      ]
     }
   ]
 }

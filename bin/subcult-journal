@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+"""Search sanitized desktop history and record opt-in, named desktop events."""
+import argparse, importlib.machinery, importlib.util, json, os, sys, time
+from collections import Counter
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'lib' if (ROOT/'lib').is_dir() else Path.home()/'.local/lib/subcult-rice'))
+import subcult_desktop as d
+EVENTS={'workspace-kit':('workspace','Workspace kit launched'), 'recipe':('settings','Desktop recipe applied'), 'focus-on':('focus','Focus enabled'), 'focus-off':('focus','Focus disabled'), 'mission-start':('focus','Mission started'), 'mission-complete':('focus','Mission completed'), 'update':('update','Desktop update recorded'), 'build-passed':('build','Build passed'), 'build-failed':('build','Build failed'), 'session-start':('session','Session started'), 'session-end':('session','Session ended')}
+SESSION=d.STATE/'journal-session.json'
+
+def operations():
+    path=ROOT/'bin/subcult-operations-log'
+    if not path.is_file():path=Path.home()/'.local/bin/subcult-operations-log'
+    loader=importlib.machinery.SourceFileLoader('journal_operations',str(path));spec=importlib.util.spec_from_loader(loader.name,loader);module=importlib.util.module_from_spec(spec);loader.exec_module(module);return module
+
+def policy():
+    value=d.config('desktop-journal.json')
+    if value.get('schema_version')!=1 or not isinstance(value.get('enabled'),bool):raise ValueError('Invalid journal policy')
+    return value
+
+def event(kind,label=''):
+    if not policy()['enabled']:return {'recorded':False,'reason':'journal disabled'}
+    category,summary=EVENTS[kind]
+    if label:summary+=': '+d.bounded_text(label,80)
+    op=operations();return op.record(argparse.Namespace(category=category,summary=summary,detail='',source='desktop-journal',action='',dedupe_key=kind))
+
+def search(query='',category=None,since=0,limit=50):
+    if len(query)>160 or any(ord(c)<32 for c in query):raise ValueError('Invalid search query')
+    if not 1<=limit<=100 or since<0:raise ValueError('Invalid journal bounds')
+    op=operations();values=op.trim(op.rows(),op.config(),int(time.time()));needle=query.casefold()
+    values=[x for x in reversed(values) if x.get('last_at',0)>=since and (not category or x.get('category')==category) and (not needle or needle in ' '.join(str(x.get(k,'')) for k in ['category','source','summary','detail']).casefold())]
+    return {'schema_version':1,'entries':values[:limit],'count':len(values),'retention':op.config()['retention'],'read_only':True}
+
+def summary(since=None):
+    session=d.read(SESSION,{}) or {};start=since if since is not None else session.get('started_at',int(time.time())-86400)
+    rows=search(since=start,limit=100)['entries'];counts=Counter()
+    for row in rows:counts[row['category']]+=row.get('count',1)
+    return {'schema_version':1,'started_at':start,'ended_at':session.get('ended_at'),'duration_seconds':max(0,session.get('ended_at',int(time.time()))-start),'events_by_category':dict(counts),'entries_considered':len(rows),'limit':100,'retention_limited':True,'note':'Counts summarize retained events, not app usage or productivity.'}
+
+def main():
+    parser=argparse.ArgumentParser();sub=parser.add_subparsers(dest='command',required=True)
+    for name in ['enable','disable','status','open','summary']:sub.add_parser(name)
+    p=sub.add_parser('event');p.add_argument('kind',choices=EVENTS);p.add_argument('--label',default='')
+    p=sub.add_parser('note');p.add_argument('text')
+    p=sub.add_parser('search');p.add_argument('query',nargs='?',default='');p.add_argument('--category',choices=sorted(operations().CATEGORIES));p.add_argument('--since',type=int,default=0);p.add_argument('--limit',type=int,default=50)
+    p=sub.add_parser('session');p.add_argument('action',choices=['start','end'])
+    args=parser.parse_args()
+    if args.command in {'enable','disable'}:
+        value=policy();value['enabled']=args.command=='enable';d.atomic(d.CONFIG/'desktop-journal.json',value);result=value
+    elif args.command=='status':result={**policy(),'session':d.read(SESSION),'retention':operations().config()['retention']}
+    elif args.command=='event':result=event(args.kind,args.label)
+    elif args.command=='note':
+        if not policy()['enabled']:raise ValueError('Enable journal before recording a note')
+        op=operations();result=op.record(argparse.Namespace(category='workflow',summary=d.bounded_text(args.text,240),detail='',source='journal-note',action='',dedupe_key=''))
+    elif args.command=='search':result=search(args.query,args.category,args.since,args.limit)
+    elif args.command=='summary':result=summary()
+    elif args.command=='session':
+        if not policy()['enabled']:raise ValueError('Enable journal before recording a session')
+        with d.lock('journal-session'):
+            if args.action=='start':
+                old=d.read(SESSION,{}) or {}
+                if old.get('started_at') and not old.get('ended_at'):raise ValueError('A session is already active')
+                d.atomic(SESSION,{'started_at':int(time.time())});result=event('session-start')
+            else:
+                value=d.read(SESSION)
+                if not value or value.get('ended_at'):raise ValueError('No active session')
+                value['ended_at']=int(time.time());d.atomic(SESSION,value);event('session-end');result=summary()
+    else:
+        print('DESKTOP JOURNAL // sanitized, retained local events')
+        query=input('Search (blank for recent events): ')
+        for row in search(query)['entries']:print(time.strftime('%Y-%m-%d %H:%M',time.localtime(row['last_at'])),row['category'],row['summary'])
+        input('Press Enter to close...');return
+    d.emit(result)
+if __name__=='__main__':
+    try:main()
+    except (ValueError,EOFError,KeyboardInterrupt,OSError) as error:print(str(error),file=sys.stderr);sys.exit(1)
