@@ -289,3 +289,5 @@ before redistribution.
 [Workspace dashboard](WORKFLOW_DASHBOARD.md) follows the active workspace with tool links, attention items, and bounded local task/build summaries.
 
 [Desktop journal](DESKTOP_JOURNAL.md) searches sanitized local history and adds opt-in state events, explicit notes, and retained session summaries.
+
+[Configuration studio](CONFIGURATION_STUDIO.md) provides live design previews, guarded apply and undo, and portable visual presets.

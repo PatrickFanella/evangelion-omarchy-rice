@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+"""Serve the local configuration studio until its terminal is closed."""
+import argparse, json, secrets, sys, time, webbrowser
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'lib' if (ROOT/'lib').is_dir() else Path.home()/'.local/lib/subcult-rice'))
+import subcult_desktop as d
+import subcult_studio as studio
+TOKEN=secrets.token_urlsafe(32)
+PLANS={}
+
+class Handler(BaseHTTPRequestHandler):
+    def log_message(self,*args):pass
+    def reply(self,value,code=200,content_type='application/json'):
+        body=(json.dumps(value) if content_type=='application/json' else value).encode()
+        self.send_response(code);self.send_header('Content-Type',content_type);self.send_header('Content-Length',str(len(body)));self.send_header('Cache-Control','no-store');self.send_header('X-Content-Type-Options','nosniff');self.send_header('Referrer-Policy','no-referrer');self.send_header('Content-Security-Policy',"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'");self.end_headers();self.wfile.write(body)
+    def trusted(self,write=False):
+        host='127.0.0.1:'+str(self.server.server_port)
+        if self.headers.get('Host')!=host:return False
+        return not write or (self.headers.get('Origin')=='http://'+host and self.headers.get('X-Studio-Token')==TOKEN and self.headers.get('Content-Type')=='application/json')
+    def do_GET(self):
+        if not self.trusted():self.reply({'error':'Invalid host'},403);return
+        try:
+            if self.path in {'/','/?demo=1'}:self.reply(d.document('studio/index.html').read_text(),content_type='text/html; charset=utf-8')
+            elif self.path=='/api/state':self.reply({**studio.state(),'token':TOKEN})
+            else:self.reply({'error':'Unknown route'},404)
+        except (ValueError,OSError) as error:self.reply({'error':str(error)},400)
+    def do_POST(self):
+        if not self.trusted(True):self.reply({'error':'Invalid request origin or token'},403);return
+        self.connection.settimeout(3)
+        try:
+            length=int(self.headers.get('Content-Length','0'))
+            if not 0<length<=65536:raise ValueError('Invalid request size')
+            value=json.loads(self.rfile.read(length))
+            if self.path=='/api/preview':
+                plan=studio.preview(value['preset']);PLANS.clear();PLANS[plan['plan_id']]=time.monotonic()+300;self.reply(plan)
+            elif self.path=='/api/apply':
+                token=value['plan_id']
+                if PLANS.pop(token,0)<time.monotonic():raise ValueError('Preview expired; preview again')
+                self.reply(studio.apply(value['preset'],token))
+            elif self.path=='/api/undo':self.reply(studio.undo())
+            else:self.reply({'error':'Unknown route'},404)
+        except (ValueError,OSError,KeyError,TypeError) as error:self.reply({'error':str(error)},400)
+
+def main():
+    parser=argparse.ArgumentParser();parser.add_argument('command',choices=['open','serve','status'],default='open',nargs='?');args=parser.parse_args()
+    if args.command=='status':d.emit(studio.state());return
+    server=ThreadingHTTPServer(('127.0.0.1',8766),Handler)
+    if args.command=='open':webbrowser.open('http://127.0.0.1:8766/')
+    print('SUBCULT studio: http://127.0.0.1:8766/ — Ctrl+C stops this local server',flush=True)
+    try:server.serve_forever()
+    except KeyboardInterrupt:pass
+    finally:server.server_close()
+if __name__=='__main__':
+    try:main()
+    except (ValueError,OSError) as error:print(str(error),file=sys.stderr);sys.exit(1)
