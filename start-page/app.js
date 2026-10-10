@@ -257,6 +257,12 @@ $('player-cycle').addEventListener('click', async () => {
   setTimeout(sync, 200);
 });
 $('density-toggle').addEventListener('click', cycleDensity);
+$('session-summary').addEventListener('click', async () => {
+  try {
+    const data=demoMode?{duration_seconds:5400,events_by_category:{focus:3,settings:2,workspace:4},entries_considered:9,limit:100}:await fetch('/api/session').then(response=>response.json());
+    $('session-result').textContent=data.unavailable?'Session summary unavailable':`${Math.floor(data.duration_seconds/60)} minutes · ${Object.entries(data.events_by_category||{}).map(([key,count])=>`${key}: ${count}`).join(' · ') || 'No retained events'} · ${data.entries_considered} retained groups, limit ${data.limit}. Deduplicated counts may span session boundaries.`;
+  } catch { $('session-result').textContent='Session summary unavailable'; }
+});
 $('journal-search').addEventListener('submit', async event => {
   event.preventDefault();
   try {

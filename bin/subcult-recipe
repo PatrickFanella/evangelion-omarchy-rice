@@ -57,12 +57,14 @@ def apply(name,token,launch):
         if value['unavailable']: raise ValueError('Unavailable: '+', '.join(value['unavailable']))
         row=value['recipe'];record={'recipe':name,'at':int(time.time()),'before':value['before'],'scene_receipt':None,'apps_launched':False}
         try:
-            command(['hyprctl','dispatch','workspace',str(row['workspace'])])
+            # Apply the reviewed scene before changing workspace: automatic affinity
+            # may react to a workspace switch and invalidate its before-state token.
             if value['scene']:
                 command(['subcult-scene','apply',row['scene'],'--confirm',value['scene']['plan_id']])
                 record['scene_receipt']=d.fingerprint(d.read(d.STATE/'scenes/last.json'))
             if row.get('focus','keep')!='keep': command(['subcult-focus',row['focus']])
             if row.get('motion','keep')!='keep': command(['subcult-motion','set',row['motion']])
+            command(['hyprctl','dispatch','workspace',str(row['workspace'])])
         except ValueError as error:
             failures=restore(record)
             raise ValueError(str(error)+'; rollback '+(', '.join(failures) if failures else 'completed'))
@@ -76,6 +78,7 @@ def apply(name,token,launch):
                 raise ValueError('Recipe applied; application launch incomplete. Undo restores settings, not applications.')
         d.event('settings','Recipe applied: '+row['label'],'desktop-recipes')
         d.run(['subcult-journal','event','recipe','--label',row['label']],timeout=1)
+        d.run(['subcult-personality','emit','recipe-applied'],timeout=5)
         return {'status':'applied','recipe':name,'undo_available':True,'apps_launched':launch}
 
 def undo():

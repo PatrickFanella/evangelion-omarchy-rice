@@ -229,6 +229,7 @@ add_file tools "$root/omarchy/heat-history.json" "$HOME/.local/share/subcult-ric
 add_file tools "$root/omarchy/desktop-recipes.json" "$HOME/.local/share/subcult-rice/desktop-recipes.json" 600
 add_file tools "$root/omarchy/dashboard.json" "$HOME/.local/share/subcult-rice/dashboard.json" 600
 add_file tools "$root/omarchy/desktop-journal.json" "$HOME/.local/share/subcult-rice/desktop-journal.json" 600
+add_file tools "$root/omarchy/personality.json" "$HOME/.local/share/subcult-rice/personality.json" 600
 add_file tools "$root/omarchy/adaptive-bar.json" "$HOME/.local/share/subcult-rice/adaptive-bar.json" 600
 add_file tools "$root/omarchy/workspace-kits.json" "$HOME/.local/share/subcult-rice/workspace-kits.json" 600
 add_file tools "$root/omarchy/disclosure.json" "$HOME/.local/share/subcult-rice/disclosure.json" 644
@@ -260,6 +261,7 @@ add_file shell "$root/omarchy/heat-history.json" "$HOME/.config/omarchy/heat-his
 add_file shell "$root/omarchy/desktop-recipes.json" "$HOME/.config/omarchy/desktop-recipes.json" 600 preserve
 add_file shell "$root/omarchy/dashboard.json" "$HOME/.config/omarchy/dashboard.json" 600 preserve
 add_file shell "$root/omarchy/desktop-journal.json" "$HOME/.config/omarchy/desktop-journal.json" 600 preserve
+add_file shell "$root/omarchy/personality.json" "$HOME/.config/omarchy/personality.json" 600 preserve
 add_file shell "$root/omarchy/adaptive-bar.json" "$HOME/.config/omarchy/adaptive-bar.json" 600 preserve
 add_file shell "$root/omarchy/workspace-kits.json" "$HOME/.config/omarchy/workspace-kits.json" 600 preserve
 add_file shell "$root/omarchy/workspaces.json" "$HOME/.config/omarchy/workspaces.json" 644 preserve

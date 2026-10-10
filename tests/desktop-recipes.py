@@ -13,7 +13,7 @@ with tempfile.TemporaryDirectory() as tmp:
     plan=json.loads(run('preview','write').stdout);assert not plan['unavailable'];assert not (state/'subcult-rice').exists()
     assert run('apply','write','--confirm','stale').returncode!=0
     assert run('apply','write','--confirm',plan['plan_id']).returncode==0
-    text=calls.read_text();assert text.index('dispatch workspace 4')<text.index('scene apply')<text.index('focus on')<text.index('motion set reduced')
+    text=calls.read_text();assert text.index('scene apply')<text.index('focus on')<text.index('motion set reduced')<text.index('dispatch workspace 4')
     assert run('undo').returncode==0
     assert 'dispatch workspace 3' in calls.read_text()
     assert not (state/'subcult-rice/recipe-last.json').exists()

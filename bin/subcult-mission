@@ -49,6 +49,9 @@ def notify(title, body, cue="nominal"):
     if kind:
         try: subprocess.run(["subcult-journal", "event", kind], capture_output=True, timeout=1)
         except (OSError, subprocess.SubprocessError): pass
+    if title == "MISSION COMPLETE":
+        try: subprocess.run(["subcult-personality", "emit", "mission-complete"], capture_output=True, timeout=5)
+        except (OSError, subprocess.SubprocessError): pass
     subprocess.Popen(["notify-send", "-a", "SUBCULT Mission", title, body], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     if config()["sound"]:
         subprocess.Popen(["subcult-sound", cue], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

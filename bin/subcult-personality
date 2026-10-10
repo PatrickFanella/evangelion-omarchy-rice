@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+"""Opt-in one-shot cues for named desktop events; no ambient event loop."""
+import argparse, os, sys, time
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'lib' if (ROOT/'lib').is_dir() else Path.home()/'.local/lib/subcult-rice'))
+import subcult_desktop as d
+CUES={'workspace-kit':('workspace-kit','ready','WORKSPACE TOOLS LAUNCHED'), 'recipe-applied':('desktop-recipe','ready','DESKTOP RECIPE APPLIED'), 'mission-complete':('mission','complete','FOCUS CYCLES COMPLETED'), 'session-start':('session','active','LOCAL SESSION STARTED'), 'session-end':('session','complete','SESSION SUMMARY READY')}
+LAST=d.STATE/'personality-last.json'
+
+def policy():
+    value=d.config('personality.json')
+    if value.get('schema_version')!=1 or any(not isinstance(value.get(k),bool) for k in ['enabled','visual','sound','respect_focus']):raise ValueError('Invalid personality policy')
+    q=value.get('quiet_hours',{})
+    if not isinstance(q.get('enabled'),bool) or any(type(q.get(k))is not int or not 0<=q[k]<=23 for k in ['start','end']):raise ValueError('Invalid quiet hours')
+    if type(value.get('cooldown_seconds'))is not int or not 5<=value['cooldown_seconds']<=300:raise ValueError('Invalid cue cooldown')
+    return value
+
+def decision(name,hour=None,focus=None,now=None):
+    value=policy();q=value['quiet_hours'];hour=time.localtime().tm_hour if hour is None else hour;now=time.time() if now is None else now
+    quiet=q['enabled'] and ((hour>=q['start'] or hour<q['end']) if q['start']>q['end'] else q['start']<=hour<q['end'])
+    reason='disabled'
+    if value['enabled']:
+        focus=d.run(['subcult-focus','status'],timeout=1)=='active' if focus is None and value['respect_focus'] else bool(focus)
+        last=d.read(LAST,{}) or {}
+        reason='quiet-hours' if quiet else 'focus-active' if focus and value['respect_focus'] else 'cooldown' if now-last.get('at',0)<value['cooldown_seconds'] else 'ready'
+    return {'event':name,'reason':reason,'visual':value['visual'] and reason=='ready','sound_requested':value['sound'] and reason=='ready','sound_authority':'Existing global/category/scene/quiet-hours sound policy remains authoritative','motion_authority':'Existing full/reduced/off motion preference remains authoritative'}
+
+def emit(name):
+    if not policy()['enabled']:return decision(name)
+    with d.lock('personality'):
+        result=decision(name)
+        if result['reason']!='ready':return result
+        mode,phase,detail=CUES[name];failures=[]
+        if result['visual'] and d.run(['omarchy-shell','-q','mode-transition','show',mode,phase,detail],timeout=2) is None:failures.append('visual provider unavailable')
+        # No preview/test command: these bypass the existing audible decision.
+        if result['sound_requested']:
+            sound=d.probe(['subcult-sound','status','--json'])
+            audible=bool(sound and sound.get('cues',{}).get('nominal',{}).get('audible'))
+            result['sound_audible']=audible
+            if audible and d.run(['subcult-sound','nominal'],timeout=3) is None:failures.append('sound provider unavailable')
+        d.atomic(LAST,{'at':int(time.time()),'event':name});return {**result,'unavailable':failures,'one_shot':True}
+
+def main():
+    parser=argparse.ArgumentParser();sub=parser.add_subparsers(dest='command',required=True)
+    for name in ['status','enable','disable','session-summary']:sub.add_parser(name)
+    for name in ['emit','preview']:
+        p=sub.add_parser(name);p.add_argument('event',choices=CUES)
+    p=sub.add_parser('sound');p.add_argument('value',choices=['on','off'])
+    args=parser.parse_args()
+    if args.command in {'enable','disable','sound'}:
+        value=policy()
+        if args.command=='sound':value['sound']=args.value=='on'
+        else:value['enabled']=args.command=='enable'
+        d.atomic(d.CONFIG/'personality.json',value);result=value
+    elif args.command=='status':result={**policy(),'last':d.read(LAST),'background_loop':False}
+    elif args.command=='preview':result=decision(args.event)
+    elif args.command=='emit':result=emit(args.event)
+    else:
+        result=d.probe(['subcult-journal','summary'])
+        if not result:raise ValueError('Session summary unavailable')
+    d.emit(result)
+if __name__=='__main__':
+    try:main()
+    except (ValueError,OSError) as error:print(str(error),file=sys.stderr);sys.exit(1)

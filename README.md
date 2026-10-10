@@ -291,3 +291,5 @@ before redistribution.
 [Desktop journal](DESKTOP_JOURNAL.md) searches sanitized local history and adds opt-in state events, explicit notes, and retained session summaries.
 
 [Configuration studio](CONFIGURATION_STUDIO.md) provides live design previews, guarded apply and undo, and portable visual presets.
+
+[Event cues](EVENT_PERSONALITY.md) add opt-in, one-shot desktop personality and an on-demand session summary while respecting focus, quiet hours, and motion/audio preferences.

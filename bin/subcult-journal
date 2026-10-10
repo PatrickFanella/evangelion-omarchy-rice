@@ -34,9 +34,9 @@ def search(query='',category=None,since=0,limit=50):
 
 def summary(since=None):
     session=d.read(SESSION,{}) or {};start=since if since is not None else session.get('started_at',int(time.time())-86400)
-    rows=search(since=start,limit=100)['entries'];counts=Counter()
+    end=session.get('ended_at',int(time.time()));rows=[row for row in search(since=start,limit=100)['entries'] if row.get('created_at',0)<=end];counts=Counter()
     for row in rows:counts[row['category']]+=row.get('count',1)
-    return {'schema_version':1,'started_at':start,'ended_at':session.get('ended_at'),'duration_seconds':max(0,session.get('ended_at',int(time.time()))-start),'events_by_category':dict(counts),'entries_considered':len(rows),'limit':100,'retention_limited':True,'note':'Counts summarize retained events, not app usage or productivity.'}
+    return {'schema_version':1,'started_at':start,'ended_at':session.get('ended_at'),'duration_seconds':max(0,end-start),'events_by_category':dict(counts),'entries_considered':len(rows),'limit':100,'retention_limited':True,'counts_may_span_deduplication_boundaries':True,'note':'Counts summarize retained event groups overlapping this session. Deduplication can span session boundaries; counts do not measure app usage or productivity.'}
 
 def main():
     parser=argparse.ArgumentParser();sub=parser.add_subparsers(dest='command',required=True)
@@ -61,11 +61,11 @@ def main():
             if args.action=='start':
                 old=d.read(SESSION,{}) or {}
                 if old.get('started_at') and not old.get('ended_at'):raise ValueError('A session is already active')
-                d.atomic(SESSION,{'started_at':int(time.time())});result=event('session-start')
+                d.atomic(SESSION,{'started_at':int(time.time())});result=event('session-start');d.run(['subcult-personality','emit','session-start'],timeout=5)
             else:
                 value=d.read(SESSION)
                 if not value or value.get('ended_at'):raise ValueError('No active session')
-                value['ended_at']=int(time.time());d.atomic(SESSION,value);event('session-end');result=summary()
+                value['ended_at']=int(time.time());d.atomic(SESSION,value);event('session-end');result=summary();d.run(['subcult-personality','emit','session-end'],timeout=5)
     else:
         print('DESKTOP JOURNAL // sanitized, retained local events')
         query=input('Search (blank for recent events): ')

@@ -11,7 +11,8 @@ def policy():
     if value.get("schema_version")!=1 or type(value.get("enabled")) is not bool or not isinstance(value.get("pinned"),list) or not isinstance(value.get("rules"),dict):raise ValueError("Invalid adaptive bar policy")
     for widget,rule in value["rules"].items():
         d.bounded_text(widget)
-        if not isinstance(rule,dict) or any(type(n) is not int or not 1<=n<=10 for n in rule.get("workspaces",[])) or type(rule.get("activity",True)) is not bool:raise ValueError("Invalid widget rule")
+        if not isinstance(rule,dict) or not isinstance(rule.get("workspaces"),list) or any(type(n) is not int or not 1<=n<=10 for n in rule["workspaces"]) or type(rule.get("activity")) is not bool:raise ValueError("Invalid widget rule")
+    for widget in value['pinned']:d.bounded_text(widget)
     return value
 def main():
     p=argparse.ArgumentParser();s=p.add_subparsers(dest="command",required=True)
