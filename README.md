@@ -283,3 +283,5 @@ and bundled fonts have separate terms; read [ASSETS_LICENSE.md](ASSETS_LICENSE.m
 before redistribution.
 
 [Heat investigation](HEAT_INVESTIGATION.md) adds an opt-in local timeline of temperatures, fan speeds, power profiles, and CPU contributors.
+
+[Desktop recipes](DESKTOP_RECIPES.md) coordinate workspace, scene, focus, and motion with preview, confirmation, and undo.

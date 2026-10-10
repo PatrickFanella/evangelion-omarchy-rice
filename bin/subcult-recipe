@@ -1,0 +1,111 @@
+#!/usr/bin/env python3
+"""Preview coordinated desktop recipes; launch applications only by explicit flag."""
+import argparse, os, sys, time
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'lib' if (ROOT/'lib').is_dir() else Path.home()/'.local/lib/subcult-rice'))
+import subcult_desktop as d
+RECEIPT=d.STATE/'recipe-last.json'
+
+def catalog():
+    value=d.config('desktop-recipes.json');ids=set()
+    if value.get('schema_version')!=1 or not isinstance(value.get('recipes'),list) or len(value['recipes'])>20: raise ValueError('Invalid recipe catalog')
+    for row in value['recipes']:
+        if not isinstance(row,dict): raise ValueError('Invalid recipe')
+        name=d.bounded_text(row.get('id'));d.bounded_text(row.get('label'))
+        if not name.replace('-','').isalnum() or name in ids: raise ValueError('Duplicate or invalid recipe id')
+        ids.add(name)
+        if type(row.get('workspace')) is not int or not 1<=row['workspace']<=10: raise ValueError('Invalid workspace')
+        if row.get('focus','keep') not in {'keep','on','off'} or row.get('motion','keep') not in {'keep','full','reduced','off'}: raise ValueError('Invalid recipe behavior')
+        if row.get('scene') is not None: d.bounded_text(row['scene'])
+    return value
+
+def command(argv):
+    value=d.run(argv,timeout=20)
+    if value is None: raise ValueError('Command failed: '+argv[0])
+    return value
+
+def preview(name,launch=False):
+    row=next((r for r in catalog()['recipes'] if r['id']==name),None)
+    if row is None: raise ValueError('Unknown recipe')
+    before={'workspace':d.probe(['hyprctl','-j','activeworkspace']),'focus':d.run(['subcult-focus','status']),'motion':d.run(['subcult-motion','status'])}
+    scene=d.probe(['subcult-scene','preview',row['scene']]) if row.get('scene') else None
+    kit=d.probe(['subcult-workspace-kit','preview',str(row['workspace'])]) if launch else None
+    missing=[]
+    if not before['workspace']: missing.append('compositor')
+    if row.get('scene') and not scene: missing.append('scene')
+    if row.get('focus','keep')!='keep' and before['focus'] not in {'active','inactive'}: missing.append('focus')
+    if row.get('motion','keep')!='keep' and before['motion'] not in {'full','reduced','off'}: missing.append('motion')
+    if launch and (not kit or not kit.get('compositor_available') or not kit.get('directory_available')): missing.append('workspace kit')
+    return d.plan({'recipe':row,'before':before,'scene':scene,'kit':kit,'launch_apps':launch,'unavailable':missing,'config_hash':d.fingerprint(catalog()),'note':'Applications are launched last and are not closed by undo.'})
+
+def restore(record):
+    failures=[];before=record['before']
+    if record.get('scene_receipt'):
+        path=d.STATE/'scenes/last.json'
+        if d.fingerprint(d.read(path))!=record['scene_receipt']: failures.append('scene changed since recipe; not restored')
+        elif d.run(['subcult-scene','undo'],timeout=30) is None: failures.append('scene')
+    if before['focus'] in {'active','inactive'} and d.run(['subcult-focus','on' if before['focus']=='active' else 'off']) is None: failures.append('focus')
+    if before['motion'] in {'full','reduced','off'} and d.run(['subcult-motion','set',before['motion']]) is None: failures.append('motion')
+    workspace=before.get('workspace') or {}
+    if isinstance(workspace.get('id'),int) and d.run(['hyprctl','dispatch','workspace',str(workspace['id'])]) is None: failures.append('workspace')
+    return failures
+
+def apply(name,token,launch):
+    with d.lock('recipe'):
+        value=preview(name,launch);d.confirm(value,token)
+        if value['unavailable']: raise ValueError('Unavailable: '+', '.join(value['unavailable']))
+        row=value['recipe'];record={'recipe':name,'at':int(time.time()),'before':value['before'],'scene_receipt':None,'apps_launched':False}
+        try:
+            command(['hyprctl','dispatch','workspace',str(row['workspace'])])
+            if value['scene']:
+                command(['subcult-scene','apply',row['scene'],'--confirm',value['scene']['plan_id']])
+                record['scene_receipt']=d.fingerprint(d.read(d.STATE/'scenes/last.json'))
+            if row.get('focus','keep')!='keep': command(['subcult-focus',row['focus']])
+            if row.get('motion','keep')!='keep': command(['subcult-motion','set',row['motion']])
+        except ValueError as error:
+            failures=restore(record)
+            raise ValueError(str(error)+'; rollback '+(', '.join(failures) if failures else 'completed'))
+        d.atomic(RECEIPT,record)
+        # Kit must be freshly previewed after workspace/focus/scene changed.
+        if launch:
+            kit=d.probe(['subcult-workspace-kit','preview',str(row['workspace'])])
+            if not kit: raise ValueError('Recipe applied; kit preview failed. Undo is available.')
+            record['apps_launched']=True;d.atomic(RECEIPT,record)
+            if d.run(['subcult-workspace-kit','launch',str(row['workspace']),'--confirm',kit['plan_id']],timeout=20) is None:
+                raise ValueError('Recipe applied; application launch incomplete. Undo restores settings, not applications.')
+        d.event('settings','Recipe applied: '+row['label'],'desktop-recipes')
+        return {'status':'applied','recipe':name,'undo_available':True,'apps_launched':launch}
+
+def undo():
+    with d.lock('recipe'):
+        record=d.read(RECEIPT)
+        if not isinstance(record,dict): raise ValueError('No recipe to undo')
+        failures=restore(record)
+        if failures: raise ValueError('Undo incomplete: '+', '.join(failures))
+        RECEIPT.unlink();return {'status':'undone','applications_closed':False}
+
+def main():
+    parser=argparse.ArgumentParser();sub=parser.add_subparsers(dest='command',required=True)
+    for name in ['list','status','undo','open']: sub.add_parser(name)
+    for name in ['preview','apply']:
+        p=sub.add_parser(name);p.add_argument('recipe');p.add_argument('--launch-apps',action='store_true')
+        if name=='apply':p.add_argument('--confirm',required=True)
+    args=parser.parse_args()
+    if args.command=='list':result=catalog()
+    elif args.command=='status':result={'last':d.read(RECEIPT),'automatic':False}
+    elif args.command=='undo':result=undo()
+    elif args.command=='preview':result=preview(args.recipe,args.launch_apps)
+    elif args.command=='apply':result=apply(args.recipe,args.confirm,args.launch_apps)
+    else:
+        for row in catalog()['recipes']:print(row['id']+' — '+row['label'])
+        name=input('Recipe id (blank to exit): ').strip()
+        if not name:return
+        launch=input('Launch configured workspace tools too? Type launch: ')=='launch'
+        value=preview(name,launch);import json;print(json.dumps(value,indent=2))
+        if input('Apply this plan? Type apply: ')=='apply':d.emit(apply(name,value['plan_id'],launch))
+        return
+    d.emit(result)
+if __name__=='__main__':
+    try:main()
+    except (ValueError,EOFError,KeyboardInterrupt) as error:print(str(error),file=sys.stderr);sys.exit(1)

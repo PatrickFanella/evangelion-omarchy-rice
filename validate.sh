@@ -71,6 +71,7 @@ python3 "$root/tests/resilience.py" >/dev/null && pass "bounded offline and unav
 python3 "$root/tests/sound-policy.py" >/dev/null && pass "opt-in categorized SUBCULT sound policy" || fail "opt-in categorized SUBCULT sound policy"
 python3 "$root/tests/command-palette.py" >/dev/null && pass "global deterministic SUBCULT command palette" || fail "global deterministic SUBCULT command palette"
 python3 "$root/tests/heat-investigator.py" >/dev/null && pass "heat-history" || fail "heat-history"
+python3 "$root/tests/desktop-recipes.py" >/dev/null && pass "desktop-recipes" || fail "desktop-recipes"
 python3 "$root/tests/adaptive-bar.py" >/dev/null && pass "adaptive bar policy" || fail "adaptive bar policy"
 python3 "$root/tests/workspace-kits.py" >/dev/null && pass "workspace kit plans and launches" || fail "workspace kit plans and launches"
 python3 "$root/tests/workspace-names.py" >/dev/null && pass "editable responsive workspace identities" || fail "editable responsive workspace identities"
