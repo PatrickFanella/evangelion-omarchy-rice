@@ -210,6 +210,7 @@ add_tree(){
   done < <(find "$source_root" -type f | sort)
 }
 add_tree tools "$root/bin" "$HOME/.local/bin" 755
+add_tree tools "$root/studio" "$HOME/.local/share/subcult-rice/studio" 644
 add_tree tools "$root/lib" "$HOME/.local/lib/subcult-rice" 644
 add_tree tools "$root/recovery" "$HOME/.local/share/subcult-rice/recovery" 644
 add_tree tools "$root/migrations" "$HOME/.local/share/subcult-rice/migrations" 644

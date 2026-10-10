@@ -489,6 +489,24 @@
         "subcult-journal",
         "open"
       ]
+    },
+    {
+      "id": "interface.studio",
+      "label": "Open configuration studio",
+      "category": "Interface",
+      "description": "Live bar preview with guarded apply, undo, and portable presets",
+      "aliases": [
+        "visual",
+        "preset",
+        "design"
+      ],
+      "danger": "safe",
+      "action": [
+        "omarchy-launch-terminal",
+        "--",
+        "subcult-studio",
+        "open"
+      ]
     }
   ]
 }
