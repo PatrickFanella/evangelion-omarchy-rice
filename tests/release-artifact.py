@@ -43,6 +43,7 @@ with tempfile.TemporaryDirectory(prefix="subcult-artifact-test-") as raw:
         tar.extractall(extract, filter="data")
     suite = extract / "subcult-omarchy-rice-0.0.0-ci.1"
     files = {str(path.relative_to(suite)) for path in suite.rglob("*") if path.is_file()}
+    assert "scripts/tmux-install-plan.py" in files, "installer requires the tmux planning helper"
     for denied in (".git", ".github", ".gitea", "media", "release", "captures", "test-results", "packaging/gallery"):
         assert not any(path == denied or path.startswith(denied + "/") for path in files), denied
 

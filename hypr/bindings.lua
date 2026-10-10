@@ -1,5 +1,24 @@
 -- Keep only personal keybinding overrides here.
 
+-- Cycle every numbered workspace, including empty ones, and wrap at 1 and 10.
+local function cycle_workspace(step)
+  local workspace = hl.get_active_workspace()
+  local id = workspace and workspace.id or 1
+  if id < 1 or id > 10 then id = step > 0 and 0 or 11 end
+  local target = ((id - 1 + step) % 10) + 1
+  hl.dispatch(hl.dsp.focus({ workspace = tostring(target) }))
+end
+for _, binding in ipairs({
+  { "SUPER + TAB", "Next workspace, wrapping 1–10", 1 },
+  { "SUPER + SHIFT + TAB", "Previous workspace, wrapping 1–10", -1 },
+  { "SUPER + mouse_down", "Scroll workspace forward, wrapping 1–10", 1 },
+  { "SUPER + mouse_up", "Scroll workspace backward, wrapping 1–10", -1 },
+}) do
+  local step = binding[3]
+  hl.unbind(binding[1])
+  o.bind(binding[1], binding[2], function() cycle_workspace(step) end)
+end
+
 -- Preserve Omarchy's stock capture keys while adding SUBCULT telemetry.
 hl.unbind("PRINT")
 hl.unbind("ALT + PRINT")

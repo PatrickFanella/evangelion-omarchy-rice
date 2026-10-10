@@ -11,22 +11,25 @@ Item {
   property var workspaces:[]
   property int selected:0
   property string notice:""
+  property string displayMode:"icon"
   readonly property var current:workspaces.length?workspaces[Math.max(0,Math.min(selected,workspaces.length-1))]:null
   readonly property var targetScreen:(Quickshell.screens||[]).length?Quickshell.screens[0]:null
   Motion.MotionState{id:motion} Localization.I18n{id:i18n}
   function refresh(){ if(!probe.running)probe.running=true }
-  function loadFields(){ if(!current)return; nameInput.text=current.name||""; shortInput.text=current.short||""; channelInput.text=current.channel||"" }
-  function choose(delta){ if(!workspaces.length)return; selected=(selected+delta+workspaces.length)%workspaces.length;loadFields();keyCatcher.forceActiveFocus() }
+  function loadFields(){ if(!current)return; nameInput.text=current.name||""; shortInput.text=current.short||""; channelInput.text=current.channel||""; iconInput.text=current.icon||String(current.id) }
+  function choose(delta){ if(!workspaces.length)return; selected=(selected+delta+workspaces.length)%workspaces.length;loadFields();workspaceList.contentY=Math.max(0,Math.min(selected*60,workspaceList.contentHeight-workspaceList.height));keyCatcher.forceActiveFocus() }
   function show(){opened=true;notice="";refresh();keyCatcher.forceActiveFocus()}
   function hide(){opened=false}
-  function save(){if(!current||writer.running)return;writer.command=["subcult-workspaces","set",String(current.id),nameInput.text,"--short",shortInput.text,"--channel",channelInput.text];writer.running=true}
-  Process{id:probe;command:["subcult-workspaces","status","--json","--width","1366"];stdout:StdioCollector{onStreamFinished:{try{root.workspaces=JSON.parse(String(text)).workspaces||[];root.loadFields()}catch(error){root.notice=i18n.tr("workspaces.error")}}}}
+  function save(){if(!current||writer.running)return;writer.command=["subcult-workspaces","set",String(current.id),nameInput.text,"--short",shortInput.text,"--channel",channelInput.text,"--icon",iconInput.text];writer.running=true}
+  function setDisplay(mode){if(writer.running)return;writer.command=["subcult-workspaces","display",mode];writer.running=true}
+  Process{id:probe;command:["subcult-workspaces","status","--json","--width","1366"];stdout:StdioCollector{onStreamFinished:{try{var value=JSON.parse(String(text));root.workspaces=value.workspaces||[];root.displayMode=value.display_mode||"icon";root.loadFields()}catch(error){root.notice=i18n.tr("workspaces.error")}}}}
   Process{id:writer;stdout:StdioCollector{onStreamFinished:{try{JSON.parse(String(text));root.notice=i18n.tr("workspaces.saved");root.refresh()}catch(error){root.notice=i18n.tr("workspaces.error")}}}}
   IpcHandler{target:"workspace-names"
     function toggle():string{root.opened?root.hide():root.show();return root.opened?"open":"closed"}
     function open():string{root.show();return"open"}
     function close():string{root.hide();return"closed"}
     function reload():string{root.refresh();return"reloading"}
+    function status():string{return JSON.stringify({opened:root.opened,screen:root.targetScreen?root.targetScreen.name:null,workspaces:root.workspaces.length,display_mode:root.displayMode})}
   }
   PanelWindow{
     screen:root.targetScreen;visible:root.opened;color:"transparent";anchors{top:true;left:true;right:true;bottom:true}
@@ -56,7 +59,8 @@ Item {
           }
           Rectangle{width:parent.width;height:1;color:"#3a3150"}
           Row{width:parent.width;height:parent.height-135;spacing:18
-            Column{width:210;spacing:6
+            Flickable{id:workspaceList;width:210;height:parent.height;clip:true;contentHeight:workspaceColumn.implicitHeight
+            Column{id:workspaceColumn;width:parent.width;spacing:6
               Repeater{model:root.workspaces;delegate:Rectangle{required property var modelData;required property int index;width:parent.width;height:54;color:index===root.selected?"#3262d8ff":"#8a100d16";border.width:index===root.selected?1:0;border.color:"#62d8ff"
                 Column{anchors.fill:parent;anchors.margins:9;spacing:3
                   Text{text:String(modelData.id).padStart(2,"0")+" // "+String(modelData.resolved_short);color:index===root.selected?"#fff6dc":"#b8adbf";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true}
@@ -64,9 +68,22 @@ Item {
                 }
                 MouseArea{anchors.fill:parent;onClicked:{root.selected=index;root.loadFields();keyCatcher.forceActiveFocus()}}
               }}
-            }
+            }}
             Rectangle{width:parent.width-228;height:parent.height;color:"#b308070d";border.width:1;border.color:"#7c5ce0"
-              Column{anchors.fill:parent;anchors.margins:22;spacing:12
+              Flickable{anchors.fill:parent;anchors.margins:22;clip:true;contentHeight:fields.implicitHeight
+              Column{id:fields;width:parent.width;spacing:12
+                Text{text:"BAR DISPLAY";color:"#f6d447";font.family:"JetBrainsMono Nerd Font";font.pixelSize:9;font.bold:true}
+                Row{spacing:8
+                  Repeater{model:["icon","number","name"];delegate:Rectangle{required property string modelData;width:100;height:32;color:root.displayMode===modelData?"#3262d8ff":"#70181320";border.width:1;border.color:"#62d8ff"
+                    Text{anchors.centerIn:parent;text:modelData.toUpperCase();color:"#fff6dc";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11}
+                    activeFocusOnTab:true;Accessible.role:Accessible.Button;Accessible.name:"Display workspace "+modelData;Accessible.onPressAction:root.setDisplay(modelData)
+                    Keys.onReturnPressed:root.setDisplay(modelData);Keys.onSpacePressed:root.setDisplay(modelData)
+                    MouseArea{anchors.fill:parent;onClicked:root.setDisplay(modelData)}
+                  }}
+                }
+                Text{text:"ICON";color:"#f6d447";font.family:"JetBrainsMono Nerd Font";font.pixelSize:9;font.bold:true}
+                Rectangle{width:parent.width;height:40;color:"#70181320";border.width:iconInput.activeFocus?2:1;border.color:iconInput.activeFocus?"#62d8ff":"#3a3150"
+                  TextInput{id:iconInput;anchors.fill:parent;anchors.margins:8;color:"#fff6dc";selectionColor:"#7c5ce0";font.family:"JetBrainsMono Nerd Font";font.pixelSize:18;maximumLength:8;activeFocusOnTab:true;Accessible.role:Accessible.EditableText;Accessible.name:"Workspace icon";verticalAlignment:TextInput.AlignVCenter}}
                 Text{text:i18n.tr("workspaces.full_name").toUpperCase();color:"#f6d447";font.family:"JetBrainsMono Nerd Font";font.pixelSize:9;font.bold:true}
                 Rectangle{width:parent.width;height:48;color:"#70181320";border.width:nameInput.activeFocus?2:1;border.color:nameInput.activeFocus?"#62d8ff":"#3a3150"
                   TextInput{id:nameInput;anchors.fill:parent;anchors.margins:12;color:"#fff6dc";selectionColor:"#7c5ce0";font.family:"JetBrainsMono Nerd Font";font.pixelSize:13;maximumLength:48;activeFocusOnTab:true;Accessible.role:Accessible.EditableText;Accessible.name:i18n.tr("workspaces.full_name");Accessible.description:"Full workspace name, maximum 48 characters";verticalAlignment:TextInput.AlignVCenter}}
@@ -80,14 +97,14 @@ Item {
                   Column{anchors.fill:parent;anchors.margins:11;spacing:7
                     Text{text:i18n.tr("workspaces.preview").toUpperCase();color:"#9a92a8";font.family:"JetBrainsMono Nerd Font";font.pixelSize:8}
                     Row{spacing:18
-                      Text{text:"2560  "+(root.current?(String(root.current.id).padStart(2,"0")+"·"+nameInput.text.split("·").pop().trim().slice(0,12)):"—");color:"#f6d447";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true}
-                      Text{text:"1366  "+(root.current?(String(root.current.id).padStart(2,"0")+"·"+shortInput.text.toUpperCase()):"—");color:"#62d8ff";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true}
-                      Text{text:"<1200  "+(root.current?String(root.current.id):"—");color:"#a69fb3";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true}
+                      Text{text:"ICON  "+iconInput.text;color:"#f6d447";font.family:"JetBrainsMono Nerd Font";font.pixelSize:15;font.bold:true}
+                      Text{text:"NUMBER  "+(root.current?String(root.current.id):"—");color:"#62d8ff";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true}
+                      Text{text:"NAME  "+(root.current?(String(root.current.id)+"·"+nameInput.text.split("·").pop().trim().slice(0,12)):"—");color:"#a69fb3";font.family:"JetBrainsMono Nerd Font";font.pixelSize:11;font.bold:true}
                     }
                   }
                 }
                 Text{width:parent.width;text:root.notice;color:"#62d8ff";font.family:"JetBrainsMono Nerd Font";font.pixelSize:10;font.bold:true}
-              }
+              }}
             }
           }
           Text{width:parent.width;horizontalAlignment:Text.AlignHCenter;text:i18n.tr("workspaces.keys").toUpperCase();color:"#9a92a8";font.family:"JetBrainsMono Nerd Font";font.pixelSize:9}

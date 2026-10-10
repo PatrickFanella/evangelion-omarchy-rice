@@ -512,6 +512,13 @@ result without exposing the theme path or palette contents.
 
 `~/.config/omarchy/thermal-alerts.json` controls thresholds, clear points,
 cooldowns, and polling. Keep clear thresholds below alert thresholds.
+Notifications require consecutive hot readings for `warning_sustained_seconds`
+or `critical_sustained_seconds`, defaulting to 120 and 60 seconds. A reading
+below the corresponding alert threshold resets its timer. Sensor loss,
+disabled monitoring, changed thresholds, or a sampling gap longer than 2.5
+polling intervals also reset pending timers. Each sustained episode sends at
+most one notification per level, subject to the existing cooldowns. The health
+indicator still shows the current temperature immediately.
 
 Screensaver preferences live in
 `~/.config/omarchy/subcult-screensaver.json`; use

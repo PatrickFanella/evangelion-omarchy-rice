@@ -11,6 +11,15 @@ with tempfile.TemporaryDirectory() as raw:
         result=subprocess.run([str(COMMAND),*args],env=env,text=True,capture_output=True)
         if ok:assert result.returncode==0,result.stderr
         return result
+    icons=json.loads(run("status","--json","--width","800").stdout)
+    assert icons["display_mode"]=="icon" and [r["id"] for r in icons["workspaces"]]==list(range(1,11))
+    assert all(r["label"]==r["icon"] for r in icons["workspaces"])
+    run("display","number");numbers=json.loads(run("status","--json").stdout)
+    assert [r["label"] for r in numbers["workspaces"]]==[str(i) for i in range(1,11)]
+    run("set","10","MISC","--icon","◆");run("display","name")
+    names=json.loads(run("status","--json").stdout)
+    assert names["workspaces"][-1]["label"]=="10·MISC" and names["workspaces"][-1]["icon"]=="◆"
+    run("display","auto")
     full=json.loads(run("status","--json","--width","2560").stdout);compact=json.loads(run("status","--json","--width","1366").stdout);minimal=json.loads(run("status","--json","--width","800").stdout)
     assert full["tier"]=="full" and compact["tier"]=="compact" and minimal["tier"]=="minimal"
     assert full["workspaces"][0]["label"]=="01·PRESS" and compact["workspaces"][0]["label"]=="01·PRS" and minimal["workspaces"][0]["label"]=="1"
@@ -26,6 +35,11 @@ with tempfile.TemporaryDirectory() as raw:
     applied=json.loads(run("import",str(exported),"--confirm",plan["plan_id"]).stdout);assert applied["status"]=="imported" and "IMPORTED ANALYSIS" in config.read_text()
     hostile=base/"hostile.json";hostile.write_text(json.dumps({"schema_version":1,"workspaces":[{"id":1,"name":"BAD\nNAME","short":"BAD","channel":"X","accent":"#000000"}]}));assert run("import",str(hostile),ok=False).returncode!=0
     run("reset");assert "PRESS" in config.read_text()
+    legacy=json.loads(config.read_text());legacy.pop("display_mode")
+    for row in legacy["workspaces"]:row.pop("icon")
+    config.write_text(json.dumps(legacy));run("set","1","LEGACY PRESS")
+    migrated=json.loads(config.read_text());assert migrated["display_mode"]=="icon" and all(row["icon"] for row in migrated["workspaces"])
+    before=config.read_bytes();assert run("set","1","INVALID","--icon","bad\nicon",ok=False).returncode!=0 and config.read_bytes()==before
 
 bar=(ROOT/"omarchy/plugins/subcult.workspaces/Workspaces.qml").read_text();osd=(ROOT/"omarchy/plugins/subcult.workspace-osd/Service.qml").read_text();editor=(ROOT/"omarchy/plugins/subcult.workspace-names/Service.qml").read_text()
 for phrase in ("subcult-workspaces","--screen","displayWidth","QsWindow.window.screen.name","FileView","onLoaded:root.loadNames", "resolved_short","identity.name","identity.accent"):assert phrase in bar

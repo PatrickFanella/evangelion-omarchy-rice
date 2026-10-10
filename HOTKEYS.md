@@ -292,11 +292,12 @@ closes. The widget disappears entirely when no source has track metadata. See
 
 | Shortcut | Action |
 |---|---|
-| `Super + 1` … `Super + 5` | Switch to PRESS, ARCHIVE, DOOR, WORKBENCH, or TERMINAL |
-| `Super + Tab` | Next workspace |
-| `Super + Shift + Tab` | Previous workspace |
+| `Super + 1` … `Super + 9`, `Super + 0` | Select workspaces 1–10; `0` selects 10 |
+| `Super + Tab` | Next numbered workspace, wrapping 10→1 |
+| `Super + Shift + Tab` | Previous numbered workspace, wrapping 1→10 |
+| `Super + mouse wheel` | Cycle through all ten workspaces with wraparound |
 | `Super + Ctrl + Tab` | Return to the former workspace |
-| `Super + Shift + 1` … `Super + Shift + 5` | Move the active window to a workspace |
+| `Super + Shift + 1` … `Super + Shift + 9`, `Super + Shift + 0` | Move the active window to workspaces 1–10 |
 
 ## Menu controls
 

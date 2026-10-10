@@ -51,7 +51,7 @@ BarWidget {
       Text { text:"SUBCULT // SYSTEM HEALTH"; color:Color.accent; font.family:root.bar.fontFamily; font.pixelSize:Style.font.caption; font.bold:true; font.letterSpacing:1 }
       Text { text:root.status.issues>0?"INTERVENTION REQUIRED":"ALL SYSTEMS NOMINAL"; color:root.stateColor; font.family:root.bar.fontFamily; font.pixelSize:Style.font.heading; font.bold:true }
       Text { text:i18n.tr("health.rice_integrity").toUpperCase()+" // "+String(root.riceStatus.status).toUpperCase()+"  ·  "+i18n.tr("health.findings",{count:String(root.riceStatus.failures||0)}).toUpperCase(); color:root.riceStatus.failures>0?"#F6D447":Color.accent; font.family:root.bar.fontFamily; font.pixelSize:Style.font.caption; font.bold:true }
-      Repeater { model:(root.riceStatus.findings||[]).filter(function(row){return row.status==="failed"}).slice(0,3)
+      Repeater { model:(root.riceStatus.findings||[]).filter(function(row){return row.status==="failed" || row.status==="unavailable" && row.severity==="warning"}).slice(0,3)
         delegate:Text { required property var modelData; width:panel.width; text:String(modelData.category).toUpperCase()+" // "+modelData.summary; elide:Text.ElideRight; color:modelData.severity==="critical"?root.bar.urgent:"#F6D447"; font.family:root.bar.fontFamily; font.pixelSize:Style.font.caption }
       }
       Rectangle { width:parent.width; height:1; color:root.stateColor; opacity:.55 }

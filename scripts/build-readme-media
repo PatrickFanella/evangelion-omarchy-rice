@@ -1,0 +1,107 @@
+#!/usr/bin/env python3
+"""Rebuild editable README illustrations with bundled fonts and no live data.
+
+Requires rsvg-convert and ImageMagick. Run from any directory:
+    python3 scripts/build-readme-media
+"""
+import html
+import os
+import subprocess
+import tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / "media"
+INK, PAPER, VIOLET, ACID = "#100b19", "#f0ece4", "#8b5cf6", "#00ff88"
+LAVENDER, CYAN, AMBER = "#c4b5fd", "#62d8ff", "#f6d447"
+
+def rect(x, y, w, h, fill, stroke=None):
+    return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{fill}"' + (f' stroke="{stroke}"' if stroke else "") + "/>"
+
+def text(value, x, y, size=22, fill=PAPER, font="Space Grotesk", weight=400):
+    return f'<text x="{x}" y="{y}" font-family="{font}" font-size="{size}" font-weight="{weight}" fill="{fill}">{html.escape(value)}</text>'
+
+def label(value, x, y, fill=LAVENDER, size=16):
+    return text(value, x, y, size, fill, "JetBrains Mono")
+
+def line(x, y, x2, y2, fill):
+    return f'<path d="M{x} {y}H{x2}" fill="none" stroke="{fill}"/>' if y == y2 else f'<path d="M{x} {y}L{x2} {y2}" fill="none" stroke="{fill}"/>'
+
+def source(w, h, parts, description):
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img">'
+            f'<title>{html.escape(description)}</title>' + "".join(parts) + "</svg>")
+
+def hero():
+    p = [rect(0, 0, 1200, 420, INK), rect(0, 0, 12, 420, VIOLET),
+         label("OMARCHY / DESKTOP SUITE", 48, 48),
+         text("SUBCULT", 42, 179, 134, PAPER, "Oswald", 700),
+         text("A desktop with a point of view.", 48, 230, 31),
+         text("Visual identity. Focus tools. Controls you can inspect.", 48, 275, 22, LAVENDER),
+         line(48, 308, 1152, 308, "#443252")]
+    stats = [("07", "WALLPAPERS", VIOLET), ("05", "PALETTES", ACID),
+             ("04", "TREATMENTS", PAPER), ("10", "WORKSPACES", CYAN)]
+    for i, (n, name, color) in enumerate(stats):
+        x = 48 + i * 286
+        p += [text(n, x, 372, 45, color, "Oswald", 600), label(name, x + 68, 365, PAPER, 15)]
+    # A functional palette rail rather than atmospheric decoration.
+    for i, color in enumerate([VIOLET, ACID, PAPER, CYAN, AMBER]):
+        p += [rect(885 + i * 48, 88, 36, 104, color)]
+    p += [label("INK / PAPER / SIGNAL", 850, 230, LAVENDER, 15)]
+    return source(1200, 420, p, "SUBCULT desktop suite: seven wallpapers, five palettes, four treatments and ten workspaces.")
+
+def overview():
+    p = [rect(0, 0, 1200, 572, INK), label("DESIGNED TO BE USED", 32, 40)]
+    modules = [
+        ("01", "CONTROL", CYAN, "Preview. Apply. Undo.",
+         ["One keyboard-first control center.", "Colors, motion, widgets and display settings.", "Scenes coordinate wallpaper and terminals."], "Super + Ctrl + Alt + S"),
+        ("02", "FOCUS", AMBER, "Give the work some room.",
+         ["Closed Door quiets non-critical notifications.", "Persistent focus and recovery cycles.", "Activity modes stay manual and opt-in."], "Super + Alt + A  /  Super + Alt + T"),
+        ("03", "MONITOR", ACID, "Keep the signals legible.",
+         ["Temperature, memory, storage and battery.", "Privacy activity and connectivity panels.", "Thermal alerts wait for sustained heat."], "Super + Alt + H  /  Super + Alt + V"),
+        ("04", "CONNECT", VIOLET, "A useful local start page.",
+         ["Clock, weather, media and coarse telemetry.", "Operations history and command search.", "Optional dashboard on 127.0.0.1:8765."], "/ opens the page command palette"),
+    ]
+    for i, (n, title, color, sub, rows, shortcut) in enumerate(modules):
+        x, y = 32 + (i % 2) * 584, 65 + (i // 2) * 245
+        p += [rect(x, y, 552, 222, "#191222", "#3b2b4b"), rect(x, y, 552, 4, color),
+              label(n, x + 20, y + 38, color), text(title, x + 62, y + 39, 25, color, "Oswald", 600),
+              text(sub, x + 20, y + 75, 22)]
+        for j, row in enumerate(rows):
+            p.append(text(row, x + 20, y + 111 + j * 25, 17, "#d0c7db"))
+        p += [line(x + 20, y + 179, x + 532, y + 179, "#443252"),
+              label(shortcut, x + 20, y + 205, color, 14)]
+    return source(1200, 572, p, "Four feature groups: reversible desktop controls, focus tools, system monitoring and an optional local dashboard. Illustrative overview, not a desktop capture.")
+
+def workspaces():
+    names = [("PRESS", ACID), ("ARCHIVE", PAPER), ("DOOR", LAVENDER),
+             ("WORKBENCH", VIOLET), ("TERMINAL", ACID), ("MAIL", PAPER),
+             ("MEDIA", ACID), ("CHAT", LAVENDER), ("LAB", CYAN), ("MISC", AMBER)]
+    p = [rect(0, 0, 1200, 308, INK), label("TEN CHANNELS / ONE CONTINUOUS LOOP", 32, 40)]
+    for i, (name, color) in enumerate(names):
+        x = 32 + i * 114
+        p += [rect(x, 65, 110, 111, "#191222", "#443252"), rect(x, 65, 110, 3, color),
+              text(str(i + 1).zfill(2), x + 12, 122, 42, color, "Oswald", 600),
+              label(name, x + 10, 154, PAPER, 11)]
+    p += [text("10 → 1", 32, 222, 27, ACID), text("1 → 10", 226, 222, 27, LAVENDER),
+          label("Super + Tab / Super + Shift + Tab", 462, 217, PAPER, 18),
+          text("Icons by default. Number and name modes. Editable identities. Empty workspaces stay visible.", 32, 273, 20, "#d0c7db")]
+    return source(1200, 308, p, "Ten named workspaces from Press through Misc, with forward and reverse wraparound. Numbers illustrate the directory; the bar defaults to icons.")
+
+def main():
+    OUT.mkdir(exist_ok=True)
+    assets = {"readme-hero": hero(), "readme-features": overview(), "readme-workspaces": workspaces()}
+    with tempfile.TemporaryDirectory() as tmp:
+        conf = Path(tmp) / "fonts.conf"
+        conf.write_text('<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "fonts.dtd"><fontconfig>'
+                        f'<dir>{ROOT / "theme/brand/fonts"}</dir><cachedir>{tmp}/cache</cachedir></fontconfig>')
+        env = {**os.environ, "FONTCONFIG_FILE": str(conf)}
+        for name, svg in assets.items():
+            vector, png = OUT / f"{name}.svg", OUT / f"{name}.png"
+            vector.write_text(svg + "\n")
+            raw = Path(tmp) / f"{name}.png"
+            subprocess.run(["rsvg-convert", "-o", str(raw), str(vector)], check=True, env=env)
+            subprocess.run(["magick", str(raw), "-strip", str(png)], check=True)
+            print(png.relative_to(ROOT))
+
+if __name__ == "__main__":
+    main()

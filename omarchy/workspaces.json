@@ -1,10 +1,86 @@
 {
   "schema_version": 1,
   "workspaces": [
-    {"id": 1, "name": "SUBCULT-01 · PRESS", "short": "PRS", "channel": "SUBCULT-01 · PRINT CHANNEL", "accent": "#00FF88"},
-    {"id": 2, "name": "SUBCULT-02 · ARCHIVE", "short": "ARC", "channel": "SUBCULT-02 · STACKS CHANNEL", "accent": "#F0ECE4"},
-    {"id": 3, "name": "SUBCULT-03 · DOOR", "short": "DOR", "channel": "SUBCULT-03 · DOOR LIST", "accent": "#A78BFA"},
-    {"id": 4, "name": "WORKBENCH · DEVELOPMENT", "short": "WRK", "channel": "WORKBENCH · BUILD CHANNEL", "accent": "#8B5CF6"},
-    {"id": 5, "name": "TERMINAL · COMMAND", "short": "TRM", "channel": "SUBCULT OPERATIONS · CONTROL CHANNEL", "accent": "#5CFFAE"}
-  ]
+    {
+      "id": 1,
+      "name": "SUBCULT-01 · PRESS",
+      "short": "PRS",
+      "channel": "SUBCULT-01 · PRINT CHANNEL",
+      "accent": "#00FF88",
+      "icon": ""
+    },
+    {
+      "id": 2,
+      "name": "SUBCULT-02 · ARCHIVE",
+      "short": "ARC",
+      "channel": "SUBCULT-02 · STACKS CHANNEL",
+      "accent": "#F0ECE4",
+      "icon": ""
+    },
+    {
+      "id": 3,
+      "name": "SUBCULT-03 · DOOR",
+      "short": "DOR",
+      "channel": "SUBCULT-03 · DOOR LIST",
+      "accent": "#A78BFA",
+      "icon": ""
+    },
+    {
+      "id": 4,
+      "name": "WORKBENCH · DEVELOPMENT",
+      "short": "WRK",
+      "channel": "WORKBENCH · BUILD CHANNEL",
+      "accent": "#8B5CF6",
+      "icon": ""
+    },
+    {
+      "id": 5,
+      "name": "TERMINAL · COMMAND",
+      "short": "TRM",
+      "channel": "SUBCULT OPERATIONS · CONTROL CHANNEL",
+      "accent": "#5CFFAE",
+      "icon": ""
+    },
+    {
+      "id": 6,
+      "name": "MAIL",
+      "short": "MAI",
+      "icon": "",
+      "channel": "MAIL CHANNEL",
+      "accent": "#F0ECE4"
+    },
+    {
+      "id": 7,
+      "name": "MEDIA",
+      "short": "MED",
+      "icon": "",
+      "channel": "MEDIA CHANNEL",
+      "accent": "#00FF88"
+    },
+    {
+      "id": 8,
+      "name": "CHAT",
+      "short": "CHA",
+      "icon": "",
+      "channel": "CHAT CHANNEL",
+      "accent": "#A78BFA"
+    },
+    {
+      "id": 9,
+      "name": "LAB",
+      "short": "LAB",
+      "icon": "",
+      "channel": "LAB CHANNEL",
+      "accent": "#62D8FF"
+    },
+    {
+      "id": 10,
+      "name": "MISC",
+      "short": "MIS",
+      "icon": "",
+      "channel": "MISC CHANNEL",
+      "accent": "#F6D447"
+    }
+  ],
+  "display_mode": "icon"
 }

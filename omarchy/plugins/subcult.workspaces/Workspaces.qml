@@ -12,6 +12,7 @@ BarWidget {
   moduleName: "omarchy.workspaces"
 
   property var workspaceModel: []
+  property string displayMode: "icon"
   property real displayWidth: 1920
   readonly property bool compactBar: !root.vertical && root.displayWidth < 2000
   readonly property bool minimalBar: !root.vertical && root.displayWidth < 1200
@@ -28,7 +29,8 @@ BarWidget {
   }
   function loadNames(text) {
     try {
-      var rows=JSON.parse(String(text)).workspaces||[],used=({}),resolved=[]
+      var value=JSON.parse(String(text)),rows=value.workspaces||[],used=({}),resolved=[]
+      root.displayMode=value.display_mode||"icon"
       for(var i=0;i<rows.length;i++){
         var row=rows[i],base=String(row.short||"AUX").toUpperCase().slice(0,6),candidate=base,index=1
         while(used[candidate]){index++;var suffix=String(index);candidate=base.slice(0,Math.max(1,6-suffix.length))+suffix}
@@ -38,9 +40,9 @@ BarWidget {
     } catch(error) {}
   }
   Component.onCompleted: Qt.callLater(root.refreshNames)
-  FileView { path: Quickshell.env("HOME")+"/.config/omarchy/workspaces.json"; watchChanges:true; printErrors:false; onLoaded:root.loadNames(text()); onFileChanged:root.loadNames(text()) }
+  FileView { path: Quickshell.env("HOME")+"/.config/omarchy/workspaces.json"; watchChanges:true; printErrors:false; onLoaded:root.loadNames(text()); onFileChanged:{ reload(); nameRefresh.restart() } }
   Timer { id:nameRefresh; interval:80; repeat:false; onTriggered:root.refreshNames() }
-  Process { id:nameProbe; stdout:StdioCollector { onStreamFinished:{ try { var value=JSON.parse(String(text));root.displayWidth=value.width||1920;root.workspaceModel=value.workspaces||[] } catch(error){} } } }
+  Process { id:nameProbe; stdout:StdioCollector { onStreamFinished:{ try { var value=JSON.parse(String(text));root.displayWidth=value.width||1920;root.displayMode=value.display_mode||"icon";root.workspaceModel=value.workspaces||[] } catch(error){} } } }
 
   function workspaceById(id) {
     var values = Hyprland.workspaces.values
@@ -50,7 +52,7 @@ BarWidget {
   }
 
   function workspaceIds() {
-    var ids = [1, 2, 3, 4, 5]
+    var ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     var values = Hyprland.workspaces.values
     for (var i = 0; i < values.length; i++) {
       var id = values[i].id
@@ -61,16 +63,19 @@ BarWidget {
   }
 
   function labelFor(id, focused) {
+    var item=root.identity(id)
+    if(root.displayMode==="icon")return item.icon||String(id)
+    if(root.displayMode==="number")return String(id)
+    if(root.displayMode==="name")return String(id)+"·"+String(item.name||id).split("·").pop().trim().slice(0,12)
     if (root.vertical) return id === 10 ? "0" : String(id)
     if (root.minimalBar) return id === 10 ? "0" : String(id)
-    var item=root.identity(id)
     if(root.compactBar)return String(id).padStart(2,"0")+"·"+(item.resolved_short||String(id))
     return String(id).padStart(2,"0")+"·"+String(item.name||id).split("·").pop().trim().slice(0,12)
   }
 
   function widthFor(id) {
     if (root.vertical) return root.barSize
-    if (root.minimalBar) return 30
+    if (root.displayMode==="icon" || root.displayMode==="number" || root.minimalBar && root.displayMode==="auto") return 30
     // WidgetButton measures its actual font and includes horizontal padding.
     // Fixed character-count estimates let long labels paint into adjacent slots.
     return -1
@@ -102,7 +107,10 @@ BarWidget {
         readonly property color workspaceAccent: identity.accent || (root.bar ? root.bar.urgent : Color.urgent)
         bar: root.bar
         text: root.labelFor(modelData, focused)
-        tooltipText: identity.name || "WORKSPACE-" + String(modelData).padStart(2, "0")
+        tooltipText: String(modelData)+" · "+(identity.name || "WORKSPACE-" + String(modelData).padStart(2, "0"))
+        fontFamily: root.displayMode==="icon" ? "JetBrainsMono Nerd Font" : (root.bar ? root.bar.fontFamily : Style.font.family)
+        Accessible.role: Accessible.Button
+        Accessible.name: tooltipText
         active: focused
         activeColor: workspaceAccent
         opacity: occupied || focused ? 1 : 0.42

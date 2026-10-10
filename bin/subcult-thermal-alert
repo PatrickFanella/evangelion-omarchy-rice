@@ -6,7 +6,7 @@ STATE_DIR=Path(os.environ.get("XDG_STATE_HOME",Path.home()/".local/state"))/"sub
 CONFIG=Path(os.environ.get("XDG_CONFIG_HOME",Path.home()/".config"))/"omarchy/thermal-alerts.json"
 DISABLED=STATE_DIR/"disabled"; STATE=STATE_DIR/"state.json"
 SYS_ROOT=Path(os.environ.get("SUBCULT_SYS_ROOT","/sys"))
-DEFAULT={"warning_c":85,"critical_c":95,"warning_clear_c":78,"critical_clear_c":88,"warning_cooldown_seconds":1200,"critical_cooldown_seconds":300,"poll_seconds":30}
+DEFAULT={"warning_c":85,"critical_c":95,"warning_clear_c":78,"critical_clear_c":88,"warning_cooldown_seconds":1200,"critical_cooldown_seconds":300,"warning_sustained_seconds":120,"critical_sustained_seconds":60,"poll_seconds":30}
 
 def config():
     try: data=json.loads(CONFIG.read_text()); return DEFAULT|{k:data[k] for k in DEFAULT if k in data}
@@ -44,6 +44,11 @@ def save_state(state):
     STATE_DIR.mkdir(parents=True,exist_ok=True)
     temp=STATE.with_suffix(".tmp"); temp.write_text(json.dumps(state,separators=(",",":"))+"\n"); temp.replace(STATE)
 
+def reset_pending(state):
+    for tier in ("warning","critical"):
+        state.pop(tier+"_since",None)
+        state[tier+"_notified"]=False
+
 def notify(tier,temp,dry=False):
     if tier=="warning":
         args=["omarchy-notification-send","--app-name","SUBCULT Thermal","-g","▲","-u","normal","-t","15000","THERMAL LOAD // ELEVATED",f"System sensor reports {temp:.0f}°C. Pause heavy work and verify cooling and airflow."]
@@ -56,6 +61,11 @@ def notify(tier,temp,dry=False):
 
 def evaluate(temp,source="sensor",dry=False,now=None,quiet=False):
     cfg=config(); state=load_state(); now=time.time() if now is None else now; old=state["tier"]; new=old
+    policy={k:cfg[k] for k in ("warning_c","critical_c","warning_sustained_seconds","critical_sustained_seconds")}
+    gap=now-float(state.get("checked_at",now))
+    if state.get("alert_policy")!=policy or state.get("source",source)!=source or gap<0 or gap>max(10,float(cfg["poll_seconds"]))*2.5:
+        reset_pending(state)
+    state["alert_policy"]=policy
     if old=="critical":
         if temp < cfg["critical_clear_c"]: new="warning" if temp >= cfg["warning_c"] else "nominal"
     elif old=="warning":
@@ -64,22 +74,34 @@ def evaluate(temp,source="sensor",dry=False,now=None,quiet=False):
     else:
         if temp >= cfg["critical_c"]: new="critical"
         elif temp >= cfg["warning_c"]: new="warning"
-    should=False
-    if new in {"warning","critical"} and new!=old:
-        key="last_"+new; cooldown=cfg[new+"_cooldown_seconds"]
-        should=now-float(state.get(key,0))>=cooldown
-        if should: state[key]=now
+    for tier in ("warning","critical"):
+        if temp>=cfg[tier+"_c"]:
+            state.setdefault(tier+"_since",now)
+        else:
+            state.pop(tier+"_since",None)
+            state[tier+"_notified"]=False
+    alert=None
+    for tier in ("critical","warning"):
+        since=state.get(tier+"_since")
+        critical_since=state.get("critical_since")
+        if tier=="warning" and (state.get("critical_notified") or critical_since is not None and now-critical_since>=max(0,float(cfg["critical_sustained_seconds"]))): continue
+        if since is not None and not state.get(tier+"_notified",False) and now-since>=max(0,float(cfg[tier+"_sustained_seconds"])) and now-float(state.get("last_"+tier,0))>=cfg[tier+"_cooldown_seconds"]:
+            alert=tier; state["last_"+tier]=now; state[tier+"_notified"]=True
+            if tier=="critical": state["warning_notified"]=True
+            break
     state.update(tier=new,temperature_c=round(temp,1),source=source,checked_at=now)
     save_state(state)
-    if should: notify(new,temp,dry)
-    if not quiet: print(json.dumps({"available":True,"temperature_c":round(temp,1),"tier":new,"transition":old+"->"+new,"notified":should,"source":source},separators=(",",":")))
+    if alert: notify(alert,temp,dry)
+    if not quiet: print(json.dumps({"available":True,"temperature_c":round(temp,1),"tier":new,"transition":old+"->"+new,"notified":alert is not None,"alert_tier":alert,"source":source},separators=(",",":")))
 
 def check(dry=False,override=None,quiet=False):
     if DISABLED.exists():
+        state=load_state(); reset_pending(state); save_state(state)
         if not quiet: print('{"enabled":false}')
         return
     temp,source=(override,"test") if override is not None else temperatures()
     if temp is None:
+        state=load_state(); reset_pending(state); save_state(state)
         if not quiet: print('{"enabled":true,"available":false,"tier":"unavailable"}')
         return
     evaluate(float(temp),source,dry,quiet=quiet)
@@ -91,7 +113,7 @@ def monitor():
 
 def status():
     temp,source=temperatures(); state=load_state(); cfg=config()
-    print(json.dumps({"enabled":not DISABLED.exists(),"available":temp is not None,"temperature_c":None if temp is None else round(temp,1),"sensor":source,"tier":state.get("tier","nominal"),"poll_seconds":cfg["poll_seconds"],"thresholds":{"warning":cfg["warning_c"],"critical":cfg["critical_c"],"warning_clear":cfg["warning_clear_c"],"critical_clear":cfg["critical_clear_c"]}},separators=(",",":")))
+    print(json.dumps({"enabled":not DISABLED.exists(),"available":temp is not None,"temperature_c":None if temp is None else round(temp,1),"sensor":source,"tier":state.get("tier","nominal"),"poll_seconds":cfg["poll_seconds"],"sustained_seconds":{"warning":cfg["warning_sustained_seconds"],"critical":cfg["critical_sustained_seconds"]},"thresholds":{"warning":cfg["warning_c"],"critical":cfg["critical_c"],"warning_clear":cfg["warning_clear_c"],"critical_clear":cfg["critical_clear_c"]}},separators=(",",":")))
 
 cmd=sys.argv[1] if len(sys.argv)>1 else "status"
 if cmd=="check": check()

@@ -56,15 +56,20 @@ def diagnose():
 
     service_states={}; service_probe=command_exists("systemctl")
     installed_optional=[service for service in cfg.get("optional_services",[]) if (HOME/".config/systemd/user"/service).is_file()]
-    for service in cfg.get("required_services",[]) + installed_optional:
+    required_services=cfg.get("required_services",[])
+    for service in required_services + installed_optional:
         result=run(["systemctl","--user","is-active",service]) if service_probe else None
         unreachable=result and "failed to connect" in result.stderr.lower()
         service_states[service]="active" if result and result.returncode==0 else "unavailable" if not result or unreachable else "inactive"
+        if service not in required_services and result and result.stdout.strip()=="inactive":
+            enabled=run(["systemctl","--user","is-enabled",service])
+            if enabled and enabled.stdout.strip()=="disabled": service_states[service]="disabled"
     inactive=[name for name,state in service_states.items() if state=="inactive"]
-    rows.append(finding("suite.services","services","warning" if inactive else "info","failed" if inactive else "passed" if service_probe else "unavailable",
-        f"{len(inactive)} required service units inactive" if inactive else "Required service units active" if service_probe else "Service manager unavailable",
-        {"checked":len(service_states),"inactive":len(inactive),"unavailable":sum(x=="unavailable" for x in service_states.values())},
-        "Inactive suite units can leave widgets stale or local surfaces unreachable."))
+    unavailable=[name for name,state in service_states.items() if state=="unavailable"]
+    rows.append(finding("suite.services","services","warning" if inactive or unavailable or not service_probe else "info","failed" if inactive else "unavailable" if unavailable or not service_probe else "passed",
+        "Service units inactive: " + ", ".join(inactive) if inactive else "Service units unavailable: " + ", ".join(unavailable) if unavailable else "Required and enabled service units active" if service_probe else "Service manager unavailable",
+        {"checked":len(service_states),"inactive":len(inactive),"unavailable":len(unavailable),"units":service_states},
+        "Required and enabled optional units must be active; disabled optional units may remain stopped."))
 
     shell=load(SHELL); broken=[]; configured=[]
     if isinstance(shell,dict):
@@ -118,7 +123,7 @@ def diagnose():
         "Health cache is stale" if stale else "Health cache fresh" if age is not None else "Health cache unavailable",
         {"available":age is not None,"age_seconds":age,"maximum_age_seconds":int(cfg.get("stale_seconds",{}).get("health_cache",1800))},
         "Stale cached update state can misrepresent system health.","quarantine-stale-health-cache" if stale else None))
-    failures=sum(row["status"]=="failed" for row in rows); critical=sum(row["status"]=="failed" and row["severity"]=="critical" for row in rows)
+    failures=sum(row["status"]=="failed" or row["status"]=="unavailable" and row["severity"]=="warning" for row in rows); critical=sum(row["status"]=="failed" and row["severity"]=="critical" for row in rows)
     return {"schema_version":1,"status":"critical" if critical else "attention" if failures else "nominal","findings":rows,"failures":failures,"fixes":sorted({row["remediation"] for row in rows if "remediation" in row}),"checked_at":int(time.time()),"read_only":True}
 
 def plan(fix):
