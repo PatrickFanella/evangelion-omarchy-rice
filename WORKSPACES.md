@@ -1,5 +1,9 @@
 # Workspace identities
 
+Defaults: Dash, Development, Browsing, Journal, Social Media, Mail, Media,
+Chat, Calendar, Misc. See [Workspace kits](WORKSPACE_KITS.md) for explicit
+application and link launch plans.
+
 Open **SUBCULT Control Center** and press `W`, or choose **Workspace Identities**
 from the SUBCULT menu. The editor changes the full identity, compact token, and
 OSD operations channel without hand-editing configuration. Up/Down selects a

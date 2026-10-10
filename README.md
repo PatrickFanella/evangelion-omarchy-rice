@@ -59,7 +59,7 @@ Optional tools and sensors report availability independently.
 
 ### Ten workspaces, one continuous loop
 
-![Workspace directory: Press, Archive, Door, Workbench, Terminal, Mail, Media, Chat, Lab and Misc; navigation wraps in both directions](media/readme-workspaces.png)
+![Workspace directory: Dash, Development, Browsing, Journal, Social Media, Mail, Media, Chat, Calendar and Misc; navigation wraps in both directions](media/readme-workspaces.png)
 
 All ten workspaces remain visible, including empty ones. **Icons are the default**;
 switch to numbers, names, or responsive Auto labels. Each workspace has an
@@ -70,6 +70,11 @@ the transition overlay retain the full identity.
 - **Pointer navigation:** `Super+mouse wheel` follows the same order.
 - **Direct selection:** `Super+1–9`; `Super+0` opens workspace 10.
 - **Edit:** open the Control Center and press `W`, or use the Workspace Identities menu.
+
+[Workspace kits](WORKSPACE_KITS.md) attach applications, project directories,
+terminal profiles, and links to Dash, Development, Browsing, Journal, Social
+Media, Mail, Media, Chat, Calendar, and Misc. Each launch is previewed and
+explicitly confirmed.
 
 Portable import/export and live bar refresh are included. See [WORKSPACES.md](WORKSPACES.md).
 

@@ -1,0 +1,84 @@
+#!/usr/bin/env python3
+"""Preview and explicitly launch a workspace's applications and links."""
+import argparse
+import json
+import os
+import shlex
+import shutil
+import sys
+from pathlib import Path
+from urllib.parse import urlsplit
+for library in (Path(__file__).resolve().parents[1]/"lib",Path.home()/".local/lib/subcult-rice"):
+    if library.is_dir():sys.path.insert(0,str(library))
+import subcult_desktop as d
+
+PROFILES={"violet","subcult","engineering","acid","paper","ink"}
+def validate(value):
+    if value.get("schema_version")!=1 or not isinstance(value.get("kits"),list) or len(value["kits"])>10:
+        raise ValueError("Invalid workspace kit schema")
+    seen=set()
+    for kit in value["kits"]:
+        if type(kit.get("id")) is not int or not 1<=kit["id"]<=10 or kit["id"] in seen:raise ValueError("Invalid workspace ID")
+        seen.add(kit["id"]);d.bounded_text(kit["label"],48)
+        if kit.get("terminal_profile","violet") not in PROFILES:raise ValueError("Invalid terminal profile")
+        if not isinstance(kit.get("directory",""),str):raise ValueError("Invalid directory")
+        for app in kit.get("apps",[]):
+            d.bounded_text(app["label"])
+            candidates=[app.get("argv"),*app.get("alternatives",[])]
+            for argv in candidates:
+                if not isinstance(argv,list) or not 1<=len(argv)<=24 or any(not isinstance(x,str) or "\0" in x for x in argv):raise ValueError("Applications require argument arrays")
+        for link in kit.get("links",[]):
+            d.bounded_text(link["label"]);u=urlsplit(link["url"])
+            if u.scheme not in {"http","https"} or not u.hostname or u.username or u.password or any(ord(c)<32 for c in link["url"]):raise ValueError("Links require credential-free HTTP(S) URLs")
+    return value
+
+def kits():return validate(d.config("workspace-kits.json"))
+def preview(identifier):
+    cfg=kits();kit=next((x for x in cfg["kits"] if x["id"]==identifier),None)
+    if kit is None:raise ValueError("Workspace kit not found")
+    cwd=str(Path(kit.get("directory") or "~").expanduser().resolve())
+    actions=[]
+    for app in kit.get("apps",[]):
+        argv=next((candidate for candidate in [app["argv"],*app.get("alternatives",[])] if shutil.which(candidate[0])),app["argv"])
+        actions.append({"label":app["label"],"argv":argv,"available":bool(shutil.which(argv[0])),"reason":"" if shutil.which(argv[0]) else "Executable unavailable"})
+    for link in kit.get("links",[]):
+        actions.append({"label":link["label"],"argv":["xdg-open",link["url"]],"available":bool(shutil.which("xdg-open")),"reason":"Browser link"})
+    return d.plan({"schema_version":1,"workspace":identifier,"label":kit["label"],"directory":cwd,"directory_available":Path(cwd).is_dir(),"terminal_profile":kit.get("terminal_profile","violet"),"actions":actions,"compositor_available":bool(d.probe(["hyprctl","-j","activeworkspace"])),"config_hash":d.fingerprint(cfg),"launches_are_not_undone":True})
+
+def launch(identifier,token):
+    value=preview(identifier);d.confirm(value,token)
+    if not value["directory_available"] or not value["compositor_available"]:raise ValueError("Directory or compositor unavailable")
+    if d.run(["hyprctl","dispatch","workspace",str(identifier)]) is None:raise ValueError("Workspace selection failed")
+    completed=[]
+    for action in value["actions"]:
+        if not action["available"]:continue
+        argv=action["argv"]
+        if argv[0]=="subcult-terminal-context":argv=[*argv,"--profile",value["terminal_profile"]]
+        # exec rules target new windows; single-instance apps may reuse existing windows.
+        # Use the helper to preserve cwd without constructing a shell cd expression.
+        command="[workspace "+str(identifier)+" silent] "+shlex.join([sys.executable,str(Path(__file__).resolve()),"_exec",value["directory"],*argv])
+        if d.run(["hyprctl","dispatch","exec",command]) is None:raise ValueError("Launch failed: "+action["label"])
+        completed.append(action["label"])
+    d.event("system","Workspace kit launched: "+value["label"],"workspace-kit")
+    return {"status":"launched","workspace":identifier,"launched":completed,"skipped":[x["label"] for x in value["actions"] if not x["available"]]}
+
+def main():
+    if len(sys.argv)>1 and sys.argv[1]=="_exec":
+        os.chdir(sys.argv[2]);os.execvp(sys.argv[3],sys.argv[3:])
+    p=argparse.ArgumentParser();s=p.add_subparsers(dest="command",required=True)
+    s.add_parser("list");s.add_parser("open")
+    q=s.add_parser("preview");q.add_argument("id",type=int)
+    q=s.add_parser("launch");q.add_argument("id",type=int);q.add_argument("--confirm",required=True)
+    a=p.parse_args()
+    if a.command=="list":d.emit(kits());return
+    if a.command=="open":
+        print("Workspace kits")
+        for kit in kits()["kits"]:print(str(kit["id"])+". "+kit["label"])
+        identifier=int(input("Workspace: "))
+        value=preview(identifier);print(json.dumps(value,indent=2))
+        if input("Type LAUNCH to run this plan: ")=="LAUNCH":d.emit(launch(identifier,value["plan_id"]))
+        return
+    d.emit(preview(a.id) if a.command=="preview" else launch(a.id,a.confirm))
+if __name__=="__main__":
+    try:main()
+    except (ValueError,KeyError,TypeError) as error:sys.exit(str(error))

@@ -73,9 +73,9 @@ def overview():
     return source(1200, 572, p, "Four feature groups: reversible desktop controls, focus tools, system monitoring and an optional local dashboard. Illustrative overview, not a desktop capture.")
 
 def workspaces():
-    names = [("PRESS", ACID), ("ARCHIVE", PAPER), ("DOOR", LAVENDER),
-             ("WORKBENCH", VIOLET), ("TERMINAL", ACID), ("MAIL", PAPER),
-             ("MEDIA", ACID), ("CHAT", LAVENDER), ("LAB", CYAN), ("MISC", AMBER)]
+    names = [("DASH", CYAN), ("DEVELOPMENT", VIOLET), ("BROWSING", ACID),
+             ("JOURNAL", PAPER), ("SOCIAL", LAVENDER), ("MAIL", PAPER),
+             ("MEDIA", ACID), ("CHAT", LAVENDER), ("CALENDAR", AMBER), ("MISC", AMBER)]
     p = [rect(0, 0, 1200, 308, INK), label("TEN CHANNELS / ONE CONTINUOUS LOOP", 32, 40)]
     for i, (name, color) in enumerate(names):
         x = 32 + i * 114
@@ -85,7 +85,7 @@ def workspaces():
     p += [text("10 → 1", 32, 222, 27, ACID), text("1 → 10", 226, 222, 27, LAVENDER),
           label("Super + Tab / Super + Shift + Tab", 462, 217, PAPER, 18),
           text("Icons by default. Number and name modes. Editable identities. Empty workspaces stay visible.", 32, 273, 20, "#d0c7db")]
-    return source(1200, 308, p, "Ten named workspaces from Press through Misc, with forward and reverse wraparound. Numbers illustrate the directory; the bar defaults to icons.")
+    return source(1200, 308, p, "Ten named workspaces from Dash through Misc, with forward and reverse wraparound. Numbers illustrate the directory; the bar defaults to icons.")
 
 def main():
     OUT.mkdir(exist_ok=True)

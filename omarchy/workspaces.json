@@ -1,49 +1,50 @@
 {
   "schema_version": 1,
+  "display_mode": "icon",
   "workspaces": [
     {
       "id": 1,
-      "name": "SUBCULT-01 · PRESS",
-      "short": "PRS",
-      "channel": "SUBCULT-01 · PRINT CHANNEL",
-      "accent": "#00FF88",
-      "icon": ""
+      "name": "Dash",
+      "short": "DSH",
+      "icon": "",
+      "channel": "DASH CHANNEL",
+      "accent": "#62D8FF"
     },
     {
       "id": 2,
-      "name": "SUBCULT-02 · ARCHIVE",
-      "short": "ARC",
-      "channel": "SUBCULT-02 · STACKS CHANNEL",
-      "accent": "#F0ECE4",
-      "icon": ""
+      "name": "Development",
+      "short": "DEV",
+      "icon": "",
+      "channel": "DEVELOPMENT CHANNEL",
+      "accent": "#8B5CF6"
     },
     {
       "id": 3,
-      "name": "SUBCULT-03 · DOOR",
-      "short": "DOR",
-      "channel": "SUBCULT-03 · DOOR LIST",
-      "accent": "#A78BFA",
-      "icon": ""
+      "name": "Browsing",
+      "short": "WEB",
+      "icon": "",
+      "channel": "BROWSING CHANNEL",
+      "accent": "#00FF88"
     },
     {
       "id": 4,
-      "name": "WORKBENCH · DEVELOPMENT",
-      "short": "WRK",
-      "channel": "WORKBENCH · BUILD CHANNEL",
-      "accent": "#8B5CF6",
-      "icon": ""
+      "name": "Journal",
+      "short": "JRN",
+      "icon": "",
+      "channel": "JOURNAL CHANNEL",
+      "accent": "#F0ECE4"
     },
     {
       "id": 5,
-      "name": "TERMINAL · COMMAND",
-      "short": "TRM",
-      "channel": "SUBCULT OPERATIONS · CONTROL CHANNEL",
-      "accent": "#5CFFAE",
-      "icon": ""
+      "name": "Social Media",
+      "short": "SOC",
+      "icon": "",
+      "channel": "SOCIAL MEDIA CHANNEL",
+      "accent": "#A78BFA"
     },
     {
       "id": 6,
-      "name": "MAIL",
+      "name": "Mail",
       "short": "MAI",
       "icon": "",
       "channel": "MAIL CHANNEL",
@@ -51,7 +52,7 @@
     },
     {
       "id": 7,
-      "name": "MEDIA",
+      "name": "Media",
       "short": "MED",
       "icon": "",
       "channel": "MEDIA CHANNEL",
@@ -59,28 +60,27 @@
     },
     {
       "id": 8,
-      "name": "CHAT",
+      "name": "Chat",
       "short": "CHA",
-      "icon": "",
+      "icon": "",
       "channel": "CHAT CHANNEL",
       "accent": "#A78BFA"
     },
     {
       "id": 9,
-      "name": "LAB",
-      "short": "LAB",
-      "icon": "",
-      "channel": "LAB CHANNEL",
-      "accent": "#62D8FF"
+      "name": "Calendar",
+      "short": "CAL",
+      "icon": "",
+      "channel": "CALENDAR CHANNEL",
+      "accent": "#F6D447"
     },
     {
       "id": 10,
-      "name": "MISC",
-      "short": "MIS",
+      "name": "Misc",
+      "short": "MSC",
       "icon": "",
       "channel": "MISC CHANNEL",
-      "accent": "#F6D447"
+      "accent": "#62D8FF"
     }
-  ],
-  "display_mode": "icon"
+  ]
 }
