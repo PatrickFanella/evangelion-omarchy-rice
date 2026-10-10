@@ -8,6 +8,7 @@ import "../subcult.motion" as Motion
 BarWidget {
   id: root
   moduleName: "subcult.media"
+  Motion.AdaptiveVisibility { id:adaptive; widget:"subcult.media"; activity:root.hasMedia || root.popupOpen }
   property string accessibleName: hasMedia ? "Media controls, " + title + (artist ? " by " + artist : "") : "Media controls unavailable"
   Accessible.role: Accessible.Button
   Accessible.name: accessibleName
@@ -73,8 +74,8 @@ BarWidget {
     onLoadFailed: root.loadPreferences("{}")
   }
 
-  visible: hasMedia
-  implicitWidth: hasMedia ? (bar && bar.vertical ? barSize : Style.space(compactBar ? 116 : 190)) : 0
+  visible: hasMedia && adaptive.shown
+  implicitWidth: visible ? (bar && bar.vertical ? barSize : Style.space(compactBar ? 116 : 190)) : 0
   implicitHeight: barSize
   focus: popupOpen
   Keys.priority: Keys.BeforeItem

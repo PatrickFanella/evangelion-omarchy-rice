@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "enabled": false,
+  "pinned": [
+    "subcult.workspaces",
+    "subcult.privacy",
+    "subcult.health",
+    "subcult.power",
+    "subcult.communications"
+  ],
+  "rules": {
+    "subcult.media": {
+      "workspaces": [
+        7
+      ],
+      "activity": true
+    },
+    "subcult.cava": {
+      "workspaces": [
+        7
+      ],
+      "activity": true
+    },
+    "subcult.mission": {
+      "workspaces": [
+        2,
+        4
+      ],
+      "activity": true
+    },
+    "subcult.world-clock": {
+      "workspaces": [
+        1,
+        9
+      ],
+      "activity": true
+    }
+  }
+}

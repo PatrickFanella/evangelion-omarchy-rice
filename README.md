@@ -89,6 +89,10 @@ Customize the layout in `~/.config/omarchy/shell.json`. Third-party task,
 calendar, radio, pipeline, fleet, or notification widgets can be added through
 their own integrations; their services and accounts are configured separately.
 
+[Adaptive visibility](ADAPTIVE_BAR.md) can quiet optional media, spectrum,
+mission and world-clock widgets according to workspace and activity.
+Safety indicators stay pinned.
+
 [Bar icon behavior](BAR_ICONS.md) · [Configuration](CONFIGURATION.md)
 
 ### An optional local start page

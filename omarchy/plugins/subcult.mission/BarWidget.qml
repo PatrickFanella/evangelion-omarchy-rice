@@ -8,6 +8,7 @@ import "../subcult.motion" as Motion
 BarWidget {
   id: root
   moduleName: "subcult.mission"
+  Motion.AdaptiveVisibility { id:adaptive; widget:"subcult.mission"; activity:root.active || root.popupOpen || root.status.phase === "complete" }
   property string accessibleName: "Mission timer, " + status.label + ", " + status.display
   Accessible.role: Accessible.Button
   Accessible.name: accessibleName
@@ -23,6 +24,7 @@ BarWidget {
   function togglePopup() { popupOpen = !popupOpen; if (popupOpen) refresh() }
   function close() { popupOpen = false }
 
+  visible: adaptive.shown
   implicitWidth: barRow.implicitWidth + Style.space(12)
   implicitHeight: barSize
 

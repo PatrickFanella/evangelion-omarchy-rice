@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+"""Configure adaptive optional widgets without replacing the bar layout."""
+import argparse,sys
+from pathlib import Path
+for library in (Path(__file__).resolve().parents[1]/"lib",Path.home()/".local/lib/subcult-rice"):
+    if library.is_dir():sys.path.insert(0,str(library))
+import subcult_desktop as d
+PROTECTED={"subcult.workspaces","subcult.privacy","subcult.health","subcult.power","subcult.communications"}
+def policy():
+    value=d.config("adaptive-bar.json")
+    if value.get("schema_version")!=1 or type(value.get("enabled")) is not bool or not isinstance(value.get("pinned"),list) or not isinstance(value.get("rules"),dict):raise ValueError("Invalid adaptive bar policy")
+    for widget,rule in value["rules"].items():
+        d.bounded_text(widget)
+        if not isinstance(rule,dict) or any(type(n) is not int or not 1<=n<=10 for n in rule.get("workspaces",[])) or type(rule.get("activity",True)) is not bool:raise ValueError("Invalid widget rule")
+    return value
+def main():
+    p=argparse.ArgumentParser();s=p.add_subparsers(dest="command",required=True)
+    for name in ("status","enable","disable"):s.add_parser(name)
+    for name in ("pin","unpin"):q=s.add_parser(name);q.add_argument("widget")
+    q=s.add_parser("rule");q.add_argument("widget");q.add_argument("workspaces",type=int,nargs="*")
+    a=p.parse_args();value=policy()
+    if a.command in {"enable","disable"}:value["enabled"]=a.command=="enable"
+    elif a.command in {"pin","unpin"}:
+        d.bounded_text(a.widget)
+        if a.command=="unpin" and a.widget in PROTECTED:raise ValueError("Safety and workspace widgets cannot be unpinned")
+        pins=set(value["pinned"])
+        if a.command=="pin":pins.add(a.widget)
+        else:pins.discard(a.widget)
+        value["pinned"]=sorted(pins)
+    elif a.command=="rule":
+        if a.widget not in value["rules"] or any(not 1<=n<=10 for n in a.workspaces):raise ValueError("Unsupported widget or workspace")
+        value["rules"][a.widget]={"workspaces":a.workspaces,"activity":True}
+    if a.command!="status":d.atomic(d.CONFIG/"adaptive-bar.json",value)
+    d.emit({**value,"safety_pinned":sorted(PROTECTED),"automatic_actions":False})
+if __name__=="__main__":
+    try:main()
+    except (ValueError,KeyError,TypeError) as error:sys.exit(str(error))
