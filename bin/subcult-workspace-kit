@@ -61,6 +61,7 @@ def launch(identifier,token):
         completed.append(action["label"])
     d.event("system","Workspace kit launched: "+value["label"],"workspace-kit")
     d.run(["subcult-journal","event","workspace-kit","--label",value["label"]],timeout=1)
+    d.run(["subcult-personality","emit","workspace-kit"],timeout=5)
     return {"status":"launched","workspace":identifier,"launched":completed,"skipped":[x["label"] for x in value["actions"] if not x["available"]]}
 
 def main():

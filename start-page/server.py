@@ -303,7 +303,11 @@ class Handler(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
-        if urlsplit(self.path).path == "/api/journal":
+        if self.path == "/api/session":
+            try: payload = json.loads(run(["subcult-journal", "summary"], 1))
+            except (ValueError, TypeError): payload = {"unavailable":True}
+            self.json_response(payload)
+        elif urlsplit(self.path).path == "/api/journal":
             query = parse_qs(urlsplit(self.path).query).get("q", [""])[0]
             if len(query)>160 or any(ord(c)<32 for c in query):
                 self.json_response({"error":"Invalid query"}, 400)

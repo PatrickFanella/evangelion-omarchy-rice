@@ -18,6 +18,9 @@ with tempfile.TemporaryDirectory() as tmp:
     assert run('search').returncode==0 and path.read_bytes()==before
     assert run('session','end').returncode==0
     assert json.loads(run('summary').stdout)['events_by_category']['focus']==1
+    # Ended sessions exclude event groups created after their recorded end.
+    session=Path(tmp+'/state/subcult-rice/journal-session.json');closed=json.loads(session.read_text());closed['ended_at']=closed['started_at']-1;session.write_text(json.dumps(closed))
+    assert json.loads(run('summary').stdout)['entries_considered']==0
     assert run('disable').returncode==0
     assert json.loads(run('event','focus-off').stdout)['recorded'] is False
 print('Opt-in journal events, sanitized notes, read-only search, filters, and sessions passed')

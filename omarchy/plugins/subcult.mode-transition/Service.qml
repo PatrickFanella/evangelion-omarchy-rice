@@ -23,6 +23,8 @@ Item {
   }
 
   function copy(name) {
+    var events={"workspace-kit":["WORKSPACE KIT","TOOLS READY","#62d8ff"],"desktop-recipe":["DESKTOP RECIPE","SETTINGS APPLIED","#a78bfa"],"mission":["MISSION","FOCUS CYCLES COMPLETED","#00ff88"],"session":["LOCAL SESSION","JOURNAL SUMMARY","#f0ece4"]}
+    if(events[name]) return events[name]
     var values={"presentation":["SUBCULT PRESENTATION","VISUAL TELEMETRY CHANNEL","#62d8ff"],"deployment":["SUBCULT DEPLOYMENT","MISSION WORKSPACE","#f6a52f"],"closed-door":["CLOSED DOOR","COMMUNICATION BARRIER","#ffd166"],"intrusion":["INTRUSION DRILL","CONDITION ONE SIMULATION","#ff4055"],"docked":["DOCK LINK","EXTERNAL OPERATIONS PROFILE","#62d8ff"],"mobile":["MOBILE OPERATIONS","INTERNAL SYSTEM PROFILE","#00ff88"],"terminal-context":["TERMINAL CONTEXT","ISOLATED PROFILE","#a78bfa"]}
     return values[name]||[String(name||"SUBCULT").toUpperCase(),"OPERATING MODE","#00ff88"]
   }
