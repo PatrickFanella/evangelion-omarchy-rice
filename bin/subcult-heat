@@ -1,0 +1,105 @@
+#!/usr/bin/env python3
+"""Opt-in bounded thermal and CPU history. Never reads command lines or titles."""
+import argparse, importlib.machinery, importlib.util, os, sys, time
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'lib' if (ROOT/'lib').is_dir() else Path.home()/'.local/lib/subcult-rice'))
+import subcult_desktop as d
+PROC=Path(os.environ.get('SUBCULT_PROC_ROOT','/proc'))
+HISTORY=d.STATE/'heat-history.json'
+
+def policy():
+    value=d.config('heat-history.json')
+    if value.get('schema_version')!=1 or not isinstance(value.get('enabled'),bool) or type(value.get('max_samples')) is not int or not 1<=value['max_samples']<=240:
+        raise ValueError('Invalid heat history policy')
+    return value
+
+def processes():
+    result={}
+    for path in PROC.glob('[0-9]*/stat'):
+        try:
+            text=path.read_text(); fields=text[text.rfind(')')+2:].split()
+            # stat suffix begins at field 3; CPU ticks 14+15 and start time 22.
+            name=(path.parent/'comm').read_text().strip()[:40]
+            name=''.join(c for c in name if c.isprintable())
+            result[(path.parent.name,fields[19])]=(name,int(fields[11])+int(fields[12]))
+        except (OSError,ValueError,IndexError): pass
+    return result
+
+def contributors(before,after,elapsed,hz):
+    totals={}
+    for key,(name,ticks) in after.items():
+        if key not in before: continue
+        delta=max(0,ticks-before[key][1])
+        totals[name]=totals.get(name,0)+100*delta/hz/max(elapsed,.001)
+    return [{'name':name,'cpu_percent':round(value,1)} for name,value in sorted(totals.items(),key=lambda x:x[1],reverse=True)[:6] if value>0]
+
+def sensors():
+    base=Path(os.environ.get('SUBCULT_SYS_ROOT','/sys'))/'class/hwmon'
+    temperatures=[]; preferred=[]; fans=[]
+    for hw in base.glob('hwmon*'):
+        try: name=(hw/'name').read_text().strip()
+        except OSError: name='unknown'
+        for path in hw.glob('temp*_input'):
+            try:
+                value=int(path.read_text())/1000
+                if 5<=value<=120:
+                    temperatures.append(value)
+                    if name in {'coretemp','k10temp','zenpower'}: preferred.append(value)
+            except (OSError,ValueError): pass
+        for path in hw.glob('fan*_input'):
+            try: fans.append(max(0,int(path.read_text())))
+            except (OSError,ValueError): pass
+    profile=d.run(['powerprofilesctl','get'],timeout=1)
+    return {'temperature_c':max(preferred or temperatures,default=None),'fan_rpm':fans[:4],'power_profile':profile if profile in {'power-saver','balanced','performance'} else None}
+
+def history():
+    rows=d.read(HISTORY,[])
+    return rows[-policy()['max_samples']:] if isinstance(rows,list) else []
+
+def sample(seconds):
+    if not policy()['enabled']: raise ValueError('Sampling is disabled; run subcult-heat enable first')
+    before=processes(); start=time.monotonic(); time.sleep(seconds)
+    after=processes(); elapsed=time.monotonic()-start
+    row={'at':int(time.time()),'duration_seconds':round(elapsed,2),**sensors(),'contributors':contributors(before,after,elapsed,os.sysconf('SC_CLK_TCK'))}
+    with d.lock('heat'):
+        d.atomic(HISTORY,(history()+[row])[-policy()['max_samples']:])
+    return row
+
+def report():
+    rows=history(); return {'enabled':policy()['enabled'],'samples':rows,'retention_samples':policy()['max_samples'],'note':'CPU activity correlates with heat; it does not prove the cause. Percentages use one CPU core as 100%. No command lines, window titles, or browser history are collected.'}
+
+def main():
+    parser=argparse.ArgumentParser(); parser.add_argument('command',choices=['status','enable','disable','sample','history','clear','open']);parser.add_argument('--seconds',type=float,default=2)
+    args=parser.parse_args()
+    if not .1<=args.seconds<=10: raise ValueError('Sample duration must be between 0.1 and 10 seconds')
+    if args.command in {'enable','disable'}:
+        value=policy();value['enabled']=args.command=='enable';d.atomic(d.CONFIG/'heat-history.json',value);result={'enabled':value['enabled']}
+    elif args.command=='sample':result=sample(args.seconds)
+    elif args.command=='clear':
+        with d.lock('heat'): HISTORY.unlink(missing_ok=True)
+        result={'cleared':True}
+    elif args.command=='status':result={'enabled':policy()['enabled'],'sample_count':len(history()),'background_sampler':False}
+    elif args.command=='history':result=report()
+    else:
+        print('HEAT INVESTIGATION // local, opt-in, six CPU contributors per sample')
+        while True:
+            value=report();print(value['note'])
+            for row in value['samples'][-12:]:
+                print(time.strftime('%H:%M:%S',time.localtime(row['at'])),str(row['temperature_c'])+' C','fans',row['fan_rpm'],row['power_profile'],', '.join(x['name']+' '+str(x['cpu_percent'])+'%' for x in row['contributors']))
+            action=input('[e]nable [s]ample [d]isable [c]lear [q]uit: ').strip().lower()
+            if action=='q': return
+            if action in {'e','d'}:
+                value=policy();value['enabled']=action=='e';d.atomic(d.CONFIG/'heat-history.json',value)
+            elif action=='s':
+                try: sample(args.seconds)
+                except ValueError as error: print(error)
+            elif action=='c':
+                if input('Delete all heat samples? Type clear: ')=='clear':
+                    with d.lock('heat'): HISTORY.unlink(missing_ok=True)
+        return
+    d.emit(result)
+
+if __name__=='__main__':
+    try: main()
+    except (ValueError,EOFError,KeyboardInterrupt) as error: print(str(error),file=sys.stderr);sys.exit(1)
