@@ -14,6 +14,17 @@ with tempfile.TemporaryDirectory() as directory:
     deps=data/"dependencies.tsv"; deps.parent.mkdir(parents=True); deps.write_text("required\tbase\tpython3\tpython\tRuntime\n")
     config=data/"rice-health.json"; config.write_text(json.dumps({"schema_version":1,"suite_version":"1.5.0","required_services":[],"optional_services":["subcult-start-page.service"],"owned_port":{"number":65531,"service":"none.service"},"stale_seconds":{"health_cache":1800},"allowlisted_fixes":["quarantine-stale-health-cache"]}))
     env={**os.environ,"SUBCULT_RICE_HEALTH_HOME":str(home),"SUBCULT_RICE_HEALTH_ROOT":str(data),"SUBCULT_RICE_HEALTH_CONFIG":str(config),"SUBCULT_RICE_HEALTH_DEPENDENCIES":str(deps),"SUBCULT_RICE_HEALTH_STATE":str(state),"SUBCULT_RICE_HEALTH_SHELL":str(shell),"SUBCULT_RICE_HEALTH_PLUGINS":str(plugins),"SUBCULT_RICE_HEALTH_CACHE":str(cache),"SUBCULT_RICE_HEALTH_INSTALLED":str(installed)}
+    commands=base/"bin"; commands.mkdir(); systemctl=commands/"systemctl"
+    systemctl.write_text("""#!/usr/bin/env python3
+import os, sys
+if os.environ.get('TEST_SERVICE_UNAVAILABLE'):
+    print('Failed to connect to user scope bus', file=sys.stderr)
+    sys.exit(1)
+state = os.environ.get('TEST_SERVICE_ACTIVE', 'inactive') if 'is-active' in sys.argv else os.environ.get('TEST_SERVICE_ENABLED', 'disabled')
+print(state)
+sys.exit(0 if state in {'active', 'enabled'} else 3)
+""")
+    systemctl.chmod(0o755); env["PATH"]=str(commands)+os.pathsep+env["PATH"]
     def run(*args,check=True): return subprocess.run([str(COMMAND),*args],env=env,text=True,capture_output=True,check=check)
     report=json.loads(run("diagnose","--json").stdout)
     assert report["read_only"] is True and report["status"]=="attention" and report["fixes"]==["quarantine-stale-health-cache"]
@@ -24,7 +35,30 @@ with tempfile.TemporaryDirectory() as directory:
     assert next(row for row in report["findings"] if row["id"]=="suite.port")["status"]=="unavailable"
     unit=home/".config/systemd/user/subcult-start-page.service"; unit.parent.mkdir(parents=True); unit.write_text("[Unit]\n")
     addon=json.loads(run("diagnose","--json").stdout)
-    assert next(row for row in addon["findings"] if row["id"]=="suite.services")["evidence"]["checked"]==1
+    services=next(row for row in addon["findings"] if row["id"]=="suite.services")
+    assert services["evidence"]["checked"]==1 and services["status"]=="passed"
+    assert services["evidence"]["units"]=={"subcult-start-page.service":"disabled"}
+    env["TEST_SERVICE_ENABLED"]="enabled"
+    enabled=json.loads(run("diagnose","--json").stdout)
+    services=next(row for row in enabled["findings"] if row["id"]=="suite.services")
+    assert services["status"]=="failed" and "subcult-start-page.service" in services["summary"]
+    env["TEST_SERVICE_ENABLED"]="disabled"; env["TEST_SERVICE_ACTIVE"]="failed"
+    failed=json.loads(run("diagnose","--json").stdout)
+    assert next(row for row in failed["findings"] if row["id"]=="suite.services")["status"]=="failed"
+    env["TEST_SERVICE_ACTIVE"]="active"
+    active=json.loads(run("diagnose","--json").stdout)
+    assert next(row for row in active["findings"] if row["id"]=="suite.services")["status"]=="passed"
+    env["TEST_SERVICE_ACTIVE"]="inactive"
+    configured=json.loads(config.read_text()); configured["required_services"]=["subcult-affinity.path"]; config.write_text(json.dumps(configured))
+    required=json.loads(run("diagnose","--json").stdout)
+    services=next(row for row in required["findings"] if row["id"]=="suite.services")
+    assert services["evidence"]["inactive"]==1 and "subcult-affinity.path" in services["summary"]
+    cache.touch(); env["TEST_SERVICE_UNAVAILABLE"]="1"
+    unreachable=json.loads(run("diagnose","--json").stdout)
+    services=next(row for row in unreachable["findings"] if row["id"]=="suite.services")
+    assert services["status"]=="unavailable" and services["evidence"]["unavailable"]==2
+    assert unreachable["status"]=="attention" and unreachable["failures"]==1
+    del env["TEST_SERVICE_UNAVAILABLE"]; configured["required_services"]=[]; config.write_text(json.dumps(configured)); os.utime(cache,(old,old))
     unit.unlink()
     deps.rename(data/"dependencies.saved"); unavailable=json.loads(run("diagnose","--json").stdout)
     assert next(row for row in unavailable["findings"] if row["id"]=="suite.dependencies")["status"]=="unavailable"

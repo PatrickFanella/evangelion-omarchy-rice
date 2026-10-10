@@ -15,6 +15,10 @@ Use `subcult-rice-health diagnose --json` for machine-readable output. The healt
 bar popup consumes that exact report, so the CLI and graphical view share one
 diagnostic engine. Missing systemd, sockets, state, or optional commands become
 explicit unavailable states instead of invented success.
+Service checks require required units and enabled optional units to be active.
+An installed optional unit that is disabled and inactive does not trigger a
+warning. Failed optional units still trigger a warning. Service findings name
+the affected units and include each checked unit's state.
 
 ## Remediation transaction
 

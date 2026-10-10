@@ -1,107 +1,152 @@
 # SUBCULT Omarchy Rice
 
+![SUBCULT desktop suite: seven wallpapers, five palettes, four treatments and ten workspaces](media/readme-hero.png)
+
 [![SUBCULT Integrity Check](https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice/actions/workflows/validate.yml/badge.svg?branch=main)](https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice/actions?workflow=validate.yml)
 
-A complete Omarchy desktop in the SUBCULT poster-press identity: ink canvases,
-paper text, violet fields, and acid-green registration blocks. It ships seven
-wallpapers built from the SUBCULT marks, five affinity palettes, shell plugins,
-menus and overlays, terminal profiles, safety telemetry, sounds, and operator
-tools.
+**A complete Omarchy desktop with the SUBCULT visual identity, keyboard-first
+controls, focus tools, and system monitoring.**
 
-> **v2.0.0:** The suite formerly published as Evangelion Omarchy Rice is now
-> SUBCULT. Commands are `subcult-*`, plugins are `subcult.*`, and the theme is
-> `subcult`. Installing over Evangelion Rice 1.5 retires the old suite into the
-> rollback snapshot and keeps your settings. See
-> [UPGRADING.md](UPGRADING.md#upgrade-from-evangelion-rice-15-to-subcult-20).
+Ink canvases, paper text, violet fields, and acid-green accents carry through
+wallpapers, the shell, menus, overlays, and terminals. Beneath the look:
+editable workspaces, reversible settings, media controls, privacy indicators,
+a local dashboard, and recovery tools.
 
-![The seven SUBCULT wallpapers](media/wallpaper-gallery.png)
+[Get started](#get-started) · [Explore the features](#a-desktop-you-can-shape) ·
+[Controls](HOTKEYS.md) · [Configuration](CONFIGURATION.md) ·
+[Releases](https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice/releases/latest)
 
-Desktop, lock screen, and start-page captures for 2.0 have not been taken yet.
-The 1.x screenshots showed the retired Evangelion interface and were removed.
+## The look
 
-## What it does
+![The seven SUBCULT wallpapers: Press, Violet, Archive, Signal, Acid, Paper and Ink](media/wallpaper-gallery.png)
 
-The [SUBCULT control center](SETTINGS.md) is one keyboard-first surface for
-affinity, motion, profile, widget, weather, media, privacy, sound, display, and
-bounded visual settings, with preview and one-step undo.
-[Safe visual customization](VISUAL_CUSTOMIZATION.md) sets out its accessibility
-and fallback rules.
+Seven wallpapers select five matching palettes: **Press, Acid Block, Paper
+Stock, Violet Field, and Ink Run**. Layer **Standard, OLED, Daylight, or High
+Contrast** treatment over any palette. Keep wallpaper-driven color, hold a
+manual override, or save a scene that coordinates wallpaper, palette, and
+terminal identity.
 
-Wallpaper selects an affinity palette automatically: Press, Acid Block, Paper
-Stock, Violet Field, or Ink Run. [Theme variants](THEME_VARIANTS.md) layer
-Standard, OLED, Daylight, or High Contrast treatment over every affinity with
-preview and one-step revert. [Affinity scenes](SCENES.md) coordinate wallpaper,
-palette, terminal identity, and opt-in ambient, motion, or sound behavior as one
-reversible plan.
+The same identity extends to Ghostty, Alacritty, Kitty, Foot, Starship, fzf, bat,
+lazygit, and compatible Neovim accents. New terminals can also choose an isolated
+profile from project markers and path rules.
 
-[Workspace identities](WORKSPACES.md) are user-editable, stay full-length in
-the OSD, and collapse into collision-safe labels against the live bar width.
-[Coordinated activity modes](ACTIVITY_MODES.md) provide manual, per-action
-opt-in Work, Focus, Gaming, Presentation, Travel, and Quiet transactions.
-[Media controls](MEDIA_CONTROLS.md) coordinate multiple MPRIS sources,
-privacy-safe artwork, player detail, and Cava without moving bar geometry.
+[Theme treatments](THEME_VARIANTS.md) · [Affinity scenes](SCENES.md) ·
+[Visual customization](VISUAL_CUSTOMIZATION.md)
 
-Monitor and dock layouts can be saved, previewed, restored, and undone with
-[monitor topology profiles](TOPOLOGIES.md), and moved between machines as
-[privacy-sanitized machine profiles](MACHINE_PROFILES.md).
-[Optional surfaces stay usable offline](OFFLINE_RESILIENCE.md) with bounded
-retries, cache-age labels, and privacy-safe unavailable states.
-[Sound cues are opt-in and category controlled](SOUND.md), with quiet hours,
-volume ceilings, scene overrides, visual equivalents, and a kill switch.
+## A desktop you can shape
 
-The [command palette](COMMAND_PALETTE.md) gives deterministic fuzzy search
-across safe actions, settings, workspaces, diagnostics, and help. The
-[private operations log](OPERATIONS_LOG.md) keeps bounded, searchable
-notification and system history with explicit clear and export.
-[Progressive telemetry disclosure](PROGRESSIVE_DISCLOSURE.md) keeps context,
-health, history, and start-page surfaces quiet until you ask for detail.
-[Accessibility standards](ACCESSIBILITY.md) define contrast, scaling, keyboard,
-assistive semantics, motion, timeout, flashing, and documented platform limits.
-The [community compatibility workflow](BETA_TESTING.md) produces a reviewed,
-privacy-safe report and a maintainer-curated evidence matrix.
+![Feature overview: reversible controls, focus tools, system monitoring and an optional local dashboard](media/readme-features.png)
 
-![Synthetic comparison of SUBCULT recommendation, automation, stale, and disabled context states](media/context-states.png)
+| Feature | What you get |
+|---|---|
+| **Control center** | One keyboard-first surface for color, motion, widgets, media, sound, weather, and displays. Preview, apply, and undo changes. |
+| **Focus tools** | Closed Door quiets non-critical notifications and changes the bar and active border. A persistent mission timer handles work and recovery cycles. |
+| **Health and privacy** | Temperature, memory pressure, home storage, battery condition, services, network, and updates. Inspect microphone, camera, sharing, recording, and known remote-control activity. |
+| **Sustained heat alerts** | Separate warning and critical thresholds, dwell times, cooldowns, and recovery temperatures. Default dwell times are two minutes and one minute; brief spikes do not notify. |
+| **Media** | Multiple MPRIS sources, transport controls, player details, and local artwork. Optional Cava spectrum activity follows playback. |
+| **Profiles and context** | Save monitor layouts and mobile/docked profiles. Inspect local context observations and their reasons. Automation requires opt-in. |
+| **Activity modes** | Work, Focus, Gaming, Presentation, Travel, and Quiet coordinate the actions you explicitly enable, with preview and undo. |
+| **Local dashboard** | Optional browser start page with clock, weather, media, coarse telemetry, command search, and operations history. |
+| **Recovery and history** | Searchable local operations log, named settings snapshots, transactional installation backups, and a stock-only recovery mode. |
 
-Software is MIT-licensed. The SUBCULT marks and fonts have separate terms; read
-[ASSETS_LICENSE.md](ASSETS_LICENSE.md) before redistributing assets.
+Full, Reduced, and Off motion levels are available. Sound cues are opt-in, with
+quiet hours and volume limits. Remote album artwork is blocked by default.
+Optional tools and sensors report availability independently.
 
-## Supported environment
+[Settings](SETTINGS.md) · [Media](MEDIA_CONTROLS.md) ·
+[Activity modes](ACTIVITY_MODES.md) · [Context](CONTEXT.md) ·
+[Sound](SOUND.md) · [Offline behavior](OFFLINE_RESILIENCE.md)
 
-| Component | Supported range | Verified reference |
-|---|---|---|
-| Omarchy | `>=4.0.0, <5.0.0` | 4.0.1-1 |
-| Hyprland | `>=0.56.0, <0.57.0` | 0.56.2-1 |
-| Architecture | x86_64 | ThinkPad T480, x86_64 |
-| Session | Active Wayland/Hyprland session for installation activation | Omarchy |
-| Displays | 1280×720 presentation minimum; 320×480 overlay minimum | 7 automated profiles from 1×–2× |
-| Terminals | Ghostty, Alacritty, Foot, or Kitty | Ghostty and Foot |
-| Shell integration | Bash, Zsh, or Fish; optional | Bash |
-| Browser | Current XDG/Omarchy default | Zen and Chromium-compatible launchers |
+### Ten workspaces, one continuous loop
 
-The hardware references come from the 1.5 line, which 2.0 renames and recolors
-without changing behavior. x86_64 is the supported release architecture. Other
-Linux architectures are not blocked by source validation but remain unverified.
-The T480 is a reference machine, not a hardware requirement. Battery-less,
-multi-battery, Intel, AMD, generic thermal, missing-sensor, and optional-tool
-fallbacks are implemented. See [RESPONSIVE.md](RESPONSIVE.md) for the display
-matrix and [TESTING.md](TESTING.md) for what CI proves.
+![Workspace directory: Press, Archive, Door, Workbench, Terminal, Mail, Media, Chat, Lab and Misc; navigation wraps in both directions](media/readme-workspaces.png)
 
-Support covers the version ranges above and reproducible repository behavior.
-Third-party themes, arbitrary shell forks, and hardware-specific vendor tools
-are best-effort. Include `./preflight.py --json` and `./validate.sh` output in a
-bug report.
+All ten workspaces remain visible, including empty ones. **Icons are the default**;
+switch to numbers, names, or responsive Auto labels. Each workspace has an
+editable identity, icon, compact token, channel, and accent color. Tooltips and
+the transition overlay retain the full identity.
 
-## Quick start
+- **Next / previous:** `Super+Tab` / `Super+Shift+Tab`, wrapping **10 → 1** and **1 → 10**.
+- **Pointer navigation:** `Super+mouse wheel` follows the same order.
+- **Direct selection:** `Super+1–9`; `Super+0` opens workspace 10.
+- **Edit:** open the Control Center and press `W`, or use the Workspace Identities menu.
 
-The palette and wallpapers are not published as a standalone Omarchy theme yet,
-so the complete suite is the install path. The older
-`PatrickFanella/omarchy-subcult-theme` repository is a different theme with its
-own palette; it also installs as `subcult`, and the suite installer refuses to
-merge into it.
+Portable import/export and live bar refresh are included. See [WORKSPACES.md](WORKSPACES.md).
 
-For the complete SUBCULT desktop, download the archive and matching checksum from
-the [latest release](https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice/releases/latest),
-verify them, extract, and run from an active Omarchy Hyprland session:
+### A bar that follows the desktop
+
+The suite combines workspace identities, media, focus state, communications,
+privacy, health, and context with Omarchy's native controls. Native widget
+adapters retain their original panels and interactions while following the
+active palette.
+
+Customize the layout in `~/.config/omarchy/shell.json`. Third-party task,
+calendar, radio, pipeline, fleet, or notification widgets can be added through
+their own integrations; their services and accounts are configured separately.
+
+[Bar icon behavior](BAR_ICONS.md) · [Configuration](CONFIGURATION.md)
+
+### An optional local start page
+
+The dashboard runs at **http://127.0.0.1:8765/** and opens in your current
+Omarchy/XDG browser. It remains useful offline, labels cached weather, and
+honors reduced motion. Press `/` for command search; choose Compact, Standard,
+or Full density.
+
+Install it with `--with-start-page`, or add it later:
+
+```bash
+./install.sh --apply --components start-page
+subcult-start-page open
+```
+
+The start page is an optional add-on for every preset, including `full`.
+Its user service is enabled when the component is installed.
+
+The feature illustrations above are project-authored diagrams, not desktop
+screenshots. SUBCULT 2.0 desktop and lock-screen captures are still pending.
+
+## Get started
+
+Run from an active **Omarchy Hyprland session**. Start with the read-only
+preflight and review the installation plan.
+
+```bash
+git clone https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice.git
+cd subcult-omarchy-rice
+./preflight.py
+./install.sh --dry-run --preset default
+./install.sh --apply --preset default
+omarchy theme set subcult
+./validate.sh
+```
+
+The `default` preset replaces complete shell and suite-owned Hyprland
+configuration files after confirmation. Changed targets are backed up before
+replacement; activation or validation failures roll back the transaction.
+Personal settings in `~/.config/omarchy/subcult.json` are preserved on upgrades.
+
+| Preset | Includes |
+|---|---|
+| `minimal` | Theme and command-line tools |
+| `default` | Minimal plus shell, Hyprland configuration, and user services |
+| `full` | Default plus Fastfetch/Neovim extras and detected-shell integration |
+
+Select individual components with `--components`, choose `--shell bash|zsh|fish`,
+or skip startup-file integration with `--no-shell-integration`. Brand fonts
+Oswald, Space Grotesk, and JetBrains Mono install under
+`~/.local/share/fonts/subcult`.
+
+[Installation and prerequisites](INSTALL.md) ·
+[Choose an installation channel](DISTRIBUTION_GUIDE.md) ·
+[First-run onboarding](ONBOARDING.md)
+
+<details>
+<summary><strong>Install a verified release archive</strong></summary>
+
+Download the archive and matching checksum from the
+[latest release](https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice/releases/latest).
+For the 2.0.0 archive:
 
 ```bash
 sha256sum --check subcult-omarchy-rice-2.0.0.tar.gz.sha256
@@ -115,144 +160,107 @@ omarchy theme set subcult
 ./validate.sh
 ```
 
-Contributors and testers can follow the Git checkout instead:
+Use the filenames supplied with your chosen release. Exact-tag archives,
+checksums, provenance, and offline installation are documented in
+[RELEASE_ARTIFACTS.md](RELEASE_ARTIFACTS.md).
+
+</details>
+
+The canonical repository, issues, releases, and CI are on **Gitea at
+git.subcult.tv**. GitHub is a read-only mirror with Actions disabled. Arch users
+can use the checksum-pinned release `PKGBUILD` and explicit activation workflow
+in [ARCH_PACKAGING.md](ARCH_PACKAGING.md); AUR publication is deferred.
+
+The complete suite is the current install path; this palette and wallpaper
+collection is not yet published as a standalone Omarchy theme. The older
+`PatrickFanella/omarchy-subcult-theme` project is a different theme with the same
+install name. The suite refuses to merge into that Git-owned theme directory.
+
+## Learn the controls
+
+`Super` is the Windows key. `Super+K` shows every live Omarchy binding.
+
+| Shortcut | Action |
+|---|---|
+| `Super+M` | SUBCULT menu |
+| `Super+Ctrl+Alt+M` | Global command palette |
+| `Super+Ctrl+Alt+S` | Control Center |
+| `Super+Alt+A` | Closed Door focus mode |
+| `Super+Alt+T` | Mission timer |
+| `Super+Alt+H` | System health |
+| `Super+Alt+V` | Privacy activity |
+| `Super+Ctrl+Alt+G` | Context inspector |
+| `Super+Ctrl+Alt+O` | Operations log |
+| `Super+Alt+P` | Media play/pause |
+| `Super+Alt+R` | Stock-only recovery |
+
+In the Control Center: **Enter** previews, **A** applies, **U** undoes, **W**
+opens workspace editing, and **C** opens scene editing. Use arrows or H/J/K/L
+to navigate. The complete reference is [HOTKEYS.md](HOTKEYS.md).
+
+## Supported environment
+
+| Component | Supported range | Verified reference |
+|---|---|---|
+| Omarchy | `>=4.0.0, <5.0.0` | 4.0.1-1 |
+| Hyprland | `>=0.56.0, <0.57.0` | 0.56.2-1 |
+| Architecture | x86_64 | ThinkPad T480, x86_64 |
+| Session | Active Wayland/Hyprland session for activation | Omarchy |
+| Displays | 1280×720 presentation minimum; 320×480 overlay minimum | Seven automated profiles from 1×–2× |
+| Terminals | Ghostty, Alacritty, Foot, or Kitty | Ghostty and Foot |
+| Shell integration | Bash, Zsh, or Fish; optional | Bash |
+| Browser | Current XDG/Omarchy default | Zen and Chromium-compatible launchers |
+
+The hardware references come from the 1.5 line, which 2.0 renames and recolors.
+The T480 is a reference, not a requirement. Battery-less, multi-battery, Intel,
+AMD, generic thermal, and missing-sensor fallbacks are implemented. Other
+architectures remain unverified.
+
+Support covers the version ranges above and reproducible repository behavior.
+Third-party themes, shell forks, and vendor-specific hardware tools are
+best-effort. [RESPONSIVE.md](RESPONSIVE.md) documents the display matrix;
+[TESTING.md](TESTING.md) explains what CI proves.
+
+## Updates and recovery
+
+Use the [guided suite updater](SUITE_UPDATES.md) for Stable, Preview, and
+Development channels, change previews, validation, and undo. Suite updates are
+separate from operating-system updates wrapped by `subcult-update`.
+
+If the custom shell cannot load, use `Super+Alt+R` or switch to a TTY and run:
 
 ```bash
-git clone https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice.git
-cd subcult-omarchy-rice
-./preflight.py
-./install.sh --dry-run --preset default
-./install.sh --apply --preset default
-omarchy theme set subcult
-./validate.sh
+subcult-recovery enter
+# Restore your captured configuration:
+subcult-recovery exit
 ```
 
-The canonical repository, issues, releases, and CI are on Gitea at
-`git.subcult.tv`. The GitHub copy is a read-only mirror with Actions disabled.
-Arch users can use the
-checksum-pinned `PKGBUILD` attached to the release and the explicit activation
-workflow in [ARCH_PACKAGING.md](ARCH_PACKAGING.md). AUR publication is deferred.
-Always review the dry run. The default preset replaces complete Omarchy shell
-and Hyprland configuration files after confirmation. The preflight is read-only
-and stops unsafe installs before the first backup or write.
+Recovery preserves applications, plugins, and preferences. Installation
+transactions are stored under `~/.local/state/subcult-rice/install-backups/`.
+`./rollback.sh` restores one transaction; it does not erase the installation
+history.
 
-Presets:
+**Upgrading from Evangelion Rice:** SUBCULT 2.0 renames commands to
+`subcult-*`, plugins to `subcult.*`, and the theme to `subcult`. The installer
+moves the old suite into the rollback snapshot and preserves settings.
+Read [UPGRADING.md](UPGRADING.md) before upgrading or removing an installation.
 
-- `minimal`: theme and command-line tools only.
-- `default`: minimal plus shell, Hyprland, and user services.
-- `full`: default plus Fastfetch/Neovim extras and detected-shell integration.
+## Documentation
 
-The hosted browser start page is an optional add-on for every preset, including
-`full`. Add `--with-start-page`, or install it later with
-`./install.sh --apply --components start-page`.
+| Area | Guides |
+|---|---|
+| Everyday use | [Controls](HOTKEYS.md), [settings](SETTINGS.md), [workspaces](WORKSPACES.md), [command palette](COMMAND_PALETTE.md), [media](MEDIA_CONTROLS.md) |
+| Appearance | [Visual customization](VISUAL_CUSTOMIZATION.md), [treatments](THEME_VARIANTS.md), [scenes](SCENES.md), [sound](SOUND.md), [accessibility](ACCESSIBILITY.md) |
+| Context and machines | [Context](CONTEXT.md), [activity modes](ACTIVITY_MODES.md), [monitor layouts](TOPOLOGIES.md), [portable profiles](MACHINE_PROFILES.md), [offline behavior](OFFLINE_RESILIENCE.md) |
+| Diagnostics | [Troubleshooting](TROUBLESHOOTING.md), [rice integrity](RICE_HEALTH.md), [operations log](OPERATIONS_LOG.md), [telemetry detail](PROGRESSIVE_DISCLOSURE.md), [snapshots](SNAPSHOTS.md) |
+| Setup and distribution | [Configuration](CONFIGURATION.md), [installation](INSTALL.md), [onboarding](ONBOARDING.md), [distribution guide](DISTRIBUTION_GUIDE.md), [ownership contract](DISTRIBUTION.md), [cross-channel behavior](CROSS_CHANNEL.md) |
+| Releases | [Suite updater](SUITE_UPDATES.md), [upgrading](UPGRADING.md), [release artifacts](RELEASE_ARTIFACTS.md), [Arch packaging](ARCH_PACKAGING.md), [release notes](RELEASE_NOTES.md) |
+| Contributors | [Testing](TESTING.md), [maintenance](MAINTAINING.md), [community reports](BETA_TESTING.md), [demo/reproduction](DEMO.md), [localization](LOCALIZATION.md), [performance](PERFORMANCE.md), [audit](AUDIT.md) |
+| Architecture and assets | [Plugin audit](PLUGIN_AUDIT.md), [internal runtime](SUBCULT_RUNTIME.md), [artwork provenance](theme/ARTWORK.md), [README media sources](media/README.md), [asset terms](ASSETS_LICENSE.md) |
 
-Select individual components with `--components`, override shell detection with
-`--shell bash|zsh|fish`, or use `--no-shell-integration`. See
-[INSTALL.md](INSTALL.md) for prerequisites, package commands, component and
-path effects, transaction behavior, and first-run verification. Use
-[DISTRIBUTION_GUIDE.md](DISTRIBUTION_GUIDE.md) to choose between just the look,
-a complete release, a development checkout, and managed Arch packaging.
-[DISTRIBUTION.md](DISTRIBUTION.md) is the ownership contract for those channels.
-
-The theme installs the Oswald, Space Grotesk, and JetBrains Mono brand fonts to
-`~/.local/share/fonts/subcult`.
-
-## Configuration
-
-Personal settings live in `~/.config/omarchy/subcult.json`, which the installer
-creates once and preserves on upgrades. Terminal, editor, shell, project path,
-deployment, presentation, browser selection, weather, operating profiles,
-global motion level, local context controls, thermal thresholds, and optional
-integrations are documented in [CONFIGURATION.md](CONFIGURATION.md). Context
-inputs, the privacy boundary, precedence, reasons, recommendations, automation
-controls, accessibility behavior, and performance limits are in
-[CONTEXT.md](CONTEXT.md).
-
-Distribution boundaries, the plugin audit, and the small optional-integration
-contract are in [DISTRIBUTION.md](DISTRIBUTION.md),
-[PLUGIN_AUDIT.md](PLUGIN_AUDIT.md), and [SUBCULT_RUNTIME.md](SUBCULT_RUNTIME.md).
-Exact-tag suite archives, checksums, provenance, and offline installation are
-in [RELEASE_ARTIFACTS.md](RELEASE_ARTIFACTS.md). Arch package ownership and
-per-user activation are in [ARCH_PACKAGING.md](ARCH_PACKAGING.md). Channel
-transitions, conflicts, and CI evidence are in [CROSS_CHANNEL.md](CROSS_CHANNEL.md).
-The release, theme-gallery, packaging, and privacy review workflow for
-contributors is in [MAINTAINING.md](MAINTAINING.md).
-
-The browser always follows `omarchy launch browser`; no browser executable is
-hard-coded. Cava is an independent `subcult.cava` bar plugin and hides when
-Cava is unavailable. Neon Overdrive is a separately selected compatibility
-component for that third-party theme and is never installed by a preset.
-
-More references:
-
-- Controls and keybindings: [HOTKEYS.md](HOTKEYS.md)
-- Deterministic screenshots, onboarding, and private bug reproduction: [DEMO.md](DEMO.md)
-- String catalog, pseudo-locale, RTL, and formatting: [LOCALIZATION.md](LOCALIZATION.md)
-- Startup, idle, polling, overlap, and cache ceilings: [PERFORMANCE.md](PERFORMANCE.md)
-- Suite integrity diagnosis and reversible remediation: [RICE_HEALTH.md](RICE_HEALTH.md)
-- Named configuration snapshots and selective restore: [SNAPSHOTS.md](SNAPSHOTS.md)
-
-## Upgrade, rollback, and removal
-
-For Stable, Preview, and Development suite updates with change preview,
-validation, and one-command undo, use the [guided suite updater](SUITE_UPDATES.md).
-It is separate from operating-system updates wrapped by `subcult-update`.
-
-New installations and privacy-sanitized preference transfer are covered by the
-[first-run onboarding guide](ONBOARDING.md).
-
-If custom shell or Hyprland configuration cannot load, `subcult-recovery enter`
-activates a stock-only static layout after taking an exact local snapshot. Use
-`Super + Alt + R` when the compositor responds, or run it from a TTY.
-`subcult-recovery exit` restores the prior configuration. See
-[HOTKEYS.md](HOTKEYS.md#static-recovery-mode) for the full recovery path.
-
-Run `subcult-migrate preview` before applying a configuration upgrade. It names
-every preserved setting and replacement and requires `keep` or `replace` for
-each conflict. Interrupted applies wait for an explicit `subcult-migrate recover`.
-
-Every changed target is recorded in a transaction snapshot under
-`~/.local/state/subcult-rice/install-backups/`. Failed activation or validation
-rolls back the active transaction automatically.
-
-```bash
-./rollback.sh
-./rollback.sh /path/to/snapshot
-```
-
-Installing 2.0 over Evangelion Rice 1.5 moves the old `evangelion.*` plugins,
-`magi-*` and `eva-*` commands, services, hooks, and shell snippets into that
-snapshot, so one rollback restores the previous desktop exactly. Users of the
-original v1.0-era installation also get a rollback-safe migration from
-`so1omon.*` to `subcult.*` plugin IDs. Read [UPGRADING.md](UPGRADING.md) before
-upgrading or removing a multi-transaction installation. A rollback reverses one
-transaction, not the whole history.
-
-## Troubleshooting and validation
-
-Start with `./preflight.py --json` and `./validate.sh`.
-[TROUBLESHOOTING.md](TROUBLESHOOTING.md) covers shell and plugin loading,
-services, wallpapers, weather, media, Cava, sensors, and hotkey conflicts.
-Contributor checks are:
-
-```bash
-./tests/installer.sh
-./tests/legacy-upgrade.sh
-./tests/clean-user.sh
-./tests/responsive-layouts.py
-./tests/motion-regression.py
-./tests/motion-observe.py # optional live observation
-./tests/context-regression.py
-./tests/subcult-extension-contract.py # internal widget state boundary
-./tests/visual-regression.py --self-test # canonical privacy-safe frames and CI diffs
-./tests/performance-overlay.py # opt-in aggregate developer telemetry
-./tests/context-observe.py # optional live observation; restores state
-```
-
-CI keeps machine-readable clean-user and responsive-layout artifacts. See
-[AUDIT.md](AUDIT.md) for release verification and
-[theme/ARTWORK.md](theme/ARTWORK.md) for wallpaper provenance. Release history
-is in [RELEASE_NOTES.md](RELEASE_NOTES.md).
+Start diagnosis with `./preflight.py --json` and `./validate.sh`. Include their
+output in a bug report. Contributor checks and optional live observations are
+listed in [TESTING.md](TESTING.md).
 
 ## Credits and license
 
@@ -261,5 +269,6 @@ SUBCULT Omarchy Rice is a fork of
 Its shell, plugins, tooling, and tests come from that project; 2.0 replaces the
 branding, palettes, and artwork.
 
-Software and configuration source are MIT-licensed. Brand assets and fonts are
-excluded from that grant; see [ASSETS_LICENSE.md](ASSETS_LICENSE.md).
+Software and configuration source are **MIT-licensed**. SUBCULT brand assets
+and bundled fonts have separate terms; read [ASSETS_LICENSE.md](ASSETS_LICENSE.md)
+before redistribution.

@@ -5,5 +5,7 @@
   "critical_clear_c": 88,
   "warning_cooldown_seconds": 1200,
   "critical_cooldown_seconds": 300,
+  "warning_sustained_seconds": 120,
+  "critical_sustained_seconds": 60,
   "poll_seconds": 30
 }

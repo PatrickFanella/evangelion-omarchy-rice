@@ -8,6 +8,9 @@ with tempfile.TemporaryDirectory() as raw:
  assert json.loads(run("status").stdout)["state"]=="new";run("skip");assert json.loads(run("status").stdout)["state"]=="skipped";run("reopen");assert json.loads(run("status").stdout)["state"]=="new"
  src=config/"omarchy/subcult.json";src.parent.mkdir(parents=True);src.write_text(json.dumps({"project_dir":"/private/work","editor":["/bin/private"],"ambient":{"location":{"latitude":1}},"deployment":{"browser_url":"https://private"},"terminal":"auto"}))
  out=b/"portable.json";run("export",out);payload=json.loads(out.read_text());text=out.read_text();assert "/private" not in text and "latitude" not in text and "https://private" not in text and payload["privacy"]=={"paths":False,"devices":False,"secrets":False,"location":False};assert stat.S_IMODE(out.stat().st_mode)==0o600
+ assert payload["components"]["workspaces"]["display_mode"]=="icon" and len(payload["components"]["workspaces"]["workspaces"])==10
+ assert all(row["icon"] for row in payload["components"]["workspaces"]["workspaces"])
+ payload["components"]["workspaces"]["display_mode"]="number"
  payload["components"]["core"]["terminal"]="foot";out.write_text(json.dumps(payload));before=src.read_bytes();plan=json.loads(run("import",out).stdout);assert src.read_bytes()==before and plan["read_only"]
  assert run("import",out,"--confirm","wrong",ok=False).returncode!=0 and src.read_bytes()==before
  result=json.loads(run("import",out,"--confirm",plan["plan_id"]).stdout);assert json.loads(src.read_text())["terminal"]=="foot";run("rollback",result["transaction"]);assert src.read_bytes()==before

@@ -8,6 +8,8 @@ DATA=Path(os.environ.get("SUBCULT_WORKSPACES_DATA",ROOT if (ROOT/"omarchy").is_d
 DEFAULT=Path(os.environ.get("SUBCULT_WORKSPACES_DEFAULT",DATA/"omarchy/workspaces.json" if (DATA/"omarchy/workspaces.json").is_file() else DATA/"workspaces.json"))
 CONFIG=Path(os.environ.get("SUBCULT_WORKSPACES_CONFIG",HOME/".config/omarchy/workspaces.json")); SKIP=os.environ.get("SUBCULT_WORKSPACES_SKIP_ACTIVATE")=="1"
 WORD=re.compile(r"[A-Za-z0-9]+"); ACCENT=re.compile(r"#[0-9A-Fa-f]{6}")
+ICONS=["\uf1ea","\uf187","\uf52b","\uf121","\uf120","\uf0e0","\uf001","\uf086","\uf0c3","\uf009"]
+DISPLAY_MODES=("icon","number","name","auto")
 
 def load(path):
     try:return json.loads(path.read_text())
@@ -36,9 +38,11 @@ def validate(value):
         if not re.fullmatch(r"[A-Z0-9-]+",short):raise SystemExit("short must contain only letters, digits, or dashes")
         accent=str(raw.get("accent","#F6D447")).upper()
         if not ACCENT.fullmatch(accent):raise SystemExit("accent must be #RRGGBB")
-        rows.append({"id":raw["id"],"name":clean(raw.get("name"),"name",48),"short":short,"channel":clean(raw.get("channel","UNCLASSIFIED OPERATIONS CHANNEL"),"channel",64),"accent":accent})
+        rows.append({"id":raw["id"],"name":clean(raw.get("name"),"name",48),"short":short,"icon":clean(raw.get("icon",ICONS[raw["id"]-1]),"icon",8),"channel":clean(raw.get("channel","UNCLASSIFIED OPERATIONS CHANNEL"),"channel",64),"accent":accent})
     if not rows:raise SystemExit("At least one workspace is required")
-    return {"schema_version":1,"workspaces":sorted(rows,key=lambda row:row["id"])}
+    mode=value.get("display_mode","icon")
+    if mode not in DISPLAY_MODES:raise SystemExit("display_mode must be icon, number, name, or auto")
+    return {"schema_version":1,"display_mode":mode,"workspaces":sorted(rows,key=lambda row:row["id"])}
 def config():return validate(load(CONFIG) or load(DEFAULT))
 def abbreviation(name):
     words=[x.upper() for x in WORD.findall(str(name)) if not x.isdigit() and x.upper() not in {"SUBCULT","WORKSPACE"}]
@@ -56,8 +60,11 @@ def projected(width):
     value=config(); shorts=resolved_shorts(value["workspaces"]); tier="minimal" if width<1200 else "compact" if width<2000 else "full"; rows=[]
     for row in value["workspaces"]:
         identity=shorts[row["id"]]; label=str(row["id"] if row["id"]<10 else 0) if tier=="minimal" else f'{row["id"]:02d}·{identity}' if tier=="compact" else f'{row["id"]:02d}·{row["name"].split("·")[-1].strip()[:12]}'
+        if value["display_mode"]=="icon":label=row["icon"]
+        elif value["display_mode"]=="number":label=str(row["id"])
+        elif value["display_mode"]=="name":label=f'{row["id"]}·{row["name"].split("·")[-1].strip()[:12]}'
         rows.append({**row,"resolved_short":identity,"label":label,"tier":tier})
-    return {"schema_version":1,"width":width,"tier":tier,"workspaces":rows}
+    return {"schema_version":1,"width":width,"tier":tier,"display_mode":value["display_mode"],"workspaces":rows}
 def monitor_width(screen,fallback):
     if not screen:return fallback
     try:
@@ -78,7 +85,10 @@ def set_name(args):
     if args.short is not None:row["short"]=args.short
     if args.channel is not None:row["channel"]=args.channel
     if args.accent is not None:row["accent"]=args.accent
+    if args.icon is not None:row["icon"]=args.icon
     save(value);return next(x for x in projected(1920)["workspaces"] if x["id"]==args.id)
+def set_display(mode):
+    value=config();value["display_mode"]=mode;save(value);return projected(1920)
 def export_to(path):
     target=Path(path).expanduser()
     if target.exists() and (not target.is_file() or target.is_symlink()):raise SystemExit("Export target must be a regular file")
@@ -97,12 +107,14 @@ def reset():
 def main():
     parser=argparse.ArgumentParser(); sub=parser.add_subparsers(dest="command",required=True)
     status=sub.add_parser("status");status.add_argument("--json",action="store_true");status.add_argument("--width",type=int,default=1920);status.add_argument("--screen")
-    edit=sub.add_parser("set");edit.add_argument("id",type=int);edit.add_argument("name");edit.add_argument("--short");edit.add_argument("--channel");edit.add_argument("--accent")
+    edit=sub.add_parser("set");edit.add_argument("id",type=int);edit.add_argument("name");edit.add_argument("--short");edit.add_argument("--channel");edit.add_argument("--accent");edit.add_argument("--icon")
+    display=sub.add_parser("display");display.add_argument("mode",choices=DISPLAY_MODES)
     sub.add_parser("reset"); exp=sub.add_parser("export");exp.add_argument("path")
     imp=sub.add_parser("import");imp.add_argument("path");imp.add_argument("--confirm")
     args=parser.parse_args()
     if args.command=="status":value=projected(monitor_width(args.screen,max(320,args.width)))
     elif args.command=="set":value=set_name(args)
+    elif args.command=="display":value=set_display(args.mode)
     elif args.command=="reset":value=reset()
     elif args.command=="export":value=export_to(args.path)
     elif args.command=="import":
