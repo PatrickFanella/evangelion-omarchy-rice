@@ -10,7 +10,8 @@ const demoData = {
   network: {online: true, interface: 'subcult-link'},
   media: {available: true, status: 'Playing', artist: 'SUBCULT SYMPHONIC CHANNEL', title: 'DECISIVE BATTLE', length: 238, position: 76, player: 'demo', volume: 72, players: ['demo']},
   weather: {available: true, message: 'LOCAL · Temp 24°C · Wind E 12km/h', stale: false},
-  workspace: {available: true, id: 1, label: 'SUBCULT-01 · PRESS'},
+  workspace: {available: true, id: 1, label: 'Dash'},
+  workflow: {label:'Dash', tools:['Local dashboard', 'Homelab'], links:[{label:'Local dashboard',url:'http://127.0.0.1:8765/'}], tasks:[{label:'Review desktop recipes',state:'pending',updated_at:1791648000}], builds:[{label:'Rice validation',state:'passed',updated_at:1791648000}],attention:[]},
   affinity: {mode: 'manual', active: 'violet', label: 'VIOLET', state: 'current'},
   profile: 'engineering',
   context: {schema_version: 1, active: true, status: 'mobile', freshness: 'fresh', reason_code: 'mobile-operations', label: 'Mobile operations', facts: {display_mode: 'mobile'}},
@@ -153,6 +154,17 @@ function paintEvents(events) {
   $('event-log').innerHTML = events.map(event => `<div><time>${escapeHtml(event.time)}</time><b>${escapeHtml(event.type)}</b><span>${escapeHtml(event.message)}</span></div>`).join('');
 }
 
+function paintWorkflow(data) {
+  if (!data) return;
+  $('workflow-label').textContent = data.label || 'WORKSPACE UNAVAILABLE';
+  $('workflow-tools').textContent = (data.tools || []).join(' · ') || 'Configure tools in workspace-kits.json';
+  $('workflow-links').innerHTML = (data.links || []).map(row => `<a href="${escapeHtml(row.url)}" rel="noreferrer"><span><b>${escapeHtml(row.label)}</b><small>WORKSPACE LINK</small></span></a>`).join('');
+  $('workflow-attention').textContent = (data.attention || []).map(row => row.label).join(' · ') || 'No attention items in the current feed';
+  for (const key of ['tasks', 'builds']) {
+    $(key === 'tasks' ? 'workflow-tasks' : 'workflow-builds').innerHTML = (data[key] || []).map(row => `<li><b>${escapeHtml(row.state.toUpperCase())}</b> ${escapeHtml(row.label)} <small>${row.updated_at ? escapeHtml(new Date(row.updated_at * 1000).toLocaleString()) : 'timestamp unknown'}</small></li>`).join('') || `<li>No ${key} configured for this workspace</li>`;
+  }
+}
+
 function paintAlert(data) {
   const failed = health(data).map((okay, index) => !okay ? ['BATTERY CAPACITY CRITICAL', 'THERMAL LIMIT EXCEEDED', 'NETWORK UPLINK LOST'][index] : '').filter(Boolean);
   document.body.classList.toggle('alert', failed.length > 0);
@@ -165,7 +177,7 @@ async function sync() {
     currentData = data;
     const map = {background: 'bg', dark_background: 'dark', foreground: 'fg', dark_foreground: 'muted', bright_red: 'red'};
     Object.entries(data.theme).forEach(([key, value]) => document.documentElement.style.setProperty(`--${map[key] || key}`, value));
-    paintSubcult(data); paintTelemetry(data); paintMedia(data.media); paintWeather(data.weather); paintRail(data); paintContext(data.context); paintAmbient(data.ambient); paintEvents(data.events); paintAlert(data);
+    paintSubcult(data); paintTelemetry(data); paintMedia(data.media); paintWeather(data.weather); paintRail(data); paintContext(data.context); paintAmbient(data.ambient); paintEvents(data.events); paintAlert(data); paintWorkflow({...data.workflow, attentionFresh:true});
     $('sync').textContent = data.affinity?.state === 'current' ? 'SYNCHRONIZED' : `PALETTE ${(data.affinity?.state || 'unavailable').toUpperCase()}`;
   } catch (error) {
     $('sync').textContent = 'LOCAL DATA UNAVAILABLE';
@@ -182,6 +194,7 @@ async function syncDesktop() {
       return response.json();
     });
     if (currentData) Object.assign(currentData, desktop);
+    paintWorkflow(desktop.workflow);
     paintRail({...currentData, ...desktop, profile: currentData?.profile || 'unknown', uptime: currentData?.uptime || 0, network: currentData?.network || {online: false}});
     $('sync').textContent = desktop.affinity?.state === 'current' ? 'SYNCHRONIZED' : `PALETTE ${(desktop.affinity?.state || 'unavailable').toUpperCase()}`;
   } catch (error) {

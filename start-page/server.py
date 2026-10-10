@@ -20,11 +20,13 @@ EVENTS = deque(maxlen=8)
 EVENT_LOCK = threading.Lock()
 PREVIOUS = {}
 ACTIVE_PLAYER = ""
+LATEST_HEALTH = {"thermal": {}, "online": True}
 LIB = Path(__file__).resolve().parent.parent / "lib"
 if not (LIB / "subcult_resilience.py").is_file():
     LIB = HOME / ".local/lib/subcult-rice"
 sys.path.insert(0, str(LIB))
 from subcult_resilience import cache_state, load_policy, retry_delay
+from subcult_workflow import identity, surface as workflow_surface
 RESILIENCE = load_policy()
 WEATHER_RETRY = {"failures": 0, "next_at": 0}
 
@@ -132,15 +134,13 @@ def network():
 
 
 def workspace():
-    names = {1: "SUBCULT-01 · PRESS", 2: "SUBCULT-02 · ARCHIVE", 3: "SUBCULT-03 · DOOR",
-             4: "WORKSPACE-04 · ENTRY", 5: "WORKSPACE-05 · TERMINAL"}
     try:
         data = json.loads(run(["hyprctl", "-j", "activeworkspace"]))
         workspace_id = int(data.get("id", 0))
         if workspace_id <= 0:
             raise ValueError
         return {"available": True, "id": workspace_id,
-                "label": names.get(workspace_id, f"WORKSPACE-{workspace_id:02d}")}
+                "label": identity(workspace_id)}
     except (json.JSONDecodeError, TypeError, ValueError):
         return {"available": False, "id": None, "label": "WORKSPACE UNAVAILABLE"}
 
@@ -169,7 +169,9 @@ def affinity_surface():
 
 def desktop_surface():
     profile = key_values(["subcult-operating-profile", "status"])
-    return {"affinity": affinity_surface(), "workspace": workspace(),
+    current_workspace = workspace()
+    return {"affinity": affinity_surface(), "workspace": current_workspace,
+            "workflow": workflow_surface(current_workspace["id"], LATEST_HEALTH["thermal"], LATEST_HEALTH["online"]),
             "profile": profile.get("active", profile.get("effective", "unavailable")),
             "updated_at": int(time.time())}
 
@@ -271,6 +273,8 @@ def status():
         "uptime": round(float(Path("/proc/uptime").read_text().split()[0])),
     }
     snapshot["events"] = record_events(snapshot)
+    LATEST_HEALTH.update(thermal=thermal, online=snapshot["network"]["online"])
+    snapshot["workflow"] = workflow_surface(snapshot["workspace"]["id"], thermal, snapshot["network"]["online"])
     return snapshot
 
 

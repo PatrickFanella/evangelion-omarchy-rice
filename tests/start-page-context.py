@@ -31,7 +31,7 @@ with tempfile.TemporaryDirectory() as directory:
             assert SERVER.affinity_surface()["state"] == "disabled"
 
 with mock.patch.object(SERVER, "run", return_value='{"id":4,"name":"4"}'):
-    assert SERVER.workspace() == {"available": True, "id": 4, "label": "WORKSPACE-04 · ENTRY"}
+    assert SERVER.workspace() == {"available": True, "id": 4, "label": SERVER.identity(4)}
 with mock.patch.object(SERVER, "run", return_value=""):
     assert SERVER.workspace()["available"] is False
 
