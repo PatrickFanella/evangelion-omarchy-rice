@@ -3,7 +3,7 @@
 import argparse,fcntl,hashlib,html,json,os,re,shutil,subprocess,tempfile,time
 from pathlib import Path
 HOME=Path.home();CONFIG=Path(os.environ.get("SUBCULT_OPERATIONS_CONFIG",HOME/".config/omarchy/operations-log.json"));STATE=Path(os.environ.get("SUBCULT_OPERATIONS_STATE",HOME/".local/state/subcult-rice/operations-log"));STORE=STATE/"events.jsonl";LOCK=STATE/"lock";CLEAR=STATE/"clear-confirmation.json"
-DEFAULT={"schema_version":1,"retention":{"max_entries":250,"max_days":14,"max_bytes":1048576},"deduplication_window_seconds":300};CATEGORIES={"notification","system","workflow","security","media","network"}
+DEFAULT={"schema_version":1,"retention":{"max_entries":250,"max_days":14,"max_bytes":1048576},"deduplication_window_seconds":300};CATEGORIES={"notification","system","workflow","security","media","network","workspace","focus","settings","update","build","session"}
 ACTIONS={"notifications.show":["omarchy-shell","notifications","showHistory"],"health.open":["omarchy-shell","subcult-health","open"],"resilience.open":["omarchy-launch-terminal","--","subcult-resilience"],"updates.open":["omarchy-shell","subcult-update-operation","open"],"docs.open":["xdg-open","https://git.subcult.tv/PatrickFanella/subcult-omarchy-rice"]}
 def atomic(path,text,mode=0o600):
  path.parent.mkdir(parents=True,exist_ok=True);fd,name=tempfile.mkstemp(prefix=".operations.",dir=path.parent)

@@ -257,6 +257,13 @@ $('player-cycle').addEventListener('click', async () => {
   setTimeout(sync, 200);
 });
 $('density-toggle').addEventListener('click', cycleDensity);
+$('journal-search').addEventListener('submit', async event => {
+  event.preventDefault();
+  try {
+    const data = demoMode ? {entries:[{last_at:1791648000,category:'focus',summary:'Mission completed'}]} : await fetch(`/api/journal?q=${encodeURIComponent($('journal-query').value)}`).then(response => {if(!response.ok) throw new Error('Search unavailable');return response.json()});
+    $('journal-results').innerHTML = data.unavailable ? 'Journal command unavailable' : (data.entries || []).map(row => `<p><time>${escapeHtml(new Date(row.last_at*1000).toLocaleString())}</time> <b>${escapeHtml(row.category)}</b> ${escapeHtml(row.summary)}</p>`).join('') || 'No retained events match';
+  } catch { $('journal-results').textContent = 'Journal search unavailable'; }
+});
 $('telemetry-disclosure').addEventListener('click', toggleTelemetryDetails);
 $('palette-close').addEventListener('click', closePalette);
 $('palette-input').addEventListener('input', () => { paletteSelection = 0; renderPalette(); });

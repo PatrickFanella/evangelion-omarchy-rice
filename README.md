@@ -287,3 +287,5 @@ before redistribution.
 [Desktop recipes](DESKTOP_RECIPES.md) coordinate workspace, scene, focus, and motion with preview, confirmation, and undo.
 
 [Workspace dashboard](WORKFLOW_DASHBOARD.md) follows the active workspace with tool links, attention items, and bounded local task/build summaries.
+
+[Desktop journal](DESKTOP_JOURNAL.md) searches sanitized local history and adds opt-in state events, explicit notes, and retained session summaries.

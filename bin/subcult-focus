@@ -119,6 +119,7 @@ enable() {
   fi
 
   touch "$active_file"
+  subcult-journal event focus-on >/dev/null 2>&1 || true
   omarchy-notification-send -u low -g '󰭟' 'CLOSED DOOR // ACTIVE' 'Non-critical communications suppressed' 2>/dev/null || true
   omarchy-shell -q mode-transition show closed-door active "Communication barrier established" >/dev/null 2>&1 || true
   echo 'Closed Door: active'
@@ -136,6 +137,7 @@ disable() {
     return 1
   fi
   rm -f "$active_file"
+  subcult-journal event focus-off >/dev/null 2>&1 || true
   rm -rf "$snapshot_dir"
   omarchy-shell -q mode-transition show closed-door exited "Normal communications restored" >/dev/null 2>&1 || true
   omarchy-notification-send -u low -g '󰅖' 'CLOSED DOOR // RELEASED' 'Normal communications restored' 2>/dev/null || true
